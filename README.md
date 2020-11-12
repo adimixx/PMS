@@ -1,7 +1,7 @@
-#PHOTOG
+# PHOTOG
 Photography Management System, A developing system to fullfil the requirement of BITU3923 WORKSHOP II
 
-##Database Connection
+## Database Connection
 
 SQL Script for Database and Table queries are included inside the project file
 
@@ -17,7 +17,7 @@ Database Connection needs to be changed inside `web.config` file, under `<connec
 </connectionStrings>
 ```
 
-##Logged In User Credentials
+## Logged In User Credentials
 Developers can access logged in users information, through custom class that have been made.
 
 `Identity()` method returns User object (similar to the ones inside data entity / database) 
@@ -47,7 +47,7 @@ public ActionResult TestPage()
 
 `[StudioAuthorizationRole(RoleID = 1)]` Authorizes access for pages with required authority. 1 for admin only, 2 for admin and staff
 
-##Routing
+## Routing
 To allow detection of permalinks, unfortunately every new controller must be registered for their routing manually.
 
 Example below is routing for `AccountController.cs`
@@ -61,11 +61,11 @@ routes.MapRoute(
 );
 ```
 
-##Front End
+## Front End
 This project has been pre-updated with Bootstrap v4.5.3 and JQuery v3.5.1
 
 
-##Developers
+## Developers
 [Adi Iman](https://github.com/adimixx)
 [Raziq Danish](https://github.com/ahmdraziq)
 [Heng Kai](https://github.com/HengKai5191)
