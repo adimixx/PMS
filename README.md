@@ -26,7 +26,7 @@ Developers can access logged in users information, through custom class that hav
 UserAuthentication.Identity()
 ```
 
-##Studio Link Verification
+## Studio Link Verification
 Routing has been configured to allow permalinks for studio profiles.
 
 `RouteConfig.cs`
