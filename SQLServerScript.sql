@@ -52,7 +52,7 @@ create table StudioRole (
 create table Studio (
 	id int identity(1,1) primary key,
 	name varchar(50) not null,
-	uniquename varchar(15) not null,
+	uniquename varchar(15) not null unique,
 	location varchar(100),
 	ImgLogo varbinary(max)
 );
@@ -68,7 +68,7 @@ create table UserStudio (
 create table StudioLink (
 	id int identity(1,1) primary key,
 	name varchar(50) not null,
-	address varchar(100) not null,
+	address varchar(250) not null,
 	studioid int references studio(id)
 );
 
@@ -98,7 +98,7 @@ create table Job (
 create table JobDate (
 	id int identity(1,1) primary key,
 	jobid int references job(id),
-	jobdate date not null,
+	jobdate datetime not null,
 	location varchar(100) not null,
 	description varchar(100),
 	jobstatusid int references JobStatus(id)
@@ -115,8 +115,8 @@ create table JobDateUser (
 create table Invoice (
 	id int identity(1,1) primary key,
 	jobid int references job(id),
-	invdate date not null,
-	expirydate date not null,
+	invdate datetime not null,
+	expirydate datetime not null,
 	total decimal(6,2) not null,
 	totalunpaid decimal(6,2) not null
 );
@@ -128,7 +128,7 @@ create table PaymentMethod (
 
 create table [Transaction] (
 	id int identity(1,1) primary key,
-	transdate decimal(6,2) not null,
+	transdate datetime not null,
 	total decimal(6,2) not null,
 	invoiceid int references invoice(id),
 	paymentmethodid int references paymentmethod(id),
