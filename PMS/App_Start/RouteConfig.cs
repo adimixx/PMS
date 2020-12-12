@@ -22,9 +22,15 @@ namespace PMS
             );
 
             routes.MapRoute(
+                name: "Studio",
+                url: "Studio/{action}/{id}",
+                defaults: new { controller = "Studio", action = "Manage", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Studio Profile Page",
                 url: "{permalink}/{action}/{id}",
-                defaults: new { controller = "Studio", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "StudioPermalink", action = "Index", id = UrlParameter.Optional }
             );            
 
             routes.MapRoute(

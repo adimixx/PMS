@@ -5,7 +5,7 @@ using System.Web.Routing;
 
 namespace PMS.Models
 {
-    public class StudioPermalinkValidate : System.Web.Mvc.ActionFilterAttribute
+    public class StudioPermalinkValidate : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {

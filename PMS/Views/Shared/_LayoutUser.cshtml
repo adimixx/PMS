@@ -17,7 +17,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home",new { area = "" }, new { @class = "nav-link"})</li>
+                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
 
                 <ul class="nav navbar-nav ml-auto">
@@ -35,6 +35,18 @@
             </div>
         </div>
     </div>
+
+    <div class="sidenav">
+        <ul>
+            <li>
+                @Html.ActionLink("Profile", "profile", "Account")
+            </li>
+            <li>
+                @Html.ActionLink("Studios", "Manage", "Studio")
+            </li>
+        </ul>
+    </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />

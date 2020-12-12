@@ -5,43 +5,43 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="38b3cd1183bf481fa4e5f3a86909ee2a" Name="Diagram1">
-        <EntityTypeShape EntityType="photogModel.Charge" Width="1.5" PointX="5.25" PointY="5" />
-        <EntityTypeShape EntityType="photogModel.Invoice" Width="1.5" PointX="7.5" PointY="19.5" />
-        <EntityTypeShape EntityType="photogModel.Job" Width="1.5" PointX="5.25" PointY="8" />
-        <EntityTypeShape EntityType="photogModel.JobCharge" Width="1.5" PointX="7.5" PointY="8.625" />
-        <EntityTypeShape EntityType="photogModel.JobDate" Width="1.5" PointX="10.5" PointY="8.5" />
-        <EntityTypeShape EntityType="photogModel.JobDateUser" Width="1.5" PointX="12.75" PointY="10.875" />
-        <EntityTypeShape EntityType="photogModel.JobStatu" Width="1.5" PointX="3" PointY="11.875" />
-        <EntityTypeShape EntityType="photogModel.Package" Width="1.5" PointX="3" PointY="8.5" />
-        <EntityTypeShape EntityType="photogModel.PaymentMethod" Width="1.5" PointX="7.5" PointY="23" />
-        <EntityTypeShape EntityType="photogModel.Studio" Width="1.5" PointX="0.75" PointY="9.875" />
-        <EntityTypeShape EntityType="photogModel.StudioLink" Width="1.5" PointX="3" PointY="15.125" />
-        <EntityTypeShape EntityType="photogModel.StudioRole" Width="1.5" PointX="3.75" PointY="18.375" />
-        <EntityTypeShape EntityType="photogModel.SystemRole" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="photogModel.Transaction" Width="1.5" PointX="9.75" PointY="19.5" />
-        <EntityTypeShape EntityType="photogModel.User" Width="1.5" PointX="3" PointY="4" />
-        <EntityTypeShape EntityType="photogModel.UserFeedback" Width="1.5" PointX="7.5" PointY="16.75" />
-        <EntityTypeShape EntityType="photogModel.UserStudio" Width="1.5" PointX="6" PointY="12.875" />
-        <EntityTypeShape EntityType="photogModel.UserSystemRole" Width="1.5" PointX="5.25" PointY="1.5" />
-        <AssociationConnector Association="photogModel.FK__JobCharge__charg__5DCAEF64" />
-        <AssociationConnector Association="photogModel.FK__Invoice__jobid__5070F446" />
-        <AssociationConnector Association="photogModel.FK__Transacti__invoi__5629CD9C" />
-        <AssociationConnector Association="photogModel.FK__Job__jobstatusid__44FF419A" />
-        <AssociationConnector Association="photogModel.FK__Job__packageid__4316F928" />
-        <AssociationConnector Association="photogModel.FK__Job__userid__440B1D61" />
-        <AssociationConnector Association="photogModel.FK__JobCharge__jobid__5CD6CB2B" />
-        <AssociationConnector Association="photogModel.FK__JobDate__jobid__47DBAE45" />
-        <AssociationConnector Association="photogModel.FK__UserFeedb__jobid__60A75C0F" />
-        <AssociationConnector Association="photogModel.FK__JobDate__jobstat__48CFD27E" />
-        <AssociationConnector Association="photogModel.FK__JobDateUs__jobda__4CA06362" />
-        <AssociationConnector Association="photogModel.FK__JobDateUs__users__4D94879B" />
-        <AssociationConnector Association="photogModel.FK__Package__studioi__3D5E1FD2" />
-        <AssociationConnector Association="photogModel.FK__Transacti__payme__571DF1D5" />
-        <AssociationConnector Association="photogModel.FK__StudioLin__studi__3A81B327" />
-        <AssociationConnector Association="photogModel.FK__UserStudi__studi__35BCFE0A" />
-        <AssociationConnector Association="photogModel.FK__UserStudi__studi__37A5467C" />
+        <EntityTypeShape EntityType="photogModel.Charge" Width="1.5" PointX="8.25" PointY="6.625" />
+        <EntityTypeShape EntityType="photogModel.Invoice" Width="1.5" PointX="7.5" PointY="16.25" />
+        <EntityTypeShape EntityType="photogModel.Job" Width="1.5" PointX="5.25" PointY="13.625" />
+        <EntityTypeShape EntityType="photogModel.JobCharge" Width="1.5" PointX="10.5" PointY="12.125" />
+        <EntityTypeShape EntityType="photogModel.JobDate" Width="1.5" PointX="7.5" PointY="12" />
+        <EntityTypeShape EntityType="photogModel.JobDateUser" Width="1.5" PointX="9.75" PointY="9" />
+        <EntityTypeShape EntityType="photogModel.JobStatu" Width="1.5" PointX="3" PointY="17.5" />
+        <EntityTypeShape EntityType="photogModel.Package" Width="1.5" PointX="3" PointY="14.125" />
+        <EntityTypeShape EntityType="photogModel.PaymentMethod" Width="1.5" PointX="7.5" PointY="19.75" />
+        <EntityTypeShape EntityType="photogModel.Studio" Width="1.5" PointX="0.75" PointY="9.375" />
+        <EntityTypeShape EntityType="photogModel.StudioLink" Width="1.5" PointX="3" PointY="11.375" />
+        <EntityTypeShape EntityType="photogModel.StudioRole" Width="1.5" PointX="0.75" PointY="12.875" />
+        <EntityTypeShape EntityType="photogModel.SystemRole" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="photogModel.Transaction" Width="1.5" PointX="9.75" PointY="16.25" />
+        <EntityTypeShape EntityType="photogModel.User" Width="1.5" PointX="0.75" PointY="4.875" />
+        <EntityTypeShape EntityType="photogModel.UserFeedback" Width="1.5" PointX="7.5" PointY="22.625" />
+        <EntityTypeShape EntityType="photogModel.UserStudio" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="photogModel.UserSystemRole" Width="1.5" PointX="3" PointY="4.5" />
+        <AssociationConnector Association="photogModel.FK__JobCharge__charg__5EBF139D" />
+        <AssociationConnector Association="photogModel.FK__Invoice__jobid__5165187F" />
+        <AssociationConnector Association="photogModel.FK__Transacti__invoi__571DF1D5" />
+        <AssociationConnector Association="photogModel.FK__Job__jobstatusid__45F365D3" />
+        <AssociationConnector Association="photogModel.FK__Job__packageid__440B1D61" />
+        <AssociationConnector Association="photogModel.FK__Job__userid__44FF419A" />
+        <AssociationConnector Association="photogModel.FK__JobCharge__jobid__5DCAEF64" />
+        <AssociationConnector Association="photogModel.FK__JobDate__jobid__48CFD27E" />
+        <AssociationConnector Association="photogModel.FK__UserFeedb__jobid__619B8048" />
+        <AssociationConnector Association="photogModel.FK__JobDate__jobstat__49C3F6B7" />
+        <AssociationConnector Association="photogModel.FK__JobDateUs__jobda__4D94879B" />
+        <AssociationConnector Association="photogModel.FK__JobDateUs__users__4E88ABD4" />
+        <AssociationConnector Association="photogModel.FK__Package__studioi__3E52440B" />
+        <AssociationConnector Association="photogModel.FK__Transacti__payme__5812160E" />
+        <AssociationConnector Association="photogModel.FK__StudioLin__studi__3B75D760" />
+        <AssociationConnector Association="photogModel.FK__UserStudi__studi__36B12243" />
+        <AssociationConnector Association="photogModel.FK__UserStudi__studi__38996AB5" />
         <AssociationConnector Association="photogModel.FK__UserSyste__syste__2C3393D0" />
-        <AssociationConnector Association="photogModel.FK__UserStudi__useri__36B12243" />
+        <AssociationConnector Association="photogModel.FK__UserStudi__useri__37A5467C" />
         <AssociationConnector Association="photogModel.FK__UserSyste__useri__2D27B809" />
       </Diagram>
     </edmx:Diagrams>

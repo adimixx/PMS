@@ -30,6 +30,7 @@ namespace PMS.Models.Database
         public string phonenumber { get; set; }
         public byte[] imgprofile { get; set; }
         public bool isVerified { get; set; }
+        public string verifiedKey { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Job> Jobs { get; set; }
