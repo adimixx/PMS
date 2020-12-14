@@ -17,11 +17,24 @@ namespace PMS
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/src/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new ScriptBundle("~/bundles/jquerytemplate").Include(
+                      "~/src/libs/jquery/jquery.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstraptemplate").Include(
+                      "~/src/libs/bootstrap/js/bootstrap.bundle.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/script").Include(
+                      "~/src/libs/metismenu/metisMenu.min.js",
+                      "~/src/libs/simplebar/simplebar.min.js",
+                      "~/src/libs/node-waves/waves.min.js",
+                      "~/src/js/app.js"));
+
+            bundles.Add(new StyleBundle("~/Content/cssUser").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/src/user/css/app.min.css",
+                      "~/src/user/css/icons.min.css"));
         }
     }
 }
