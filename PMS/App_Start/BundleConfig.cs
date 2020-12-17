@@ -34,7 +34,8 @@ namespace PMS
             bundles.Add(new StyleBundle("~/Content/cssUser").Include(
                       "~/Content/bootstrap.css",
                       "~/src/user/css/app.min.css",
-                      "~/src/user/css/icons.min.css"));
+                      "~/src/user/css/icons.min.css",
+                       "~/Content/Site.css"));
         }
     }
 }

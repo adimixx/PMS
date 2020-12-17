@@ -497,6 +497,7 @@
     <Content Include="src\images\users\user-7.jpg" />
     <Content Include="src\images\users\user-8.jpg" />
     <Content Include="src\images\users\user-9.jpg" />
+    <Content Include="src\img\cover-default.jpg" />
     <Content Include="src\img\default-profile.jpg" />
     <Content Include="src\img\email.png" />
     <Content Include="src\js\app.js" />
@@ -2099,6 +2100,7 @@
     <Content Include="src\user\fonts\typicons.svg" />
     <Content Include="src\img\img1.jpg" />
     <Content Include="src\img\logo.png" />
+    <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
