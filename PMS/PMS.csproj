@@ -497,6 +497,8 @@
     <Content Include="src\images\users\user-7.jpg" />
     <Content Include="src\images\users\user-8.jpg" />
     <Content Include="src\images\users\user-9.jpg" />
+    <Content Include="src\img\default-profile.jpg" />
+    <Content Include="src\img\email.png" />
     <Content Include="src\js\app.js" />
     <Content Include="src\js\pages\apexcharts.init.js" />
     <Content Include="src\js\pages\calendar.init.js" />

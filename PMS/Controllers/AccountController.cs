@@ -2,6 +2,8 @@
 using PMS.Models.Database;
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace PMS.Controllers
@@ -54,6 +56,16 @@ namespace PMS.Controllers
 
                 db.Users.Add(user);
                 db.SaveChanges();
+
+                string url = string.Format("https://localhost:44341/Account/Validate?key={0}", veriKey);
+                string emailContent = String.Format("Click Here to verify Account : {0}", url);
+
+                var client = new SmtpClient("smtp.mailtrap.io", 2525)
+                {
+                    Credentials = new NetworkCredential("3945ac6c074fba", "7bfae824301e8a"),
+                    EnableSsl = true
+                };
+                client.Send("from@example.com", user.email, "Verify your Account", emailContent);
 
                 ViewBag.Email = registerViewModel.Email;
                 return View("ValidateEmail");
