@@ -10,10 +10,10 @@
 
     @Styles.Render("~/Content/cssUser")
 </head>
-<body data-topbar="dark" data-layout="vertical">
+<body data-sidebar=dark>
     <!-- Begin page -->
     <div id="layout-wrapper">
-        @Html.Partial("_LayoutTopNav");
+        @Html.Partial("_LayoutTopNavUser");
 
         @Html.Partial("_LayoutSidebarNav");
 
@@ -29,7 +29,9 @@
 
     @Scripts.Render("~/bundles/jquerytemplate")
     @Scripts.Render("~/bundles/bootstraptemplate")
-    @Scripts.Render("~/bundles/script")
+    @Scripts.Render("~/bundles/libscript")
+    <script src="~/src/user/js/app.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -25,17 +25,26 @@ namespace PMS
             bundles.Add(new ScriptBundle("~/bundles/bootstraptemplate").Include(
                       "~/src/libs/bootstrap/js/bootstrap.bundle.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/script").Include(
+            bundles.Add(new ScriptBundle("~/bundles/libscript").Include(
                       "~/src/libs/metismenu/metisMenu.min.js",
                       "~/src/libs/simplebar/simplebar.min.js",
-                      "~/src/libs/node-waves/waves.min.js",
-                      "~/src/js/app.js"));
+                      "~/src/libs/node-waves/waves.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/userscript").Include(
+                      "~/src/user/js/app.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/adminscript").Include(
+                      "~/src/admin/js/app.js"));
 
             bundles.Add(new StyleBundle("~/Content/cssUser").Include(
-                      "~/Content/bootstrap.css",
+                      "~/src/user/css/bootstrap.min.css",
                       "~/src/user/css/app.min.css",
-                      "~/src/user/css/icons.min.css",
-                       "~/Content/Site.css"));
+                      "~/src/user/css/icons.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/cssAdmin").Include(
+                      "~/src/admin/css/bootstrap.min.css",
+                      "~/src/admin/css/app.min.css",
+                      "~/src/admin/css/icons.min.css"));
         }
     }
 }
