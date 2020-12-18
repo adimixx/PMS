@@ -57,7 +57,7 @@
                                 { 'data': 'depositprice', "autoWidth": true },
                                 { 'data': 'details', "autoWidth": true },
                                 { 'data': 'studioname', "autoWidth": true },
-                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="/Package/Edit/' + data + '">Edit</a> | <a href="/Package/Detail/' + data + '">Details</a> | <a href="/Package/Delete/' + data + '">Delete</a>'; } }
+                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/Edit/' + data + '">Edit</a> | <a href="@Request.Url/Detail/' + data + '">Details</a> | <a href="@Request.Url/Delete/' + data + '">Delete</a>'; } }
                             ]
                         });
                 },
