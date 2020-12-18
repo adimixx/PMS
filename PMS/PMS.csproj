@@ -153,6 +153,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\StudioPermalinkController.cs" />
     <Compile Include="Controllers\StudioController.cs" />
     <Compile Include="Controllers\API\SystemController.cs" />
@@ -160,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\CreatePackageViewModel.cs" />
     <Compile Include="Models\Database\Charge.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -2052,6 +2054,11 @@
     <Content Include="src\user\fonts\typicons.svg" />
     <Content Include="src\img\img1.jpg" />
     <Content Include="src\img\logo.png" />
+    <Content Include="Views\Package\AddNewPackage.cshtml" />
+    <Content Include="Views\Package\EditPackage.cshtml" />
+    <Content Include="Views\Package\Error.cshtml" />
+    <Content Include="Views\Package\PackageDetail.cshtml" />
+    <Content Include="Views\Package\PackageHome.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />

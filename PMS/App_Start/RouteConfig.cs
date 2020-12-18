@@ -16,12 +16,6 @@ namespace PMS
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Package",
-                url: "Package/{action}/{id}",
-                defaults: new { controller = "Package", action = "PackageHome", id = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
                 name: "Account",
                 url: "Account/{action}/{id}",
                 defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
@@ -34,7 +28,13 @@ namespace PMS
             );
 
             routes.MapRoute(
-                name: "Studio Profile Page",
+                name: "Package",
+                url: "{permalink}/Package/{action}/{id}",
+                defaults: new { controller = "Package", action = "PackageHome", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Studio Permalink",
                 url: "{permalink}/{action}/{id}",
                 defaults: new { controller = "StudioPermalink", action = "Index", id = UrlParameter.Optional }
             );            
