@@ -57,13 +57,12 @@ namespace PMS.Controllers
                 db.Users.Add(user);
                 db.SaveChanges();
 
-                string url = string.Format("{0}/Account/Validate?key={1}", "https://localhost:44341", veriKey);
+                string url = string.Format("https://{0}/Account/Validate?key={1}", Request.Url.Authority, veriKey);
                 string emailContent = String.Format("Click Here to verify Account : {0}", url);
 
-                var client = new SmtpClient("smtp.mailtrap.io", 2525)
+                var client = new SmtpClient("smtp.titan.email", 587)
                 {
-                    Credentials = new NetworkCredential("3945ac6c074fba", "7bfae824301e8a"),
-                    EnableSsl = true
+                    Credentials = new NetworkCredential("hello@photog123.online", "RareMaHZUU")
                 };
                 client.Send("hello@photog123.online", user.email, "Verify your Account", emailContent);
 
