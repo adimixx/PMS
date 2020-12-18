@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Validate Your Email";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
+}
+
+<div>
+    <h4 class="font-size-18 mt-5 text-center">One Step Closer!</h4>
+    <p class="text-muted text-center">Please verify your account</p>
+
+    <img src="~/src/img/email.png" class="mw-100 m-5" style="height: 5rem;" >
+    <p>
+        We have sent an email to
+        <span class="font-weight-medium text-primary">@ViewBag.Email</span>. Please check your email to verify this registration.
+    </p>
+    <p>
+        If you did not receive any emails from us within an hour of
+        registration, please check the spam folder or contact us at
+        <span class="font-weight-medium text-primary">00 - 0000 0000</span> for assistance.
+    </p>
+</div>

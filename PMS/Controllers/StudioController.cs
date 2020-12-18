@@ -1,30 +1,46 @@
 ﻿using PMS.Models;
+using PMS.Models.Database;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace PMS.Controllers
 {
-
+    [Authorize]
     public class StudioController : Controller
     {
-
-        [StudioPermalinkValidate]
-        // GET: Studio Profile Page
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Manage()
         {
-            ViewBag.Perm = HttpContext.Request.Url.PathAndQuery;
+            photogEntities db = new photogEntities();
+            var studioList = db.Studios.ToList().Where(x => x.UserStudios.Any(y => y.userid == UserAuthentication.Identity().id)).ToList();
 
-            return View();
+            return View("ManageStudios", studioList);
         }
 
-
-        [StudioPermalinkValidate]
-        [StudioAuthorizationRole(RoleID = 1)]
-        public ActionResult TestPage()
+        [HttpGet]
+        public ActionResult Create()
         {
-            ViewBag.Perm = RouteData.Values.FirstOrDefault(x=>x.Key.ToLower() == "permalink").Value;
+            CreateStudioViewModel model = new CreateStudioViewModel();
+            return View("CreateNewStudio", model);
+        }
 
-            return View();
+        [HttpPost]
+        public ActionResult Create(CreateStudioViewModel create)
+        {
+            if (ModelState.IsValid)
+            {
+                photogEntities db = new photogEntities();
+
+                Studio studio = new Studio { name = create.Name, location = (string.IsNullOrWhiteSpace(create.SelectedState)) ? create.SelectedCity : string.Format("{0}, {1}", create.SelectedCity, create.SelectedState), uniquename = Backbone.Random(5) };
+                UserStudio userCred = new UserStudio { userid = UserAuthentication.Identity().id, studioroleid = 1 };
+                studio.UserStudios.Add(userCred);
+                db.Studios.Add(studio);
+                db.SaveChanges();
+
+                return Redirect(string.Format("/{0}",studio.uniquename));
+            }
+
+            return View("CreateNewStudio", create);
         }
     }
 }

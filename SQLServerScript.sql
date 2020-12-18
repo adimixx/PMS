@@ -32,9 +32,10 @@ create table [User] (
 	password varchar(32) not null,
 	name varchar(100),
 	dateofbirth datetime,
-	phonenumber varchar(12) not null unique,
+	phonenumber varchar(12),
 	imgprofile varbinary(max),
-	isVerified bit not null
+	isVerified bit not null,
+	verifiedKey varchar(max)
 );
 
 create table UserSystemRole (

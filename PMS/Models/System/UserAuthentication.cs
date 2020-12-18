@@ -2,7 +2,12 @@
 using PMS.Models.Database;
 using System;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Web;
+using System.Web.Http.Controllers;
+using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
 
 namespace PMS.Models
@@ -19,20 +24,19 @@ namespace PMS.Models
                 if (user != null)
                 {
                     var userData = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-                    var authCookie = FormsAuthentication.GetAuthCookie(user.name, rememberMe);
-                    var authTicket = FormsAuthentication.Decrypt(authCookie.Value);
-                    var newTicket = new FormsAuthenticationTicket(
-                            authTicket.Version,
-                            authTicket.Name,
-                            authTicket.IssueDate,
-                            authTicket.Expiration,
-                            authTicket.IsPersistent,
-                            userData
-                        );
 
-                    authCookie.Value = FormsAuthentication.Encrypt(newTicket);
+                    var identity = new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.Name , user.name),
+                        new Claim(ClaimTypes.Email, user.email),
+                        new Claim(type: "UserDataJson", value: userData)
+                    }, "ApplicationCookie");
 
-                    context.Response.Cookies.Set(authCookie);
+                    var ctx = context.Request.GetOwinContext();
+                    var authManager = ctx.Authentication;
+
+                    authManager.SignIn(identity);
+
                     return true;
                 }
                 else
@@ -46,16 +50,22 @@ namespace PMS.Models
             }       
         }
 
-        public static void SignOut()
+        public static void SignOut(HttpContextBase context)
         {
-            FormsAuthentication.SignOut();
+            var ctx = context.Request.GetOwinContext();
+            var authManager = ctx.Authentication;
+
+            authManager.SignOut();
         }
 
         public static User Identity()
         {
-            if (HttpContext.Current.User?.Identity?.Name != null && HttpContext.Current.User?.Identity is FormsIdentity identity)
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+
+            var userData = identity.Claims.FirstOrDefault(x => x.Type == "UserDataJson");
+            if (userData != null)
             {
-                return JsonConvert.DeserializeObject<User>(identity.Ticket.UserData);
+                return JsonConvert.DeserializeObject<User>(userData.Value);
             }
 
             return null;
@@ -116,6 +126,18 @@ namespace PMS.Models
         public override bool RoleExists(string roleName)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class AnonymousOnly : AuthorizeAttribute
+    {
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(
+              new { action = "Index", controller = "Home" }));
+            }
         }
     }
 }

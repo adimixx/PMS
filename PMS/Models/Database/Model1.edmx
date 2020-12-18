@@ -18,8 +18,8 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="jobid" Type="int" />
-          <Property Name="invdate" Type="date" Nullable="false" />
-          <Property Name="expirydate" Type="date" Nullable="false" />
+          <Property Name="invdate" Type="datetime" Nullable="false" />
+          <Property Name="expirydate" Type="datetime" Nullable="false" />
           <Property Name="total" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="totalunpaid" Type="decimal" Precision="6" Scale="2" Nullable="false" />
         </EntityType>
@@ -50,7 +50,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="jobid" Type="int" />
-          <Property Name="jobdate" Type="date" Nullable="false" />
+          <Property Name="jobdate" Type="datetime" Nullable="false" />
           <Property Name="location" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="100" />
           <Property Name="jobstatusid" Type="int" />
@@ -79,7 +79,7 @@
           <Property Name="studioid" Type="int" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="price" Type="decimal" Precision="6" Scale="2" Nullable="false" />
-          <Property Name="depositprice" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="depositprice" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="details" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PaymentMethod">
@@ -105,7 +105,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="studioid" Type="int" />
         </EntityType>
         <EntityType Name="StudioRole">
@@ -127,7 +127,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="transdate" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="transdate" Type="datetime" Nullable="false" />
           <Property Name="total" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="invoiceid" Type="int" />
           <Property Name="paymentmethodid" Type="int" />
@@ -142,9 +142,10 @@
           <Property Name="password" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="100" />
           <Property Name="dateofbirth" Type="datetime" />
-          <Property Name="phonenumber" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="phonenumber" Type="varchar" MaxLength="12" />
           <Property Name="imgprofile" Type="varbinary(max)" />
           <Property Name="isVerified" Type="bit" Nullable="false" />
+          <Property Name="verifiedKey" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="UserFeedback">
           <Key>
@@ -388,7 +389,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__syste__2C3393D0">
+        <Association Name="FK__UserSyste__syste__2B3F6F97">
           <End Role="SystemRole" Type="Self.SystemRole" Multiplicity="0..1" />
           <End Role="UserSystemRole" Type="Self.UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -400,7 +401,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__useri__2D27B809">
+        <Association Name="FK__UserSyste__useri__2C3393D0">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="UserSystemRole" Type="Self.UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -503,11 +504,11 @@
             <End Role="User" EntitySet="User" />
             <End Role="UserStudio" EntitySet="UserStudio" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__syste__2C3393D0" Association="Self.FK__UserSyste__syste__2C3393D0">
+          <AssociationSet Name="FK__UserSyste__syste__2B3F6F97" Association="Self.FK__UserSyste__syste__2B3F6F97">
             <End Role="SystemRole" EntitySet="SystemRole" />
             <End Role="UserSystemRole" EntitySet="UserSystemRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__useri__2D27B809" Association="Self.FK__UserSyste__useri__2D27B809">
+          <AssociationSet Name="FK__UserSyste__useri__2C3393D0" Association="Self.FK__UserSyste__useri__2C3393D0">
             <End Role="User" EntitySet="User" />
             <End Role="UserSystemRole" EntitySet="UserSystemRole" />
           </AssociationSet>
@@ -603,7 +604,7 @@
             <End Role="StudioRole" EntitySet="StudioRoles" />
             <End Role="UserStudio" EntitySet="UserStudios" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__syste__2C3393D0" Association="photogModel.FK__UserSyste__syste__2C3393D0">
+          <AssociationSet Name="FK__UserSyste__syste__2B3F6F97" Association="photogModel.FK__UserSyste__syste__2B3F6F97">
             <End Role="SystemRole" EntitySet="SystemRoles" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
@@ -611,7 +612,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserStudio" EntitySet="UserStudios" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__useri__2D27B809" Association="photogModel.FK__UserSyste__useri__2D27B809">
+          <AssociationSet Name="FK__UserSyste__useri__2C3393D0" Association="photogModel.FK__UserSyste__useri__2C3393D0">
             <End Role="User" EntitySet="Users" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
@@ -630,8 +631,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="jobid" Type="Int32" />
-          <Property Name="invdate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="expirydate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="invdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="expirydate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="total" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="totalunpaid" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <NavigationProperty Name="Job" Relationship="photogModel.FK__Invoice__jobid__5070F446" FromRole="Invoice" ToRole="Job" />
@@ -673,7 +674,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="jobid" Type="Int32" />
-          <Property Name="jobdate1" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="jobdate1" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="location" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="jobstatusid" Type="Int32" />
@@ -709,7 +710,7 @@
           <Property Name="studioid" Type="Int32" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="price" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <Property Name="depositprice" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
+          <Property Name="depositprice" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__packageid__4316F928" FromRole="Package" ToRole="Job" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__Package__studioi__3D5E1FD2" FromRole="Package" ToRole="Studio" />
@@ -741,7 +742,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="studioid" Type="Int32" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__StudioLin__studi__3A81B327" FromRole="StudioLink" ToRole="Studio" />
         </EntityType>
@@ -759,14 +760,14 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__syste__2C3393D0" FromRole="SystemRole" ToRole="UserSystemRole" />
+          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__syste__2B3F6F97" FromRole="SystemRole" ToRole="UserSystemRole" />
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="transdate" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="transdate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="total" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="invoiceid" Type="Int32" />
           <Property Name="paymentmethodid" Type="Int32" />
@@ -783,12 +784,13 @@
           <Property Name="password" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="dateofbirth" Type="DateTime" Precision="3" />
-          <Property Name="phonenumber" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="phonenumber" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="imgprofile" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="isVerified" Type="Boolean" Nullable="false" />
+          <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__440B1D61" FromRole="User" ToRole="Job" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__36B12243" FromRole="User" ToRole="UserStudio" />
-          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__2D27B809" FromRole="User" ToRole="UserSystemRole" />
+          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__2C3393D0" FromRole="User" ToRole="UserSystemRole" />
         </EntityType>
         <EntityType Name="UserFeedback">
           <Key>
@@ -820,8 +822,8 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="systemroleid" Type="Int32" />
           <Property Name="userid" Type="Int32" />
-          <NavigationProperty Name="SystemRole" Relationship="photogModel.FK__UserSyste__syste__2C3393D0" FromRole="UserSystemRole" ToRole="SystemRole" />
-          <NavigationProperty Name="User" Relationship="photogModel.FK__UserSyste__useri__2D27B809" FromRole="UserSystemRole" ToRole="User" />
+          <NavigationProperty Name="SystemRole" Relationship="photogModel.FK__UserSyste__syste__2B3F6F97" FromRole="UserSystemRole" ToRole="SystemRole" />
+          <NavigationProperty Name="User" Relationship="photogModel.FK__UserSyste__useri__2C3393D0" FromRole="UserSystemRole" ToRole="User" />
         </EntityType>
         <Association Name="FK__JobCharge__charg__5DCAEF64">
           <End Type="photogModel.Charge" Role="Charge" Multiplicity="0..1" />
@@ -1027,7 +1029,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__syste__2C3393D0">
+        <Association Name="FK__UserSyste__syste__2B3F6F97">
           <End Type="photogModel.SystemRole" Role="SystemRole" Multiplicity="0..1" />
           <End Type="photogModel.UserSystemRole" Role="UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1051,7 +1053,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__useri__2D27B809">
+        <Association Name="FK__UserSyste__useri__2C3393D0">
           <End Type="photogModel.User" Role="User" Multiplicity="0..1" />
           <End Type="photogModel.UserSystemRole" Role="UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1063,7 +1065,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1214,6 +1216,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="photogModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="verifiedKey" ColumnName="verifiedKey" />
                 <ScalarProperty Name="isVerified" ColumnName="isVerified" />
                 <ScalarProperty Name="imgprofile" ColumnName="imgprofile" />
                 <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />

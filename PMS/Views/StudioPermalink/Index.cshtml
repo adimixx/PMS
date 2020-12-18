@@ -1,0 +1,23 @@
+﻿@model PMS.Models.Database.Studio
+
+@{
+    ViewBag.Title = Model.name;
+
+    if (Model.UserStudios.Any(x=>x.User.name == User.Identity.Name))
+    {
+        Layout = "~/views/shared/_layoutuser.cshtml";
+    }
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="cover-profile">
+            <img src="~/src/img/cover-default.jpg" id="cover-photo" />
+            <img class="rounded-circle" id="studio-profile-img" src="~/src/img/default-profile.jpg" />
+            <div id="studio-head">
+                <h5> @Model.name </h5>
+                <p> @Model.location </p>
+            </div>
+        </div>
+    </div>
+</div>

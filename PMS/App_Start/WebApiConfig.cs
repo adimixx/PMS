@@ -20,7 +20,10 @@ namespace PMS
                 defaults: new { id = RouteParameter.Optional }
             );
 
-
+            // config to return json
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }
 }

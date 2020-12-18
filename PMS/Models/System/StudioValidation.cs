@@ -5,7 +5,7 @@ using System.Web.Routing;
 
 namespace PMS.Models
 {
-    public class StudioPermalinkValidate : System.Web.Mvc.ActionFilterAttribute
+    public class StudioPermalinkValidate : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -22,6 +22,8 @@ namespace PMS.Models
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(
                new { action = "Index", controller = "Home" }));
             }
+
+            filterContext.Controller.ViewBag.StudioID = checkStudio.id;
         }
     }
 

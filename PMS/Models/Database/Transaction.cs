@@ -15,7 +15,7 @@ namespace PMS.Models.Database
     public partial class Transaction
     {
         public int id { get; set; }
-        public decimal transdate { get; set; }
+        public System.DateTime transdate { get; set; }
         public decimal total { get; set; }
         public Nullable<int> invoiceid { get; set; }
         public Nullable<int> paymentmethodid { get; set; }

@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "PackageHome";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />
+<link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" />
+<link href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css" />
+<link href="https://cdn.datatables.net/scroller/2.0.3/css/scroller.bootstrap4.min.css" />
+
+<h2>Package Home</h2>
+
+<p>
+    @Html.ActionLink("Add New Package", "Create", "Package")
+</p>
+
+<table id="packageTable" class="table table-striped table-bordered" style="width:100%">
+    <thead class="text-center">
+        <tr>
+            <th>Package Name</th>
+            <th>Package Price (RM)</th>
+            <th>Deposit Price (RM)</th>
+            <th>Package Details</th>
+            <th>Studio Name</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/scroller/2.0.3/js/dataTables.scroller.min.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadPackages",
+                dataType: "json",
+                success: function (response) {
+                    $("#packageTable").DataTable(
+                        {
+                            bLengthChange: true,
+                            lengthMenu: [[20, 40, -1], [20, 40, "All"]],
+                            bFilter: true,
+                            bSort: true,
+                            bPaginate: true,
+                            scrollX: true,
+                            data: response,
+                            scrollY: 400,
+                            scrollCollapse: true,
+                            processing: true,
+                            columns: [
+                                { 'data': 'name', "autoWidth": true },
+                                { 'data': 'price', "autoWidth": true },
+                                { 'data': 'depositprice', "autoWidth": true },
+                                { 'data': 'details', "autoWidth": true },
+                                { 'data': 'studioname', "autoWidth": true },
+                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="/Package/Edit/' + data + '">Edit</a> | <a href="/Package/Detail/' + data + '">Details</a> | <a href="/Package/Delete/' + data + '">Delete</a>'; } }
+                            ]
+                        });
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                error: function (response) {
+                    alert(response.d);
+                }
+            });
+        });
+    </script>
+}
