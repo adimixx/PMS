@@ -1,4 +1,4 @@
-﻿body {
+body {
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -39,7 +39,7 @@ textarea {
 }
 
 #studio-head {
-    grid-column: 4/ span 5;
+    grid-column: 4/ span 8;
     grid-row: 4;
     margin-left: 20px;
     margin-top: 4%;

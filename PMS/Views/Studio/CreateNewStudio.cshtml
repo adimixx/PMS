@@ -1,105 +1,130 @@
-﻿@model PMS.Models.CreateStudioViewModel
+@model PMS.Models.CreateStudioViewModel
 
 @{
-    ViewBag.Title = "Create New Studio";
+  ViewBag.Title = "Create New Studio";
 }
 
-<div class="row">
-    <div class="col-12 col-sm-4">
-        <h3>Create new Studio</h3>
-        <br />
+<div class="row" id="new-studio">
+  <div class="col-12 col-sm-4">
+    <h3>Create new Studio</h3>
+    <br />
 
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+    @using (Html.BeginForm())
+    {
+      @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
-                <h6 class="mb-3">Studio Information</h6>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-12" })
-                    <div class="col-12">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Studio Name" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SelectedState, htmlAttributes: new { @class = "control-label col-12" })
-                    <div class="col-12">
-                        @Html.DropDownListFor(model => model.SelectedState, Model.StateList, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.SelectedState, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SelectedCity, htmlAttributes: new { @class = "control-label col-12" })
-                    <div class="col-12">
-                        @Html.DropDownListFor(model => model.SelectedCity, Model.CityList, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.SelectedCity, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <br />
-                <div class="form-group">
-                    <input type="submit" value="Create Studio" class="btn btn-primary col-12 text-center" />
-                </div>
-            </div>
-        }
-    </div>
-    <div class="d-none d-sm-block col-sm-8">
-        <h6>Desktop Preview</h6>
-        <div class="card">
-            <div class="card-body">
-                <div class="cover-profile">
-                    <img src="~/src/img/cover-default.jpg" id="cover-photo" />
-                    <img class="rounded-circle" id="studio-profile-img" src="~/src/img/default-profile.jpg" />
-                    <div id="studio-head">
-                        <h5>Page Name</h5>
-                        <p>Location</p>
-                    </div>
-                    
-                </div>
-
-
-                
-            </div>
+      <div class="form-horizontal">
+        <h6 class="mb-3">Studio Information</h6>
+        <div class="form-group">
+          @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-12" })
+          <div class="col-12">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new Dictionary<string, object> { { "class", "form-control" }, { "placeholder", "Enter Studio Name" }, { "v-model", "studioName" } } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+          </div>
         </div>
+
+        <div class="form-group">
+          @Html.LabelFor(model => model.SelectedState, htmlAttributes: new { @class = "control-label col-12" })
+          <div class="col-12">
+            @Html.DropDownListFor(model => model.SelectedState, Model.StateList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "selectedState" } })
+            @Html.ValidationMessageFor(model => model.SelectedState, "", new { @class = "text-danger" })
+          </div>
+        </div>
+
+        <div class="form-group">
+          @Html.LabelFor(model => model.SelectedCity, htmlAttributes: new { @class = "control-label col-12" })
+          <div class="col-12">
+            @Html.DropDownListFor(model => model.SelectedCity, Model.CityList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "selectedCity" } })
+            @Html.ValidationMessageFor(model => model.SelectedCity, "", new { @class = "text-danger" })
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <input type="submit" value="Create Studio" class="btn btn-primary col-12 text-center" />
+        </div>
+      </div>
+    }
+  </div>
+  <div class="d-none d-sm-block col-sm-8">
+    <h6>Desktop Preview</h6>
+    <div class="card">
+      <div class="card-body">
+        <div class="cover-profile">
+          <img src="~/src/img/cover-default.jpg" id="cover-photo" />
+          <img class="rounded-circle" id="studio-profile-img" src="~/src/img/default-profile.jpg" />
+          <div id="studio-head">
+            <h5> {{ !!studioName == '' ? 'Your Studio Name' : studioName }} </h5>
+            <p> {{ !!studioLocation == '' ? 'Your Studio Location' : studioLocation}} </p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+  @Scripts.Render("~/bundles/jqueryval")
 
-    <script type="text/javascript">
-        function loadCity(val) {
-            $.ajax(
-                {
-                    url: `/api/system/getcity?state=${val}`,
-                    success: (result) => {
+  <script type="text/javascript">
+    function loadCity(val) {
+      $.ajax(
+        {
+          url: `/api/system/getcity?state=${val}`,
+          success: (result) => {
 
-                        var selectCity = $('#SelectedCity');
+            var selectCity = $('#SelectedCity');
 
-                        selectCity.find('option').remove().end();
+            selectCity.find('option').remove().end();
 
-                        if (result.length == 0) {
-                            selectCity.attr('disabled', 'disabled');
-                        }
+            if (result.length == 0) {
+              selectCity.attr('disabled', 'disabled');
+            }
 
-                        else {
-                            for (var i = 0; i < result.length; i++) {
-                                selectCity.append(`<option value="${result[i]}">${result[i]}</option>}`);
-                            }
-                            selectCity.removeAttr('disabled');
-                        }
-
-                    }
-                }
-            );
+            else {
+              selectCity.append(`<option disabled="disabled" selected="selected" value="">Select City</option>}`);
+              for (var i = 0; i < result.length; i++) {
+                selectCity.append(`<option value="${result[i]}">${result[i]}</option>}`);
+              }
+              selectCity.removeAttr('disabled');
+              selectCity.value = "0";
+            }
+          }
         }
+      );
+    }
 
-        $('#SelectedState').change(() => {
-            loadCity($('#SelectedState').val());
-        });
+    var data = {
+      studioName: '',
+      selectedState: '',
+      selectedCity: '',
+    };
 
-    </script>
+    var studioHead = new Vue({
+      el: '#new-studio',
+      data: data,
+      computed: {
+        studioLocation: function () {
+          var aa = '';
+
+          if (data.selectedCity != "") {
+            aa += `${data.selectedCity} , `;
+          }
+
+          if (data.selectedState != "") {
+            aa += `${data.selectedState}`;
+          }
+
+          return aa;
+
+        }
+      },
+      watch: {
+        selectedState: function () {
+          data.selectedCity = '';
+          loadCity($('#SelectedState').val());
+        }
+      }
+    });
+  </script>
 
 }

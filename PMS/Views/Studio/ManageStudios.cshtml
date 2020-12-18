@@ -1,4 +1,4 @@
-﻿@model List<PMS.Models.Database.Studio>
+@model List<PMS.Models.Database.Studio>
 
 @{
     ViewBag.Title = "Studio";
@@ -20,7 +20,30 @@
             {
                 <small>No Studios</small>
             }
+            else
+            {
+                foreach (var mod in Model)
+                {
+                    <a href="/@mod.uniquename">
+                        <div class="d-flex">
+                            <img src="@((mod.ImgLogo == null) ? "/src/img/default-profile.jpg" : "~/src/img/"+mod.ImgLogo )" style="height: 50px;" />
+                            <div class="mx-3">
+                                <h6 class="text-dark">@mod.name</h6>
+                                <p class="text-info">@mod.location</p>
+                            </div>                            
+                        </div>
+                    </a>
+                    <hr class="m-1" />
+                }
+            }
         </div>
     </div>
 </div>
 
+@section scripts{
+
+    <script>
+
+    </script>
+
+}
