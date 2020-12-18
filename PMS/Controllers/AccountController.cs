@@ -57,7 +57,7 @@ namespace PMS.Controllers
                 db.Users.Add(user);
                 db.SaveChanges();
 
-                string url = string.Format("https://localhost:44341/Account/Validate?key={0}", veriKey);
+                string url = string.Format("{0}/Account/Validate?key={1}", "https://localhost:44341", veriKey);
                 string emailContent = String.Format("Click Here to verify Account : {0}", url);
 
                 var client = new SmtpClient("smtp.mailtrap.io", 2525)
@@ -65,7 +65,7 @@ namespace PMS.Controllers
                     Credentials = new NetworkCredential("3945ac6c074fba", "7bfae824301e8a"),
                     EnableSsl = true
                 };
-                client.Send("from@example.com", user.email, "Verify your Account", emailContent);
+                client.Send("hello@photog123.online", user.email, "Verify your Account", emailContent);
 
                 ViewBag.Email = registerViewModel.Email;
                 return View("ValidateEmail");
