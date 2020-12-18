@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="sidenav">
+    <div class="sidenav" style="margin-top: 15px">
         <ul>
             <li>
                 @Html.ActionLink("Profile", "profile", "Account")
@@ -44,10 +44,13 @@
             <li>
                 @Html.ActionLink("Studios", "Manage", "Studio")
             </li>
+            <li>
+                @Html.ActionLink("Packages", "PackageHome", "Package")
+            </li>
         </ul>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" style="padding: 15px">
         @RenderBody()
         <hr />
         <footer>

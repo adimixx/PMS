@@ -16,6 +16,12 @@ namespace PMS
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Package",
+                url: "Package/{action}/{id}",
+                defaults: new { controller = "Package", action = "PackageHome", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Account",
                 url: "Account/{action}/{id}",
                 defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
@@ -37,8 +43,8 @@ namespace PMS
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );          
-            
+            );
+
         }
     }
 }

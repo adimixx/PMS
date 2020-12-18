@@ -181,6 +181,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\StudioPermalinkController.cs" />
     <Compile Include="Controllers\StudioController.cs" />
     <Compile Include="Controllers\API\SystemController.cs" />
@@ -188,6 +189,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\CreatePackageViewModel.cs" />
     <Compile Include="Models\Database\Charge.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -450,6 +452,11 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Studio\CreateNewStudio.cshtml" />
+    <Content Include="Views\Package\PackageHome.cshtml" />
+    <Content Include="Views\Package\AddNewPackage.cshtml" />
+    <Content Include="Views\Package\EditPackage.cshtml" />
+    <Content Include="Views\Package\PackageDetail.cshtml" />
+    <Content Include="Views\Package\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

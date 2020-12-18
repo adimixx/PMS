@@ -11,7 +11,8 @@ namespace PMS.Models.Database
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class Package
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,9 +23,13 @@ namespace PMS.Models.Database
     
         public int id { get; set; }
         public Nullable<int> studioid { get; set; }
+        [DisplayName("Package Name")]
         public string name { get; set; }
+        [DisplayName("Package Price")]
         public decimal price { get; set; }
+        [DisplayName("Deposit Price")]
         public decimal depositprice { get; set; }
+        [DisplayName("Package Details")]
         public string details { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

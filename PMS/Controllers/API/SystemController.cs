@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PMS.Models;
+using PMS.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +30,28 @@ namespace PMS.Controllers
             var listStripped = list.Select(x => x.Value).ToArray().FirstOrDefault();
 
             return Request.CreateResponse(HttpStatusCode.OK, listStripped);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadPackages()
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Packages.ToList().Where(x => x.Studio.UserStudios.Any(y => y.userid == UserAuthentication.Identity().id)).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    item.name,
+                    price = item.price.ToString(".00"),
+                    studioname = item.Studio.name,
+                    depositprice = item.depositprice.ToString(".00"),
+                    item.details
+                });
+            }
+            return Ok(data);
         }
     }
 }
