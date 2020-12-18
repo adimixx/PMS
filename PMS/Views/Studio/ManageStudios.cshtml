@@ -1,9 +1,49 @@
-﻿@model List<PMS.Models.Database.Studio>
+@model List<PMS.Models.Database.Studio>
 
 @{
-    ViewBag.Title = "ManageStudios";
+    ViewBag.Title = "Studio";
 }
 
-<h2>ManageStudios</h2>
+<div>
+    <div class="row">
+        <div class="col-6 text-left">
+            <h3>Studios You Manage</h3>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-sm btn-primary" href="@Url.Action("Create","Studio")">Create New Studio</a>
+        </div>
+    </div>
 
-@Html.ActionLink("Create New Studio", "Create", "Studio")
+    <div class="card">
+        <div class="card-body">
+            @if (Model.Count == 0)
+            {
+                <small>No Studios</small>
+            }
+            else
+            {
+                foreach (var mod in Model)
+                {
+                    <a href="/@mod.uniquename">
+                        <div class="d-flex">
+                            <img src="@((mod.ImgLogo == null) ? "/src/img/default-profile.jpg" : "~/src/img/"+mod.ImgLogo )" style="height: 50px;" />
+                            <div class="mx-3">
+                                <h6 class="text-dark">@mod.name</h6>
+                                <p class="text-info">@mod.location</p>
+                            </div>                            
+                        </div>
+                    </a>
+                    <hr class="m-1" />
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+    </script>
+
+}

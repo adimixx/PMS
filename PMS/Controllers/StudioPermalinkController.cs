@@ -8,13 +8,16 @@ namespace PMS.Controllers
 
     public class StudioPermalinkController : Controller
     {
+        photogEntities db = new photogEntities();
+
         [StudioPermalinkValidate]
         // GET: Studio Profile Page
         public ActionResult Index()
         {
-            ViewBag.Perm = HttpContext.Request.Url.PathAndQuery;
+            long studioID = (long)ViewBag.StudioID;
+            var studio = db.Studios.FirstOrDefault(x => x.id == studioID);
 
-            return View();
+            return View(studio);
         }
 
 

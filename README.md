@@ -62,7 +62,7 @@ routes.MapRoute(
 ```
 
 ## Front End
-This project has been pre-updated with Bootstrap v4.5.3 and JQuery v3.5.1
+This project has been pre-updated with Bootstrap v4.5.3, JQuery v3.5.1 and Vue.js 3.0.2 (via CDN)
 
 
 ## Developers
