@@ -14,6 +14,20 @@ textarea {
     max-width: 280px;
 }
 
+.validation-summary-errors {
+    color: red;
+    text-align: center;
+}
+
+    .validation-summary-errors > ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .validation-summary-errors > ul > li {
+       display: inline;
+    }
+
 .cover-profile {
     display: grid;
     position: relative;
@@ -24,7 +38,6 @@ textarea {
 #cover-photo {
     grid-column: 1 / span 12;
     grid-row: 1/ span 3;
-
     object-fit: cover;
     height: 200px;
     width: 100%;
