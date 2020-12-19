@@ -1,5 +1,6 @@
-﻿@{
-    ViewBag.Title = "PackageHome";
+﻿
+@{
+    ViewBag.Title = "JobStatusMain";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
@@ -8,20 +9,17 @@
 <link href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css" />
 <link href="https://cdn.datatables.net/scroller/2.0.3/css/scroller.bootstrap4.min.css" />
 
-<h2>Package Home</h2>
+<h2>List of Job Status</h2>
 
 <p>
-    @Html.ActionLink("Add New Package", "Create", "Package")
+    @Html.ActionLink("Add New Job Status", "CreateJobStatus", "Job")
 </p>
 
-<table id="packageTable" class="table table-striped table-bordered" style="width:100%">
+<table id="jobStatusTable" class="table table-striped table-bordered" style="width:100%">
     <thead class="text-center">
         <tr>
-            <th>Package Name</th>
-            <th>Package Price (RM)</th>
-            <th>Deposit Price (RM)</th>
-            <th>Package Details</th>
-            <th>Studio Name</th>
+            <th>Status ID</th>
+            <th>Status Title</th>
             <th></th>
         </tr>
     </thead>
@@ -36,10 +34,10 @@
         $(function () {
             $.ajax({
                 type: "GET",
-                url: "/api/system/loadPackages/@ViewBag.StudioID",
+                url: "/api/system/loadJobStatus",
                 dataType: "json",
                 success: function (response) {
-                    $("#packageTable").DataTable(
+                    $("#jobStatusTable").DataTable(
                         {
                             bLengthChange: true,
                             lengthMenu: [[20, 40, -1], [20, 40, "All"]],
@@ -52,12 +50,9 @@
                             scrollCollapse: true,
                             processing: true,
                             columns: [
+                                { 'data': 'id', "autoWidth": true },
                                 { 'data': 'name', "autoWidth": true },
-                                { 'data': 'price', "autoWidth": true },
-                                { 'data': 'depositprice', "autoWidth": true },
-                                { 'data': 'details', "autoWidth": true },
-                                { 'data': 'studioname', "autoWidth": true },
-                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/Edit/' + data + '">Edit</a> | <a href="@Request.Url/Detail/' + data + '">Details</a> | <a href="@Request.Url/Delete/' + data + '">Delete</a>'; } }
+                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/Editjobstatus/' + data + '">Edit</a> | <a href="@Request.Url/Delete/' + data + '">Delete</a>'; } }
                             ]
                         });
                 },
@@ -71,3 +66,4 @@
         });
     </script>
 }
+

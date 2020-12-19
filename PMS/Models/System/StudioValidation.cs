@@ -52,7 +52,7 @@ namespace PMS.Models
                 HandleUnauthorizedRequest(filterContext);
             }
 
-            else if (RoleID == 1 && checkRole.id != RoleID)
+            else if (RoleID == 1 && checkRole.studioroleid != RoleID)
             {
                 HandleUnauthorizedRequest(filterContext);
             }

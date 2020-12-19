@@ -11,7 +11,9 @@ namespace PMS.Models.Database
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class JobStatu
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +23,11 @@ namespace PMS.Models.Database
             this.JobDates = new HashSet<JobDate>();
         }
     
+        [DisplayName("Status ID")]
         public int id { get; set; }
+
+        [Required]
+        [DisplayName("Status Title")]
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
