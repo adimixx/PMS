@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = Model.name;
 
-    if (Model.UserStudios.Any(x=>x.User.name == User.Identity.Name))
+    if (Model.UserStudios.Any(x => x.User.name == User.Identity.Name))
     {
         Layout = "~/views/shared/_layoutuser.cshtml";
     }
@@ -21,7 +21,14 @@
         </div>
 
         <div class="container" style="margin:3%;margin-top:5%">
-            <a href="@string.Format("{0}/{1}", Request.Url, "package")">List of Packages</a>
+            <ul>
+                <li>
+                    <a href="@string.Format("{0}/{1}", Request.Url, "package")">List of Packages</a>
+                </li>
+                <li>
+                    <a href="@string.Format("{0}/{1}", Request.Url, "jobadmin")">Manage Jobs</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
