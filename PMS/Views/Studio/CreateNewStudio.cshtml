@@ -3,63 +3,65 @@
 @{
   ViewBag.Title = "Create New Studio";
 }
+<div class="mt-4">
+    <div class="row" id="new-studio">
+        <div class="col-12 col-sm-4">
+            <h3>Create new Studio</h3>
+            <br />
 
-<div class="row" id="new-studio">
-  <div class="col-12 col-sm-4">
-    <h3>Create new Studio</h3>
-    <br />
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-    @using (Html.BeginForm())
-    {
-      @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <h6 class="mb-3">Studio Information</h6>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-12" })
+                        <div class="col-12">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new Dictionary<string, object> { { "class", "form-control" }, { "placeholder", "Enter Studio Name" }, { "v-model", "studioName" } } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-      <div class="form-horizontal">
-        <h6 class="mb-3">Studio Information</h6>
-        <div class="form-group">
-          @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-12" })
-          <div class="col-12">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new Dictionary<string, object> { { "class", "form-control" }, { "placeholder", "Enter Studio Name" }, { "v-model", "studioName" } } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-          </div>
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SelectedState, htmlAttributes: new { @class = "control-label col-12" })
+                        <div class="col-12">
+                            @Html.DropDownListFor(model => model.SelectedState, Model.StateList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "selectedState" } })
+                            @Html.ValidationMessageFor(model => model.SelectedState, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-          @Html.LabelFor(model => model.SelectedState, htmlAttributes: new { @class = "control-label col-12" })
-          <div class="col-12">
-            @Html.DropDownListFor(model => model.SelectedState, Model.StateList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "selectedState" } })
-            @Html.ValidationMessageFor(model => model.SelectedState, "", new { @class = "text-danger" })
-          </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SelectedCity, htmlAttributes: new { @class = "control-label col-12" })
+                        <div class="col-12">
+                            @Html.DropDownListFor(model => model.SelectedCity, Model.CityList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "selectedCity" } })
+                            @Html.ValidationMessageFor(model => model.SelectedCity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Create Studio" class="btn btn-primary col-12 text-center" />
+                    </div>
+                </div>
+            }
         </div>
-
-        <div class="form-group">
-          @Html.LabelFor(model => model.SelectedCity, htmlAttributes: new { @class = "control-label col-12" })
-          <div class="col-12">
-            @Html.DropDownListFor(model => model.SelectedCity, Model.CityList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "selectedCity" } })
-            @Html.ValidationMessageFor(model => model.SelectedCity, "", new { @class = "text-danger" })
-          </div>
+        <div class="d-none d-sm-block col-sm-8">
+            <h6>Desktop Preview</h6>
+            <div class="card">
+                <div class="card-body">
+                    <div class="cover-profile">
+                        <img src="~/src/img/cover-default.jpg" id="cover-photo" />
+                        <img class="rounded-circle" id="studio-profile-img" src="~/src/img/default-profile.jpg" />
+                        <div id="studio-head">
+                            <h5> {{ !!studioName == '' ? 'Your Studio Name' : studioName }} </h5>
+                            <p> {{ !!studioLocation == '' ? 'Your Studio Location' : studioLocation}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br />
-        <div class="form-group">
-          <input type="submit" value="Create Studio" class="btn btn-primary col-12 text-center" />
-        </div>
-      </div>
-    }
-  </div>
-  <div class="d-none d-sm-block col-sm-8">
-    <h6>Desktop Preview</h6>
-    <div class="card">
-      <div class="card-body">
-        <div class="cover-profile">
-          <img src="~/src/img/cover-default.jpg" id="cover-photo" />
-          <img class="rounded-circle" id="studio-profile-img" src="~/src/img/default-profile.jpg" />
-          <div id="studio-head">
-            <h5> {{ !!studioName == '' ? 'Your Studio Name' : studioName }} </h5>
-            <p> {{ !!studioLocation == '' ? 'Your Studio Location' : studioLocation}} </p>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+
 </div>
 
 @section Scripts {

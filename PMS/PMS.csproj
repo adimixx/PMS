@@ -2113,14 +2113,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\SignIn.cshtml" />
     <Content Include="Views\Home\IndexAdmin.cshtml" />
-    <Content Include="Views\Home\Power.cshtml" />
     <Content Include="Views\StudioPermalink\Index.cshtml" />
-    <Content Include="Views\StudioPermalink\TestPage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LayoutAccount.cshtml" />
     <Content Include="Views\Account\ValidateEmail.cshtml" />
-    <Content Include="Views\Home\IndexUser.cshtml" />
-    <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Views\Shared\_LayoutStudioManage.cshtml" />
     <Content Include="Views\Studio\ManageStudios.cshtml" />
     <Content Include="src\json\malaysian-states\states-cities.json" />
     <Content Include="src\json\malaysian-states\states.json" />

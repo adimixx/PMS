@@ -12,11 +12,6 @@ namespace PMS.Controllers
                 {
                     return View("IndexAdmin");
                 }
-
-                else if (User.IsInRole("User"))
-                {
-                    return View("IndexUser");
-                }
             }
 
             ViewBag.Title = "Home Page";

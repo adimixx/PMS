@@ -5,7 +5,7 @@
 
     if (Model.UserStudios.Any(x => x.User.name == User.Identity.Name))
     {
-        Layout = "~/views/shared/_layoutuser.cshtml";
+        Layout = "~/views/shared/_LayoutStudioManage.cshtml";
     }
 }
 
@@ -19,16 +19,23 @@
                 <p> @Model.location </p>
             </div>
         </div>
+              
+        <div class="card">
+            <div class="card-body">
+                <h6>Available Packages</h6>
 
-        <div class="container" style="margin:3%;margin-top:5%">
-            <ul>
-                <li>
-                    <a href="@string.Format("{0}/{1}", Request.Url, "package")">List of Packages</a>
-                </li>
-                <li>
-                    <a href="@string.Format("{0}/{1}", Request.Url, "jobadmin")">Manage Jobs</a>
-                </li>
-            </ul>
+                <div class="row">
+                    <div class="col-sm-4 col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <span>Package A</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>

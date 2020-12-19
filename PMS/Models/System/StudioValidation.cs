@@ -21,9 +21,11 @@ namespace PMS.Models
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(
                new { action = "Index", controller = "Home" }));
+                return;
             }
 
             filterContext.Controller.ViewBag.StudioID = checkStudio.id;
+            filterContext.Controller.ViewBag.StudioUrl = checkStudio.uniquename;
         }
     }
 
