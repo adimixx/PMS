@@ -50,27 +50,6 @@ namespace PMS.Models
             //var checkStudio = db.Studios.FirstOrDefault(x => x.uniquename.ToLower() == permalink.ToLower());
             //var checkRole = db.UserStudios.FirstOrDefault(x => x.userid == user && x.studioid == checkStudio.id);
 
-            var checkRole = filterContext.Controller.ViewBag.StudioRoleID;
-
-            if (RoleID != 0 && checkRole == null)
-            {
-                HandleUnauthorizedRequest(filterContext);
-            }
-
-            else if (RoleID == 1 && checkRole != RoleID)
-            {
-                HandleUnauthorizedRequest(filterContext);
-            }
-        }
-    }
-
-    public class ValidateStudioAPI : AuthorizeAttribute
-    {
-        public long RoleID { get; set; }
-        public override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-
             var checkRole = filterContext.Controller.TempData["StudioID"];
 
             if (RoleID != 0 && checkRole == null)
@@ -82,6 +61,32 @@ namespace PMS.Models
             {
                 HandleUnauthorizedRequest(filterContext);
             }
+        }
+    }
+
+    public class ValidateStudioAPI : AuthorizeAttribute
+    {
+        public long RoleID { get; set; }
+        public static long studioID { get; set; }
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            var checkRole = filterContext.Controller.TempData["StudioID"];
+
+            if (RoleID != 0 && checkRole == null)
+            {
+                HandleUnauthorizedRequest(filterContext);
+                return;
+            }
+
+            else if (RoleID == 1 && (long)checkRole != RoleID)
+            {
+                HandleUnauthorizedRequest(filterContext);
+                return;
+            }
+
+            studioID = (long)checkRole;
         }
     }
 }

@@ -2238,6 +2238,7 @@
     <Content Include="src\admin\fonts\typicons.ttf" />
     <Content Include="src\admin\fonts\typicons.woff" />
     <Content Include="Views\Shared\_LayoutTopnavUser.cshtml" />
+    <Content Include="Views\StudioRoles\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
