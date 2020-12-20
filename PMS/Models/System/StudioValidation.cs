@@ -26,6 +26,7 @@ namespace PMS.Models
 
             filterContext.Controller.ViewBag.StudioID = checkStudio.id;
             filterContext.Controller.ViewBag.StudioUrl = checkStudio.uniquename;
+            filterContext.Controller.ViewBag.StudioRoleID = checkStudio.UserStudios.FirstOrDefault().studioroleid;
         }
     }
 
@@ -36,18 +37,19 @@ namespace PMS.Models
         {
             base.OnAuthorization(filterContext);
 
+            //var user = UserAuthentication.Identity()?.id;
+            //if (user == null)
+            //{
+            //    filterContext.Result = new HttpNotFoundResult();
+            //    return;
+            //}
 
-            var user = UserAuthentication.Identity()?.id;
-            if (user == null)
-            {
-                filterContext.Result = new HttpNotFoundResult();
-                return;
-            }
+            //photogEntities db = new photogEntities();
+            //var permalink = (string)filterContext.RouteData.Values["permalink"];
+            //var checkStudio = db.Studios.FirstOrDefault(x => x.uniquename.ToLower() == permalink.ToLower());
+            //var checkRole = db.UserStudios.FirstOrDefault(x => x.userid == user && x.studioid == checkStudio.id);
 
-            photogEntities db = new photogEntities();
-            var permalink = (string)filterContext.RouteData.Values["permalink"];
-            var checkStudio = db.Studios.FirstOrDefault(x => x.uniquename.ToLower() == permalink.ToLower());
-            var checkRole = db.UserStudios.FirstOrDefault(x => x.userid == user && x.studioid == checkStudio.id);
+            var checkRole = filterContext.Controller.ViewBag.StudioRoleID;
 
             if (RoleID != 0 && checkRole == null)
             {

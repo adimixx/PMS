@@ -158,6 +158,7 @@
     <Compile Include="Controllers\StudioPermalinkController.cs" />
     <Compile Include="Controllers\StudioController.cs" />
     <Compile Include="Controllers\API\SystemController.cs" />
+    <Compile Include="Controllers\StudioRolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2268,6 +2269,7 @@
     <Folder Include="src\libs\morris.js\spec\" />
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
+    <Folder Include="Views\StudioUser\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
