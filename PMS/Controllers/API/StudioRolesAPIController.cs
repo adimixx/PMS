@@ -14,6 +14,7 @@ namespace PMS.Controllers.API
         [ValidateStudioAPI(RoleID = 1)]
         public HttpResponseMessage getRoleList()
         {
+            long studioID = TempData["StudioID"];
             return null; 
         }
     }
