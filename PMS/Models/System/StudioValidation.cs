@@ -28,6 +28,7 @@ namespace PMS.Models
             filterContext.Controller.ViewBag.StudioUrl = checkStudio.uniquename;
             filterContext.Controller.ViewBag.StudioRoleID = checkStudio.UserStudios.FirstOrDefault().studioroleid;
             filterContext.Controller.TempData["StudioID"] = checkStudio.id;
+            filterContext.Controller.TempData["StudioRoleID"] = checkStudio.UserStudios.FirstOrDefault().studioroleid;
         }
     }
 
@@ -50,14 +51,14 @@ namespace PMS.Models
             //var checkStudio = db.Studios.FirstOrDefault(x => x.uniquename.ToLower() == permalink.ToLower());
             //var checkRole = db.UserStudios.FirstOrDefault(x => x.userid == user && x.studioid == checkStudio.id);
 
-            var checkRole = filterContext.Controller.TempData["StudioID"];
+            var checkRole = filterContext.Controller.TempData["StudioRoleID"];
 
             if (RoleID != 0 && checkRole == null)
             {
                 HandleUnauthorizedRequest(filterContext);
             }
 
-            else if (RoleID == 1 && (long)checkRole != RoleID)
+            else if (RoleID == 1 && (int)checkRole != RoleID)
             {
                 HandleUnauthorizedRequest(filterContext);
             }

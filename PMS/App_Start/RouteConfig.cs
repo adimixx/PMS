@@ -17,7 +17,7 @@ namespace PMS
 
             routes.MapRoute(
                 name: "StudioRoles",
-                url: "Roles/{action}/{id}",
+                url: "{permalink}/Roles/{action}/{id}",
                 defaults: new { controller = "StudioRoles", action = "List", id = UrlParameter.Optional }
             );
 
