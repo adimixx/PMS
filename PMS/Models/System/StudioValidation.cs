@@ -27,6 +27,7 @@ namespace PMS.Models
             filterContext.Controller.ViewBag.StudioID = checkStudio.id;
             filterContext.Controller.ViewBag.StudioUrl = checkStudio.uniquename;
             filterContext.Controller.ViewBag.StudioRoleID = checkStudio.UserStudios.FirstOrDefault().studioroleid;
+            filterContext.Controller.TempData["StudioID"] = checkStudio.id;
         }
     }
 
@@ -56,7 +57,28 @@ namespace PMS.Models
                 HandleUnauthorizedRequest(filterContext);
             }
 
-            else if (RoleID == 1 && checkRole.studioroleid != RoleID)
+            else if (RoleID == 1 && checkRole != RoleID)
+            {
+                HandleUnauthorizedRequest(filterContext);
+            }
+        }
+    }
+
+    public class ValidateStudioAPI : AuthorizeAttribute
+    {
+        public long RoleID { get; set; }
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            var checkRole = filterContext.Controller.TempData["StudioID"];
+
+            if (RoleID != 0 && checkRole == null)
+            {
+                HandleUnauthorizedRequest(filterContext);
+            }
+
+            else if (RoleID == 1 && (long)checkRole != RoleID)
             {
                 HandleUnauthorizedRequest(filterContext);
             }
