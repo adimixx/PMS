@@ -2067,6 +2067,7 @@
     <Content Include="Views\Job\Error.cshtml" />
     <Content Include="Views\Job\CreateJobStatus.cshtml" />
     <Content Include="Views\Job\EditJobStatus.cshtml" />
+    <Content Include="Views\Shared\_LayoutSidebarNavAdmin.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
@@ -2239,6 +2240,7 @@
     <Content Include="src\admin\fonts\typicons.woff" />
     <Content Include="Views\Shared\_LayoutTopnavUser.cshtml" />
     <Content Include="Views\StudioRoles\List.cshtml" />
+    <Content Include="Views\Shared\_LayoutStudioManageAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
