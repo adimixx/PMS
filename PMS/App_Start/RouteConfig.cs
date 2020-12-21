@@ -52,9 +52,9 @@ namespace PMS
             );
 
             routes.MapRoute(
-                name: "JobAdmin",
-                url: "{permalink}/JobAdmin/{action}/{id}",
-                defaults: new { controller = "Job", action = "JobHomeAdmin", id = UrlParameter.Optional }
+                name: "Job",
+                url: "{permalink}/Job/{action}/{id}",
+                defaults: new { controller = "Job", action = "JobHome", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

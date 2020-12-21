@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Job Admin";
+    ViewBag.Title = "Job Home";
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
 }
 
@@ -13,7 +13,10 @@
             <th>Client's Name</th>
             <th>Package Chosen</th>
             <th>Status</th>
-            <th></th>
+            @if (ViewBag.StudioRoleID == 1)
+            {
+                <th></th>
+            }
         </tr>
     </thead>
 </table>
@@ -44,7 +47,7 @@
                                 { 'data': 'client', "autoWidth": true },
                                 { 'data': 'package', "autoWidth": true },
                                 { 'data': 'status', "autoWidth": true },
-                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/detail/' + data + '">Details</a>'; } }
+                                { 'data': 'id', 'render': function (data, type, row) { return '@if (ViewBag.StudioRoleID == 1) { <a href="@Request.Url/detail/' + data + '">Details</a> }'; } }
                             ]
                         });
                 },
