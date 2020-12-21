@@ -116,11 +116,22 @@ namespace PMS.Controllers
         // ---------------------- Job Management Start ----------------------- //
 
         [StudioPermalinkValidate]
-        [StudioAuthorizationRole(RoleID = 1)]
         [HttpGet]
-        public ActionResult JobHomeAdmin()
+        public ActionResult jobhome()
         {
             return View();
+        }
+
+        [StudioPermalinkValidate]
+        [HttpGet]
+        public ActionResult Detail(int id)
+        {
+            var data = db.Jobs.Find(id);
+
+            if (ViewBag.StudioID != data.Package.studioid)
+                return RedirectToAction("jobhome");
+
+            return View(data);
         }
 
         // ---------------------- Job Management End ----------------------- //

@@ -2062,7 +2062,7 @@
     <Content Include="Views\Package\Error.cshtml" />
     <Content Include="Views\Package\PackageDetail.cshtml" />
     <Content Include="Views\Package\PackageHome.cshtml" />
-    <Content Include="Views\Job\JobHomeAdmin.cshtml" />
+    <Content Include="Views\Job\JobHome.cshtml" />
     <Content Include="Views\Job\JobStatusMain.cshtml" />
     <Content Include="Views\Job\Error.cshtml" />
     <Content Include="Views\Job\CreateJobStatus.cshtml" />
