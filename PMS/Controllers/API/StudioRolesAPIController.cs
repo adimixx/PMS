@@ -4,22 +4,22 @@ using PMS.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Web;
+using System.Web.Mvc;
 
 namespace PMS.Controllers.API
 {
-    public class StudioRolesAPIController : ApiController
+    public class StudioRolesAPIController : Controller
     {
+        photogEntities db = new photogEntities();
+
         [HttpGet]
         [ValidateStudioAPI(RoleID = 1)]
-        public HttpResponseMessage getRoleList()
+        public string getRoleList()
         {
-            photogEntities db = new photogEntities();
+            int studioID = (int)TempData["StudioID"];
 
-            long studioID = ValidateStudioAPI.studioID;
-            var roles = db.UserStudios.Where(x => x.studioid == studioID);
+            var roles = db.UserStudios.ToList().Where(x => x.studioid == studioID);
             var roleAdmin = roles.Where(x => x.studioroleid == 1);
             var roleUser = roles.Where(x => x.studioroleid == 2);
 
@@ -29,7 +29,8 @@ namespace PMS.Controllers.API
                 dataAdmin.Add(new
                 {
                     item.User.name,
-                    item.userid
+                    item.userid,
+                    StudioRole = item.StudioRole.name
                 });
             }
 
@@ -48,7 +49,7 @@ namespace PMS.Controllers.API
             replyData.Add("user", dataUser);
 
 
-            return Request.CreateResponse(HttpStatusCode.OK, replyData);                
+            return JsonConvert.SerializeObject(replyData);
         }
     }
 }

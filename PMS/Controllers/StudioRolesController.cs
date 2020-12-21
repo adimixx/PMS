@@ -1,4 +1,5 @@
 ﻿using PMS.Models;
+using PMS.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,18 @@ namespace PMS.Controllers
 {
     public class StudioRolesController : Controller
     {
+
         // GET: StudioUser
-        [StudioPermalinkValidate]
-        [StudioAuthorizationRole(RoleID = 1)]
+        [StudioPermalinkValidate(RoleID = 1)]
         public ActionResult List()
         {
             return View();
         }
 
-        [StudioPermalinkValidate]
-        [StudioAuthorizationRole(RoleID = 1)]
+        [StudioPermalinkValidate(RoleID = 1)]
         public ActionResult Add()
         {
             return View();
-        }
+        }       
     }
 }

@@ -7,6 +7,8 @@ namespace PMS.Models
 {
     public class StudioPermalinkValidate : ActionFilterAttribute
     {
+        public long RoleID { get; set; }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
@@ -22,6 +24,25 @@ namespace PMS.Models
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(
                new { action = "Index", controller = "Home" }));
                 return;
+            }
+
+            if (RoleID != 0)
+            {
+                var user = UserAuthentication.Identity()?.id;
+                if (user == null)
+                {
+                    filterContext.Result = new HttpNotFoundResult();
+                    return;
+                }
+
+                var checkRole = db.UserStudios.FirstOrDefault(x => x.userid == user && x.studioid == checkStudio.id).studioroleid;
+
+                if (RoleID == 1 && checkRole != RoleID)
+                {
+                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(
+                                   new { action = "Index", controller = "Home" }));
+                    return;
+                }
             }
 
             filterContext.Controller.ViewBag.StudioID = checkStudio.id;
@@ -67,13 +88,12 @@ namespace PMS.Models
 
     public class ValidateStudioAPI : AuthorizeAttribute
     {
-        public long RoleID { get; set; }
-        public static long studioID { get; set; }
+        public int RoleID { get; set; }
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
 
-            var checkRole = filterContext.Controller.TempData["StudioID"];
+            var checkRole = filterContext.Controller.TempData["StudioRoleID"];
 
             if (RoleID != 0 && checkRole == null)
             {
@@ -81,13 +101,11 @@ namespace PMS.Models
                 return;
             }
 
-            else if (RoleID == 1 && (long)checkRole != RoleID)
+            else if (RoleID == 1 && (int)checkRole != RoleID)
             {
                 HandleUnauthorizedRequest(filterContext);
                 return;
             }
-
-            studioID = (long)checkRole;
         }
     }
 }

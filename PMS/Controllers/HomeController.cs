@@ -21,7 +21,7 @@ namespace PMS.Controllers
 
         public ActionResult Power()
         {
-            if (User.IsInRole("Admin")) ;
+            if (User.IsInRole("Admin"));
             return View();
         }
     }

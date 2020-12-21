@@ -16,6 +16,12 @@ namespace PMS
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "StudioRolesAPI",
+                url: "SystemAPI/StudioRoles/{action}/{id}",
+                defaults: new { controller = "StudioRolesAPI", action = "Index", id = UrlParameter.Optional}
+            );
+
+            routes.MapRoute(
                 name: "StudioRoles",
                 url: "{permalink}/Roles/{action}/{id}",
                 defaults: new { controller = "StudioRoles", action = "List", id = UrlParameter.Optional }
@@ -55,7 +61,7 @@ namespace PMS
                 name: "Studio Permalink",
                 url: "{permalink}/{action}/{id}",
                 defaults: new { controller = "StudioPermalink", action = "Index", id = UrlParameter.Optional }
-            );            
+            );
 
             routes.MapRoute(
                 name: "Default",

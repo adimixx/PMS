@@ -28,7 +28,9 @@ namespace PMS
             bundles.Add(new ScriptBundle("~/bundles/libscript").Include(
                       "~/src/libs/metismenu/metisMenu.min.js",
                       "~/src/libs/simplebar/simplebar.min.js",
-                      "~/src/libs/node-waves/waves.min.js"));
+                      "~/src/libs/node-waves/waves.min.js",
+                      "~/Scripts/vue.js",
+                      "~/Scripts/Vuetify/vuetify.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/userscript").Include(
                       "~/src/user/js/app.js"));
@@ -40,12 +42,14 @@ namespace PMS
                       "~/src/user/css/bootstrap.min.css",
                       "~/src/user/css/app.min.css",
                       "~/src/user/css/icons.min.css",
+                      "~/content/Vuetify/vuetify.min.css",
                       "~/content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/cssAdmin").Include(
                       "~/src/admin/css/bootstrap.min.css",
                       "~/src/admin/css/app.min.css",
                       "~/src/admin/css/icons.min.css",
+                      "~/content/Vuetify/vuetify.min.css",
                       "~/content/site.css"));
         }
     }
