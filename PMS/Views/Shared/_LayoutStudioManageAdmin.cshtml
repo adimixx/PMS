@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/src/images/favicon.ico">
+
+    @Styles.Render("~/Content/cssUser")
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />
+    <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" />
+    <link href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css" />
+    <link href="https://cdn.datatables.net/scroller/2.0.3/css/scroller.bootstrap4.min.css" />
+</head>
+<body data-sidebar=dark>
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        @Html.Partial("_LayoutTopNavUser");
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquerytemplate")
+    @Scripts.Render("~/bundles/bootstraptemplate")
+    @Scripts.Render("~/bundles/libscript")
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/scroller/2.0.3/js/dataTables.scroller.min.js"></script>
+    <script src="~/src/user/js/app.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
