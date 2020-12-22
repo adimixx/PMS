@@ -86,7 +86,7 @@ namespace PMS.Controllers
                 data.Add(new
                 {
                     item.id,
-                    item.DateCreated,
+                    DateCreated = item.DateCreated.ToString("dd/MM/yyyy hh:mm"),
                     client = item.User.name,
                     package = item.Package.name,
                     status = item.JobStatu.name,

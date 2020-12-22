@@ -15,18 +15,24 @@
 
         <form id="payment-form" style="padding:5px">
             <div class="form-group">
-                @Html.LabelFor(item => Model.Job.Package.name, htmlAttributes: new { @class = "form-label" })
-                @Html.EditorFor(item => Model.Job.Package.name, new { htmlAttribute = new { @class = "form-control" } })
+                @Html.LabelFor(item => Model.Job.Package.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(item => Model.Job.Package.name, new { htmlAttribute = new { @class = "form-control" } })
+                </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(item => Model.Job.Package.price, htmlAttributes: new { @class = "form-label" })
-                @Html.EditorFor(item => Model.Job.Package.price, new { htmlAttribute = new { @class = "form-control" } })
+                @Html.LabelFor(item => Model.Job.Package.price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    RM @Html.DisplayFor(item => Model.Job.Package.price, new { htmlAttribute = new { @class = "form-control" } })
+                </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(item => Model.total, "Total Price", htmlAttributes: new { @class = "form-label" })
-                @Html.EditorFor(item => Model.total, new { htmlAttribute = new { @class = "form-control" } })
+                @Html.LabelFor(item => Model.total, "Total Price", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    RM @Html.DisplayFor(item => Model.total, new { htmlAttribute = new { @class = "form-control" } })
+                </div>
             </div>
 
             <div class="form-row">

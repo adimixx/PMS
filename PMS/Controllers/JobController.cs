@@ -115,14 +115,14 @@ namespace PMS.Controllers
 
         // ---------------------- Job Management Start ----------------------- //
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 2)]
         [HttpGet]
         public ActionResult jobhome()
         {
             return View();
         }
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
         public ActionResult Detail(int id)
         {

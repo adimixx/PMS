@@ -13,14 +13,14 @@ namespace PMS.Controllers
     {
         photogEntities db = new photogEntities();
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 2)]
         [HttpGet]
         public ActionResult PackageHome()
         {
             return View();
         }
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
         public ActionResult Create()
         {
@@ -31,7 +31,7 @@ namespace PMS.Controllers
             return View("addnewpackage", new CreatePackageViewModel());
         }
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpPost]
         public ActionResult Create(CreatePackageViewModel data)
         {
@@ -63,7 +63,7 @@ namespace PMS.Controllers
             return View("addnewpackage", data);
         }
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -86,7 +86,7 @@ namespace PMS.Controllers
             return View("editpackage", edit);
         }
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpPost]
         public ActionResult Edit(CreatePackageViewModel data)
         {
@@ -119,7 +119,7 @@ namespace PMS.Controllers
             return View("editpackage", data);
         }
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 2)]
         [HttpGet]
         public ActionResult Detail(int id)
         {
@@ -133,7 +133,7 @@ namespace PMS.Controllers
             return View("PackageDetail", data);
         }
 
-        [StudioPermalinkValidate]
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
         public ActionResult Delete(int id)
         {

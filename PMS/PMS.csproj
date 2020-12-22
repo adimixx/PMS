@@ -2095,6 +2095,7 @@
     <Content Include="Views\Payment\CheckoutIndex.cshtml" />
     <Content Include="Views\Payment\Success.cshtml" />
     <Content Include="Views\Payment\Cancel.cshtml" />
+    <Content Include="Views\Job\Detail.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
