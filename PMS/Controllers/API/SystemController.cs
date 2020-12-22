@@ -94,41 +94,5 @@ namespace PMS.Controllers
             }
             return Ok(data);
         }
-
-        [HttpPost]
-        public IHttpActionResult createCheckout()
-        {
-            StripeConfiguration.ApiKey = "sk_test_51I0pOnBQ6wryxylDxdJO9JfTueZbork9YIz61xFNChLoDSjFZVDXozdiSsQBcP6raFNlO0u7usJopJ1UtuXfK4ZC00c44ZhQMz";
-            var domain = "https://localhost:44341/payment";
-            var options = new SessionCreateOptions
-            {
-                PaymentMethodTypes = new List<string>
-                {
-                  "fpx",
-                },
-                LineItems = new List<SessionLineItemOptions>
-                {
-                  new SessionLineItemOptions
-                  {
-                    PriceData = new SessionLineItemPriceDataOptions
-                    {
-                      UnitAmount = 2000,
-                      Currency = "myr",
-                      ProductData = new SessionLineItemPriceDataProductDataOptions
-                      {
-                        Name = "Test Packages",
-                      },
-                    },
-                    Quantity = 1,
-                  },
-                },
-                Mode = "payment",
-                SuccessUrl = domain + "/success?session_id={CHECKOUT_SESSION_ID}",
-                CancelUrl = domain + "/cancel",
-            };
-            var service = new SessionService();
-            Session session = service.Create(options);
-            return Ok(new { id = session.Id });
-        }
     }
 }
