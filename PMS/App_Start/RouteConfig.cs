@@ -40,6 +40,12 @@ namespace PMS
             );
 
             routes.MapRoute(
+                name: "Payment",
+                url: "Payment/{action}/{id}",
+                defaults: new { controller = "Payment", action = "CheckoutIndex", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Package",
                 url: "{permalink}/Package/{action}/{id}",
                 defaults: new { controller = "Package", action = "PackageHome", id = UrlParameter.Optional }

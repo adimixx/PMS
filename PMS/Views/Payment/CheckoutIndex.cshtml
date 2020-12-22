@@ -1,0 +1,99 @@
+﻿@model PMS.Models.Database.Invoice
+
+@{
+    ViewBag.Title = "CheckoutIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<h2>Checkout</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Checkout Form</h4>
+
+        <form id="payment-form" style="padding:5px">
+            <div class="form-group">
+                @Html.LabelFor(item => Model.Job.Package.name, htmlAttributes: new { @class = "form-label" })
+                @Html.EditorFor(item => Model.Job.Package.name, new { htmlAttribute = new { @class = "form-control" } })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(item => Model.Job.Package.price, htmlAttributes: new { @class = "form-label" })
+                @Html.EditorFor(item => Model.Job.Package.price, new { htmlAttribute = new { @class = "form-control" } })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(item => Model.total, "Total Price", htmlAttributes: new { @class = "form-label" })
+                @Html.EditorFor(item => Model.total, new { htmlAttribute = new { @class = "form-control" } })
+            </div>
+
+            <div class="form-row">
+                <div class="form-control">
+                    <div class="form-group">
+                        <div id="fpx-bank-element">
+                            <!-- A Stripe Element will be inserted here. -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <button style="margin-top:20px" class="btn btn-primary btn-block" id="fpx-button" data-secret="@ViewBag.intent.ClientSecret">
+                    Submit Payment
+                </button>
+            </div>
+
+            <!-- Used to display form errors. -->
+            <div id="error-message" role="alert"></div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var stripe = Stripe('pk_test_51I0pOnBQ6wryxylD17U7N5t2BQotpk92cYUxhJd4SShmkYE37oD4ivv9icfuByvAAy0VdpJOEitCpBTIbyUTDzvU00YRVXsaQi');
+        var elements = stripe.elements();
+        var bank = "";
+
+        // Create an instance of the fpxBank Element.
+        var fpxBank = elements.create(
+            'fpxBank',
+            {
+                accountHolderType: 'individual'
+            }
+        );
+
+        // Add an instance of the fpxBank Element into the container with id `fpx-bank-element`.
+        fpxBank.mount('#fpx-bank-element');
+
+        fpxBank.on('change', function (event) {
+            bank = event.value;
+            // Perform any additional logic here...
+        });
+
+        var form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var fpxButton = document.getElementById('fpx-button');
+            var clientSecret = fpxButton.dataset.secret;
+            stripe.confirmFpxPayment(clientSecret, {
+                payment_method: {
+                    fpx: fpxBank
+                },
+                // Return URL where the customer should be redirected after the authorization
+                return_url: '@string.Format("{0}/{1}", "https://localhost:44341/payment/statusPayment", ViewBag.intent.Id)'
+            }).then((result) => {
+                if (result.error) {
+                    // Inform the customer that there was an error.
+                    var errorElement = document.getElementById('error-message');
+                    errorElement.textContent = result.error.message;
+                }
+            });
+        });
+    </script>
+}
+
