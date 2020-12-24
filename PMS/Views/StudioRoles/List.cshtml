@@ -4,62 +4,225 @@
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
 }
 
-<h2>Manage Users</h2>
+<h2>Studio Roles</h2>
+<p>Everyone who works on your Studio can have a different role depending on what they need to work on.</p>
+<br />
+<div class="card">
+    <div class="card-body">
+        <h4>Assign a New Studio Role</h4>
+        <form name="AddUserForm" id="mainForm" class="w-100">
+            <div class="input-group" id="newRoleGroup">
+
+                <div class="alert col-12" v-bind:class="{ 'alert-danger' : alertError, 'alert-success' : alertSuccess }" role="alert" v-if="showAlert">
+                    {{NewRoleMessage}}
+                </div>
+
+                <input type="Email" name="Email" class="form-control col-8" placeholder="Enter user Email">
+                <div class="input-group-append col-2 p-0">
+                    <select class="custom-select" v-model="roleSelect" name="Role">
+                        <option selected value="2">Staff</option>
+                        <option value="1">Admin</option>
+                    </select>
+                </div>
+                <div class="col-2 py-0">
+                    <input type="submit" class="btn btn-secondary w-100" value="Add" />
+                </div>
+
+                <p class="col-12 font-weight-light text-muted">{{ roleDesc() }}</p>
+
+            </div>
+        </form>
+
+    </div>
+</div>
 
 <div class="card">
     <div class="card-body">
+        <h4>Existing Roles</h4>
         <table id="adminTable" class="table table-striped table-bordered w-100">
-            <thead class="text-left">
+            <thead>
                 <tr>
-                    <th>User</th>
+                    <th>Sort by Role</th>
                     <th></th>
                 </tr>
             </thead>
         </table>
-
-        <v-simple-table></v-simple-table>
     </div>
 </div>
 
+<div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="text-muted">Name : </span>
+                <h5>{{ userName }}</h5>
+
+                <span class="text-muted">Email : </span>
+                <p class="font-weight-light">{{userEmail}}</p>
+
+                <div v-if="isUserAllowed == true">
+
+                    <form id="editRoleForm">
+                        <div class="form-group">
+                            <label for="Role">Role : </label>
+                            <select name="Role" class="custom-select" v-model="userRole">
+                                <option value="2">Staff</option>
+                                <option value="1">Admin</option>
+                            </select>
+                        </div>
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Save changes"/>
+                    </form>
+                </div>
+
+                <div v-if="isUserAllowed == false">
+                    <div class="alert alert-danger" role="alert">
+                        You cannot manage your own Studio Role Credential
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
-<script type="text/x-template" id="anchored-heading-template">
-
-</script>
     <script>
+    $.ajaxSetup({
+        headers: { 'StudioCredential': '@ViewBag.StudioID' }
+    });
+        var table;
         $(function () {
-            $.ajax({
-                type: "GET",
-                url: "/systemapi/studioroles/getRoleList",
-                dataType: "json",
-                success: function (response) {
-                    console.log(response);
-                    console.log(response.admin);
-
-                    $("#adminTable").DataTable(
+             table = $("#adminTable").DataTable(
+                {
+                    serverSide: false,
+                    ajax: {
+                        type: "GET",
+                        url: "/systemapi/studioroles/getRoleList",
+                        dataSrc: ''
+                    },
+                    bLengthChange: true,
+                    paging: false,
+                    searchPlaceholder: "Search User",
+                    search: true,
+                    bSort: true,
+                    info: false,
+                    processing: true,
+                    columns: [
                         {
-                            bLengthChange: true,
-                            paging: false,
-                            searchPlaceholder: "Search User",
-                            search: true,
-                            bSort: true,
-                            info: false,                           
-                            processing: true,
-                            data: response.admin,
-                            columns: [
-                                { data: 'name', "autoWidth": true },
-                                { data: 'StudioRole', "autoWidth": true }
-                            ]
-                        }
-                    );
-                },
-                failure: function (response) {
-                    alert(response.d);
-                },
-                error: function (response) {
-                    alert(response.d);
+                            data: 'StudioRole', render: function (data, type, row) {
+                                return `
+                                            <h5>${row.name}</h5>
+                                            <p class="font-weight-light">${row.StudioRole}</p>
+                                        ` }, "autoWidth": true
+                        },
+                        { data: 'userid', render: function (data, type, row) { return `<button class="btn btn-secondary" onclick="popupEditModal(${data})" data-toggle="modal" data-target="#editRoleModal">Edit</button>` }, width: "10%" }
+                    ]
                 }
+            );
+        });
+
+    var data = {
+        roleSelect: 1,
+        roleDesc : function () {
+            if (this.roleSelect == 1)
+               return "Can Create and Manage Packages, Jobs";
+            else return "Can manage chats with customers and manage jobs";
+        },
+        showAlert: false,
+        alertError: false,
+        alertSuccess: false,
+        NewRoleMessage: "",
+    };
+
+    var newRoleVue = new Vue({
+        el: "#newRoleGroup",
+        data: data
+    });
+
+        $('#mainForm').submit((event) => {
+            event.preventDefault();
+            showAlert: false;
+            alertError: false;
+            alertSuccess: false;
+
+            var form = $('#mainForm').serializeArray();
+            form.push({ name: 'Operation', value: 1 });
+            
+            var submitAjax = $.ajax({
+                type: "POST",
+                url: "/systemapi/studioroles/SetRoleList",
+                data: form
+            });
+            submitAjax.fail((xhr,status,error) => {
+                data.showAlert = true;
+                data.alertError = true;
+                alertSuccess: false;
+                data.NewRoleMessage = xhr.responseJSON.Message;
+            });
+            submitAjax.done((msg) => {
+                data.showAlert = true;
+                data.alertSuccess = true;
+                alertError: false;
+                data.NewRoleMessage = msg
+                table.ajax.reload();
             });
         });
+
+        var dataModal = {
+            userName: "",
+            userEmail: "",
+            userRole: "",
+            isUserAllowed : true
+        }
+
+        var popupModalVue = new Vue({
+            el: "#editRoleModal",
+            data: dataModal
+        });
+
+        function popupEditModal(userid) {
+            var req = $.ajax({
+                type: "GET",
+                url: "/systemapi/studioroles/getrole?id=" + userid,
+                dataSrc: ''
+            });
+
+            req.done((msg) => {
+                dataModal.userName = msg.name;
+                dataModal.userEmail = msg.email;
+                dataModal.userRole = msg.StudioRole;
+                dataModal.isUserAllowed = !msg.selfUser;
+
+                $('#editRoleModal').modal('show');
+            });
+        }
+
+        $("#editRoleForm").submit((e) => {
+            e.preventDefault();
+
+            var dat = $("#editRoleForm").serializeArray();
+            dat.push({ name: 'Operation', value: 2 });
+            dat.push({ name: 'Email', value: dataModal.userEmail });
+
+            var submitAjax = $.ajax({
+                type: "POST",
+                url: "/systemapi/studioroles/SetRoleList",
+                data: dat
+            });
+            submitAjax.fail((xhr, status, error) => {
+            });
+            submitAjax.done((msg) => {
+                $('#editRoleModal').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
     </script>
 }

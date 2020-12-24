@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = Model.name;
 
-    if (Model.UserStudios.Any(x => x.User.name == User.Identity.Name))
+    if (ViewBag.StudioRoleID != null)
     {
         Layout = "~/views/shared/_LayoutStudioManage.cshtml";
     }

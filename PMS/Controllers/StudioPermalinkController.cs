@@ -19,15 +19,5 @@ namespace PMS.Controllers
 
             return View(studio);
         }
-
-
-        [StudioPermalinkValidate]
-        [StudioAuthorizationRole(RoleID = 1)]
-        public ActionResult TestPage()
-        {
-            ViewBag.Perm = RouteData.Values.FirstOrDefault(x=>x.Key.ToLower() == "permalink").Value;
-
-            return View();
-        }
     }
 }

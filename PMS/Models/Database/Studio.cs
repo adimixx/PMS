@@ -11,8 +11,7 @@ namespace PMS.Models.Database
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class Studio
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +23,6 @@ namespace PMS.Models.Database
         }
     
         public int id { get; set; }
-        [DisplayName("Studio Name")]
         public string name { get; set; }
         public string uniquename { get; set; }
         public string location { get; set; }
