@@ -13,10 +13,7 @@
             <th>Client's Name</th>
             <th>Package Chosen</th>
             <th>Status</th>
-            @if (ViewBag.StudioRoleID == 1)
-            {
-                <th></th>
-            }
+            <th></th>
         </tr>
     </thead>
 </table>
@@ -43,7 +40,7 @@
                             scrollCollapse: true,
                             processing: true,
                             columns: [
-                                { 'data': 'datecreated', "autoWidth": true },
+                                { 'data': 'DateCreated', "autoWidth": true },
                                 { 'data': 'client', "autoWidth": true },
                                 { 'data': 'package', "autoWidth": true },
                                 { 'data': 'status', "autoWidth": true },

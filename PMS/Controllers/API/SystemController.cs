@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using PMS.Models;
 using PMS.Models.Database;
+using Stripe;
+using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -84,7 +86,7 @@ namespace PMS.Controllers
                 data.Add(new
                 {
                     item.id,
-                    item.DateCreated,
+                    DateCreated = item.DateCreated.ToString("dd/MM/yyyy hh:mm"),
                     client = item.User.name,
                     package = item.Package.name,
                     status = item.JobStatu.name,
