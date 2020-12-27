@@ -19,5 +19,12 @@ namespace PMS.Controllers
 
             return View(studio);
         }
+
+        // GET: StudioUser
+        [StudioPermalinkValidate(RoleID = 1)]
+        public ActionResult Roles()
+        {
+            return View("StudioRoles");
+        }
     }
 }

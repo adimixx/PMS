@@ -190,7 +190,7 @@
           <Property Name="systemroleid" Type="int" />
           <Property Name="userid" Type="int" />
         </EntityType>
-        <Association Name="FK__Invoice__jobid__08B54D69">
+        <Association Name="FK__Invoice__jobid__2EDAF651">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -202,7 +202,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Job__jobstatusid__7D439ABD">
+        <Association Name="FK__Job__jobstatusid__2FCF1A8A">
           <End Role="JobStatus" Type="Self.JobStatus" Multiplicity="0..1" />
           <End Role="Job" Type="Self.Job" Multiplicity="*" />
           <ReferentialConstraint>
@@ -214,7 +214,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Job__packageid__7B5B524B">
+        <Association Name="FK__Job__packageid__30C33EC3">
           <End Role="Package" Type="Self.Package" Multiplicity="0..1" />
           <End Role="Job" Type="Self.Job" Multiplicity="*" />
           <ReferentialConstraint>
@@ -226,7 +226,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Job__userid__7C4F7684">
+        <Association Name="FK__Job__userid__31B762FC">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Job" Type="Self.Job" Multiplicity="*" />
           <ReferentialConstraint>
@@ -238,7 +238,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobCharge__charg__160F4887">
+        <Association Name="FK__JobCharge__charg__32AB8735">
           <End Role="Charges" Type="Self.Charges" Multiplicity="0..1" />
           <End Role="JobCharges" Type="Self.JobCharges" Multiplicity="*" />
           <ReferentialConstraint>
@@ -250,7 +250,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobCharge__jobid__151B244E">
+        <Association Name="FK__JobCharge__jobid__339FAB6E">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="JobCharges" Type="Self.JobCharges" Multiplicity="*" />
           <ReferentialConstraint>
@@ -262,7 +262,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDate__jobid__00200768">
+        <Association Name="FK__JobDate__jobid__3493CFA7">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="JobDate" Type="Self.JobDate" Multiplicity="*" />
           <ReferentialConstraint>
@@ -274,7 +274,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDate__jobstat__01142BA1">
+        <Association Name="FK__JobDate__jobstat__3587F3E0">
           <End Role="JobStatus" Type="Self.JobStatus" Multiplicity="0..1" />
           <End Role="JobDate" Type="Self.JobDate" Multiplicity="*" />
           <ReferentialConstraint>
@@ -286,7 +286,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDateUs__jobda__04E4BC85">
+        <Association Name="FK__JobDateUs__jobda__367C1819">
           <End Role="JobDate" Type="Self.JobDate" Multiplicity="0..1" />
           <End Role="JobDateUser" Type="Self.JobDateUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -298,7 +298,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDateUs__users__05D8E0BE">
+        <Association Name="FK__JobDateUs__users__37703C52">
           <End Role="UserStudio" Type="Self.UserStudio" Multiplicity="0..1" />
           <End Role="JobDateUser" Type="Self.JobDateUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -310,7 +310,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Package__studioi__75A278F5">
+        <Association Name="FK__Package__studioi__3864608B">
           <End Role="Studio" Type="Self.Studio" Multiplicity="0..1" />
           <End Role="Package" Type="Self.Package" Multiplicity="*" />
           <ReferentialConstraint>
@@ -322,7 +322,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StudioLin__studi__72C60C4A">
+        <Association Name="FK__StudioLin__studi__395884C4">
           <End Role="Studio" Type="Self.Studio" Multiplicity="0..1" />
           <End Role="StudioLink" Type="Self.StudioLink" Multiplicity="*" />
           <ReferentialConstraint>
@@ -334,7 +334,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__invoi__0E6E26BF">
+        <Association Name="FK__Transacti__invoi__3A4CA8FD">
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="0..1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -346,7 +346,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__payme__0F624AF8">
+        <Association Name="FK__Transacti__payme__3B40CD36">
           <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="0..1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -358,7 +358,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeedb__jobid__18EBB532">
+        <Association Name="FK__UserFeedb__jobid__3C34F16F">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="UserFeedback" Type="Self.UserFeedback" Multiplicity="*" />
           <ReferentialConstraint>
@@ -370,7 +370,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserStudi__studi__6E01572D">
+        <Association Name="FK__UserStudi__studi__3D2915A8">
           <End Role="Studio" Type="Self.Studio" Multiplicity="0..1" />
           <End Role="UserStudio" Type="Self.UserStudio" Multiplicity="*" />
           <ReferentialConstraint>
@@ -382,7 +382,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserStudi__studi__6FE99F9F">
+        <Association Name="FK__UserStudi__studi__3E1D39E1">
           <End Role="StudioRole" Type="Self.StudioRole" Multiplicity="0..1" />
           <End Role="UserStudio" Type="Self.UserStudio" Multiplicity="*" />
           <ReferentialConstraint>
@@ -394,7 +394,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserStudi__useri__6EF57B66">
+        <Association Name="FK__UserStudi__useri__3F115E1A">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="UserStudio" Type="Self.UserStudio" Multiplicity="*" />
           <ReferentialConstraint>
@@ -406,7 +406,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__syste__6383C8BA">
+        <Association Name="FK__UserSyste__syste__40058253">
           <End Role="SystemRole" Type="Self.SystemRole" Multiplicity="0..1" />
           <End Role="UserSystemRole" Type="Self.UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -418,7 +418,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__useri__6477ECF3">
+        <Association Name="FK__UserSyste__useri__40F9A68C">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="UserSystemRole" Type="Self.UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -475,83 +475,83 @@
           <EntitySet Name="UserFeedback" EntityType="Self.UserFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStudio" EntityType="Self.UserStudio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSystemRole" EntityType="Self.UserSystemRole" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Invoice__jobid__08B54D69" Association="Self.FK__Invoice__jobid__08B54D69">
+          <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="Self.FK__Invoice__jobid__2EDAF651">
             <End Role="Job" EntitySet="Job" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
-          <AssociationSet Name="FK__Job__jobstatusid__7D439ABD" Association="Self.FK__Job__jobstatusid__7D439ABD">
+          <AssociationSet Name="FK__Job__jobstatusid__2FCF1A8A" Association="Self.FK__Job__jobstatusid__2FCF1A8A">
             <End Role="JobStatus" EntitySet="JobStatus" />
             <End Role="Job" EntitySet="Job" />
           </AssociationSet>
-          <AssociationSet Name="FK__Job__packageid__7B5B524B" Association="Self.FK__Job__packageid__7B5B524B">
+          <AssociationSet Name="FK__Job__packageid__30C33EC3" Association="Self.FK__Job__packageid__30C33EC3">
             <End Role="Package" EntitySet="Package" />
             <End Role="Job" EntitySet="Job" />
           </AssociationSet>
-          <AssociationSet Name="FK__Job__userid__7C4F7684" Association="Self.FK__Job__userid__7C4F7684">
+          <AssociationSet Name="FK__Job__userid__31B762FC" Association="Self.FK__Job__userid__31B762FC">
             <End Role="User" EntitySet="User" />
             <End Role="Job" EntitySet="Job" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobCharge__charg__160F4887" Association="Self.FK__JobCharge__charg__160F4887">
+          <AssociationSet Name="FK__JobCharge__charg__32AB8735" Association="Self.FK__JobCharge__charg__32AB8735">
             <End Role="Charges" EntitySet="Charges" />
             <End Role="JobCharges" EntitySet="JobCharges" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobCharge__jobid__151B244E" Association="Self.FK__JobCharge__jobid__151B244E">
+          <AssociationSet Name="FK__JobCharge__jobid__339FAB6E" Association="Self.FK__JobCharge__jobid__339FAB6E">
             <End Role="Job" EntitySet="Job" />
             <End Role="JobCharges" EntitySet="JobCharges" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDate__jobid__00200768" Association="Self.FK__JobDate__jobid__00200768">
+          <AssociationSet Name="FK__JobDate__jobid__3493CFA7" Association="Self.FK__JobDate__jobid__3493CFA7">
             <End Role="Job" EntitySet="Job" />
             <End Role="JobDate" EntitySet="JobDate" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDate__jobstat__01142BA1" Association="Self.FK__JobDate__jobstat__01142BA1">
+          <AssociationSet Name="FK__JobDate__jobstat__3587F3E0" Association="Self.FK__JobDate__jobstat__3587F3E0">
             <End Role="JobStatus" EntitySet="JobStatus" />
             <End Role="JobDate" EntitySet="JobDate" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDateUs__jobda__04E4BC85" Association="Self.FK__JobDateUs__jobda__04E4BC85">
+          <AssociationSet Name="FK__JobDateUs__jobda__367C1819" Association="Self.FK__JobDateUs__jobda__367C1819">
             <End Role="JobDate" EntitySet="JobDate" />
             <End Role="JobDateUser" EntitySet="JobDateUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDateUs__users__05D8E0BE" Association="Self.FK__JobDateUs__users__05D8E0BE">
+          <AssociationSet Name="FK__JobDateUs__users__37703C52" Association="Self.FK__JobDateUs__users__37703C52">
             <End Role="UserStudio" EntitySet="UserStudio" />
             <End Role="JobDateUser" EntitySet="JobDateUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__Package__studioi__75A278F5" Association="Self.FK__Package__studioi__75A278F5">
+          <AssociationSet Name="FK__Package__studioi__3864608B" Association="Self.FK__Package__studioi__3864608B">
             <End Role="Studio" EntitySet="Studio" />
             <End Role="Package" EntitySet="Package" />
           </AssociationSet>
-          <AssociationSet Name="FK__StudioLin__studi__72C60C4A" Association="Self.FK__StudioLin__studi__72C60C4A">
+          <AssociationSet Name="FK__StudioLin__studi__395884C4" Association="Self.FK__StudioLin__studi__395884C4">
             <End Role="Studio" EntitySet="Studio" />
             <End Role="StudioLink" EntitySet="StudioLink" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__invoi__0E6E26BF" Association="Self.FK__Transacti__invoi__0E6E26BF">
+          <AssociationSet Name="FK__Transacti__invoi__3A4CA8FD" Association="Self.FK__Transacti__invoi__3A4CA8FD">
             <End Role="Invoice" EntitySet="Invoice" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__payme__0F624AF8" Association="Self.FK__Transacti__payme__0F624AF8">
+          <AssociationSet Name="FK__Transacti__payme__3B40CD36" Association="Self.FK__Transacti__payme__3B40CD36">
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeedb__jobid__18EBB532" Association="Self.FK__UserFeedb__jobid__18EBB532">
+          <AssociationSet Name="FK__UserFeedb__jobid__3C34F16F" Association="Self.FK__UserFeedb__jobid__3C34F16F">
             <End Role="Job" EntitySet="Job" />
             <End Role="UserFeedback" EntitySet="UserFeedback" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserStudi__studi__6E01572D" Association="Self.FK__UserStudi__studi__6E01572D">
+          <AssociationSet Name="FK__UserStudi__studi__3D2915A8" Association="Self.FK__UserStudi__studi__3D2915A8">
             <End Role="Studio" EntitySet="Studio" />
             <End Role="UserStudio" EntitySet="UserStudio" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserStudi__studi__6FE99F9F" Association="Self.FK__UserStudi__studi__6FE99F9F">
+          <AssociationSet Name="FK__UserStudi__studi__3E1D39E1" Association="Self.FK__UserStudi__studi__3E1D39E1">
             <End Role="StudioRole" EntitySet="StudioRole" />
             <End Role="UserStudio" EntitySet="UserStudio" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserStudi__useri__6EF57B66" Association="Self.FK__UserStudi__useri__6EF57B66">
+          <AssociationSet Name="FK__UserStudi__useri__3F115E1A" Association="Self.FK__UserStudi__useri__3F115E1A">
             <End Role="User" EntitySet="User" />
             <End Role="UserStudio" EntitySet="UserStudio" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__syste__6383C8BA" Association="Self.FK__UserSyste__syste__6383C8BA">
+          <AssociationSet Name="FK__UserSyste__syste__40058253" Association="Self.FK__UserSyste__syste__40058253">
             <End Role="SystemRole" EntitySet="SystemRole" />
             <End Role="UserSystemRole" EntitySet="UserSystemRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__useri__6477ECF3" Association="Self.FK__UserSyste__useri__6477ECF3">
+          <AssociationSet Name="FK__UserSyste__useri__40F9A68C" Association="Self.FK__UserSyste__useri__40F9A68C">
             <End Role="User" EntitySet="User" />
             <End Role="UserSystemRole" EntitySet="UserSystemRole" />
           </AssociationSet>
@@ -589,7 +589,7 @@
           <EntitySet Name="UserFeedbacks" EntityType="photogModel.UserFeedback" />
           <EntitySet Name="UserStudios" EntityType="photogModel.UserStudio" />
           <EntitySet Name="UserSystemRoles" EntityType="photogModel.UserSystemRole" />
-          <AssociationSet Name="FK__JobCharge__charg__160F4887" Association="photogModel.FK__JobCharge__charg__160F4887">
+          <AssociationSet Name="FK__JobCharge__charg__32AB8735" Association="photogModel.FK__JobCharge__charg__32AB8735">
             <End Role="Charge" EntitySet="Charges" />
             <End Role="JobCharge" EntitySet="JobCharges" />
           </AssociationSet>
@@ -601,79 +601,79 @@
             <End Role="User" EntitySet="Users" />
             <End Role="ChatKey" EntitySet="ChatKeys" />
           </AssociationSet>
-          <AssociationSet Name="FK__Invoice__jobid__08B54D69" Association="photogModel.FK__Invoice__jobid__08B54D69">
+          <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="photogModel.FK__Invoice__jobid__2EDAF651">
             <End Role="Job" EntitySet="Jobs" />
             <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__invoi__0E6E26BF" Association="photogModel.FK__Transacti__invoi__0E6E26BF">
+          <AssociationSet Name="FK__Transacti__invoi__3A4CA8FD" Association="photogModel.FK__Transacti__invoi__3A4CA8FD">
             <End Role="Invoice" EntitySet="Invoices" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="FK__Job__jobstatusid__7D439ABD" Association="photogModel.FK__Job__jobstatusid__7D439ABD">
+          <AssociationSet Name="FK__Job__jobstatusid__2FCF1A8A" Association="photogModel.FK__Job__jobstatusid__2FCF1A8A">
             <End Role="JobStatu" EntitySet="JobStatus" />
             <End Role="Job" EntitySet="Jobs" />
           </AssociationSet>
-          <AssociationSet Name="FK__Job__packageid__7B5B524B" Association="photogModel.FK__Job__packageid__7B5B524B">
+          <AssociationSet Name="FK__Job__packageid__30C33EC3" Association="photogModel.FK__Job__packageid__30C33EC3">
             <End Role="Package" EntitySet="Packages" />
             <End Role="Job" EntitySet="Jobs" />
           </AssociationSet>
-          <AssociationSet Name="FK__Job__userid__7C4F7684" Association="photogModel.FK__Job__userid__7C4F7684">
+          <AssociationSet Name="FK__Job__userid__31B762FC" Association="photogModel.FK__Job__userid__31B762FC">
             <End Role="User" EntitySet="Users" />
             <End Role="Job" EntitySet="Jobs" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobCharge__jobid__151B244E" Association="photogModel.FK__JobCharge__jobid__151B244E">
+          <AssociationSet Name="FK__JobCharge__jobid__339FAB6E" Association="photogModel.FK__JobCharge__jobid__339FAB6E">
             <End Role="Job" EntitySet="Jobs" />
             <End Role="JobCharge" EntitySet="JobCharges" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDate__jobid__00200768" Association="photogModel.FK__JobDate__jobid__00200768">
+          <AssociationSet Name="FK__JobDate__jobid__3493CFA7" Association="photogModel.FK__JobDate__jobid__3493CFA7">
             <End Role="Job" EntitySet="Jobs" />
             <End Role="JobDate" EntitySet="JobDates" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeedb__jobid__18EBB532" Association="photogModel.FK__UserFeedb__jobid__18EBB532">
+          <AssociationSet Name="FK__UserFeedb__jobid__3C34F16F" Association="photogModel.FK__UserFeedb__jobid__3C34F16F">
             <End Role="Job" EntitySet="Jobs" />
             <End Role="UserFeedback" EntitySet="UserFeedbacks" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDate__jobstat__01142BA1" Association="photogModel.FK__JobDate__jobstat__01142BA1">
+          <AssociationSet Name="FK__JobDate__jobstat__3587F3E0" Association="photogModel.FK__JobDate__jobstat__3587F3E0">
             <End Role="JobStatu" EntitySet="JobStatus" />
             <End Role="JobDate" EntitySet="JobDates" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDateUs__jobda__04E4BC85" Association="photogModel.FK__JobDateUs__jobda__04E4BC85">
+          <AssociationSet Name="FK__JobDateUs__jobda__367C1819" Association="photogModel.FK__JobDateUs__jobda__367C1819">
             <End Role="JobDate" EntitySet="JobDates" />
             <End Role="JobDateUser" EntitySet="JobDateUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobDateUs__users__05D8E0BE" Association="photogModel.FK__JobDateUs__users__05D8E0BE">
+          <AssociationSet Name="FK__JobDateUs__users__37703C52" Association="photogModel.FK__JobDateUs__users__37703C52">
             <End Role="UserStudio" EntitySet="UserStudios" />
             <End Role="JobDateUser" EntitySet="JobDateUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Package__studioi__75A278F5" Association="photogModel.FK__Package__studioi__75A278F5">
+          <AssociationSet Name="FK__Package__studioi__3864608B" Association="photogModel.FK__Package__studioi__3864608B">
             <End Role="Studio" EntitySet="Studios" />
             <End Role="Package" EntitySet="Packages" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__payme__0F624AF8" Association="photogModel.FK__Transacti__payme__0F624AF8">
+          <AssociationSet Name="FK__Transacti__payme__3B40CD36" Association="photogModel.FK__Transacti__payme__3B40CD36">
             <End Role="PaymentMethod" EntitySet="PaymentMethods" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="FK__StudioLin__studi__72C60C4A" Association="photogModel.FK__StudioLin__studi__72C60C4A">
+          <AssociationSet Name="FK__StudioLin__studi__395884C4" Association="photogModel.FK__StudioLin__studi__395884C4">
             <End Role="Studio" EntitySet="Studios" />
             <End Role="StudioLink" EntitySet="StudioLinks" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserStudi__studi__6E01572D" Association="photogModel.FK__UserStudi__studi__6E01572D">
+          <AssociationSet Name="FK__UserStudi__studi__3D2915A8" Association="photogModel.FK__UserStudi__studi__3D2915A8">
             <End Role="Studio" EntitySet="Studios" />
             <End Role="UserStudio" EntitySet="UserStudios" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserStudi__studi__6FE99F9F" Association="photogModel.FK__UserStudi__studi__6FE99F9F">
+          <AssociationSet Name="FK__UserStudi__studi__3E1D39E1" Association="photogModel.FK__UserStudi__studi__3E1D39E1">
             <End Role="StudioRole" EntitySet="StudioRoles" />
             <End Role="UserStudio" EntitySet="UserStudios" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__syste__6383C8BA" Association="photogModel.FK__UserSyste__syste__6383C8BA">
+          <AssociationSet Name="FK__UserSyste__syste__40058253" Association="photogModel.FK__UserSyste__syste__40058253">
             <End Role="SystemRole" EntitySet="SystemRoles" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserStudi__useri__6EF57B66" Association="photogModel.FK__UserStudi__useri__6EF57B66">
+          <AssociationSet Name="FK__UserStudi__useri__3F115E1A" Association="photogModel.FK__UserStudi__useri__3F115E1A">
             <End Role="User" EntitySet="Users" />
             <End Role="UserStudio" EntitySet="UserStudios" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserSyste__useri__6477ECF3" Association="photogModel.FK__UserSyste__useri__6477ECF3">
+          <AssociationSet Name="FK__UserSyste__useri__40F9A68C" Association="photogModel.FK__UserSyste__useri__40F9A68C">
             <End Role="User" EntitySet="Users" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
@@ -684,7 +684,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__charg__160F4887" FromRole="Charge" ToRole="JobCharge" />
+          <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__charg__32AB8735" FromRole="Charge" ToRole="JobCharge" />
         </EntityType>
         <EntityType Name="ChatKey">
           <Key>
@@ -716,8 +716,8 @@
           <Property Name="expirydate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="total" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="totalunpaid" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <NavigationProperty Name="Job" Relationship="photogModel.FK__Invoice__jobid__08B54D69" FromRole="Invoice" ToRole="Job" />
-          <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__invoi__0E6E26BF" FromRole="Invoice" ToRole="Transaction" />
+          <NavigationProperty Name="Job" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Invoice" ToRole="Job" />
+          <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__invoi__3A4CA8FD" FromRole="Invoice" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -729,13 +729,13 @@
           <Property Name="jobstatusid" Type="Int32" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="paymentstatus" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Invoices" Relationship="photogModel.FK__Invoice__jobid__08B54D69" FromRole="Job" ToRole="Invoice" />
-          <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__Job__jobstatusid__7D439ABD" FromRole="Job" ToRole="JobStatu" />
-          <NavigationProperty Name="Package" Relationship="photogModel.FK__Job__packageid__7B5B524B" FromRole="Job" ToRole="Package" />
-          <NavigationProperty Name="User" Relationship="photogModel.FK__Job__userid__7C4F7684" FromRole="Job" ToRole="User" />
-          <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__jobid__151B244E" FromRole="Job" ToRole="JobCharge" />
-          <NavigationProperty Name="JobDates" Relationship="photogModel.FK__JobDate__jobid__00200768" FromRole="Job" ToRole="JobDate" />
-          <NavigationProperty Name="UserFeedbacks" Relationship="photogModel.FK__UserFeedb__jobid__18EBB532" FromRole="Job" ToRole="UserFeedback" />
+          <NavigationProperty Name="Invoices" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Job" ToRole="Invoice" />
+          <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__Job__jobstatusid__2FCF1A8A" FromRole="Job" ToRole="JobStatu" />
+          <NavigationProperty Name="Package" Relationship="photogModel.FK__Job__packageid__30C33EC3" FromRole="Job" ToRole="Package" />
+          <NavigationProperty Name="User" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="Job" ToRole="User" />
+          <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__jobid__339FAB6E" FromRole="Job" ToRole="JobCharge" />
+          <NavigationProperty Name="JobDates" Relationship="photogModel.FK__JobDate__jobid__3493CFA7" FromRole="Job" ToRole="JobDate" />
+          <NavigationProperty Name="UserFeedbacks" Relationship="photogModel.FK__UserFeedb__jobid__3C34F16F" FromRole="Job" ToRole="UserFeedback" />
         </EntityType>
         <EntityType Name="JobCharge">
           <Key>
@@ -746,8 +746,8 @@
           <Property Name="chargeid" Type="Int32" />
           <Property Name="amount" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Charge" Relationship="photogModel.FK__JobCharge__charg__160F4887" FromRole="JobCharge" ToRole="Charge" />
-          <NavigationProperty Name="Job" Relationship="photogModel.FK__JobCharge__jobid__151B244E" FromRole="JobCharge" ToRole="Job" />
+          <NavigationProperty Name="Charge" Relationship="photogModel.FK__JobCharge__charg__32AB8735" FromRole="JobCharge" ToRole="Charge" />
+          <NavigationProperty Name="Job" Relationship="photogModel.FK__JobCharge__jobid__339FAB6E" FromRole="JobCharge" ToRole="Job" />
         </EntityType>
         <EntityType Name="JobDate">
           <Key>
@@ -759,9 +759,9 @@
           <Property Name="location" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="jobstatusid" Type="Int32" />
-          <NavigationProperty Name="Job" Relationship="photogModel.FK__JobDate__jobid__00200768" FromRole="JobDate" ToRole="Job" />
-          <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__JobDate__jobstat__01142BA1" FromRole="JobDate" ToRole="JobStatu" />
-          <NavigationProperty Name="JobDateUsers" Relationship="photogModel.FK__JobDateUs__jobda__04E4BC85" FromRole="JobDate" ToRole="JobDateUser" />
+          <NavigationProperty Name="Job" Relationship="photogModel.FK__JobDate__jobid__3493CFA7" FromRole="JobDate" ToRole="Job" />
+          <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__JobDate__jobstat__3587F3E0" FromRole="JobDate" ToRole="JobStatu" />
+          <NavigationProperty Name="JobDateUsers" Relationship="photogModel.FK__JobDateUs__jobda__367C1819" FromRole="JobDate" ToRole="JobDateUser" />
         </EntityType>
         <EntityType Name="JobDateUser">
           <Key>
@@ -771,8 +771,8 @@
           <Property Name="jobdateid" Type="Int32" />
           <Property Name="userstudioid" Type="Int32" />
           <Property Name="charge" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <NavigationProperty Name="JobDate" Relationship="photogModel.FK__JobDateUs__jobda__04E4BC85" FromRole="JobDateUser" ToRole="JobDate" />
-          <NavigationProperty Name="UserStudio" Relationship="photogModel.FK__JobDateUs__users__05D8E0BE" FromRole="JobDateUser" ToRole="UserStudio" />
+          <NavigationProperty Name="JobDate" Relationship="photogModel.FK__JobDateUs__jobda__367C1819" FromRole="JobDateUser" ToRole="JobDate" />
+          <NavigationProperty Name="UserStudio" Relationship="photogModel.FK__JobDateUs__users__37703C52" FromRole="JobDateUser" ToRole="UserStudio" />
         </EntityType>
         <EntityType Name="JobStatu">
           <Key>
@@ -780,8 +780,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__jobstatusid__7D439ABD" FromRole="JobStatu" ToRole="Job" />
-          <NavigationProperty Name="JobDates" Relationship="photogModel.FK__JobDate__jobstat__01142BA1" FromRole="JobStatu" ToRole="JobDate" />
+          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__jobstatusid__2FCF1A8A" FromRole="JobStatu" ToRole="Job" />
+          <NavigationProperty Name="JobDates" Relationship="photogModel.FK__JobDate__jobstat__3587F3E0" FromRole="JobStatu" ToRole="JobDate" />
         </EntityType>
         <EntityType Name="Package">
           <Key>
@@ -793,8 +793,8 @@
           <Property Name="price" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="depositprice" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__packageid__7B5B524B" FromRole="Package" ToRole="Job" />
-          <NavigationProperty Name="Studio" Relationship="photogModel.FK__Package__studioi__75A278F5" FromRole="Package" ToRole="Studio" />
+          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__packageid__30C33EC3" FromRole="Package" ToRole="Job" />
+          <NavigationProperty Name="Studio" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Package" ToRole="Studio" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -802,7 +802,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__payme__0F624AF8" FromRole="PaymentMethod" ToRole="Transaction" />
+          <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__payme__3B40CD36" FromRole="PaymentMethod" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Studio">
           <Key>
@@ -813,9 +813,9 @@
           <Property Name="uniquename" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ImgLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Packages" Relationship="photogModel.FK__Package__studioi__75A278F5" FromRole="Studio" ToRole="Package" />
-          <NavigationProperty Name="StudioLinks" Relationship="photogModel.FK__StudioLin__studi__72C60C4A" FromRole="Studio" ToRole="StudioLink" />
-          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__studi__6E01572D" FromRole="Studio" ToRole="UserStudio" />
+          <NavigationProperty Name="Packages" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Studio" ToRole="Package" />
+          <NavigationProperty Name="StudioLinks" Relationship="photogModel.FK__StudioLin__studi__395884C4" FromRole="Studio" ToRole="StudioLink" />
+          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__studi__3D2915A8" FromRole="Studio" ToRole="UserStudio" />
         </EntityType>
         <EntityType Name="StudioLink">
           <Key>
@@ -825,7 +825,7 @@
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="address" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="studioid" Type="Int32" />
-          <NavigationProperty Name="Studio" Relationship="photogModel.FK__StudioLin__studi__72C60C4A" FromRole="StudioLink" ToRole="Studio" />
+          <NavigationProperty Name="Studio" Relationship="photogModel.FK__StudioLin__studi__395884C4" FromRole="StudioLink" ToRole="Studio" />
         </EntityType>
         <EntityType Name="StudioRole">
           <Key>
@@ -833,7 +833,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__studi__6FE99F9F" FromRole="StudioRole" ToRole="UserStudio" />
+          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__studi__3E1D39E1" FromRole="StudioRole" ToRole="UserStudio" />
         </EntityType>
         <EntityType Name="SystemRole">
           <Key>
@@ -841,7 +841,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__syste__6383C8BA" FromRole="SystemRole" ToRole="UserSystemRole" />
+          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__syste__40058253" FromRole="SystemRole" ToRole="UserSystemRole" />
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
@@ -853,8 +853,8 @@
           <Property Name="invoiceid" Type="Int32" />
           <Property Name="paymentmethodid" Type="Int32" />
           <Property Name="reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Invoice" Relationship="photogModel.FK__Transacti__invoi__0E6E26BF" FromRole="Transaction" ToRole="Invoice" />
-          <NavigationProperty Name="PaymentMethod" Relationship="photogModel.FK__Transacti__payme__0F624AF8" FromRole="Transaction" ToRole="PaymentMethod" />
+          <NavigationProperty Name="Invoice" Relationship="photogModel.FK__Transacti__invoi__3A4CA8FD" FromRole="Transaction" ToRole="Invoice" />
+          <NavigationProperty Name="PaymentMethod" Relationship="photogModel.FK__Transacti__payme__3B40CD36" FromRole="Transaction" ToRole="PaymentMethod" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -870,9 +870,9 @@
           <Property Name="isVerified" Type="Boolean" Nullable="false" />
           <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_User" FromRole="User" ToRole="ChatKey" />
-          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__7C4F7684" FromRole="User" ToRole="Job" />
-          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__6EF57B66" FromRole="User" ToRole="UserStudio" />
-          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__6477ECF3" FromRole="User" ToRole="UserSystemRole" />
+          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
+          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
+          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="User" ToRole="UserSystemRole" />
         </EntityType>
         <EntityType Name="UserFeedback">
           <Key>
@@ -882,7 +882,7 @@
           <Property Name="jobid" Type="Int32" />
           <Property Name="rate" Type="Int32" Nullable="false" />
           <Property Name="comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Job" Relationship="photogModel.FK__UserFeedb__jobid__18EBB532" FromRole="UserFeedback" ToRole="Job" />
+          <NavigationProperty Name="Job" Relationship="photogModel.FK__UserFeedb__jobid__3C34F16F" FromRole="UserFeedback" ToRole="Job" />
         </EntityType>
         <EntityType Name="UserStudio">
           <Key>
@@ -892,10 +892,10 @@
           <Property Name="studioid" Type="Int32" />
           <Property Name="userid" Type="Int32" />
           <Property Name="studioroleid" Type="Int32" />
-          <NavigationProperty Name="JobDateUsers" Relationship="photogModel.FK__JobDateUs__users__05D8E0BE" FromRole="UserStudio" ToRole="JobDateUser" />
-          <NavigationProperty Name="Studio" Relationship="photogModel.FK__UserStudi__studi__6E01572D" FromRole="UserStudio" ToRole="Studio" />
-          <NavigationProperty Name="StudioRole" Relationship="photogModel.FK__UserStudi__studi__6FE99F9F" FromRole="UserStudio" ToRole="StudioRole" />
-          <NavigationProperty Name="User" Relationship="photogModel.FK__UserStudi__useri__6EF57B66" FromRole="UserStudio" ToRole="User" />
+          <NavigationProperty Name="JobDateUsers" Relationship="photogModel.FK__JobDateUs__users__37703C52" FromRole="UserStudio" ToRole="JobDateUser" />
+          <NavigationProperty Name="Studio" Relationship="photogModel.FK__UserStudi__studi__3D2915A8" FromRole="UserStudio" ToRole="Studio" />
+          <NavigationProperty Name="StudioRole" Relationship="photogModel.FK__UserStudi__studi__3E1D39E1" FromRole="UserStudio" ToRole="StudioRole" />
+          <NavigationProperty Name="User" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="UserStudio" ToRole="User" />
         </EntityType>
         <EntityType Name="UserSystemRole">
           <Key>
@@ -904,10 +904,10 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="systemroleid" Type="Int32" />
           <Property Name="userid" Type="Int32" />
-          <NavigationProperty Name="SystemRole" Relationship="photogModel.FK__UserSyste__syste__6383C8BA" FromRole="UserSystemRole" ToRole="SystemRole" />
-          <NavigationProperty Name="User" Relationship="photogModel.FK__UserSyste__useri__6477ECF3" FromRole="UserSystemRole" ToRole="User" />
+          <NavigationProperty Name="SystemRole" Relationship="photogModel.FK__UserSyste__syste__40058253" FromRole="UserSystemRole" ToRole="SystemRole" />
+          <NavigationProperty Name="User" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="UserSystemRole" ToRole="User" />
         </EntityType>
-        <Association Name="FK__JobCharge__charg__160F4887">
+        <Association Name="FK__JobCharge__charg__32AB8735">
           <End Type="photogModel.Charge" Role="Charge" Multiplicity="0..1" />
           <End Type="photogModel.JobCharge" Role="JobCharge" Multiplicity="*" />
           <ReferentialConstraint>
@@ -943,7 +943,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Invoice__jobid__08B54D69">
+        <Association Name="FK__Invoice__jobid__2EDAF651">
           <End Type="photogModel.Job" Role="Job" Multiplicity="0..1" />
           <End Type="photogModel.Invoice" Role="Invoice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -955,7 +955,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__invoi__0E6E26BF">
+        <Association Name="FK__Transacti__invoi__3A4CA8FD">
           <End Type="photogModel.Invoice" Role="Invoice" Multiplicity="0..1" />
           <End Type="photogModel.Transaction" Role="Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -967,7 +967,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Job__jobstatusid__7D439ABD">
+        <Association Name="FK__Job__jobstatusid__2FCF1A8A">
           <End Type="photogModel.JobStatu" Role="JobStatu" Multiplicity="0..1" />
           <End Type="photogModel.Job" Role="Job" Multiplicity="*" />
           <ReferentialConstraint>
@@ -979,7 +979,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Job__packageid__7B5B524B">
+        <Association Name="FK__Job__packageid__30C33EC3">
           <End Type="photogModel.Package" Role="Package" Multiplicity="0..1" />
           <End Type="photogModel.Job" Role="Job" Multiplicity="*" />
           <ReferentialConstraint>
@@ -991,7 +991,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Job__userid__7C4F7684">
+        <Association Name="FK__Job__userid__31B762FC">
           <End Type="photogModel.User" Role="User" Multiplicity="0..1" />
           <End Type="photogModel.Job" Role="Job" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1003,7 +1003,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobCharge__jobid__151B244E">
+        <Association Name="FK__JobCharge__jobid__339FAB6E">
           <End Type="photogModel.Job" Role="Job" Multiplicity="0..1" />
           <End Type="photogModel.JobCharge" Role="JobCharge" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1015,7 +1015,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDate__jobid__00200768">
+        <Association Name="FK__JobDate__jobid__3493CFA7">
           <End Type="photogModel.Job" Role="Job" Multiplicity="0..1" />
           <End Type="photogModel.JobDate" Role="JobDate" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1027,7 +1027,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeedb__jobid__18EBB532">
+        <Association Name="FK__UserFeedb__jobid__3C34F16F">
           <End Type="photogModel.Job" Role="Job" Multiplicity="0..1" />
           <End Type="photogModel.UserFeedback" Role="UserFeedback" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1039,7 +1039,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDate__jobstat__01142BA1">
+        <Association Name="FK__JobDate__jobstat__3587F3E0">
           <End Type="photogModel.JobStatu" Role="JobStatu" Multiplicity="0..1" />
           <End Type="photogModel.JobDate" Role="JobDate" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1051,7 +1051,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDateUs__jobda__04E4BC85">
+        <Association Name="FK__JobDateUs__jobda__367C1819">
           <End Type="photogModel.JobDate" Role="JobDate" Multiplicity="0..1" />
           <End Type="photogModel.JobDateUser" Role="JobDateUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1063,7 +1063,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobDateUs__users__05D8E0BE">
+        <Association Name="FK__JobDateUs__users__37703C52">
           <End Type="photogModel.UserStudio" Role="UserStudio" Multiplicity="0..1" />
           <End Type="photogModel.JobDateUser" Role="JobDateUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1075,7 +1075,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Package__studioi__75A278F5">
+        <Association Name="FK__Package__studioi__3864608B">
           <End Type="photogModel.Studio" Role="Studio" Multiplicity="0..1" />
           <End Type="photogModel.Package" Role="Package" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1087,7 +1087,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__payme__0F624AF8">
+        <Association Name="FK__Transacti__payme__3B40CD36">
           <End Type="photogModel.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
           <End Type="photogModel.Transaction" Role="Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1099,7 +1099,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StudioLin__studi__72C60C4A">
+        <Association Name="FK__StudioLin__studi__395884C4">
           <End Type="photogModel.Studio" Role="Studio" Multiplicity="0..1" />
           <End Type="photogModel.StudioLink" Role="StudioLink" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1111,7 +1111,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserStudi__studi__6E01572D">
+        <Association Name="FK__UserStudi__studi__3D2915A8">
           <End Type="photogModel.Studio" Role="Studio" Multiplicity="0..1" />
           <End Type="photogModel.UserStudio" Role="UserStudio" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1123,7 +1123,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserStudi__studi__6FE99F9F">
+        <Association Name="FK__UserStudi__studi__3E1D39E1">
           <End Type="photogModel.StudioRole" Role="StudioRole" Multiplicity="0..1" />
           <End Type="photogModel.UserStudio" Role="UserStudio" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1135,7 +1135,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__syste__6383C8BA">
+        <Association Name="FK__UserSyste__syste__40058253">
           <End Type="photogModel.SystemRole" Role="SystemRole" Multiplicity="0..1" />
           <End Type="photogModel.UserSystemRole" Role="UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1147,7 +1147,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserStudi__useri__6EF57B66">
+        <Association Name="FK__UserStudi__useri__3F115E1A">
           <End Type="photogModel.User" Role="User" Multiplicity="0..1" />
           <End Type="photogModel.UserStudio" Role="UserStudio" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1159,7 +1159,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserSyste__useri__6477ECF3">
+        <Association Name="FK__UserSyste__useri__40F9A68C">
           <End Type="photogModel.User" Role="User" Multiplicity="0..1" />
           <End Type="photogModel.UserSystemRole" Role="UserSystemRole" Multiplicity="*" />
           <ReferentialConstraint>
