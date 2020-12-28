@@ -1,49 +1,57 @@
-﻿@model PMS.Models.SignInViewModel
+@model PMS.Models.SignInViewModel
 
 @{
     ViewBag.Title = "Sign In";
     Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
-@if (TempData.ContainsKey("isVerified"))
-{
-    <div class="alert alert-success text-center">
-        Your account has been verified successfully. Please Sign In to continue
-    </div>
-}
+<div>
+    @if (TempData.ContainsKey("isVerified"))
+    {
+        <h4 class="font-size-18 mt-5 text-center">Welcome to Photog!</h4>
+        <p class="text-muted text-center">Your account has been verified successfully. Please Sign In to continue</p>
+    }
+
+    else
+    {
+        <h4 class="font-size-18 mt-5 text-center">Welcome Back !</h4>
+        <p class="text-muted text-center">Please Sign In to continue</p>
+    }
+</div>
+
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal text-center">
-        <h4>Sign in to your account</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control m-auto", @placeholder = "Email" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
+<div class="text-center mt-4">
+    <hr />
+    @Html.ValidationSummary()
 
-        <div class="form-group">
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control m-auto", @placeholder = "Password" } })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            <div class="d-flex d-inline-flex">
-                @Html.EditorFor(model => model.RememberMe, new { htmlAttribute = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
-            </div>
-            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label" })
-        </div>
-
-        <input type="submit" value="Sign In" class="btn btn-dark col-sm-12 col-md-8" />
+    <div class="form-group">
+        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Email" } })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
     </div>
+
+    <div class="form-group">
+        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Password" } })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex d-inline-flex">
+            @Html.EditorFor(model => model.RememberMe, new { htmlAttribute = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+        </div>
+        @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label" })
+    </div>
+
+    <input type="submit" value="Sign In" class="btn btn-primary col-12" />
+</div>
 }
 
-
-<p class="text-center m-4">Don't have an Account? @Html.ActionLink("Register Here", "Register", "Account")</p>
+<p class="text-center mt-5 pt-4">Don't have an Account? @Html.ActionLink("Register Here", "Register", "Account",null, new {@class = "font-weight-medium text-primary" })</p>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

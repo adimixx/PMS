@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "PackageHome";
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+}
+
+
+
+<h2>Package Home</h2>
+
+<p>
+    @Html.ActionLink("Add New Package", "Create", "Package")
+</p>
+
+<table id="packageTable" class="table table-striped table-bordered" style="width:100%">
+    <thead class="text-center">
+        <tr>
+            <th>Package Name</th>
+            <th>Package Price (RM)</th>
+            <th>Deposit Price (RM)</th>
+            <th>Package Details</th>
+            <th>Studio Name</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+
+    <script>
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadPackages/@ViewBag.StudioID",
+                dataType: "json",
+                success: function (response) {
+                    $("#packageTable").DataTable(
+                        {
+                            bLengthChange: true,
+                            lengthMenu: [[20, 40, -1], [20, 40, "All"]],
+                            bFilter: true,
+                            bSort: true,
+                            bPaginate: true,
+                            scrollX: true,
+                            data: response,
+                            scrollY: 400,
+                            scrollCollapse: true,
+                            processing: true,
+                            columns: [
+                                { 'data': 'name', "autoWidth": true },
+                                { 'data': 'price', "autoWidth": true },
+                                { 'data': 'depositprice', "autoWidth": true },
+                                { 'data': 'details', "autoWidth": true },
+                                { 'data': 'studioname', "autoWidth": true },
+                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/Edit/' + data + '">Edit</a> | <a href="@Request.Url/Detail/' + data + '">Details</a> | <a href="@Request.Url/Delete/' + data + '">Delete</a>'; } }
+                            ]
+                        });
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                error: function (response) {
+                    alert(response.d);
+                }
+            });
+        });
+    </script>
+}

@@ -1,4 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using PMS.Models;
+using PMS.Models.Database;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace PMS.Controllers
 {
@@ -12,11 +17,6 @@ namespace PMS.Controllers
                 {
                     return View("IndexAdmin");
                 }
-
-                else if (User.IsInRole("User"))
-                {
-                    return View("IndexUser");
-                }
             }
 
             ViewBag.Title = "Home Page";
@@ -24,10 +24,48 @@ namespace PMS.Controllers
             return View();
         }
 
-        public ActionResult Power()
+        [HttpGet]
+        [Authorize]
+        public ActionResult Profile()
         {
-            if (User.IsInRole("Admin")) ;
+            var user = UserAuthentication.Identity();
+            ProfileViewModel profile = new ProfileViewModel { Email = user.email, Name = user.name, PhoneNum = user.phonenumber };
+            return View(profile);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Profile(ProfileViewModel profile)
+        {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Upload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase uploadFile)
+        {
+            foreach (var file in Request.Files)
+            {
+                uploadFile = Request.Files[file.ToString()];
+            }
+            // Container Name - picture  
+            AzureBlob BlobManagerObj = new AzureBlob(2);
+            string FileAbsoluteUri = BlobManagerObj.UploadFile(uploadFile,"1","randomfile");
+            return RedirectToAction("BlobFile");
+        }
+
+        [HttpGet]
+        public ActionResult BlobFile()
+        {
+            // Container Name - picture  
+            AzureBlob BlobManagerObj = new AzureBlob(2);
+            List<string> fileList = BlobManagerObj.BlobList("1");
+            return View(fileList);
         }
     }
 }

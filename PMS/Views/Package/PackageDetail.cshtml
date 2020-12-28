@@ -1,0 +1,64 @@
+﻿@model PMS.Models.Database.Package
+
+@{
+    ViewBag.Title = "PackageDetail";
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+}
+
+<h2>Package Detail</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Package's Info</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.price)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.price)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.depositprice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.depositprice)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.details)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.details)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Studio.name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Studio.name)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<p>
+    @if (Model.Studio.UserStudios.Any(x => x.userid == ViewBag.user) || ViewBag.role)
+    {
+        <span>@Html.ActionLink("Edit", "Edit", new { id = Model.id }) |</span>
+    }
+    @Html.ActionLink("Back to List", "PackageHome")
+</p>

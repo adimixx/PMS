@@ -14,7 +14,16 @@ namespace PMS
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            routes.MapRoute(
+                name: "Chat",
+                url: "Chat/{action}/{id}",
+                defaults: new { controller = "Chat", action = "ChatList", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "StudioRoles",
+                url: "{permalink}/Roles/{action}/{id}",
+                defaults: new { controller = "StudioRoles", action = "List", id = UrlParameter.Optional }
+            );
             routes.MapRoute(
                 name: "Account",
                 url: "Account/{action}/{id}",
@@ -28,17 +37,48 @@ namespace PMS
             );
 
             routes.MapRoute(
-                name: "Studio Profile Page",
+                name: "Payment",
+                url: "Payment/{action}/{id}",
+                defaults: new { controller = "Payment", action = "CheckoutIndex", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Package",
+                url: "{permalink}/Package/{action}/{id}",
+                defaults: new { controller = "Package", action = "PackageHome", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "JobStatus",
+                url: "JobStatus/{action}/{id}",
+                defaults: new { controller = "Job", action = "JobStatusMain", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Job",
+                url: "{permalink}/Job/{action}/{id}",
+                defaults: new { controller = "Job", action = "JobHome", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Home",
+                url: "Home/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Studio Permalink",
                 url: "{permalink}/{action}/{id}",
                 defaults: new { controller = "StudioPermalink", action = "Index", id = UrlParameter.Optional }
-            );            
+            );
+
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );          
-            
+            );
+
         }
     }
 }

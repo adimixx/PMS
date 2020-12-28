@@ -3,57 +3,39 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - Photog</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body class="vh-100 d-flex justify-content-center align-items-center">
-    <div class="card">
-        <div class="row no-gutters">
-            <div class="col-md-5 card-main d-none d-md-block" id="main-subject">
-                <h1 class="h-100 text-right">Envision What You Believe</h1>
-            </div>
-            <div class="col-md-7 card-main">
-                <div class="card-body">
-                    <a href="@Url.Action("Index","Home")">
-                        <img src="~/src/img/logo.png" id="logo" class="m-auto pb-3" />
-                    </a>
+    <title>@ViewBag.Title</title>
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/src/img/favicon.ico">
 
-                    @RenderBody()
+    @Styles.Render("~/Content/cssUser")
+</head>
+
+<body class="account-pages">
+    <div class="accountbg" style="background: url('/src/img/img1.jpg');background-size: cover;background-position: center;"></div>
+
+    <div class="wrapper-page account-page-full">
+
+        <div class="card shadow-none">
+            <div class="card-block">
+                <div class="account-box">
+                    <div class="card-box shadow-none p-4">
+                        <div class="p-2">
+                            <div class="text-center mt-4">
+                                <a href="@Url.Action("Index","Home")">
+                                    <img src="~/src/img/logo.png" class="w-100 my-4"  />
+                                </a>
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jquerytemplate")
+    @Scripts.Render("~/bundles/bootstraptemplate")
+    @Scripts.Render("~/bundles/script")
     @RenderSection("scripts", required: false)
-
-    <style>
-        body {
-            background-color: #77aa77;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 2 1'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%2377aa77'/%3E%3Cstop offset='1' stop-color='%234fd'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23cf8' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23cf8' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='c' gradientUnits='userSpaceOnUse' x1='0' y1='0' x2='2' y2='2'%3E%3Cstop offset='0' stop-color='%23cf8' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23cf8' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='2' height='1'/%3E%3Cg fill-opacity='0.5'%3E%3Cpolygon fill='url(%23b)' points='0 1 0 0 2 0'/%3E%3Cpolygon fill='url(%23c)' points='2 1 2 0 0 0'/%3E%3C/g%3E%3C/svg%3E");
-            background-attachment: fixed;
-            background-size: cover;
-        }
-
-        #main-subject {
-            background: url("../../src/img/img1.jpg");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            color: white;
-        }
-
-        .card-main {
-            min-height: 70vh;
-        }
-
-        #logo{
-            width: 300px;
-            display: block;            
-        }
-    </style>
 </body>
 </html>
-
