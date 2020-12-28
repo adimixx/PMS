@@ -12,23 +12,19 @@ namespace PMS.Models.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class Package
+    public partial class ChatRoom
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Package()
+        public ChatRoom()
         {
-            this.Jobs = new HashSet<Job>();
+            this.ChatKeys = new HashSet<ChatKey>();
         }
     
-        public int id { get; set; }
-        public Nullable<int> studioid { get; set; }
-        public string name { get; set; }
-        public decimal price { get; set; }
-        public decimal depositprice { get; set; }
-        public string details { get; set; }
+        public int ChatID { get; set; }
+        public Nullable<bool> GroupChat { get; set; }
+        public string GroupChatName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Job> Jobs { get; set; }
-        public virtual Studio Studio { get; set; }
+        public virtual ICollection<ChatKey> ChatKeys { get; set; }
     }
 }

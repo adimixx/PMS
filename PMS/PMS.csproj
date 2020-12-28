@@ -152,6 +152,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\StudioPermalinkController.cs" />
@@ -163,6 +164,15 @@
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\CreatePackageViewModel.cs" />
     <Compile Include="Models\Database\Charge.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\ChatKey.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\ChatRoom.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\database_firewall_rules.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Invoice.cs">
@@ -2059,6 +2069,8 @@
     <Content Include="Views\Package\Error.cshtml" />
     <Content Include="Views\Package\PackageDetail.cshtml" />
     <Content Include="Views\Package\PackageHome.cshtml" />
+    <Content Include="Views\Chat\ChatMain.cshtml" />
+    <Content Include="Views\Chat\ChatList.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
