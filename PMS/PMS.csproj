@@ -205,7 +205,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\API\StudioRolesAPIController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
@@ -2132,6 +2132,8 @@
     <Content Include="Views\Package\Error.cshtml" />
     <Content Include="Views\Package\PackageDetail.cshtml" />
     <Content Include="Views\Package\PackageHome.cshtml" />
+    <Content Include="Views\Chat\ChatMain.cshtml" />
+    <Content Include="Views\Chat\ChatList.cshtml" />
     <Content Include="Views\Job\JobHome.cshtml" />
     <Content Include="Views\Job\JobStatusMain.cshtml" />
     <Content Include="Views\Job\Error.cshtml" />
