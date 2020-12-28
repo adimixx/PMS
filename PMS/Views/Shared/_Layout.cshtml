@@ -16,22 +16,23 @@
 <body data-topbar="dark">
     <!-- Begin page -->
     <div id="layout-wrapper">
-    <div id="app">
-        @Html.Partial("_LayoutTopNav");
+        <div id="app">
+            @Html.Partial("_LayoutTopNav");
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    @RenderBody()
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        @RenderBody()
+                    </div>
                 </div>
+            </div>
         </div>
-    </div>
 
 
-    @Scripts.Render("~/bundles/jquerytemplate")
-    @Scripts.Render("~/bundles/bootstraptemplate")
-    @Scripts.Render("~/bundles/libscript")
-    <script src="~/src/admin/js/app.js"></script>
-    @RenderSection("scripts", required: false)
+        @Scripts.Render("~/bundles/jquerytemplate")
+        @Scripts.Render("~/bundles/bootstraptemplate")
+        @Scripts.Render("~/bundles/libscript")
+        <script src="~/src/admin/js/app.js"></script>
+        @RenderSection("scripts", required: false)
 </body>
 </html>
