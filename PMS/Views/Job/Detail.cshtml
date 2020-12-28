@@ -54,6 +54,73 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#staffModal">Assign Staff</button> |
+    @Html.ActionLink("Back to List", "jobhome")
 </p>
+
+<!-- Modal -->
+<div class="modal fade" id="staffModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Search for staff to assign</h4>
+                        <table id="adminTable" class="table table-striped table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>Sort by Role</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    $.ajaxSetup({
+        headers: { 'StudioCredential': '@ViewBag.StudioID' }
+    });
+        var table;
+        $(function () {
+             table = $("#adminTable").DataTable(
+                {
+                    serverSide: false,
+                    ajax: {
+                        type: "GET",
+                        url: "/systemapi/studioroles/getRoleList",
+                        dataSrc: ''
+                    },
+                    bLengthChange: true,
+                    paging: false,
+                    searchPlaceholder: "Search User",
+                    search: true,
+                    bSort: true,
+                    info: false,
+                    processing: true,
+                    columns: [
+                        {
+                            data: 'StudioRole', render: function (data, type, row) {
+                                return `
+                                            <h5>${row.name}</h5>
+                                            <p class="font-weight-light">${row.StudioRole}</p>
+                                        ` }, "autoWidth": true
+                        },
+                        { data: 'userid', render: function (data, type, row) { return `<button class="btn btn-secondary" onclick="popupEditModal(${data})" data-toggle="modal" data-target="#editRoleModal">Edit</button>` }, width: "10%" }
+                    ]
+                }
+            );
+        });
+    </script>
+}
