@@ -6,14 +6,22 @@
     <title>@ViewBag.Title</title>
 
     <!-- App favicon -->
+<<<<<<< Updated upstream
     <link rel="shortcut icon" href="~/src/images/favicon.ico">
 
     @Styles.Render("~/Content/cssUser")
+=======
+    <link rel="shortcut icon" href="~/src/img/favicon.ico">
+    @Styles.Render("~/Content/cssAdmin")
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.css">
+    @RenderSection("styles", required: false)
+>>>>>>> Stashed changes
 
 </head>
 <body data-topbar="dark" data-layout="horizontal">
     <!-- Begin page -->
     <div id="layout-wrapper">
+<<<<<<< Updated upstream
 
         @Html.Partial("_LayoutTopNav");
 
@@ -22,6 +30,12 @@
                 <div class="container-fluid">
                     @RenderBody()
                 </div>
+=======
+        <div id="app">
+            @Html.Partial("_LayoutTopNav")
+            <div class="page-content">
+                @RenderBody()
+>>>>>>> Stashed changes
             </div>
         </div>
     </div>
