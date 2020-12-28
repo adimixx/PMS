@@ -7,19 +7,22 @@
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/src/img/favicon.ico">
-
     @Styles.Render("~/Content/cssAdmin")
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.css">
+    @RenderSection("styles", required: false)
+
 
 </head>
 <body data-topbar="dark">
     <!-- Begin page -->
     <div id="layout-wrapper">
-        <div id="app">
-            @Html.Partial("_LayoutTopNav")
-                <div class="page-content">
-                    <div class="container">
-                        @RenderBody()
-                    </div>
+    <div id="app">
+        @Html.Partial("_LayoutTopNav");
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @RenderBody()
                 </div>
         </div>
     </div>
