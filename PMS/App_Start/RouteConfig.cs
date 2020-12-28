@@ -32,16 +32,41 @@ namespace PMS
             );
 
             routes.MapRoute(
+                name: "Payment",
+                url: "Payment/{action}/{id}",
+                defaults: new { controller = "Payment", action = "CheckoutIndex", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Package",
                 url: "{permalink}/Package/{action}/{id}",
                 defaults: new { controller = "Package", action = "PackageHome", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
+                name: "JobStatus",
+                url: "JobStatus/{action}/{id}",
+                defaults: new { controller = "Job", action = "JobStatusMain", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Job",
+                url: "{permalink}/Job/{action}/{id}",
+                defaults: new { controller = "Job", action = "JobHome", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Home",
+                url: "Home/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Studio Permalink",
                 url: "{permalink}/{action}/{id}",
                 defaults: new { controller = "StudioPermalink", action = "Index", id = UrlParameter.Optional }
-            );            
+            );
+
 
             routes.MapRoute(
                 name: "Default",

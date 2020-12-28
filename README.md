@@ -41,9 +41,21 @@ routes.MapRoute(
 To allow only valid links, Add these custom DataValidation to desired controller
 ```csharp
 [StudioPermalinkValidate]
-[StudioAuthorizationRole(RoleID = 1)]
 public ActionResult TestPage()
 ```
+To only allow link to be accessed with roles, use `RoleID`
+```csharp
+//Only Studio Admin can access
+[StudioPermalinkValidate(RoleID = 1)]
+public ActionResult TestPage()
+```
+
+```csharp
+//Studio Admin and Studio Staff can access
+[StudioPermalinkValidate(RoleID = 2)]
+public ActionResult TestPage()
+```
+
 
 `[StudioAuthorizationRole(RoleID = 1)]` Authorizes access for pages with required authority. 1 for admin only, 2 for admin and staff
 

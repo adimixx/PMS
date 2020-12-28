@@ -27,6 +27,8 @@
 
 <div class="text-center mt-4">
     <hr />
+    @Html.ValidationSummary()
+
     <div class="form-group">
         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Email" } })
         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })

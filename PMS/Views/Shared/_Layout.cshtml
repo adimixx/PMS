@@ -6,7 +6,7 @@
     <title>@ViewBag.Title</title>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="~/src/images/favicon.ico">
+    <link rel="shortcut icon" href="~/src/img/favicon.ico">
 
     @Styles.Render("~/Content/cssAdmin")
 
@@ -16,13 +16,11 @@
     <div id="layout-wrapper">
         <div id="app">
             @Html.Partial("_LayoutTopNav")
-            <div class="main-content">
                 <div class="page-content">
-                    <div class="container-fluid">
+                    <div class="container">
                         @RenderBody()
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 
@@ -30,7 +28,6 @@
     @Scripts.Render("~/bundles/jquerytemplate")
     @Scripts.Render("~/bundles/bootstraptemplate")
     @Scripts.Render("~/bundles/libscript")
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="~/src/admin/js/app.js"></script>
     @RenderSection("scripts", required: false)
 </body>

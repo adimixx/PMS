@@ -3,9 +3,9 @@
 @{
     ViewBag.Title = Model.name;
 
-    if (Model.UserStudios.Any(x=>x.User.name == User.Identity.Name))
+    if (ViewBag.StudioRoleID != null)
     {
-        Layout = "~/views/shared/_layoutuser.cshtml";
+        Layout = "~/views/shared/_LayoutStudioManage.cshtml";
     }
 }
 
@@ -19,5 +19,23 @@
                 <p> @Model.location </p>
             </div>
         </div>
+              
+        <div class="card">
+            <div class="card-body">
+                <h6>Available Packages</h6>
+
+                <div class="row">
+                    <div class="col-sm-4 col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <span>Package A</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
