@@ -7,13 +7,25 @@
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/src/img/favicon.ico">
+    @Styles.Render("~/Content/cssAdmin")
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.css">
+    @RenderSection("styles", required: false)
 
-    @Styles.Render("~/Content/cssUser")
 
 </head>
 <body data-topbar="dark">
     <!-- Begin page -->
     <div id="layout-wrapper">
+<<<<<<<<< Temporary merge branch 1
+        <div id="app">
+            @Html.Partial("_LayoutTopNav")
+                <div class="page-content">
+                    <div class="container">
+                        @RenderBody()
+                    </div>
+                </div>
+=========
+<<<<<<< Updated upstream
 
         @Html.Partial("_LayoutTopNav");
 
@@ -22,7 +34,14 @@
                 <div class="container-fluid">
                     @RenderBody()
                 </div>
+=======
+        <div id="app">
+            @Html.Partial("_LayoutTopNav")
+            <div class="page-content">
+                @RenderBody()
+>>>>>>> Stashed changes
             </div>
+>>>>>>>>> Temporary merge branch 2
         </div>
     </div>
 
