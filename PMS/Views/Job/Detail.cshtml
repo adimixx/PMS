@@ -117,7 +117,7 @@
                                             <p class="font-weight-light">${row.StudioRole}</p>
                                         ` }, "autoWidth": true
                         },
-                        { data: 'userid', render: function (data, type, row) { return `<button class="btn btn-secondary" onclick="popupEditModal(${data})" data-toggle="modal" data-target="#editRoleModal">Edit</button>` }, width: "10%" }
+                        { data: 'userid', render: function (data, type, row) { return `<a href="@Request.Url/assignstaff/${data}" class="btn btn-secondary">Assign</a>` }, width: "10%" }
                     ]
                 }
             );

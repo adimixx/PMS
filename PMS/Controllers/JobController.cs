@@ -117,7 +117,7 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 2)]
         [HttpGet]
-        public ActionResult jobhome()
+        public ActionResult JobHome()
         {
             return View();
         }
@@ -132,6 +132,13 @@ namespace PMS.Controllers
                 return RedirectToAction("jobhome");
 
             return View(data);
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult AssignStaff(int id)
+        {
+            return RedirectToAction("jobhome");
         }
 
         // ---------------------- Job Management End ----------------------- //
