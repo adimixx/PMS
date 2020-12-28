@@ -1,9 +1,41 @@
-﻿
+﻿@model PMS.Models.Database.Studio
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.name;
+
+    if (ViewBag.StudioRoleID != null)
+    {
+        Layout = "~/views/shared/_LayoutStudioManage.cshtml";
+    }
 }
 
-<h2>Index</h2>
+<div class="card">
+    <div class="card-body">
+        <div class="cover-profile">
+            <img src="~/src/img/cover-default.jpg" id="cover-photo" />
+            <img class="rounded-circle" id="studio-profile-img" src="~/src/img/default-profile.jpg" />
+            <div id="studio-head">
+                <h5> @Model.name </h5>
+                <p> @Model.location </p>
+            </div>
+        </div>
+              
+        <div class="card">
+            <div class="card-body">
+                <h6>Available Packages</h6>
 
-@ViewBag.Perm
+                <div class="row">
+                    <div class="col-sm-4 col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <span>Package A</span>
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

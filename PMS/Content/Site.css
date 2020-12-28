@@ -1,6 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+body {
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -19,13 +17,10 @@ select,
 textarea {
     max-width: 280px;
 }
-
-<<<<<<< Updated upstream
-
 .sidenav{
     float: left;
 }
-=======
+
 .validation-summary-errors {
     color: red;
     text-align: center;
@@ -39,6 +34,27 @@ textarea {
         .validation-summary-errors > ul > li {
             display: inline;
         }
+
+.cover-profile {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(12,1fr);
+    grid-template-rows: repeat(4,0.8fr);
+}
+
+.validation-summary-errors {
+    color: red;
+    text-align: center;
+}
+
+    .validation-summary-errors > ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .validation-summary-errors > ul > li {
+       display: inline;
+    }
 
 .cover-profile {
     display: grid;
@@ -93,4 +109,3 @@ textarea {
     background-color: rgb(176, 222, 53);
     height: 50px;
 }
->>>>>>> Stashed changes

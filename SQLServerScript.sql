@@ -1,25 +1,25 @@
-use master
-go
+--use master
+--go
 
-DECLARE @DatabaseName nvarchar(50)
-SET @DatabaseName = N'photog'
+--DECLARE @DatabaseName nvarchar(50)
+--SET @DatabaseName = N'photog'
 
-DECLARE @SQL varchar(max)
+--DECLARE @SQL varchar(max)
 
-SELECT @SQL = COALESCE(@SQL,'') + 'Kill ' + Convert(varchar, SPId) + ';'
-FROM MASTER..SysProcesses
-WHERE DBId = DB_ID(@DatabaseName) AND SPId <> @@SPId
+--SELECT @SQL = COALESCE(@SQL,'') + 'Kill ' + Convert(varchar, SPId) + ';'
+--FROM MASTER..SysProcesses
+--WHERE DBId = DB_ID(@DatabaseName) AND SPId <> @@SPId
 
---Uncomment this to run it
-EXEC(@SQL)
+----Uncomment this to run it
+--EXEC(@SQL)
 
-DROP DATABASE IF EXISTS photog
-GO
+--DROP DATABASE IF EXISTS photog
+--GO
 
-Create Database photog
-GO
+--Create Database photog
+--GO
 
-Use Photog
+--Use Photog
 
 create table SystemRole (
 	id int identity(1,1) primary key,
@@ -32,7 +32,7 @@ create table [User] (
 	password varchar(32) not null,
 	name varchar(100),
 	dateofbirth datetime,
-	phonenumber varchar(12) unique,
+	phonenumber varchar(12),
 	imgprofile varbinary(max),
 	isVerified bit not null,
 	verifiedKey varchar(max)

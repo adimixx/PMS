@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
 using PMS.Models;
+using PMS.Models.Database;
+using Stripe;
+using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +27,72 @@ namespace PMS.Controllers
             if (list.Count() == 0 && !location.Cities.FirstOrDefault(x => x.Key.ToLower() == state.ToLower().Trim()).Equals(null)) return Request.CreateResponse(HttpStatusCode.OK);
 
             else if (list.Count() == 0) return Request.CreateResponse(HttpStatusCode.BadRequest);
-                       
+
 
             var listStripped = list.Select(x => x.Value).ToArray().FirstOrDefault();
 
             return Request.CreateResponse(HttpStatusCode.OK, listStripped);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadPackages(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Packages.Where(x => x.studioid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    item.name,
+                    price = item.price.ToString(".00"),
+                    studioname = item.Studio.name,
+                    depositprice = item.depositprice.ToString(".00"),
+                    item.details
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadJobStatus()
+        {
+            photogEntities db = new photogEntities();
+            var model = db.JobStatus.ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    item.name,
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadJobAdmin(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Jobs.Where(x => x.Package.studioid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    DateCreated = item.DateCreated.ToString("dd/MM/yyyy hh:mm"),
+                    client = item.User.name,
+                    package = item.Package.name,
+                    status = item.JobStatu.name,
+                });
+            }
+            return Ok(data);
         }
     }
 }
