@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
@@ -160,7 +160,7 @@
           <Property Name="name" Type="varchar" MaxLength="100" />
           <Property Name="dateofbirth" Type="datetime" />
           <Property Name="phonenumber" Type="varchar" MaxLength="12" />
-          <Property Name="imgprofile" Type="varbinary(max)" />
+          <Property Name="imgprofile" Type="varchar" MaxLength="255" />
           <Property Name="isVerified" Type="bit" Nullable="false" />
           <Property Name="verifiedKey" Type="varchar(max)" />
         </EntityType>
@@ -866,7 +866,7 @@
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="dateofbirth" Type="DateTime" Precision="3" />
           <Property Name="phonenumber" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="imgprofile" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="imgprofile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="isVerified" Type="Boolean" Nullable="false" />
           <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_User" FromRole="User" ToRole="ChatKey" />

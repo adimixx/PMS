@@ -1,5 +1,7 @@
 ﻿using PMS.Models;
+using PMS.Models.Database;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -19,6 +21,22 @@ namespace PMS.Controllers
 
             ViewBag.Title = "Home Page";
 
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Profile()
+        {
+            var user = UserAuthentication.Identity();
+            ProfileViewModel profile = new ProfileViewModel { Email = user.email, Name = user.name, PhoneNum = user.phonenumber };
+            return View(profile);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Profile(ProfileViewModel profile)
+        {
             return View();
         }
 

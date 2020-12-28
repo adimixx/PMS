@@ -29,7 +29,7 @@ namespace PMS.Models.Database
         public string name { get; set; }
         public Nullable<System.DateTime> dateofbirth { get; set; }
         public string phonenumber { get; set; }
-        public byte[] imgprofile { get; set; }
+        public string imgprofile { get; set; }
         public bool isVerified { get; set; }
         public string verifiedKey { get; set; }
     
