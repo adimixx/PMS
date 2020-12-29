@@ -5,18 +5,6 @@ Photography Management System, A developing system to fullfil the requirement of
 
 SQL Script for Database and Table queries are included inside the project file
 
-`SQLServerScript.sql`
-This project uses SQL Server as its database
-
-Database Connection needs to be changed inside `web.config` file, under `<connectionStrings>`
-
-`web.config`
-```xml
-<connectionStrings>
-    <add name="photogEntities" connectionString=" ... data source=SQL_SERVER_CONNECTION_STRING_HERE; ...." .../>
-</connectionStrings>
-```
-
 ## Logged In User Credentials
 Developers can access logged in users information, through custom class that have been made.
 
@@ -74,7 +62,12 @@ routes.MapRoute(
 ```
 
 ## Front End
-This project has been pre-updated with Bootstrap v4.5.3, JQuery v3.5.1 and Vue.js 3.0.2 (via CDN)
+This project has been contains the following Library : 
+
+- Bootstrap v4.5.3
+- JQuery v3.5.1
+- Vue.js 3.0.2
+- FilePond (CDN)
 
 
 ## Developers

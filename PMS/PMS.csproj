@@ -205,6 +205,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\API\AccountAPIController.cs" />
     <Compile Include="Controllers\API\StudioRolesAPIController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -2148,7 +2149,7 @@
     <Content Include="Views\Job\Detail.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\BlobFile.cshtml" />
-    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
@@ -2354,7 +2355,7 @@
     <Folder Include="src\libs\morris.js\spec\" />
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
-    <Folder Include="Views\StudioRoles\" />
+    <Folder Include="Views\AccountAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
