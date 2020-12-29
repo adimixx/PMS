@@ -20,6 +20,7 @@ namespace PMS.Controllers.API
 
             if (file != null && file.ContentLength > 0)
             {
+                string fl = file.FileName;
                 AzureBlob BlobManagerObj = new AzureBlob(1);
                 string FileName = BlobManagerObj.UploadFileAPI(file, UserAuthentication.Identity().id.ToString());
                 FileName = FileName.Substring(FileName.IndexOf('/') + 1);
@@ -55,6 +56,42 @@ namespace PMS.Controllers.API
   
         }
 
-        
+        [AllowCorsAPI]
+        [HttpDelete]
+        public IHttpActionResult DeleteProfilePic()
+        {
+
+            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                string fl = file.FileName;
+                if (file.FileName == UserAuthentication.Identity().imgprofile) return Ok();               
+            }
+
+            else
+            {
+                AzureBlob BlobManagerObj = new AzureBlob(1);
+                photogEntities db = new photogEntities();
+                var id = UserAuthentication.Identity().id;
+                var user = db.Users.FirstOrDefault(x => x.id == id);
+
+                if (user.imgprofile == null) return Ok();
+
+                else if (BlobManagerObj.DeleteBlob(user.id.ToString(), User.Identity.GetProfilePhotoLink()))
+                {                   
+                    user.imgprofile = null;
+                    db.SaveChanges();
+
+                    UserAuthentication.UpdateClaim();
+
+                    return Ok();
+                }
+            }
+            return BadRequest();
+
+        }
+
+
     }
 }

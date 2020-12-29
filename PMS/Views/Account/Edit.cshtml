@@ -16,6 +16,9 @@
                     <div id="ProfilePic-Input" style="height: 200px; width: 200px;" class="m-auto">
                         <input type="file" id="input-profilepic" class="filepond" name="filepond" accept="" />
                     </div>
+                    <div class="form-group m-3">
+                        <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Profile Photo</button>
+                    </div>
                 </div>
 
                 <div class="col-sm-12 col-md-8">
@@ -240,7 +243,8 @@
             FilePondPluginImageResize,
             FilePondPluginImageTransform,
             FilePondPluginImageEdit,
-            FilePondPluginFilePoster
+            FilePondPluginFilePoster,
+            FilePondPluginFileEncode
         );
 
         //FilePond.registerPlugin(
@@ -251,7 +255,8 @@
         FilePond.setOptions({
             server: {
                 url: '/SystemAPI/Account',
-                process: '/UploadProfilePic'
+                process: '/UploadProfilePic',
+                revert: null,
             }
         });
 
@@ -271,6 +276,11 @@
                 styleButtonRemoveItemPosition: 'left bottom',
                 styleButtonProcessItemPosition: 'right bottom',
                 acceptedFileTypes: ['image/png', 'image/jpeg'],
+                allowFileEncode: true,
+                instantUpload: false,
+                allowProcess: false,
+                maxFiles: 1,
+                credits: false,
                 files: [
                     {
                         // the server file reference
@@ -294,6 +304,29 @@
                     }
                 ]
             });
+
+            $('#uploadPhotoBtn').click(() => {
+                if (inputPic.getFile() == null) {
+                    $.ajax({
+                        url: '/SystemAPI/Account/DeleteProfilePic',
+                        method: 'DELETE',
+                        success: (() => {
+                            location.reload();
+                        })
+                    })
+                }
+
+                else if (inputPic.getFile().fileSize == undefined) {
+                    location.reload();
+                }
+
+                else {
+                    inputPic.processFile().then(() => {
+                        location.reload();
+                    });
+                }
+                
+            });      
 
     </script>
 }

@@ -110,7 +110,7 @@ namespace PMS.Models
             return _blobList;
         }
 
-        public bool DeleteBlob(string AbsoluteUri)
+        public bool DeleteBlob(string folder, string AbsoluteUri)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace PMS.Models
                 string BlobName = Path.GetFileName(uriObj.LocalPath);
 
                 // get block blob refarence  
-                CloudBlockBlob blockBlob = blobContainer.GetBlockBlobReference(BlobName);
+                CloudBlockBlob blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}", folder, BlobName));
 
                 // delete blob from container      
                 blockBlob.Delete();
