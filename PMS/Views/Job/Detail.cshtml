@@ -204,9 +204,15 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>Status</h4>
-                        <form>
+                        <form action="~/@ViewBag.StudioUrl/job/changestatus" method="post">
+                            <input type="hidden" value="@Model.Item1.id" name="id" />
+
                             <div class="form-group">
-                                <select title="Status" id="jobStatus" class="form-control"></select>
+                                <select title="Status" name="jsid" id="jobStatus" class="form-control"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info">Update</button>
                             </div>
                         </form>
                     </div>
@@ -291,7 +297,13 @@
                 dataSrc: '',
                 success: function (data) {
                     $.each(data, function (i, obj) {
-                        jobstatus = `<option value=${obj.id}>${obj.name}</option>`
+                        if (obj.id === @Model.Item1.jobstatusid) {
+                            jobstatus = `<option value='${obj.id}' selected>${obj.name}</option>`
+                        }
+                        else {
+                            jobstatus = `<option value='${obj.id}'>${obj.name}</option>`
+                        }
+
                         $("#jobStatus").append(jobstatus)
                     })
                 }

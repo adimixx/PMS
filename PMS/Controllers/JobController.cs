@@ -135,11 +135,28 @@ namespace PMS.Controllers
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult ChangeStatus(int id, int jsid)
+        {
+            try
+            {
+                var data = db.Jobs.Find(id);
+                data.jobstatusid = jsid;
+                db.SaveChanges();
+
+                return RedirectToAction("detail/" + id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
         public ActionResult AssignStaff(int id)
         {
-
-            return RedirectToAction("jobhome");
+            return RedirectToAction("detail/" + id);
         }
 
         // ---------------------- Job Management End ----------------------- //
