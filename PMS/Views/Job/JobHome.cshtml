@@ -44,7 +44,7 @@
                                 { 'data': 'client', "autoWidth": true },
                                 { 'data': 'package', "autoWidth": true },
                                 { 'data': 'status', "autoWidth": true },
-                                { 'data': 'id', 'render': function (data, type, row) { return '@if (ViewBag.StudioRoleID == 1) { <a href="@Request.Url/detail/' + data + '">Details</a> }'; } }
+                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/detail/' + data + '">Details</a>'; } }
                             ]
                         });
                 },

@@ -122,7 +122,7 @@ namespace PMS.Controllers
             return View();
         }
 
-        [StudioPermalinkValidate(RoleID = 1)]
+        [StudioPermalinkValidate]
         [HttpGet]
         public ActionResult Detail(int id)
         {
@@ -131,13 +131,14 @@ namespace PMS.Controllers
             if (ViewBag.StudioID != data.Package.studioid)
                 return RedirectToAction("jobhome");
 
-            return View(data);
+            return View(new Tuple<Job, JobDate, JobDateUser, JobCharge>(data, null, null, null));
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
         public ActionResult AssignStaff(int id)
         {
+
             return RedirectToAction("jobhome");
         }
 

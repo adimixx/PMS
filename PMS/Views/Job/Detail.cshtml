@@ -1,67 +1,227 @@
-﻿@model PMS.Models.Database.Job
+﻿@model Tuple<PMS.Models.Database.Job, PMS.Models.Database.JobDate, PMS.Models.Database.JobDateUser, PMS.Models.Database.JobCharge>
 
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
 }
 
-<h2>Detail</h2>
+<h2>Job's Detail</h2>
 
-<div>
-    <h4>Job</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card" style="padding:15px">
+            <h4>Job's Information</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Date Issued
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Item1.DateCreated)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.paymentstatus)
-        </dt>
+                <dt>
+                    Payment Status
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.paymentstatus)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Item1.paymentstatus)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.JobStatu.name)
-        </dt>
+                <dt>
+                    Status
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.JobStatu.name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Item1.JobStatu.name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Package.name)
-        </dt>
+                <dt>
+                    Package Name
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Package.name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Item1.Package.name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.email)
-        </dt>
+                <dt>
+                    Client's Email
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.email)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Item1.User.email)
+                </dd>
+            </dl>
 
-    </dl>
+            @if (ViewBag.StudioRoleID == 1)
+            {
+                <p>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#statusModal">Update</button>
+                </p>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card" style="padding:15px">
+            <h4>Job's Date Information</h4>
+            <hr />
+            @if (Model.Item2 != null)
+            {
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item2.jobdate1)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Item2.jobdate1)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item2.location)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Item2.location)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item2.description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Item2.description)
+                    </dd>
+                </dl>
+            }
+            else
+            {
+                <h5>No Data Yet!</h5>
+            }
+
+            @if (ViewBag.StudioRoleID == 1)
+            {
+                <p>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                </p>
+            }
+        </div>
+    </div>
 </div>
-<p>
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
-</p>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card" style="padding:15px">
+            <h4>Assigned Staff</h4>
+            <hr />
+            @if (Model.Item3 != null)
+            {
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item3.UserStudio.User.name)
+                    </dt>
 
-<!-- Modal -->
+                    <dd>
+                        @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item3.UserStudio.User.email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item3.UserStudio.User.phonenumber)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)
+                    </dd>
+                </dl>
+            }
+            else
+            {
+                <h5>No Data Yet!</h5>
+            }
+
+            @if (ViewBag.StudioRoleID == 1)
+            {
+                <p>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                </p>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card" style="padding:15px">
+            <h4>Job's Service Charges</h4>
+            <hr />
+            @if (Model.Item4 != null)
+            {
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item4.amount)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Item4.amount)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Item4.remarks)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Item4.remarks)
+                    </dd>
+                </dl>
+            }
+            else
+            {
+                <h5>No Data Yet!</h5>
+            }
+
+            @if (ViewBag.StudioRoleID == 1)
+            {
+                <p>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                </p>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal Section -->
+<div class="modal fade" id="statusModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Status</h4>
+                        <form>
+                            <div class="form-group">
+                                <select title="Status" id="jobStatus" class="form-control"></select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 <div class="modal fade" id="staffModal" role="dialog">
     <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">
                 <div class="card">
@@ -85,6 +245,8 @@
 
     </div>
 </div>
+<!-- End Modal Section -->
+
 
 @section Scripts {
     <script>
@@ -92,6 +254,7 @@
         headers: { 'StudioCredential': '@ViewBag.StudioID' }
     });
         var table;
+        var jobstatus;
         $(function () {
              table = $("#adminTable").DataTable(
                 {
@@ -120,6 +283,19 @@
                     ]
                 }
             );
+        });
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadJobStatus",
+                dataSrc: '',
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        jobstatus = `<option value=${obj.id}>${obj.name}</option>`
+                        $("#jobStatus").append(jobstatus)
+                    })
+                }
+            })
         });
     </script>
 }
