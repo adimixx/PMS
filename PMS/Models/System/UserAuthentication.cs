@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Owin.Security;
+using Newtonsoft.Json;
 using PMS.Models.Database;
 using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading;
 using System.Web;
 using System.Web.Http.Controllers;
@@ -24,12 +26,14 @@ namespace PMS.Models
                 if (user != null)
                 {
                     var userData = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                    string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile))? "/src/img/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
 
                     var identity = new ClaimsIdentity(new[]
                     {
                         new Claim(ClaimTypes.Name , user.name),
                         new Claim(ClaimTypes.Email, user.email),
-                        new Claim(type: "UserDataJson", value: userData)
+                        new Claim(type: "UserDataJson", value: userData),
+                        new Claim(type: "ProfilePicUrl", value: urlPic)
                     }, "ApplicationCookie");
 
                     var ctx = context.Request.GetOwinContext();
@@ -47,7 +51,7 @@ namespace PMS.Models
             catch
             {
                 return false;
-            }       
+            }
         }
 
         public static void SignOut(HttpContextBase context)
@@ -69,6 +73,45 @@ namespace PMS.Models
             }
 
             return null;
+        }
+
+        public static void UpdateClaim()
+        {
+            var identity = Thread.CurrentPrincipal.Identity as ClaimsIdentity;
+            if (identity == null)
+                return;
+
+            // check for existing claim and remove it
+            var userData = identity.FindFirst("UserDataJson");
+            var userName = identity.FindFirst(ClaimTypes.Name);
+            var userEmail = identity.FindFirst(ClaimTypes.Email);
+            var userProfilePic = identity.FindFirst("ProfilePicUrl");
+
+            if (userData != null)
+            {
+                photogEntities db = new photogEntities();
+                var user = JsonConvert.DeserializeObject<User>(userData.Value);
+                user = db.Users.FirstOrDefault(x => x.id == user.id);
+
+                identity.RemoveClaim(userData);
+                identity.RemoveClaim(userName);
+                identity.RemoveClaim(userEmail);
+                identity.RemoveClaim(userProfilePic);
+
+                string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "/src/img/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
+                var userDataJson = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+                identity = new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.Name , user.name),
+                        new Claim(ClaimTypes.Email, user.email),
+                        new Claim(type: "UserDataJson", value: userDataJson),
+                        new Claim(type: "ProfilePicUrl", value: urlPic)
+                    }, "ApplicationCookie");
+            }           
+
+            var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+            authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(identity), new AuthenticationProperties() { IsPersistent = true });
         }
     }
 
@@ -138,6 +181,14 @@ namespace PMS.Models
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(
               new { action = "Index", controller = "Home" }));
             }
+        }
+    }
+    
+    public static class IdentityExtensions
+    {
+        public static string GetProfilePhotoLink (this IIdentity identity)
+        {
+            return ((ClaimsIdentity)identity).FindFirst("ProfilePicUrl")?.Value;
         }
     }
 }

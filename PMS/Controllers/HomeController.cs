@@ -24,21 +24,7 @@ namespace PMS.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Authorize]
-        public ActionResult Profile()
-        {
-            var user = UserAuthentication.Identity();
-            ProfileViewModel profile = new ProfileViewModel { Email = user.email, Name = user.name, PhoneNum = user.phonenumber };
-            return View(profile);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Profile(ProfileViewModel profile)
-        {
-            return View();
-        }
+       
 
         [HttpGet]
         public ActionResult Upload()

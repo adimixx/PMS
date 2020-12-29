@@ -15,6 +15,12 @@ namespace PMS
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "AccountAPI",
+                routeTemplate: "SystemAPI/Account/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "AccountAPI" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "StudioRolesAPI",
                 routeTemplate: "SystemAPI/StudioRoles/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional, controller = "StudioRolesAPI" }

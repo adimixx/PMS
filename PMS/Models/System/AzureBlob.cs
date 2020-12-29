@@ -37,6 +37,35 @@ namespace PMS.Models
             blobContainer = cloudBlobClient.GetContainerReference(dataBlob);
         }
 
+        public string UploadFileAPI(HttpPostedFile FileToUpload, string FolderID)
+        {
+            string AbsoluteUri;
+            // Check HttpPostedFileBase is null or not  
+            if (FileToUpload == null || FileToUpload.ContentLength == 0)
+                return null;
+            //try
+            //{
+            //string FileName = Path.GetFileName(FileToUpload.FileName);
+            CloudBlockBlob blockBlob;
+            // Create a block blob  
+            blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName) ));
+            // Set the object's content type  
+            blockBlob.Properties.ContentType = FileToUpload.ContentType;
+            var data = FileToUpload.InputStream.Length;
+
+            // upload to blob  
+            blockBlob.UploadFromStream(FileToUpload.InputStream);
+
+            // get file uri  
+            AbsoluteUri = blockBlob.Name;
+            //}
+            //catch (Exception ExceptionObj)
+            //{
+            //    throw ExceptionObj;
+            //}
+            return AbsoluteUri;
+        }
+
         public string UploadFile(HttpPostedFileBase FileToUpload, string FolderID, string FileName)
         {
             string AbsoluteUri;
