@@ -17,7 +17,8 @@ select,
 textarea {
     max-width: 280px;
 }
-.sidenav{
+
+.sidenav {
     float: left;
 }
 
@@ -52,9 +53,9 @@ textarea {
         padding: 0;
     }
 
-    .validation-summary-errors > ul > li {
-       display: inline;
-    }
+        .validation-summary-errors > ul > li {
+            display: inline;
+        }
 
 .cover-profile {
     display: grid;
@@ -91,10 +92,77 @@ textarea {
     background-color: #ECECED;
 }
 
-#banner {
-    /*width: 800px;*/
-    /*margin: auto;*/
+    #page-head ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333333;
+    }
+
+    #page-head li {
+        float: left;
+    }
+
+        #page-head li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+        }
+
+            #page-head li a:hover {
+                color: #e8e8e8;
+            }
+
+#banner .title {
+    top: 20%;
+    color: white;
 }
+
+#banner img {
+    background: rgba(0,0,0,0.3);
+}
+
+#banner .mid {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+#banner .search {
+    top: 50%;
+}
+
+    #banner .search input {
+        width: 35%;
+        max-width: unset;
+        height: 40px;
+        padding: .375rem .75rem;
+        color: #495057;
+        background-color: #fff;
+        border-radius: 1.25rem;
+        transition: box-shadow 0.15s linear;
+    }
+
+        #banner .search input:focus {
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+            box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+            outline: none;
+        }
+
+    #banner .search button {
+        position: relative;
+        right: 30px;
+    }
+
+
 
 #brick .box {
     display: flex;
@@ -109,3 +177,72 @@ textarea {
     background-color: rgb(176, 222, 53);
     height: 50px;
 }
+
+#banner .recommend {
+    bottom: 34%;
+    right: 7%;
+    width: 30%;
+    /* padding: 5px 0px 5px 0px; */
+}
+
+    #banner .recommend .pill {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        width: 100%;
+        padding: 5px 0px 5px 0px;
+        border-radius: 30px;
+        cursor: pointer;
+        border: 1px solid white;
+        transition: background-color 0.15s ease;
+    }
+
+        #banner .recommend .pill:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+    #banner .recommend .pill-title {
+        color: white;
+        padding: 5px 0px 5px 40px;
+    }
+
+
+.GridItem {
+    width: 100%;
+    line-height: 0;
+    overflow: hidden;
+    transition: transform .3s ease-out,box-shadow .3s ease-out,width .3s ease-out;
+    will-change: transform,box-shadow;
+    padding: 0 66px 66px 0;
+}
+
+    .GridItem:hover {
+        width: 101%;
+    }
+
+.card ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #F27D20;
+    height: 100%;
+    border-bottom: 1px solid white;
+}
+
+.card li {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+    .card li a {
+        display: block;
+        color: white;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s ease-out;
+    }
+
+        /* Change the link color on hover */
+        .card li a:hover {
+            background-color: #ff8423;
+            color: white;
+        }
