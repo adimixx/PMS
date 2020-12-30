@@ -125,38 +125,43 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <div class="card" style="padding:15px">
+            <div class="card h-100" style="padding:15px">
                 <div class="card-header">
                     <h4>Assigned Staff</h4>
                 </div>
                 <div class="card-body">
                     @if (Model.Item3 != null)
                     {
-                        <dl class="dl-horizontal">
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Item3.UserStudio.User.name)
-                            </dt>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Name
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Item3.UserStudio.User.email)
-                            </dt>
+                        <dt>
+                            Email
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Item3.UserStudio.User.phonenumber)
-                            </dt>
+                        <dt>
+                            Phone Number
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)
-                            </dd>
-                        </dl>
+                        @if (!string.IsNullOrWhiteSpace(Model.Item3.UserStudio.User.phonenumber))
+                        {
+                            <dd>@Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)</dd>
+                        }
+                        else
+                        {
+                            <dd>-</dd>
+                        }
+                    </dl>
                     }
                     else
                     {
@@ -167,14 +172,14 @@
                 <div class="card-footer">
                     @if (ViewBag.StudioRoleID == 1)
                     {
-                            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
                     }
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6">
-            <div class="card" style="padding:15px">
+            <div class="card h-100" style="padding:15px">
                 <div class="card-header">
                     <h4>Job's Service Charges</h4>
                 </div>
@@ -227,6 +232,8 @@
                         <h4>Update Job</h4>
                         <hr />
                         <form action="~/@ViewBag.StudioUrl/job/changestatus" method="post">
+                            @Html.AntiForgeryToken()
+
                             <input type="hidden" value="@Model.Item1.id" name="id" />
 
                             <div class="form-group">
@@ -255,38 +262,47 @@
 
         <div class="modal-content">
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Update Job Description</h4>
-                        <hr />
-                        <form action="~/@ViewBag.StudioUrl/job/changedate" method="post">
-                            @if (Model.Item2 != null)
-                            {
-                                @Html.HiddenFor(x => x.Item2.id, new { @Value = Model.Item2.id });
-                            }
-                            @Html.HiddenFor(x => x.Item2.jobid, new { @Value = Model.Item1.id })
-                            <div class="form-group">
-                                <input type="date" name="jobdate" class="form-control" value="@Model.Item2.jobdate1.ToString("yyyy-MM-dd")" />
-                            </div>
-                            <div class="form-group">
-                                <input type="time" name="jobtime" class="form-control" value="@Model.Item2.jobdate1.TimeOfDay" />
-                            </div>
-                            <div class="form-group">
-                                @Html.TextBoxFor(x => x.Item2.description, new { @class = "form-control", type = "text", placeholder = "Description..." })
-                            </div>
-                            <div class="form-group">
-                                @Html.TextBoxFor(x => x.Item2.location, new { @class = "form-control", type = "text", placeholder = "Location..." })
-                            </div>
-                            <div class="form-group">
-                                <select title="Status" name="jsid" id="jobDateStatus" class="form-control"></select>
-                            </div>
+                @if (Model.Item2 == null)
+                {
+                    <h5>Please determine the date for the photoshoot session before you can proceed to assign staff/photographer</h5>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Update Job Description</h4>
+                            <hr />
+                            <form action="~/@ViewBag.StudioUrl/job/changedate" method="post">
+                                @Html.AntiForgeryToken()
 
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-info">Save Changes</button>
-                            </div>
-                        </form>
+                                @if (Model.Item2 != null)
+                                {
+                                    @Html.HiddenFor(x => x.Item2.id, new { @Value = Model.Item2.id });
+                                }
+                                @Html.HiddenFor(x => x.Item2.jobid, new { @Value = Model.Item1.id })
+                                <div class="form-group">
+                                    <input type="date" name="jobdate" class="form-control" value="@Model.Item2.jobdate1.ToString("yyyy-MM-dd")" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="time" name="jobtime" class="form-control" value="@Model.Item2.jobdate1.TimeOfDay" />
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item2.description, new { @class = "form-control", type = "text", placeholder = "Description..." })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item2.location, new { @class = "form-control", type = "text", placeholder = "Location..." })
+                                </div>
+                                <div class="form-group">
+                                    <select title="Status" name="jsid" id="jobDateStatus" class="form-control"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -356,7 +372,18 @@
                                             <p class="font-weight-light">${row.StudioRole}</p>
                                         ` }, "autoWidth": true
                         },
-                        { data: 'userid', render: function (data, type, row) { return `<a href="@Request.Url/assignstaff/${data}" class="btn btn-secondary">Assign</a>` }, width: "10%" }
+                        {
+                            data: 'userid', render: function (data, type, row) {
+                                return `@if (Model.Item3 != null && Model.Item2 != null) {
+                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=@Model.Item3.id&jdid=@Model.Item2.id" class="btn btn-secondary">Assign</a>
+                                    }
+                                    else if (Model.Item2 != null) {
+                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=&jdid=@Model.Item2.id" class="btn btn-secondary">Assign</a>
+                                    }
+                                    else {
+                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=&jdid=" class="btn btn-secondary">Assign</a>
+                                    }` }, width: "10%"
+                        }
                     ]
                 }
             );

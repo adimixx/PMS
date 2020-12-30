@@ -190,9 +190,55 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
-        public ActionResult AssignStaff(int id)
+        public ActionResult AssignStaff(int id, int? jduid, int jdid)
         {
-            return RedirectToAction("detail/" + id);
+            try
+            {
+                var jdu = new JobDateUser();
+                if (jduid.HasValue)
+                    jdu = db.JobDateUsers.Find(jduid.Value);
+
+                var sid = (int)ViewBag.StudioID;
+                ViewBag.UserStudioID = db.UserStudios.FirstOrDefault(x => x.studioid == sid && x.userid == id).id;
+                ViewBag.JobDateID = jdid;
+
+                return View(jdu);
+            }
+            catch (Exception)
+            {
+                return View("error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult AssignStaff(JobDateUser jobDateUser)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (jobDateUser.id == 0)
+                    {
+                        db.JobDateUsers.Add(jobDateUser);
+                    }
+                    else
+                    {
+                        db.Entry(jobDateUser).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    db.SaveChanges();
+
+                    return RedirectToAction("detail/" + db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid).jobid);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         // ---------------------- Job Management End ----------------------- //
