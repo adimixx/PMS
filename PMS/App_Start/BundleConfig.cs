@@ -40,14 +40,14 @@ namespace PMS
 
             bundles.Add(new StyleBundle("~/Content/cssUser").Include(
                       "~/src/user/css/bootstrap.min.css",
-                      "~/src/user/css/app.min.css",
+                      "~/src/user/css/app.css",
                       "~/src/user/css/icons.min.css",
                       "~/content/Vuetify/vuetify.min.css",
                       "~/content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/cssAdmin").Include(
                       "~/src/admin/css/bootstrap.min.css",
-                      "~/src/admin/css/app.min.css",
+                      "~/src/admin/css/app.css",
                       "~/src/admin/css/icons.min.css",
                       "~/content/Vuetify/vuetify.min.css",
                       "~/content/site.css"));

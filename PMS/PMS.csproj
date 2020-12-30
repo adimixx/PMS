@@ -499,6 +499,7 @@
     <Content Include="src\images\flags\russia_flag.jpg" />
     <Content Include="src\images\flags\spain_flag.jpg" />
     <Content Include="src\images\flags\us_flag.jpg" />
+    <Content Include="src\images\gallery\banner-1.jpg" />
     <Content Include="src\images\gallery\work-1.jpg" />
     <Content Include="src\images\gallery\work-10.jpg" />
     <Content Include="src\images\gallery\work-11.jpg" />
@@ -2150,6 +2151,8 @@
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\BlobFile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Chat\StudioChatPackagePanel.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />

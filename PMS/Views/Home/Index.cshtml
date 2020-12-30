@@ -1,5 +1,27 @@
 ﻿@section styles {
     <style>
+        .carousel-caption {
+            top: 0;
+            bottom: auto;
+            left: 0px;
+            background-color: rgba(0,0,0, 0.6);
+            right: 40%;
+        }
+
+        .caption {
+            position: absolute;
+            top: 8px;
+            left: 6px;
+            color: white;
+            background-color: #f27d20;
+            padding: 3px 6px 3px 6px;
+        }
+
+        .sh {
+            box-shadow: 0 16px 64px 0 rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.01);
+        }
+
+
         @@media screen and (min-width: 1200px) {
             .bricklayer-column-sizer {
                 /* divide by 3. */
@@ -10,22 +32,78 @@
         @@media screen and (min-width: 900px) {
             .bricklayer-column-sizer {
                 /* divide by 2. */
-                width: 50%;
+                /*width: 50%;*/
+                width: 33.3%;
             }
         }
     </style>
 }
 
 <div id="page-head" class="row">
-    <div class="col-12">
-        <center><a href="@Url.Action("Manage","Studio")">Create Studio</a></center>
+    <div class="col-12 p-0">
+        <ul>
+            <li>
+                <a class="homeref" href="@Url.Action("Manage","Studio")">Profile</a>
+            </li>
+            <li>
+                <a class="homeref" href="@Url.Action("Manage","Studio")">Create Studio</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row" id="banner">
+    <div class="col-12 p-0">
+        <div class="mid title">
+            <h2>Welcome to PhotoG</h2>
+            <span style="">HIRE THE BEST STUDIO FROM THE BEST SITE!</span>
+        </div>
+        <img class="d-block w-100 h-100" src="~/src/images/gallery/banner-1.jpg">
+        <div class="mid search">
+            <form>
+                <input class="input" type="text" name="s" placeholder="Search Studio">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div class="mid recommend">
+            <div class="row">
+                <div class="col-3">
+                    <div class="pill-title">Top Search :</div>
+                </div>
+                <div class="col-3">
+                    <div class="pill">Wedding</div>
+                </div>
+                <div class="col-3">
+                    <div class="pill">Convocation</div>
+                </div>
+                <div class="col-3">
+                    <div class="pill">Feast</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
+        <div class="col-3">
+            <div class="row">
+                <div class="col-12 pt-0">
+                    <img class="d-block w-100 sh" src="~/src/images/gallery/work-6.jpg">
+                    <div class="caption">
+                        Best Studio
+                    </div>
+                </div>
+                <div class="col-12 pt-0">
+                    <img class="d-block w-100 sh" src="~/src/images/gallery/work-7.jpg">
+                    <div class="caption">
+                        Best Picture
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-6">
-            <div id="banner-carousel" class="carousel slide" data-ride="carousel">
+            <div id="banner-carousel" class="carousel slide sh" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -33,13 +111,25 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="~/src/images/gallery/work-1.jpg" alt="First slide">
+                        <img class="d-block w-100 sh" src="~/src/images/gallery/work-1.jpg" alt="First slide">
+                        <div class="carousel-caption">
+                            <h3>First slide label</h3>
+                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                        </div>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="~/src/images/gallery/work-2.jpg" alt="Second slide">
+                        <img class="d-block w-100 sh" src="~/src/images/gallery/work-2.jpg" alt="Second slide">
+                        <div class="carousel-caption">
+                            <h3>First slide label</h3>
+                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                        </div>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="~/src/images/gallery/work-3.jpg" alt="Third slide">
+                        <img class="d-block w-100 sh" src="~/src/images/gallery/work-3.jpg" alt="Third slide">
+                        <div class="carousel-caption">
+                            <h3>First slide label</h3>
+                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                        </div>
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#banner-carousel" role="button" data-slide="prev">
@@ -52,38 +142,84 @@
                 </a>
             </div>
         </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-12 pt-0 pb-0">
-                    <img class="d-block w-50" src="~/src/images/gallery/work-6.jpg">
-                </div>
-                <div class="col-12 pt-0">
-                    <img class="d-block w-50" src="~/src/images/gallery/work-7.jpg">
-                </div>
+        <div class="col-3">
+            <div style="height:99%;border-radius: 5px;" class="card sh">
+                <ul>
+                    <li>
+                        <a class="homeref" href="@Url.Action("Manage","Studio")">Menu 1</a>
+                    </li>
+                    <li>
+                        <a class="homeref" href="@Url.Action("Manage","Studio")">Menu 2</a>
+                    </li>
+                    <li>
+                        <a class="homeref" href="@Url.Action("Manage","Studio")">Menu 3</a>
+                    </li>
+                    <li>
+                        <a class="homeref" href="@Url.Action("Manage","Studio")">Menu 4</a>
+                    </li>
+                    <li>
+                        <a class="homeref" href="@Url.Action("Manage","Studio")">Menu 5</a>
+                    </li>
+                    <li>
+                        <a class="homeref" href="@Url.Action("Manage","Studio")">Menu 6</a>
+                    </li>
+                    <li>
+                        <a class="homeref" href="@Url.Action("Manage","Studio")">Menu 7</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
+            <h2>Best Template</h2>
+        </div>
+        <div class="col-12">
             <div id="brick" class="bricklayer">
-                <div class="box">
-                    test1
+                <div class="GridItem">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-1.jpg">
+                    Pelatography
                 </div>
-                <div class="box">
-                    test2
+                <div class="GridItem">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-2.jpg">
+                    Julaphotography
                 </div>
-                <div class="box">
-                    test3
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-3.jpg">
+                    Czone
                 </div>
-                <div class="box">
-                    test4
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-4.jpg">
+                    Kodak
                 </div>
-                <div class="box">
-                    test5
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-5.jpg">
+                    Tecware
                 </div>
-                <div class="box">
-                    test6
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-6.jpg">
+                    MSI
+                </div>
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-7.jpg">
+                    Razer
+                </div>
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-8.jpg">
+                    Coolermaster
+                </div>
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-9.jpg">
+                    Strix
+                </div>
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-10.jpg">
+                    ROG
+                </div>
+                <div class="GridItem pt-2">
+                    <img class="myImg card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-11.jpg">
+                    Asus
                 </div>
             </div>
         </div>

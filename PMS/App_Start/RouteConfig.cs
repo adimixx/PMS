@@ -14,6 +14,13 @@ namespace PMS
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+               name: "ChatStudio",
+                url: "{permalink}/Chat/{action}/{id}",
+               defaults: new { controller = "Chat", action = "ChatList", id = UrlParameter.Optional }
+           );
+
             routes.MapRoute(
                 name: "Chat",
                 url: "Chat/{action}/{id}",
