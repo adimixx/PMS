@@ -12,10 +12,17 @@ namespace PMS.Controllers
     {
         photogEntities ent = new photogEntities();
         // GET: Chat
+        [StudioPermalinkValidate]
         public ActionResult Index()
         {
             return View();
         }
+
+        public PartialViewResult StudioChatPackagePanel()
+        {
+            return PartialView();
+        }
+
         public ActionResult ChatList() {
             User whichuser = (User)UserAuthentication.Identity();
             var listofchatroom = ent.ChatKeys.Where(x=>x.UserID==whichuser.id).ToList();
@@ -26,5 +33,7 @@ namespace PMS.Controllers
             ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
             return View(chat);
         }
+        
+
     }
 }

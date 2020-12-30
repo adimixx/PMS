@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-8">
+
+    </div>
+    <div class="col-4">
+        @{
+            Html.RenderPartial("StudioChatPackagePanel");
+        }
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        var packagePanel = new Vue({
+            el: '#PackagePanel',
+            data() {
+                return {
+                    cartItems: [],
+                    priceUnit: 'RM',
+                    manualItem: 1
+                }
+            },
+            mounted() {
+                console.log('test');
+                this.$root.$on('AddItem', (dat) => {
+                    this.onAddNewItem(dat);
+                });
+                this.$root.$on('ResetCart', () => {
+                    this.resetCart();
+                });
+                this.$root.$on('GetCartList', () => {
+                    this.$root.$emit('ReturnCartList', this.cartItems);
+                });
+            }
+            , methods: {
+                onAddNewItem: function (item) {
+                    var exist = false;
+                    if (item.type.toUpperCase() == "MANUAL") {
+                        item.product.name = "Item #" + this.manualItem;
+                        this.cartItems.push({
+                            item: item,
+                            quantity: item.quantity,
+                            total: Number(item.product.price * 1).toFixed(2)
+                        });
+                        this.manualItem++;
+                    } else if (item.type.toUpperCase() == "PRODUCT") {
+                        for (var i = 0; i < this.cartItems.length; i++) {
+                            if (this.cartItems[i].item === item) {
+                                var existCart = this.cartItems[i];
+                                existCart.quantity++;
+                                existCart.total = Number(existCart.quantity * existCart.item.product.price).toFixed(2);
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if (!exist) {
+                            this.cartItems.push({
+                                item: item,
+                                quantity: 1,
+                                total: Number(item.product.price * 1).toFixed(2)
+                            });
+                        }
+                    }
+                    this.$root.$emit('ItemChanged', this.cartItems);
+                }, onAddItem: function (item) {
+                    for (var i = 0; i < this.cartItems.length; i++) {
+                        if (this.cartItems[i] === item) {
+                            var existCart = this.cartItems[i];
+                            existCart.quantity++;
+                            existCart.total = Number(existCart.quantity * existCart.item.product.price).toFixed(2);
+                            this.$root.$emit('ItemChanged', this.cartItems);
+                            break;
+                        }
+                    }
+                },
+                onRemoveItem: function (item) {
+                    for (var i = 0; i < this.cartItems.length; i++) {
+                        if (this.cartItems[i] === item) {
+                            var existCart = this.cartItems[i];
+                            existCart.quantity--;
+                            if (existCart.quantity === 0) {
+                                if (existCart.item.type.toUpperCase() == "MANUAL") this.manualItem--;
+                                this.cartItems.splice(i, 1);
+                            } else {
+                                existCart.total = Number(existCart.quantity * existCart.item.product.price).toFixed(2);
+                            }
+                            this.$root.$emit('ItemChanged', this.cartItems);
+                            break;
+                        }
+                    }
+                },
+                getCartList: function () {
+                    return this.cartItems;
+                },
+                resetCart: function () {
+                    while (this.cartItems.length > 0) {
+                        this.cartItems.pop();
+                    }
+                    this.$root.$emit('ItemChanged', this.cartItems);
+                }
+            }
+        });
+    </script>
+
+}

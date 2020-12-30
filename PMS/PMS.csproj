@@ -2150,6 +2150,8 @@
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\BlobFile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Chat\StudioChatPackagePanel.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
