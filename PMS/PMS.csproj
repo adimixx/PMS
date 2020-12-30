@@ -499,6 +499,7 @@
     <Content Include="src\images\flags\russia_flag.jpg" />
     <Content Include="src\images\flags\spain_flag.jpg" />
     <Content Include="src\images\flags\us_flag.jpg" />
+    <Content Include="src\images\gallery\banner-1.jpg" />
     <Content Include="src\images\gallery\work-1.jpg" />
     <Content Include="src\images\gallery\work-10.jpg" />
     <Content Include="src\images\gallery\work-11.jpg" />
