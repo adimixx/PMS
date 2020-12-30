@@ -26,7 +26,7 @@ namespace PMS.Models
                 if (user != null)
                 {
                     var userData = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-                    string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile))? "/src/img/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
+                    string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile))? "https://storagephotog.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
 
                     var identity = new ClaimsIdentity(new[]
                     {
@@ -98,7 +98,7 @@ namespace PMS.Models
                 identity.RemoveClaim(userEmail);
                 identity.RemoveClaim(userProfilePic);
 
-                string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "/src/img/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
+                string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "https://storagephotog.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
                 var userDataJson = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
                 identity = new ClaimsIdentity(new[]
