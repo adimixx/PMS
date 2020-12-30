@@ -7,190 +7,211 @@
 
 <h2>Job's Detail</h2>
 
-<div class="row">
-    <div class="col-lg-6">
-        <div class="card" style="padding:15px">
-            <h4>Job's Information</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>
-                    Date Issued
-                </dt>
+<div class="container" style="font-size:16px">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card h-100" style="padding:15px">
+                <div class="card-header">
+                    <h4>Job's Information</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Date Issued
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Item1.DateCreated)
-                </dd>
+                        <dd>
+                            @Model.Item1.DateCreated.ToString("dd/MM/yyyy hh:mm tt")
+                        </dd>
 
-                <dt>
-                    Payment Status
-                </dt>
+                        <dt>
+                            Payment Status
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Item1.paymentstatus)
-                </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.paymentstatus)
+                        </dd>
 
-                <dt>
-                    Status
-                </dt>
+                        <dt>
+                            Status
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Item1.JobStatu.name)
-                </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.JobStatu.name)
+                        </dd>
 
-                <dt>
-                    Package Name
-                </dt>
+                        <dt>
+                            Package Name
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Item1.Package.name)
-                </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.Package.name)
+                        </dd>
 
-                <dt>
-                    Client's Email
-                </dt>
+                        <dt>
+                            Client's Email
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Item1.User.email)
-                </dd>
-            </dl>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.User.email)
+                        </dd>
+                    </dl>
+                </div>
 
-            @if (ViewBag.StudioRoleID == 1)
-            {
-                <p>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#statusModal">Update</button>
-                </p>
-            }
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#statusModal">Update</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card h-100" style="padding:15px;">
+                <div class="card-header">
+                    <h4>Job's Date Information</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Item2 != null)
+                    {
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Session Date & Time
+                            </dt>
+
+                            <dd>
+                                @Model.Item2.jobdate1.ToString("dd/MM/yyyy hh:mm tt")
+                            </dd>
+
+                            <dt>
+                                Photoshoot Location
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Item2.location)
+                            </dd>
+
+                            <dt>
+                                Session Description
+                            </dt>
+
+                            @if (!string.IsNullOrWhiteSpace(Model.Item2.description))
+                            {
+                                <dd>@Html.DisplayFor(model => model.Item2.description)</dd>
+                            }
+                            else
+                            {
+                                <dd>-</dd>
+                            }
+
+                        </dl>
+                    }
+                    else
+                    {
+                        <h5>No Data Yet!</h5>
+                    }
+                </div>
+
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#dateModal">Update Date</button>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="col-lg-6">
-        <div class="card" style="padding:15px">
-            <h4>Job's Date Information</h4>
-            <hr />
-            @if (Model.Item2 != null)
-            {
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item2.jobdate1)
-                    </dt>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card" style="padding:15px">
+                <div class="card-header">
+                    <h4>Assigned Staff</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Item3 != null)
+                    {
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Item3.UserStudio.User.name)
+                            </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Item2.jobdate1)
-                    </dd>
+                            <dd>
+                                @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
+                            </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item2.location)
-                    </dt>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Item3.UserStudio.User.email)
+                            </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Item2.location)
-                    </dd>
+                            <dd>
+                                @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
+                            </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item2.description)
-                    </dt>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Item3.UserStudio.User.phonenumber)
+                            </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Item2.description)
-                    </dd>
-                </dl>
-            }
-            else
-            {
-                <h5>No Data Yet!</h5>
-            }
+                            <dd>
+                                @Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)
+                            </dd>
+                        </dl>
+                    }
+                    else
+                    {
+                        <h5>No Data Yet!</h5>
+                    }
+                </div>
 
-            @if (ViewBag.StudioRoleID == 1)
-            {
-                <p>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dateModal">Update Date</button>
-                </p>
-            }
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                    }
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6">
-        <div class="card" style="padding:15px">
-            <h4>Assigned Staff</h4>
-            <hr />
-            @if (Model.Item3 != null)
-            {
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item3.UserStudio.User.name)
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
-                    </dd>
+        <div class="col-lg-6">
+            <div class="card" style="padding:15px">
+                <div class="card-header">
+                    <h4>Job's Service Charges</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Item4 != null)
+                    {
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Item4.amount)
+                            </dt>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item3.UserStudio.User.email)
-                    </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Item4.amount)
+                            </dd>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
-                    </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Item4.remarks)
+                            </dt>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item3.UserStudio.User.phonenumber)
-                    </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Item4.remarks)
+                            </dd>
+                        </dl>
+                    }
+                    else
+                    {
+                        <h5>No Data Yet!</h5>
+                    }
+                </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)
-                    </dd>
-                </dl>
-            }
-            else
-            {
-                <h5>No Data Yet!</h5>
-            }
-
-            @if (ViewBag.StudioRoleID == 1)
-            {
-                <p>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
-                </p>
-            }
-        </div>
-    </div>
-
-    <div class="col-lg-6">
-        <div class="card" style="padding:15px">
-            <h4>Job's Service Charges</h4>
-            <hr />
-            @if (Model.Item4 != null)
-            {
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item4.amount)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Item4.amount)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Item4.remarks)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Item4.remarks)
-                    </dd>
-                </dl>
-            }
-            else
-            {
-                <h5>No Data Yet!</h5>
-            }
-
-            @if (ViewBag.StudioRoleID == 1)
-            {
-                <p>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
-                </p>
-            }
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -216,14 +237,14 @@
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-info">Update</button>
+                                <button type="submit" class="btn btn-info">Save Changes</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
 
@@ -241,34 +262,34 @@
                         <form action="~/@ViewBag.StudioUrl/job/changedate" method="post">
                             @if (Model.Item2 != null)
                             {
-                                <input type="hidden" value="@Model.Item2.id" name="id" />
+                                @Html.HiddenFor(x => x.Item2.id, new { @Value = Model.Item2.id });
                             }
-                            <input type="hidden" value="@Model.Item1.id" name="jobid" />
+                            @Html.HiddenFor(x => x.Item2.jobid, new { @Value = Model.Item1.id })
                             <div class="form-group">
-                                <input type="date" name="jobdate" class="form-control" />
+                                <input type="date" name="jobdate" class="form-control" value="@Model.Item2.jobdate1.ToString("yyyy-MM-dd")" />
                             </div>
                             <div class="form-group">
-                                <input type="time" name="jobtime" class="form-control" />
+                                <input type="time" name="jobtime" class="form-control" value="@Model.Item2.jobdate1.TimeOfDay" />
                             </div>
                             <div class="form-group">
-                                <input type="text" name="desc" placeholder="Description..." class="form-control" />
+                                @Html.TextBoxFor(x => x.Item2.description, new { @class = "form-control", type = "text", placeholder = "Description..." })
                             </div>
                             <div class="form-group">
-                                <input type="text" name="location" placeholder="Location..." class="form-control" />
+                                @Html.TextBoxFor(x => x.Item2.location, new { @class = "form-control", type = "text", placeholder = "Location..." })
                             </div>
                             <div class="form-group">
                                 <select title="Status" name="jsid" id="jobDateStatus" class="form-control"></select>
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-info">Update</button>
+                                <button type="submit" class="btn btn-info">Save Changes</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
 
@@ -294,7 +315,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
 

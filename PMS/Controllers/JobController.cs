@@ -126,12 +126,15 @@ namespace PMS.Controllers
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            var data = db.Jobs.Find(id);
+            var job = db.Jobs.Find(id);
+            var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
+            var jobdateuser = jobdate != null ? db.JobDateUsers.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobdateid == jobdate.id) : null;
+            var jobcharge = job != null ? db.JobCharges.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
 
-            if (ViewBag.StudioID != data.Package.studioid)
+            if (ViewBag.StudioID != job.Package.studioid)
                 return RedirectToAction("jobhome");
 
-            return View(new Tuple<Job, JobDate, JobDateUser, JobCharge>(data, null, null, null));
+            return View(new Tuple<Job, JobDate, JobDateUser, JobCharge>(job, jobdate, jobdateuser, jobcharge));
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
@@ -151,6 +154,38 @@ namespace PMS.Controllers
             {
                 throw;
             }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult ChangeDate([Bind(Prefix = "Item2")]JobDate job, int jsid, DateTime jobdate, TimeSpan jobtime)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    job.jobstatusid = jsid;
+                    job.jobdate1 = jobdate.Add(jobtime);
+                    if (job.id != 0)
+                    {
+                        db.Entry(job).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.JobDates.Add(job);
+                        db.SaveChanges();
+                    }
+
+                    return RedirectToAction("detail/" + job.jobid);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+                return View("Error");
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
