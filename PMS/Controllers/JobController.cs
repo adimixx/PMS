@@ -136,12 +136,13 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpPost]
-        public ActionResult ChangeStatus(int id, int jsid)
+        public ActionResult ChangeStatus(int id, int jsid, int pid)
         {
             try
             {
                 var data = db.Jobs.Find(id);
                 data.jobstatusid = jsid;
+                data.packageid = pid;
                 db.SaveChanges();
 
                 return RedirectToAction("detail/" + id);
