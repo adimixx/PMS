@@ -17,6 +17,7 @@ namespace PMS.Models.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Studio()
         {
+            this.Charges = new HashSet<Charge>();
             this.Packages = new HashSet<Package>();
             this.StudioLinks = new HashSet<StudioLink>();
             this.UserStudios = new HashSet<UserStudio>();
@@ -28,6 +29,8 @@ namespace PMS.Models.Database
         public string location { get; set; }
         public byte[] ImgLogo { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Charge> Charges { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Package> Packages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
