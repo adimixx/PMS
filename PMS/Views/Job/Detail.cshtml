@@ -116,7 +116,7 @@
                 <div class="card-footer">
                     @if (ViewBag.StudioRoleID == 1)
                     {
-                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#dateModal">Update Date</button>
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#dateModal">Update</button>
                     }
                 </div>
             </div>
@@ -186,23 +186,14 @@
                 <div class="card-body">
                     @if (Model.Item4 != null)
                     {
-                        <dl class="dl-horizontal">
-                            <dt>
-                                Charge Amount
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Item4.amount)
-                            </dd>
-
-                            <dt>
-                                Remarks
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Item4.remarks)
-                            </dd>
-                        </dl>
+                        <table id="jobChargeTable" class="table table-striped table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
                     }
                     else
                     {
@@ -213,7 +204,7 @@
                 <div class="card-footer">
                     @if (ViewBag.StudioRoleID == 1)
                     {
-                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#jobChargeModal">Add Service Charge</button>
                     }
                 </div>
             </div>
@@ -337,46 +328,35 @@
 
     </div>
 </div>
-<div class="modal fade" id="chargeModal" role="dialog">
+<div class="modal fade" id="jobChargeModal" role="dialog">
     <div class="modal-dialog">
 
         <div class="modal-content">
             <div class="modal-body">
-                @if (Model.Item2 == null)
-                {
-                    <h5>Please determine the date for the photoshoot session before you can proceed to assign staff/photographer</h5>
-                }
-                else
-                {
-                    <div class="card">
-                        <div class="card-body">
-                            <h4>Charge Service</h4>
-                            <hr />
-                            <form action="~/@ViewBag.StudioUrl/job/charge" method="post">
-                                @Html.AntiForgeryToken()
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Add Charge to Session</h4>
+                        <hr />
+                        <form action="~/@ViewBag.StudioUrl/job/jobcharge" method="post">
+                            @Html.AntiForgeryToken()
 
-                                @if (Model.Item4 != null)
-                                {
-                                    @Html.HiddenFor(x => x.Item4.id, new { @Value = Model.Item2.id });
-                                }
-                                @Html.HiddenFor(x => x.Item4.jobid, new { @Value = Model.Item1.id })
-                                <div class="form-group">
-                                    @Html.TextBoxFor(x => x.Item4.amount, new { @class = "form-control", placeholder = "Amount..." })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBoxFor(x => x.Item4.remarks, new { @class = "form-control", type = "text", placeholder = "Remarks..." })
-                                </div>
-                                <div class="form-group" id="listCharge">
-                                    <select title="Charge" name="cid" id="jobCharge" class="form-control"></select>
-                                </div>
+                            @Html.HiddenFor(x => x.Item4.jobid, new { @Value = Model.Item1.id })
+                            <div class="form-group">
+                                <select name="cid" class="form-control" id="listCharge"></select>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(x => x.Item4.amount, new { @class = "form-control", placeholder = "Amount...", @Value = "" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(x => x.Item4.remarks, new { @class = "form-control", placeholder = "Remarks...", @Value = "" })
+                            </div>
 
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-info">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info">Save Changes</button>
+                            </div>
+                        </form>
                     </div>
-                }
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -394,10 +374,35 @@
         headers: { 'StudioCredential': '@ViewBag.StudioID' }
     });
         var table;
+        var jctable;
         var jobstatus;
         var packages;
+        var charges;
         $(function () {
-             table = $("#adminTable").DataTable(
+            jctable = $("#jobChargeTable").DataTable(
+                {
+                    serverSide: false,
+                    ajax: {
+                        type: "GET",
+                        url: "/api/system/loadjobcharges/@Model.Item1.id",
+                        dataSrc: ''
+                    },
+                    bLengthChange: true,
+                    paging: false,
+                    searchPlaceholder: "Search User",
+                    search: true,
+                    bSort: true,
+                    info: false,
+                    processing: true,
+                    columns: [
+                        { data: 'Name', autoWidth: true },
+                        { data: 'id', render: function (data, type, row) { return `<a href="@Request.Url/editjobcharge/${data}">Edit</a> | <a href="@Request.Url/deletejobcharge/${data}">Delete</a>` }, autoWidth: true }
+                    ]
+                }
+            );
+        });
+        $(function () {
+            table = $("#adminTable").DataTable(
                 {
                     serverSide: false,
                     ajax: {
@@ -471,6 +476,19 @@
                         }
 
                         $("#packages").append(packages)
+                    })
+                }
+            })
+        });
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadcharges/@ViewBag.StudioID",
+                dataSrc: '',
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        charges = `<option value='${obj.id}'>${obj.Name}</option>`
+                        $("#listCharge").append(charges)
                     })
                 }
             })

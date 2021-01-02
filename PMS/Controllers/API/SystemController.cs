@@ -94,5 +94,41 @@ namespace PMS.Controllers
             }
             return Ok(data);
         }
+
+        [HttpGet]
+        public IHttpActionResult loadJobCharges(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.JobCharges.Where(x => x.jobid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    item.Charge.Name,
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadCharges(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Charges.Where(x => x.StudioID == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    item.Name,
+                });
+            }
+            return Ok(data);
+        }
     }
 }

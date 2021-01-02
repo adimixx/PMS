@@ -129,7 +129,7 @@ namespace PMS.Controllers
             var job = db.Jobs.Find(id);
             var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
             var jobdateuser = jobdate != null ? db.JobDateUsers.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobdateid == jobdate.id) : null;
-            var jobcharge = job != null ? db.JobCharges.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
+            var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
 
             if (ViewBag.StudioID != job.Package.studioid)
                 return RedirectToAction("jobhome");
@@ -229,6 +229,38 @@ namespace PMS.Controllers
                     db.SaveChanges();
 
                     return RedirectToAction("detail/" + db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid).jobid);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult JobCharge([Bind(Prefix = "Item4")] JobCharge jobCharge, int cid)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    jobCharge.chargeid = cid;
+                    if (jobCharge.id == 0)
+                    {
+                        db.JobCharges.Add(jobCharge);
+                    }
+                    else
+                    {
+                        db.Entry(jobCharge).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    db.SaveChanges();
+
+                    return RedirectToAction("detail/" + jobCharge.jobid);
                 }
                 catch (Exception)
                 {
