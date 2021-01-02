@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
@@ -10,7 +10,11 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StudioID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="Unit" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="ChatKey">
           <Key>
@@ -28,6 +32,7 @@
           <Property Name="ChatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GroupChat" Type="bit" />
           <Property Name="GroupChatName" Type="nvarchar" MaxLength="50" />
+          <Property Name="QuoteFirestoreKey" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -430,6 +435,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Charges_Studio">
+          <End Role="Studio" Type="Self.Studio" Multiplicity="1" />
+          <End Role="Charges" Type="Self.Charges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studio">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="StudioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ChatKey_ChatRoom">
           <End Role="ChatRoom" Type="Self.ChatRoom" Multiplicity="0..1" />
           <End Role="ChatKey" Type="Self.ChatKey" Multiplicity="*" />
@@ -555,6 +572,10 @@
             <End Role="User" EntitySet="User" />
             <End Role="UserSystemRole" EntitySet="UserSystemRole" />
           </AssociationSet>
+          <AssociationSet Name="FK_Charges_Studio" Association="Self.FK_Charges_Studio">
+            <End Role="Studio" EntitySet="Studio" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
           <AssociationSet Name="FK_ChatKey_ChatRoom" Association="Self.FK_ChatKey_ChatRoom">
             <End Role="ChatRoom" EntitySet="ChatRoom" />
             <End Role="ChatKey" EntitySet="ChatKey" />
@@ -592,6 +613,10 @@
           <AssociationSet Name="FK__JobCharge__charg__32AB8735" Association="photogModel.FK__JobCharge__charg__32AB8735">
             <End Role="Charge" EntitySet="Charges" />
             <End Role="JobCharge" EntitySet="JobCharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Charges_Studio" Association="photogModel.FK_Charges_Studio">
+            <End Role="Studio" EntitySet="Studios" />
+            <End Role="Charge" EntitySet="Charges" />
           </AssociationSet>
           <AssociationSet Name="FK_ChatKey_ChatRoom" Association="photogModel.FK_ChatKey_ChatRoom">
             <End Role="ChatRoom" EntitySet="ChatRooms" />
@@ -683,8 +708,13 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StudioID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="Unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__charg__32AB8735" FromRole="Charge" ToRole="JobCharge" />
+          <NavigationProperty Name="Studio" Relationship="photogModel.FK_Charges_Studio" FromRole="Charge" ToRole="Studio" />
         </EntityType>
         <EntityType Name="ChatKey">
           <Key>
@@ -704,6 +734,7 @@
           <Property Name="ChatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GroupChat" Type="Boolean" />
           <Property Name="GroupChatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QuoteFirestoreKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_ChatRoom" FromRole="ChatRoom" ToRole="ChatKey" />
         </EntityType>
         <EntityType Name="Invoice">
@@ -813,6 +844,7 @@
           <Property Name="uniquename" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ImgLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Charges" Relationship="photogModel.FK_Charges_Studio" FromRole="Studio" ToRole="Charge" />
           <NavigationProperty Name="Packages" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Studio" ToRole="Package" />
           <NavigationProperty Name="StudioLinks" Relationship="photogModel.FK__StudioLin__studi__395884C4" FromRole="Studio" ToRole="StudioLink" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__studi__3D2915A8" FromRole="Studio" ToRole="UserStudio" />
@@ -916,6 +948,18 @@
             </Principal>
             <Dependent Role="JobCharge">
               <PropertyRef Name="chargeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Charges_Studio">
+          <End Type="photogModel.Studio" Role="Studio" Multiplicity="1" />
+          <End Type="photogModel.Charge" Role="Charge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studio">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Charge">
+              <PropertyRef Name="StudioID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1180,7 +1224,11 @@
           <EntitySetMapping Name="Charges">
             <EntityTypeMapping TypeName="photogModel.Charge">
               <MappingFragment StoreEntitySet="Charges">
-                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StudioID" ColumnName="StudioID" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1198,6 +1246,7 @@
           <EntitySetMapping Name="ChatRooms">
             <EntityTypeMapping TypeName="photogModel.ChatRoom">
               <MappingFragment StoreEntitySet="ChatRoom">
+                <ScalarProperty Name="QuoteFirestoreKey" ColumnName="QuoteFirestoreKey" />
                 <ScalarProperty Name="GroupChatName" ColumnName="GroupChatName" />
                 <ScalarProperty Name="GroupChat" ColumnName="GroupChat" />
                 <ScalarProperty Name="ChatID" ColumnName="ChatID" />

@@ -6,106 +6,157 @@
 
 <h2>Index</h2>
 
-<div class="row">
-    <div class="col-8">
-
-    </div>
-    <div class="col-4">
+<div class="row bg-dark">
+    <div class="col-12 ">
         @{
             Html.RenderPartial("StudioChatPackagePanel");
         }
     </div>
+
+    <span id="newTime"></span>
 </div>
 
 
 @section Scripts{
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
     <script type="text/javascript">
+
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCCQCiuqARWfqss6ksACWOYzvIPXVntFVc",
+            authDomain: "photogw2.firebaseapp.com",
+            databaseURL: "https://photogw2-default-rtdb.firebaseio.com",
+            projectId: "photogw2",
+            storageBucket: "photogw2.appspot.com",
+            messagingSenderId: "316477798255",
+            appId: "1:316477798255:web:93e0ce04b4148e4033da9a"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        var quotationData = db.collection(`Quotation`).doc('@ViewBag.QuotationID');
+
+        quotationData.onSnapshot(doc => {
+            var docData = doc.data();
+            data.packageName = docData.Package.Name;
+            data.packagePrice = docData.Package.Price;
+            if (docData.Orders) { data.cartItems = docData.Orders; }
+        });
+
+        var data = {
+            packageName: '',
+            packagePrice: 0,
+            status: '',
+            cartItems: new Array(),
+            priceUnit: 'RM',
+            manualItem: 1,
+            prefixCharges: [],
+            quantity: 0,
+            chargeName: '',
+            chargeNameCustom: '',
+            pricePerUnit: 1,
+            unit: '/KM',
+            showAddChargeButton: true
+        };
+
         var packagePanel = new Vue({
             el: '#PackagePanel',
-            data() {
-                return {
-                    cartItems: [],
-                    priceUnit: 'RM',
-                    manualItem: 1
-                }
-            },
+            data: this.data,
             mounted() {
-                console.log('test');
-                this.$root.$on('AddItem', (dat) => {
-                    this.onAddNewItem(dat);
+                $('#AddChargeCard').hide();
+
+                const getDetails = {
+                    method: 'GET',
+                    headers: { 'StudioCredential' : '@ViewBag.StudioID'},
+                    url: '/SystemAPI/Package/GetPackageTemplate'
+                };
+
+                axios(getDetails).then(response => {
+                    data.prefixCharges = response.data;
                 });
-                this.$root.$on('ResetCart', () => {
-                    this.resetCart();
-                });
-                this.$root.$on('GetCartList', () => {
-                    this.$root.$emit('ReturnCartList', this.cartItems);
-                });
-            }
-            , methods: {
-                onAddNewItem: function (item) {
-                    var exist = false;
-                    if (item.type.toUpperCase() == "MANUAL") {
-                        item.product.name = "Item #" + this.manualItem;
-                        this.cartItems.push({
-                            item: item,
-                            quantity: item.quantity,
-                            total: Number(item.product.price * 1).toFixed(2)
-                        });
-                        this.manualItem++;
-                    } else if (item.type.toUpperCase() == "PRODUCT") {
-                        for (var i = 0; i < this.cartItems.length; i++) {
-                            if (this.cartItems[i].item === item) {
-                                var existCart = this.cartItems[i];
-                                existCart.quantity++;
-                                existCart.total = Number(existCart.quantity * existCart.item.product.price).toFixed(2);
-                                exist = true;
-                                break;
-                            }
-                        }
-                        if (!exist) {
-                            this.cartItems.push({
-                                item: item,
-                                quantity: 1,
-                                total: Number(item.product.price * 1).toFixed(2)
-                            });
-                        }
+            }, computed: {
+                totalPrice: () => {
+                    var total = data.pricePerUnit * data.quantity;
+                    return total;
+                },
+                totalPricePackage: () => {
+                    return data.cartItems.reduce((accumulator, currentValue) => accumulator + (currentValue['TotalPrice'] || 0), 0) + data.packagePrice;
+                }
+            }, filters: {
+                priceFilter: (value) => {
+                    return `${data.priceUnit}${value.toFixed(2)}`;
+                }
+            }, methods: {
+                onAddCharge: () => {
+                    data.showAddChargeButton = !data.showAddChargeButton;
+
+                    if (!data.showAddChargeButton) {
+                        $('#AddChargeCard').slideDown();
                     }
-                    this.$root.$emit('ItemChanged', this.cartItems);
-                }, onAddItem: function (item) {
-                    for (var i = 0; i < this.cartItems.length; i++) {
-                        if (this.cartItems[i] === item) {
-                            var existCart = this.cartItems[i];
-                            existCart.quantity++;
-                            existCart.total = Number(existCart.quantity * existCart.item.product.price).toFixed(2);
-                            this.$root.$emit('ItemChanged', this.cartItems);
-                            break;
-                        }
+                    else {
+                        $('#AddChargeCard').slideUp();
                     }
                 },
-                onRemoveItem: function (item) {
-                    for (var i = 0; i < this.cartItems.length; i++) {
-                        if (this.cartItems[i] === item) {
-                            var existCart = this.cartItems[i];
-                            existCart.quantity--;
-                            if (existCart.quantity === 0) {
-                                if (existCart.item.type.toUpperCase() == "MANUAL") this.manualItem--;
-                                this.cartItems.splice(i, 1);
-                            } else {
-                                existCart.total = Number(existCart.quantity * existCart.item.product.price).toFixed(2);
-                            }
-                            this.$root.$emit('ItemChanged', this.cartItems);
-                            break;
+                onChargeSelectChange: () => {
+                    if (data.chargeName.id != 0) {
+                        var item = data.prefixCharges.find(x => x.$id == data.chargeName.id);
+
+                        if (item.Price) data.pricePerUnit = item.Price;
+                        else data.pricePerUnit = 1;
+
+                        if (item.Unit) data.unit = `/${item.Unit}`;
+                        else data.unit = '';
+                    }
+                    else {
+                        data.pricePerUnit = 1;
+                        data.unit = '';
+                    }
+                },
+                onAddChargeSubmit() {
+                    var newCharge = {};
+
+                    if (!data.chargeName) {
+                        alert('Please Select Charge Name');
+                        return;
+                    }
+
+                    if (!data.quantity || data.quantity < 0) {
+                        alert('Quantity must have value');
+                        return;
+                    }
+
+                    if (data.chargeName.id == 0) {
+                        if (!data.chargeNameCustom) {
+                            alert('Please Enter Charge Name');
+                            return;
                         }
+                        newCharge.Remarks = data.chargeNameCustom;
                     }
-                },
-                getCartList: function () {
-                    return this.cartItems;
-                },
-                resetCart: function () {
-                    while (this.cartItems.length > 0) {
-                        this.cartItems.pop();
+                    else {
+                        newCharge.Remarks = data.chargeName.value;
                     }
-                    this.$root.$emit('ItemChanged', this.cartItems);
+
+                    newCharge.PricePerUnit = data.pricePerUnit;
+                    newCharge.Unit = data.unit.trim();
+                    newCharge.Quantity = Number(data.quantity);
+                    newCharge.TotalPrice = this.totalPrice;
+                    data.cartItems.push(newCharge);
+
+                    quotationData.update({
+                        Orders: data.cartItems
+                    });
+
+
+                    data.showAddChargeButton = !data.showAddChargeButton;
+                    $('#AddChargeCard').slideUp();
+                }, onRemoveItem(index) {
+                    data.cartItems.splice(index, 1);
+                    quotationData.update({
+                        Orders: data.cartItems
+                    });
                 }
             }
         });

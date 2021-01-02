@@ -23,6 +23,7 @@ namespace PMS.Models.Database
         public int ChatID { get; set; }
         public Nullable<bool> GroupChat { get; set; }
         public string GroupChatName { get; set; }
+        public string QuoteFirestoreKey { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatKey> ChatKeys { get; set; }
