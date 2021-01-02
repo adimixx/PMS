@@ -132,36 +132,36 @@
                 <div class="card-body">
                     @if (Model.Item3 != null)
                     {
-                    <dl class="dl-horizontal">
-                        <dt>
-                            Name
-                        </dt>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Name
+                            </dt>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
-                        </dd>
+                            <dd>
+                                @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
+                            </dd>
 
-                        <dt>
-                            Email
-                        </dt>
+                            <dt>
+                                Email
+                            </dt>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
-                        </dd>
+                            <dd>
+                                @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
+                            </dd>
 
-                        <dt>
-                            Phone Number
-                        </dt>
+                            <dt>
+                                Phone Number
+                            </dt>
 
-                        @if (!string.IsNullOrWhiteSpace(Model.Item3.UserStudio.User.phonenumber))
-                        {
-                            <dd>@Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)</dd>
-                        }
-                        else
-                        {
-                            <dd>-</dd>
-                        }
-                    </dl>
+                            @if (!string.IsNullOrWhiteSpace(Model.Item3.UserStudio.User.phonenumber))
+                            {
+                                <dd>@Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)</dd>
+                            }
+                            else
+                            {
+                                <dd>-</dd>
+                            }
+                        </dl>
                     }
                     else
                     {
@@ -188,7 +188,7 @@
                     {
                         <dl class="dl-horizontal">
                             <dt>
-                                @Html.DisplayNameFor(model => model.Item4.amount)
+                                Charge Amount
                             </dt>
 
                             <dd>
@@ -196,7 +196,7 @@
                             </dd>
 
                             <dt>
-                                @Html.DisplayNameFor(model => model.Item4.remarks)
+                                Remarks
                             </dt>
 
                             <dd>
@@ -329,6 +329,54 @@
                         </table>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="chargeModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                @if (Model.Item2 == null)
+                {
+                    <h5>Please determine the date for the photoshoot session before you can proceed to assign staff/photographer</h5>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Charge Service</h4>
+                            <hr />
+                            <form action="~/@ViewBag.StudioUrl/job/charge" method="post">
+                                @Html.AntiForgeryToken()
+
+                                @if (Model.Item4 != null)
+                                {
+                                    @Html.HiddenFor(x => x.Item4.id, new { @Value = Model.Item2.id });
+                                }
+                                @Html.HiddenFor(x => x.Item4.jobid, new { @Value = Model.Item1.id })
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item4.amount, new { @class = "form-control", placeholder = "Amount..." })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item4.remarks, new { @class = "form-control", type = "text", placeholder = "Remarks..." })
+                                </div>
+                                <div class="form-group" id="listCharge">
+                                    <select title="Charge" name="cid" id="jobCharge" class="form-control"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
