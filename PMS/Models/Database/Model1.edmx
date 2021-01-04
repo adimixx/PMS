@@ -32,7 +32,6 @@
           <Property Name="ChatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GroupChat" Type="bit" />
           <Property Name="GroupChatName" Type="nvarchar" MaxLength="50" />
-          <Property Name="QuoteFirestoreKey" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -54,7 +53,7 @@
           <Property Name="userid" Type="int" />
           <Property Name="jobstatusid" Type="int" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
-          <Property Name="paymentstatus" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="paymentstatus" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="JobCharges">
           <Key>
@@ -734,7 +733,6 @@
           <Property Name="ChatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GroupChat" Type="Boolean" />
           <Property Name="GroupChatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="QuoteFirestoreKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_ChatRoom" FromRole="ChatRoom" ToRole="ChatKey" />
         </EntityType>
         <EntityType Name="Invoice">
@@ -759,7 +757,7 @@
           <Property Name="userid" Type="Int32" />
           <Property Name="jobstatusid" Type="Int32" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="paymentstatus" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="paymentstatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Invoices" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Job" ToRole="Invoice" />
           <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__Job__jobstatusid__2FCF1A8A" FromRole="Job" ToRole="JobStatu" />
           <NavigationProperty Name="Package" Relationship="photogModel.FK__Job__packageid__30C33EC3" FromRole="Job" ToRole="Package" />
@@ -1246,7 +1244,6 @@
           <EntitySetMapping Name="ChatRooms">
             <EntityTypeMapping TypeName="photogModel.ChatRoom">
               <MappingFragment StoreEntitySet="ChatRoom">
-                <ScalarProperty Name="QuoteFirestoreKey" ColumnName="QuoteFirestoreKey" />
                 <ScalarProperty Name="GroupChatName" ColumnName="GroupChatName" />
                 <ScalarProperty Name="GroupChat" ColumnName="GroupChat" />
                 <ScalarProperty Name="ChatID" ColumnName="ChatID" />
