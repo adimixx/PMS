@@ -18,6 +18,7 @@ namespace PMS.Models.Database
         public Studio()
         {
             this.Charges = new HashSet<Charge>();
+            this.ChatKeys = new HashSet<ChatKey>();
             this.Packages = new HashSet<Package>();
             this.StudioLinks = new HashSet<StudioLink>();
             this.UserStudios = new HashSet<UserStudio>();
@@ -31,6 +32,8 @@ namespace PMS.Models.Database
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Charge> Charges { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChatKey> ChatKeys { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Package> Packages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
