@@ -16,6 +16,43 @@ namespace PMS.Models
 {
     public class UserAuthentication
     {
+        private static ClaimsIdentity Identity(User user)
+        {
+            var identity = Thread.CurrentPrincipal.Identity as ClaimsIdentity;
+            var userDataJson = identity.FindFirst("UserDataJson");
+            var userName = identity.FindFirst(ClaimTypes.Name);
+            var userEmail = identity.FindFirst(ClaimTypes.Email);
+            var userProfilePic = identity.FindFirst("ProfilePicUrl");
+
+            if (userDataJson != null)
+            {      
+                photogEntities db = new photogEntities();
+                user = JsonConvert.DeserializeObject<User>(userDataJson.Value);
+                user = db.Users.FirstOrDefault(x => x.id == user.id);
+
+                identity.RemoveClaim(userDataJson);
+                identity.RemoveClaim(userName);
+                identity.RemoveClaim(userEmail);
+                identity.RemoveClaim(userProfilePic);
+            }
+
+            var userObj = new User { id = user.id, email = user.email, name = user.name, dateofbirth = user.dateofbirth, isVerified = user.isVerified, imgprofile = user.imgprofile, phonenumber = user.phonenumber };
+
+            var userData = JsonConvert.SerializeObject(userObj, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+            string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "https://storagephotog.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
+
+            var claimsIdentity = new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.Name , user.name),
+                        new Claim(ClaimTypes.Email, user.email),
+                        new Claim(type: "UserDataJson", value: userData),
+                        new Claim(type: "ProfilePicUrl", value: urlPic)
+                    }, "ApplicationCookie");
+
+            return claimsIdentity;
+        }
+
         public static bool SignIn(HttpContextBase context, string email, string password, bool rememberMe)
         {
             photogEntities db = new photogEntities();
@@ -25,17 +62,7 @@ namespace PMS.Models
 
                 if (user != null)
                 {
-                    var userData = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-                    string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile))? "https://storagephotog.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
-
-                    var identity = new ClaimsIdentity(new[]
-                    {
-                        new Claim(ClaimTypes.Name , user.name),
-                        new Claim(ClaimTypes.Email, user.email),
-                        new Claim(type: "UserDataJson", value: userData),
-                        new Claim(type: "ProfilePicUrl", value: urlPic)
-                    }, "ApplicationCookie");
-
+                    var identity = Identity(user);            
                     var ctx = context.Request.GetOwinContext();
                     var authManager = ctx.Authentication;
 
@@ -43,15 +70,11 @@ namespace PMS.Models
 
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
             }
             catch
             {
-                return false;
             }
+            return false;
         }
 
         public static void SignOut(HttpContextBase context)
@@ -69,7 +92,9 @@ namespace PMS.Models
             var userData = identity.Claims.FirstOrDefault(x => x.Type == "UserDataJson");
             if (userData != null)
             {
-                return JsonConvert.DeserializeObject<User>(userData.Value);
+                var userJson = JsonConvert.DeserializeObject<User>(userData.Value);
+                photogEntities db = new photogEntities();
+                return db.Users.FirstOrDefault(X => X.id == userJson.id);
             }
 
             return null;
@@ -77,41 +102,9 @@ namespace PMS.Models
 
         public static void UpdateClaim()
         {
-            var identity = Thread.CurrentPrincipal.Identity as ClaimsIdentity;
-            if (identity == null)
-                return;
-
-            // check for existing claim and remove it
-            var userData = identity.FindFirst("UserDataJson");
-            var userName = identity.FindFirst(ClaimTypes.Name);
-            var userEmail = identity.FindFirst(ClaimTypes.Email);
-            var userProfilePic = identity.FindFirst("ProfilePicUrl");
-
-            if (userData != null)
-            {
-                photogEntities db = new photogEntities();
-                var user = JsonConvert.DeserializeObject<User>(userData.Value);
-                user = db.Users.FirstOrDefault(x => x.id == user.id);
-
-                identity.RemoveClaim(userData);
-                identity.RemoveClaim(userName);
-                identity.RemoveClaim(userEmail);
-                identity.RemoveClaim(userProfilePic);
-
-                string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "https://storagephotog.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
-                var userDataJson = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-
-                identity = new ClaimsIdentity(new[]
-                    {
-                        new Claim(ClaimTypes.Name , user.name),
-                        new Claim(ClaimTypes.Email, user.email),
-                        new Claim(type: "UserDataJson", value: userDataJson),
-                        new Claim(type: "ProfilePicUrl", value: urlPic)
-                    }, "ApplicationCookie");
-            }           
-
+            var identity = Identity(null);
             var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
-            authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(identity), new AuthenticationProperties() { IsPersistent = true });
+            authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(identity), new AuthenticationProperties() { IsPersistent = false });
         }
     }
 

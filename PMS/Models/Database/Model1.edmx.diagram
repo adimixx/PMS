@@ -5,25 +5,25 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="38b3cd1183bf481fa4e5f3a86909ee2a" Name="Diagram1">
-        <EntityTypeShape EntityType="photogModel.Charge" Width="1.5" PointX="3" PointY="11" />
-        <EntityTypeShape EntityType="photogModel.ChatKey" Width="1.5" PointX="6" PointY="11.375" />
-        <EntityTypeShape EntityType="photogModel.Invoice" Width="1.5" PointX="7.5" PointY="22.5" />
-        <EntityTypeShape EntityType="photogModel.Job" Width="1.5" PointX="5.25" PointY="19.875" />
-        <EntityTypeShape EntityType="photogModel.JobCharge" Width="1.5" PointX="5.25" PointY="8.125" />
-        <EntityTypeShape EntityType="photogModel.JobDate" Width="1.5" PointX="7.5" PointY="18.25" />
-        <EntityTypeShape EntityType="photogModel.JobDateUser" Width="1.5" PointX="9.75" PointY="13" />
-        <EntityTypeShape EntityType="photogModel.JobStatu" Width="1.5" PointX="3" PointY="17.75" />
-        <EntityTypeShape EntityType="photogModel.Package" Width="1.5" PointX="3" PointY="20.375" />
-        <EntityTypeShape EntityType="photogModel.PaymentMethod" Width="1.5" PointX="7.5" PointY="29" />
+        <EntityTypeShape EntityType="photogModel.Charge" Width="1.5" PointX="3" PointY="14.75" />
+        <EntityTypeShape EntityType="photogModel.ChatKey" Width="1.5" PointX="6" PointY="7.375" />
+        <EntityTypeShape EntityType="photogModel.Invoice" Width="1.5" PointX="7.5" PointY="19.25" />
+        <EntityTypeShape EntityType="photogModel.Job" Width="1.5" PointX="5.25" PointY="10.875" />
+        <EntityTypeShape EntityType="photogModel.JobCharge" Width="1.5" PointX="7.5" PointY="12.875" />
+        <EntityTypeShape EntityType="photogModel.JobDate" Width="1.5" PointX="8.5" PointY="9.375" />
+        <EntityTypeShape EntityType="photogModel.JobDateUser" Width="1.5" PointX="10.75" PointY="9" />
+        <EntityTypeShape EntityType="photogModel.JobStatu" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="photogModel.Package" Width="1.5" PointX="3" PointY="11.375" />
+        <EntityTypeShape EntityType="photogModel.PaymentMethod" Width="1.5" PointX="7.5" PointY="22.75" />
         <EntityTypeShape EntityType="photogModel.Studio" Width="1.5" PointX="0.75" PointY="10.875" />
-        <EntityTypeShape EntityType="photogModel.StudioLink" Width="1.5" PointX="3" PointY="14.375" />
-        <EntityTypeShape EntityType="photogModel.StudioRole" Width="1.5" PointX="0.75" PointY="5.5" />
-        <EntityTypeShape EntityType="photogModel.SystemRole" Width="1.5" PointX="0.75" PointY="17.75" />
-        <EntityTypeShape EntityType="photogModel.Transaction" Width="1.5" PointX="9.75" PointY="22.5" />
-        <EntityTypeShape EntityType="photogModel.User" Width="1.5" PointX="0.75" PointY="0.875" />
-        <EntityTypeShape EntityType="photogModel.UserFeedback" Width="1.5" PointX="7.5" PointY="25.875" />
-        <EntityTypeShape EntityType="photogModel.UserStudio" Width="1.5" PointX="3" PointY="7.125" />
-        <EntityTypeShape EntityType="photogModel.UserSystemRole" Width="1.5" PointX="3" PointY="1.625" />
+        <EntityTypeShape EntityType="photogModel.StudioLink" Width="1.5" PointX="3" PointY="21" />
+        <EntityTypeShape EntityType="photogModel.StudioRole" Width="1.5" PointX="0.75" PointY="7.625" />
+        <EntityTypeShape EntityType="photogModel.SystemRole" Width="1.5" PointX="3.75" PointY="24.625" />
+        <EntityTypeShape EntityType="photogModel.Transaction" Width="1.5" PointX="9.75" PointY="19.25" />
+        <EntityTypeShape EntityType="photogModel.User" Width="1.5" PointX="3.75" PointY="3.625" />
+        <EntityTypeShape EntityType="photogModel.UserFeedback" Width="1.5" PointX="7.5" PointY="16.5" />
+        <EntityTypeShape EntityType="photogModel.UserStudio" Width="1.5" PointX="3" PointY="8.125" />
+        <EntityTypeShape EntityType="photogModel.UserSystemRole" Width="1.5" PointX="6" PointY="4.375" />
         <AssociationConnector Association="photogModel.FK__JobCharge__charg__32AB8735" />
         <AssociationConnector Association="photogModel.FK_Charges_Studio" />
         <AssociationConnector Association="photogModel.FK_ChatKey_Studio" />
