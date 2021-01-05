@@ -95,8 +95,8 @@
     <Reference Include="Google.LongRunning, Version=2.1.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.LongRunning.2.1.0\lib\net461\Google.LongRunning.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Protobuf, Version=3.13.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.13.0\lib\net45\Google.Protobuf.dll</HintPath>
+    <Reference Include="Google.Protobuf, Version=3.14.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.14.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Grpc.Auth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
       <HintPath>..\packages\Grpc.Auth.2.31.0\lib\net45\Grpc.Auth.dll</HintPath>
@@ -272,9 +272,6 @@
     <Compile Include="Models\Database\ChatKey.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Database\ChatRoom.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Database\Invoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -326,6 +323,7 @@
     <Compile Include="Models\Database\UserSystemRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PackageQuoteModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\StudioViewModel.cs" />
     <Compile Include="Models\System\AzureBlob.cs" />
@@ -378,15 +376,6 @@
     <Content Include="Models\Database\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="Content\Vuetify\vuetify.js.map" />
-    <Content Include="Content\Vuetify\vuetify.css.map" />
-    <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -404,8 +393,15 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\Vuetify\vuetify.js.map" />
+    <Content Include="Content\Vuetify\vuetify.css.map" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
-    <None Include="Scripts\jquery-3.5.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
     <Content Include="Scripts\jquery-3.5.1.slim.js" />
@@ -2201,6 +2197,8 @@
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Chat\StudioChatPackagePanel.cshtml" />
+    <Content Include="src\json\photogw2-656bf589cae5.json" />
+    <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.5.1.min.map" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -2213,7 +2211,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="src\json\photogw2-656bf589cae5.json" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
@@ -2380,7 +2377,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\" />
     <Folder Include="Data\" />
     <Folder Include="src\libs\bootstrap-filestyle2\src\" />
     <Folder Include="src\libs\bootstrap-filestyle2\test\" />
@@ -2409,7 +2405,6 @@
     <Folder Include="src\libs\morris.js\spec\" />
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
-    <Folder Include="Views\AccountAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

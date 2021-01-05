@@ -16,7 +16,6 @@ namespace PMS.Controllers
         photogEntities ent = new photogEntities();
         // GET: Chat
         [StudioPermalinkValidate]
-
         public async Task<ActionResult> Index()
         {
             System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
@@ -38,18 +37,18 @@ namespace PMS.Controllers
                 {"ChatKey", 1 },
                 {"OrderStatus", "quote"},
                 {"Package", new Dictionary<string, object>
-                {
-                    {"Id",1 },
-                    {"Name", "PackageB" },
-                    {"Price",15.00 },
-                    {"Status", "active" }
-                    }}
+                    {
+                        {"Id",1 },
+                        {"Name", "PackageB" },
+                        {"Price",15.00 },
+                        {"Status", "active" }
+                    } }
                 };
 
                 var submitData = collection.Document();
                 await submitData.SetAsync(data);
                 docID = submitData.Id;
-            }         
+            }
 
             ViewBag.QuotationID = docID;
 
@@ -61,16 +60,18 @@ namespace PMS.Controllers
             return PartialView();
         }
 
-        public ActionResult ChatList() {
+        public ActionResult ChatList()
+        {
             User whichuser = (User)UserAuthentication.Identity();
-            var listofchatroom = ent.ChatKeys.Where(x=>x.UserID==whichuser.id).ToList();
-            
+            var listofchatroom = ent.ChatKeys.Where(x => x.UserID == whichuser.id).ToList();
+
             return View(listofchatroom);
         }
-        public ActionResult ChatMain(int chatid) {
+        public ActionResult ChatMain(int chatid)
+        {
             ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
             return View(chat);
-        }       
-        
+        }
+
     }
 }

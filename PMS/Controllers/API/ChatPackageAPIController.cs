@@ -1,7 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Google.Cloud.Firestore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using PMS.Models;
 using PMS.Models.Database;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -35,70 +39,67 @@ namespace PMS.Controllers.API
         }
 
         [HttpGet]
-        public IHttpActionResult PostNewPackage(int chatk, int PackageID)
-        {
-            photogEntities db = new photogEntities();
-            var charge = db.ChatRooms.FirstOrDefault(x => x.ChatID == chatk);
-
-            var package = new PackageJson
-            {
-                Package = db.Packages.Where(x => x.id == PackageID).ToList().Select(x => new { x.name, x.price }).FirstOrDefault()
-            };
-            //charge.PackageJson = JsonConvert.SerializeObject(package);
-            db.SaveChanges();
-
-            return Ok();
-        }
-
-        [HttpGet]
         public IHttpActionResult GetPackageTemplate()
         {
             photogEntities db = new photogEntities();
             var charge = db.Charges.Where(x => x.StudioID == StudioID).ToList().Select((x, index) => new { x.Name, x.Price, x.Unit });
-            
+
             return Ok(charge);
         }
 
-        //[HttpGet]
-        //public IHttpActionResult GetPackageQuotationList()
-        //{
-        //    photogEntities db = new photogEntities();
-        //    var charge = db.ChatRooms.FirstOrDefault(x => x.ChatID == chatKey).PackageJson;
-
-        //    var json = JsonConvert.DeserializeObject<PackageJson>(charge);
-
-        //    return Ok(charge);
-        //}
-
         //[HttpPost]
-        //public IHttpActionResult AddPackageQuotationList(string Json)
+        //public async System.Threading.Tasks.Task<IHttpActionResult> PostPackageQuote(PostPackage data)
         //{
-        //    photogEntities db = new photogEntities();
-        //    var charge = db.ChatRooms.FirstOrDefault(x => x.ChatID == chatKey);
+        //    System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
+        //    FirestoreDb firestore = FirestoreDb.Create("photogw2");
+        //    var collection = firestore.Collection("Quotation").Document(data.data);
+        //    var snapshot = await collection.GetSnapshotAsync();
+        //    if (!snapshot.Exists)
+        //    {
+        //        return BadRequest();
+        //    }
 
-        //    var PackageJson = JsonConvert.DeserializeObject<PackageJson>(Json);
-        //    var convert = JsonConvert.DeserializeObject<PackageJsonOrders>(Json);
-        //    PackageJson.Orders.Add(convert);
-        //    charge.PackageJson = JsonConvert.SerializeObject(PackageJson);
+        //    var deserializedData = snapshot.ConvertTo<PackageQuoteModel>();
+
+        //    photogEntities db = new photogEntities();
+        //    var chat = db.ChatRooms.FirstOrDefault(x => x.ChatID == deserializedData.ChatKey);
+
+        //    var job = new Job
+        //    {
+        //        packageid = (int)deserializedData.Package.Id,
+        //        userid = chat.ChatKeys.FirstOrDefault().UserID,
+        //        jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "quote").id,
+        //        DateCreated = DateTime.Now
+        //    };
+
+        //    if (deserializedData.Orders != null && deserializedData.Orders.Count() != 0)
+        //    {
+        //        foreach (var item in deserializedData.Orders)
+        //        {
+        //            job.JobCharges.Add(new JobCharge { amount = (decimal)(item.Quantity * item.PricePerUnit), remarks = item.Remarks });
+        //        }
+        //    }
+           
+        //    if (deserializedData.VenueDates != null && deserializedData.VenueDates.Count() != 0)
+        //    {
+        //        foreach (var item in deserializedData.VenueDates)
+        //        {
+        //            job.JobDates.Add(new JobDate { jobdate1 = item.Date, location = item.Location, jobstatusid = 6 });
+        //        }
+        //    }
+            
+        //    db.Jobs.Add(job);
         //    db.SaveChanges();
 
-        //    return Ok(charge.PackageJson);
+        //    deserializedData.OrderStatus = "deposit";
+        //    await collection.SetAsync(deserializedData);
 
+        //    return Ok();
         //}
+    }   
 
-        internal class PackageJson
-        {
-            public dynamic Package { get; set; }
-            public List<PackageJsonOrders> Orders { get; set; }
-        }
-
-        internal class PackageJsonOrders
-        {
-            public string Remarks { get; set; }
-            public decimal PricePerUnit { get; set; }
-            public string Unit { get; set; }
-            public int Quantity { get; set; }
-            public decimal TotalPrice { get; set; }
-        }
+    public class PostPackage
+    {
+        public string data { get; set; }
     }
 }

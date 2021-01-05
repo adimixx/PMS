@@ -6,12 +6,13 @@
                 <p>Package Enquiry : </p>
                 <h4>{{packageName}}</h4>
                 <p>Price : {{packagePrice | priceFilter}} </p>
+                <p>Status : {{quoteStatus}}</p>
             </div>
 
             <div class="p-2">
-                <p>Current Orders : </p>
+                <p>Charges : </p>
 
-                <table class="table table-responsive table-hover" id="orderTable">
+                <table class="table table-responsive thead-dark table-striped table-hover" id="orderTable">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -19,7 +20,7 @@
                             <th>PPU(RM)</th>
                             <th>Quantity</th>
                             <th>Total Price (RM)</th>
-                            <th></th>
+                            <th v-show="showAddChargeButton"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,8 +40,40 @@
                             <td>
                                 <p class="font-weight-bold text-success">{{ cart.TotalPrice | priceFilter}}</p>
                             </td>
+                            <td v-show="showAddChargeButton">
+                                <button class="btn btn-dark" v-on:click="onRemoveCharge(index)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Venues : </p>
+
+                <table class="table table-active thead-dark table-striped table-hover" id="orderTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Venue</th>
+                            <th>Date</th>
+                            <th v-show="showAddChargeButton"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(cart , index) in venueItems">
                             <td>
-                                <button class="btn btn-dark" v-on:click="onRemoveItem(index)">
+                                {{ index + 1 }}
+                            </td>
+                            <td>
+                                <p class="font-weight-bolder">{{cart.Location}}</p>
+                            </td>
+                            <td>
+                                <p class="text-primary">{{ cart.Date | dateFilter}}</p>
+                            </td>
+                            <td v-show="showAddChargeButton">
+                                <button class="btn btn-dark" v-on:click="onRemoveVenue(index)">
                                     <i class="fas fa-minus"></i>
                                 </button>
 
@@ -52,14 +85,15 @@
                 <div class="text-left d-flex d-inline-flex w-100 m-2">
                     <label class="mr-3 mt-1">Total Price : </label>
                     <h3 class="text-monospace"> {{ totalPricePackage | priceFilter}}</h3>
-                    <button class="btn btn-success ml-auto">Confirm Quotation</button>
+                    <button class="btn btn-success ml-auto" v-on:click="onConfirmQuote" v-show="showAddChargeButton">Confirm Quotation</button>
                 </div>
-              
+
 
                 <div class="card">
                     <div class="card-body bg-soft-dark">
                         <div class="col-12" v-show="showAddChargeButton">
-                            <button class="btn btn-info w-100" v-on:click="onAddCharge()" >Add Charges</button>
+                            <button class="btn btn-info w-100 m-2" v-on:click="onAdd('AddChargeCard')">Add Charges</button>
+                            <button class="btn btn-light w-100 m-2" v-on:click="onAdd('AddVenueCard')">Add Venue</button>
                         </div>
 
                         <div class="row" id="AddChargeCard">
@@ -96,9 +130,31 @@
                                 <button class="btn btn-info w-100" v-on:click="onAddChargeSubmit()">Add</button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-danger w-100"  v-on:click="onAddCharge()">Cancel</button>
+                                <button class="btn btn-danger w-100" v-on:click="onAdd('AddChargeCard')">Cancel</button>
                             </div>
                         </div>
+
+                        <div class="row" id="AddVenueCard">
+                            <div class="col-12">
+                                <h5>Add New Venue</h5>
+                                <div class="form-group">
+                                    <label>Venue Location</label>
+                                    <textarea placeholder="Enter Venue Name & Detail" class="form-control" v-model="venueDetails"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Venue Date</label>
+                                    <input type="datetime-local" class="form-control" v-model="venueDate"/>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <button class="btn btn-info w-100" v-on:click="onAddVenue">Add</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-danger w-100" v-on:click="onAdd('AddVenueCard')">Cancel</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -106,5 +162,4 @@
 
         </div>
     </div>
-
 </div>
