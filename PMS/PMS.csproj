@@ -272,9 +272,6 @@
     <Compile Include="Models\Database\ChatKey.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Database\ChatRoom.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Database\Invoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

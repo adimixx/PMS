@@ -38,7 +38,7 @@ namespace PMS.Controllers.API
         public IHttpActionResult PostNewPackage(int chatk, int PackageID)
         {
             photogEntities db = new photogEntities();
-            var charge = db.ChatRooms.FirstOrDefault(x => x.ChatID == chatk);
+            var charge = db.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatk);
 
             var package = new PackageJson
             {
