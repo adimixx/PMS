@@ -1,0 +1,73 @@
+﻿@model IEnumerable<PMS.Models.Database.ChatKey>
+@using PMS.Models.Database
+
+@using PMS.Models
+@{
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+
+    ViewBag.Title = "StudioChatList";
+    photogEntities ent = new photogEntities();
+    int? studioid = ViewBag.StudioID;
+    var whichstudio = ent.Studios.FirstOrDefault(x => x.id == studioid);
+
+
+
+
+
+}
+
+
+
+
+@* this is new *@
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title mb-4">@whichstudio.name ChatList</h4>
+        <div class="table-responsive">
+            <table class="table table-hover table-centered table-nowrap mb-0">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Name</th>
+
+                        <th scope="col" colspan="2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            @{
+                                var whichchatroomID = item.ChatKey_Key;
+
+                              ent = new PMS.Models.Database.photogEntities();
+                               
+                                var whichchatkey = ent.ChatKeys.FirstOrDefault(x => x.UserID != null && x.ChatKey_Key == whichchatroomID);
+                                int targeteduserid = (int)whichchatkey.UserID;
+                                var targeteduser = ent.Users.FirstOrDefault(x => x.id == targeteduserid);
+                                <td>
+                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
+                                    @targeteduser.name
+                                </td>
+
+                            }
+
+
+
+
+                            <td>
+                                @Html.ActionLink("enter", "ChatStudioMain", new { chatid = item.ChatKeyID }, new { @class = "btn btn-primary btn-sm" })
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@* this is end of new *@
+
