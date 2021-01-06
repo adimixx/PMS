@@ -47,55 +47,55 @@ namespace PMS.Controllers.API
             return Ok(charge);
         }
 
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> PostPackageQuote(PostPackage data)
-        //{
-        //    System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
-        //    FirestoreDb firestore = FirestoreDb.Create("photogw2");
-        //    var collection = firestore.Collection("Quotation").Document(data.data);
-        //    var snapshot = await collection.GetSnapshotAsync();
-        //    if (!snapshot.Exists)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IHttpActionResult> PostPackageQuote(PostPackage data)
+        {
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
+            FirestoreDb firestore = FirestoreDb.Create("photogw2");
+            var collection = firestore.Collection("Quotation").Document(data.data);
+            var snapshot = await collection.GetSnapshotAsync();
+            if (!snapshot.Exists)
+            {
+                return BadRequest();
+            }
 
-        //    var deserializedData = snapshot.ConvertTo<PackageQuoteModel>();
+            var deserializedData = snapshot.ConvertTo<PackageQuoteModel>();
 
-        //    photogEntities db = new photogEntities();
-        //    var chat = db.ChatRooms.FirstOrDefault(x => x.ChatID == deserializedData.ChatKey);
+            photogEntities db = new photogEntities();
+            var chat = db.ChatKeys.FirstOrDefault(x => x.ChatKeyID == deserializedData.ChatKey);
 
-        //    var job = new Job
-        //    {
-        //        packageid = (int)deserializedData.Package.Id,
-        //        userid = chat.ChatKeys.FirstOrDefault().UserID,
-        //        jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "quote").id,
-        //        DateCreated = DateTime.Now
-        //    };
+            var job = new Job
+            {
+                packageid = (int)deserializedData.Package.Id,
+                userid = chat.UserID,
+                jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "quote").id,
+                DateCreated = DateTime.Now
+            };
 
-        //    if (deserializedData.Orders != null && deserializedData.Orders.Count() != 0)
-        //    {
-        //        foreach (var item in deserializedData.Orders)
-        //        {
-        //            job.JobCharges.Add(new JobCharge { amount = (decimal)(item.Quantity * item.PricePerUnit), remarks = item.Remarks });
-        //        }
-        //    }
-           
-        //    if (deserializedData.VenueDates != null && deserializedData.VenueDates.Count() != 0)
-        //    {
-        //        foreach (var item in deserializedData.VenueDates)
-        //        {
-        //            job.JobDates.Add(new JobDate { jobdate1 = item.Date, location = item.Location, jobstatusid = 6 });
-        //        }
-        //    }
-            
-        //    db.Jobs.Add(job);
-        //    db.SaveChanges();
+            if (deserializedData.Orders != null && deserializedData.Orders.Count() != 0)
+            {
+                foreach (var item in deserializedData.Orders)
+                {
+                    job.JobCharges.Add(new JobCharge { amount = (decimal)(item.Quantity * item.PricePerUnit), remarks = item.Remarks });
+                }
+            }
 
-        //    deserializedData.OrderStatus = "deposit";
-        //    await collection.SetAsync(deserializedData);
+            if (deserializedData.VenueDates != null && deserializedData.VenueDates.Count() != 0)
+            {
+                foreach (var item in deserializedData.VenueDates)
+                {
+                    job.JobDates.Add(new JobDate { jobdate1 = item.Date, location = item.Location, jobstatusid = 6 });
+                }
+            }
 
-        //    return Ok();
-        //}
+            db.Jobs.Add(job);
+            db.SaveChanges();
+
+            deserializedData.OrderStatus = "deposit";
+            await collection.SetAsync(deserializedData);
+
+            return Ok();
+        }
     }   
 
     public class PostPackage
