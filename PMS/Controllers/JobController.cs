@@ -317,5 +317,45 @@ namespace PMS.Controllers
         }
 
         // ---------------------- Job Management End ----------------------- //
+
+        // ---------------------- Invoice Management Start ---------------------- //
+
+        [StudioPermalinkValidate]
+        [HttpGet]
+        public ActionResult PaymentView(int id)
+        {
+            ViewBag.jobid = id;
+            return View();
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult CreateDepositInvoice(int id)
+        {
+            var job = db.Jobs.Find(id);
+            db.Invoices.Add(new Invoice
+            {
+                expirydate = DateTime.Now.AddDays(28),
+                invdate = DateTime.Now,
+                jobid = id,
+                total = job.Package.depositprice,
+                totalunpaid = job.Package.depositprice,
+            });
+            db.SaveChanges();
+
+            return RedirectToAction("paymentview/" + id);
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult deleteInvoice(int id)
+        {
+            var data = db.Invoices.Find(id);
+            db.Invoices.Remove(data);
+            db.SaveChanges();
+            return View();
+        }
+
+        // ---------------------- Invoice Management End ---------------------- //
     }
 }

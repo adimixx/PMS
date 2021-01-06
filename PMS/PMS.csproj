@@ -2214,6 +2214,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Chat\StudioChatList.cshtml" />
     <Content Include="Views\Chat\ChatStudioMain.cshtml" />
+    <Content Include="Views\Job\PaymentView.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
