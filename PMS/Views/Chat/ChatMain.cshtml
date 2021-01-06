@@ -5,21 +5,19 @@
 @model PMS.Models.Database.ChatKey
 
 @{
-    var whichchatroom = Model.ChatRoom;
+  
+
     PMS.Models.Database.photogEntities ent = new PMS.Models.Database.photogEntities();
-    if (Model.ChatRoom.GroupChat == false)
-    {
-        var chatid = whichchatroom.ChatID;
-        var meid = Model.User.id;
-        var targetchatkey = ent.ChatKeys.FirstOrDefault(x => x.UserID != meid && x.ChatID == chatid);
-        var targeteduserid = targetchatkey.UserID;
-        var targeteduser = ent.Users.FirstOrDefault(x => x.id==targeteduserid);
+
+    var chatid = Model.ChatKey_Key;
+    var meid = Model.User.id;
+
+    var targetchatkey = ent.ChatKeys.FirstOrDefault(x => x.UserID != meid && x.ChatKey_Key == chatid);
+    var targeteduserid = targetchatkey.UserID;
+    var targeteduser = ent.Users.FirstOrDefault(x => x.id==targeteduserid);
         <h2>@targeteduser.name</h2>
     }
-    else
-    {
-        <h2>@Model.ChatRoom.GroupChatName</h2>
-    }
+   
 
 
 }

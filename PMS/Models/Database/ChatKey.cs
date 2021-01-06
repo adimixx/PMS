@@ -17,10 +17,8 @@ namespace PMS.Models.Database
         public int ChatKeyID { get; set; }
         public string ChatKey_Key { get; set; }
         public Nullable<int> UserID { get; set; }
-        public Nullable<int> ChatID { get; set; }
         public Nullable<int> StudioID { get; set; }
     
-        public virtual ChatRoom ChatRoom { get; set; }
         public virtual Studio Studio { get; set; }
         public virtual User User { get; set; }
     }
