@@ -14,7 +14,8 @@ namespace PMS.Controllers
     public class ChatController : Controller
     {
         photogEntities ent = new photogEntities();
-        // GET: Chat
+
+        //In Development - Chat Quotation Panel
         [StudioPermalinkValidate]
         public async Task<ActionResult> Index()
         {
