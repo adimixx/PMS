@@ -1,6 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "ChatMain";
+    ViewBag.Title = "ChatStudioMain";
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
 }
 @model PMS.Models.Database.ChatKey
 @using System.Linq;
@@ -10,26 +11,14 @@
     PMS.Models.Database.photogEntities ent = new PMS.Models.Database.photogEntities();
 
     var chatid = Model.ChatKey_Key;
-    var meid = Model.User.id;
+    long studioID = (long)ViewBag.StudioID;
+    var whichstudio = ent.Studios.FirstOrDefault(x=>x.id==studioID);
+    var meid = studioID;
 
-    var targetchatkey = ent.ChatKeys.FirstOrDefault(x => x.UserID != meid && x.ChatKey_Key == chatid);
-    if (targetchatkey.UserID != null)
-    {
-
-        var targeteduserid = targetchatkey.UserID;
-
-        var targeteduser = ent.Users.FirstOrDefault(x => x.id == targeteduserid);
-        <h2>@targeteduser.name</h2>
-    }
-    else
-    {
-        
-        <h2>@targetchatkey.Studio.name</h2>
-    }
-
-
-
-
+    var targetchatkey = ent.ChatKeys.FirstOrDefault(x => x.StudioID != studioID && x.ChatKey_Key == chatid && x.UserID!=null);
+    var targeteduserid = targetchatkey.UserID;
+    var targeteduser = ent.Users.FirstOrDefault(x => x.id == targeteduserid);
+    <h2>@targeteduser.name</h2>
 }
 
 
@@ -61,9 +50,9 @@
 
     var datetime = new Date();
 
-        var myName = '@Model.User.name';
+        var myName = '@whichstudio.name';
         var chatkey ='@Model.ChatKey_Key';
-        var myid = '@Model.UserID';
+        var myid = '@whichstudio.id';
         function myFunction() {
             var element = document.getElementById("myform");
 

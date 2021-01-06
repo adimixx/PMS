@@ -73,6 +73,20 @@ namespace PMS.Controllers
             ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
             return View(chat);
         }
+     [StudioPermalinkValidate]
+        public ActionResult StudioChatList() {
+            long studioID = (long)ViewBag.StudioID;
+            var chatlist = ent.ChatKeys.Where(x => x.StudioID == studioID).ToList();
+            return View(chatlist);
+        }
+        [StudioPermalinkValidate]
+        public ActionResult ChatStudioMain(int chatid)
+        {
+            ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
+            return View(chat);
+          
+        }
+
 
     }
 }

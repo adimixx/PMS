@@ -18,7 +18,7 @@ namespace PMS
             routes.MapRoute(
                name: "ChatStudio",
                 url: "{permalink}/Chat/{action}/{id}",
-               defaults: new { controller = "Chat", action = "ChatList", id = UrlParameter.Optional }
+               defaults: new { controller = "Chat", action = "StudioChatList", id = UrlParameter.Optional }
            );
 
             routes.MapRoute(
