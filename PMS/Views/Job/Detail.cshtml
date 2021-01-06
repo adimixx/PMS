@@ -212,6 +212,13 @@
     </div>
 </div>
 
+@if (ViewBag.StudioRoleID == null)
+{
+    <div style="position:sticky;bottom:0px;padding:10px">
+        <a href="" class="btn btn-primary btn-block">Pay Now</a>
+    </div>
+}
+
 <!-- Modal Section -->
 <div class="modal fade" id="statusModal" role="dialog">
     <div class="modal-dialog">
