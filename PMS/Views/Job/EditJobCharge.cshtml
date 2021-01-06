@@ -1,0 +1,58 @@
+﻿@model PMS.Models.Database.JobCharge
+
+@{
+    ViewBag.Title = "EditJobCharge";
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+}
+
+<div class="container">
+    <h2>EditJobCharge</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h4>Add Charge to Session</h4>
+            <hr />
+            <form method="post">
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(x => x.jobid, new { @Value = Model.jobid })
+                <div class="form-group">
+                    <select name="cid" class="form-control" id="listCharge"></select>
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.amount, new { @class = "form-control", placeholder = "Amount...", @Value = Model.amount })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.remarks, new { @class = "form-control", placeholder = "Remarks...", @Value = Model.remarks })
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadcharges/@ViewBag.StudioID",
+                dataSrc: '',
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        if (obj.id === @Model.chargeid) {
+                            charges = `<option value='${obj.id}' selected>${obj.Name}</option>`
+                        }
+                        else {
+                            charges = `<option value='${obj.id}'>${obj.Name}</option>`
+                        }
+                        $("#listCharge").append(charges)
+                    })
+                }
+            })
+        });
+    </script>
+}

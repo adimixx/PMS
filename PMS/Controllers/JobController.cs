@@ -273,6 +273,49 @@ namespace PMS.Controllers
             }
         }
 
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult EditJobCharge(int id)
+        {
+            var data = db.JobCharges.Find(id);
+            return View(data);
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult EditJobCharge(JobCharge jobCharge, int cid)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    jobCharge.chargeid = cid;
+                    db.Entry(jobCharge).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("detail/" + jobCharge.jobid);
+                }
+                catch (Exception)
+                {
+                    return View("error");
+                }
+            }
+            else
+            {
+                return View(jobCharge);
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult DeleteJobCharge(int id)
+        {
+            var data = db.JobCharges.Find(id);
+            db.JobCharges.Remove(data);
+            db.SaveChanges();
+            return RedirectToAction("detail/" + data.jobid);
+        }
+
         // ---------------------- Job Management End ----------------------- //
     }
 }

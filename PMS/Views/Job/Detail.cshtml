@@ -403,7 +403,7 @@
                     processing: true,
                     columns: [
                         { data: 'Name', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return `<a href="@Request.Url/editjobcharge/${data}">Edit</a> | <a href="@Request.Url/deletejobcharge/${data}">Delete</a>` }, autoWidth: true }
+                        { data: 'id', render: function (data, type, row) { return `<a href="/@ViewBag.StudioUrl/job/editjobcharge/${data}">Edit</a> | <a href="/@ViewBag.StudioUrl/job/deletejobcharge/${data}">Delete</a>` }, autoWidth: true }
                     ]
                 }
             );
