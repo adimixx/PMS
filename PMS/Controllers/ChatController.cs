@@ -72,6 +72,9 @@ namespace PMS.Controllers
             ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
             return View(chat);
         }
+        public ActionResult ChatStudio(int chatid) {
+            return View();
+        }
 
     }
 }
