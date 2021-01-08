@@ -8,9 +8,12 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/src/img/favicon.ico">
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.css">
     @Styles.Render("~/Content/cssUser")
+    @RenderSection("styles", required: false)
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 </head>
 <body data-sidebar=dark>
