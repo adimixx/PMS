@@ -228,7 +228,7 @@ textarea {
         width: 101%;
     }
 
-.card ul {
+.card ul.dashmenu {
     list-style-type: none;
     margin: 0;
     padding: 0;
