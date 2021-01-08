@@ -56,7 +56,7 @@
                         { data: 'totalunpaid', autoWidth: true },
                         { data: 'detail', autoWidth: true },
                         { data: 'status', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return (row.status == "Not Paid") ? `@if (ViewBag.StudioRoleID == null) { <a href="/payment/checkoutindex/${data}?total=${row.total}">Pay</a> } else { <a href="/@ViewBag.StudioUrl/job/deleteinvoice/${data}">Delete</a> }` : `` }, autoWidth: true }
+                        { data: 'id', render: function (data, type, row) { return (row.status == "Not Paid") ? `@if (ViewBag.StudioRoleID == null) { <a href="/payment/checkoutindex/${data}">Pay</a> } else { <a href="/@ViewBag.StudioUrl/job/deleteinvoice/${data}">Delete</a> }` : `` }, autoWidth: true }
                     ]
                 }
             );
