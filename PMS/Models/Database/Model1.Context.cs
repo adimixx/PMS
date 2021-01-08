@@ -27,6 +27,7 @@ namespace PMS.Models.Database
     
         public virtual DbSet<Charge> Charges { get; set; }
         public virtual DbSet<ChatKey> ChatKeys { get; set; }
+        public virtual DbSet<DbBackupRecord> DbBackupRecords { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<JobCharge> JobCharges { get; set; }
@@ -44,6 +45,5 @@ namespace PMS.Models.Database
         public virtual DbSet<UserFeedback> UserFeedbacks { get; set; }
         public virtual DbSet<UserStudio> UserStudios { get; set; }
         public virtual DbSet<UserSystemRole> UserSystemRoles { get; set; }
-        public virtual DbSet<DbBackupRecord> DbBackupRecords { get; set; }
     }
 }

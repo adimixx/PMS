@@ -16,6 +16,7 @@ namespace PMS.Models
 
         //1 - user data
         //2 - studio data
+        //3 - db-backup
         public AzureBlob(int dataRole)
         {
             string dataBlob;
@@ -26,6 +27,9 @@ namespace PMS.Models
                     break;
                 case 2:
                     dataBlob = "studio-data";
+                    break;
+                case 3:
+                    dataBlob = "db-backup";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Data blob code out of range", nameof(dataRole));
@@ -43,26 +47,26 @@ namespace PMS.Models
             // Check HttpPostedFileBase is null or not  
             if (FileToUpload == null || FileToUpload.ContentLength == 0)
                 return null;
-            //try
-            //{
-            //string FileName = Path.GetFileName(FileToUpload.FileName);
-            CloudBlockBlob blockBlob;
-            // Create a block blob  
-            blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName) ));
-            // Set the object's content type  
-            blockBlob.Properties.ContentType = FileToUpload.ContentType;
-            var data = FileToUpload.InputStream.Length;
+            try
+            {
 
-            // upload to blob  
-            blockBlob.UploadFromStream(FileToUpload.InputStream);
+                CloudBlockBlob blockBlob;
+                // Create a block blob  
+                blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
+                // Set the object's content type  
+                blockBlob.Properties.ContentType = FileToUpload.ContentType;
+                var data = FileToUpload.InputStream.Length;
 
-            // get file uri  
-            AbsoluteUri = blockBlob.Name;
-            //}
-            //catch (Exception ExceptionObj)
-            //{
-            //    throw ExceptionObj;
-            //}
+                // upload to blob  
+                blockBlob.UploadFromStream(FileToUpload.InputStream);
+
+                // get file uri  
+                AbsoluteUri = blockBlob.Name;
+            }
+            catch (Exception ExceptionObj)
+            {
+                throw ExceptionObj;
+            }
             return AbsoluteUri;
         }
 
@@ -72,12 +76,12 @@ namespace PMS.Models
             // Check HttpPostedFileBase is null or not  
             if (FileToUpload == null || FileToUpload.ContentLength == 0)
                 return null;
-            //try
-            //{
+            try
+            {
                 //string FileName = Path.GetFileName(FileToUpload.FileName);
                 CloudBlockBlob blockBlob;
                 // Create a block blob  
-                blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}",FolderID, FileName));
+                blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}", FolderID, FileName));
                 // Set the object's content type  
                 blockBlob.Properties.ContentType = FileToUpload.ContentType;
                 var data = FileToUpload.InputStream.Length;
@@ -87,11 +91,11 @@ namespace PMS.Models
 
                 // get file uri  
                 AbsoluteUri = blockBlob.Uri.AbsoluteUri;
-            //}
-            //catch (Exception ExceptionObj)
-            //{
-            //    throw ExceptionObj;
-            //}
+            }
+            catch (Exception ExceptionObj)
+            {
+                throw ExceptionObj;
+            }
             return AbsoluteUri;
         }
 
@@ -99,8 +103,8 @@ namespace PMS.Models
         {
             List<string> _blobList = new List<string>();
             var blobs = blobContainer.ListBlobs(string.Format("{0}/", prefix));
-            foreach (IListBlobItem item in blobs)           
-            {                 
+            foreach (IListBlobItem item in blobs)
+            {
                 if (item.GetType() == typeof(CloudBlockBlob))
                 {
                     CloudBlockBlob _blobpage = (CloudBlockBlob)item;

@@ -34,7 +34,6 @@ namespace PMS.Models
       StateList.Insert(0, new SelectListItem { Text = "Select State", Disabled = true, Selected = true, Value="" });
       CityList = location.Cities.FirstOrDefault(x => x.Key.ToLower() == StateList[1].Value.ToLower()).Value.Select(x => new SelectListItem { Text = x, Value = x }).ToList();
       CityList.Insert(0, new SelectListItem { Text = "Select City", Disabled = true, Selected = true, Value = "" });
-
     }
 
   }
