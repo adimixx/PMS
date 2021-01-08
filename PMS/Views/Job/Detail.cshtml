@@ -194,6 +194,7 @@
                                 <tr>
                                     <th>Charge Type</th>
                                     <th>Description</th>
+                                    <th>Amount</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -401,6 +402,7 @@
                     columns: [
                         { data: 'Name', autoWidth: true },
                         { data: 'remarks', autoWidth: true },
+                        { data: 'amount', autoWidth: true },
                         { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null) { <a href="/@ViewBag.StudioUrl/job/editjobcharge/${data}">Edit</a> <span>|</span> <a href="/@ViewBag.StudioUrl/job/deletejobcharge/${data}">Delete</a> }` }, autoWidth: true }
                     ]
                 }
