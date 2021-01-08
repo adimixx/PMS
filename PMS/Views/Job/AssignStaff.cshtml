@@ -1,0 +1,43 @@
+﻿@model PMS.Models.Database.JobDateUser
+
+@{
+    ViewBag.Title = "Assign Staff";
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+}
+
+<div class="container">
+    <h2>Assign Staff</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Assign Staff Form</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (Model.jobdateid.HasValue)
+                {
+                    @Html.HiddenFor(x => x.jobdateid, new { @Value = Model.jobdateid })
+                }
+                @Html.HiddenFor(x => x.userstudioid, new { @Value = ViewBag.UserStudioID })
+                @Html.HiddenFor(x => x.id, new { @Value = Model.id })
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.charge, new { htmlAttributes = new { @class = "form-control", @placeholder = "Charge..." } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "jobstatusmain")
+</div>

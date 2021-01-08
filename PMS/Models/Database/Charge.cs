@@ -21,9 +21,14 @@ namespace PMS.Models.Database
         }
     
         public int id { get; set; }
-        public string name { get; set; }
+        public int StudioID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Nullable<decimal> Price { get; set; }
+        public string Unit { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobCharge> JobCharges { get; set; }
+        public virtual Studio Studio { get; set; }
     }
 }

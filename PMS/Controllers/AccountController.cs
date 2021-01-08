@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Web;
 using System.Web.Mvc;
 
 namespace PMS.Controllers
@@ -102,6 +103,42 @@ namespace PMS.Controllers
             UserAuthentication.SignOut(HttpContext);
             return RedirectToAction("Index", "Home");
         }
-       
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Edit()
+        {
+            var user = UserAuthentication.Identity();
+            ProfileViewModel profile = new ProfileViewModel { Email = user.email, Name = user.name, PhoneNum = user.phonenumber };
+            return View(profile);
+        }
+
+      
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Edit(ProfileViewModel profile)
+        {
+            if (ModelState.IsValid)
+            {
+                photogEntities db = new photogEntities();
+                var userID = UserAuthentication.Identity().id;
+                var user = db.Users.FirstOrDefault(x => x.id == userID);
+
+                if (profile.EditID == 1)
+                {
+                    user.name = profile.Name;
+                    db.SaveChanges();                   
+
+                }
+
+                UserAuthentication.UpdateClaim();
+                return RedirectToAction("Edit", "Account");
+            }
+
+
+            return View(profile);
+        }
+
     }
 }

@@ -1,0 +1,332 @@
+﻿@model PMS.Models.ProfileViewModel
+@using PMS.Models
+
+@{
+    ViewBag.Title = "Profile";
+}
+<div class="container">
+    <h2>Profile</h2>
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-sm-12 col-md-4 text-center">
+                    <label class="font-weight-bold">Profile Picture</label>
+                    <div id="ProfilePic-Input" style="height: 200px; width: 200px;" class="m-auto">
+                        <input type="file" id="input-profilepic" class="filepond" name="filepond" accept="" />
+                    </div>
+                    <div class="form-group m-3">
+                        <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Profile Photo</button>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-8">
+
+                    <table class="table">
+                        <tbody>
+                            <tr id="Name-Group">
+                                <td scope="row">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                </td>
+                                <td>
+                                    <p class="font-weight-normal">@Model.Name</p>
+                                </td>
+                                <td class="text-right">
+                                    <a href="#" onclick="OpenForm(1)">Change Name</a>
+                                </td>
+                            </tr>
+                            <tr id="Name-Input">
+                                <td colspan="3">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken();
+
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-form-label col-3" })
+                                            <div class="col-9">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        @Html.HiddenFor(x => x.EditID, new { Value = 1, id = "" })
+                                        <div class="form-group text-center">
+                                            <input type="submit" value="Change Name" class="btn btn-primary" />
+                                            <input type="button" class="btn btn-danger" onclick="showAll()" value="Cancel" />
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr id="PhoneNum-Group">
+                                <td scope="row">
+                                    @Html.LabelFor(model => model.PhoneNum, htmlAttributes: new { @class = "control-label" })
+                                </td>
+                                <td>
+                                    <p class="font-weight-normal">@Model.PhoneNum</p>
+                                </td>
+                                <td class="text-right">
+                                    <a href="#" onclick="OpenForm(2)">Change Phone Number</a>
+                                </td>
+                            </tr>
+
+                            <tr id="PhoneNum-Input">
+                                <td colspan="3">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken();
+
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => model.PhoneNum, htmlAttributes: new { @class = "col-form-label col-3" })
+                                            <div class="col-9">
+                                                @Html.EditorFor(model => model.PhoneNum, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.PhoneNum, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        @Html.HiddenFor(x => x.EditID, new { Value = 2, id = "" })
+                                        <div class="form-group text-center">
+                                            <input type="submit" value="Change Phone Number" class="btn btn-primary" />
+                                            <input type="button" class="btn btn-danger" onclick="showAll()" value="Cancel" />
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr id="Email-Group">
+                                <td scope="row">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                </td>
+                                <td>
+                                    <p class="font-weight-normal">@Model.Email</p>
+                                </td>
+                                <td class="text-right">
+                                    <a href="#" onclick="OpenForm(3)">Change Email</a>
+                                </td>
+                            </tr>
+
+                            <tr id="Email-Input">
+                                <td colspan="3">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken();
+
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-form-label col-3" })
+                                            <div class="col-9">
+                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        @Html.HiddenFor(x => x.EditID, new { Value = 3, id = "" })
+                                        <div class="form-group text-center">
+                                            <input type="submit" value="Change Email" class="btn btn-primary" />
+                                            <input type="button" class="btn btn-danger" onclick="showAll()" value="Cancel" />
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+
+
+                            <tr id="Password-Group">
+                                <td scope="row">
+                                    <label class="col-form-label">Password</label>
+                                </td>
+                                <td colspan="2" class="text-right">
+                                    <a href="#" onclick="OpenForm(4)">Change Password</a>
+                                </td>
+                            </tr>
+
+                            <tr id="Password-Input">
+                                <td colspan="3">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken();
+
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => model.OldPassword, htmlAttributes: new { @class = "col-form-label col-3" })
+                                            <div class="col-9">
+                                                @Html.EditorFor(model => model.OldPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.OldPassword, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => model.NewPassword, htmlAttributes: new { @class = "col-form-label col-3" })
+                                            <div class="col-9">
+                                                @Html.EditorFor(model => model.NewPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "col-form-label col-3" })
+                                            <div class="col-9">
+                                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        @Html.HiddenFor(x => x.EditID, new { Value = 4, id = "" })
+                                        <div class="form-group text-center">
+                                            <input type="submit" value="Change Password" class="btn btn-primary" />
+                                            <input type="button" class="btn btn-danger" onclick="showAll()" value="Cancel" />
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        hideAll();
+
+
+        function hideAll() {
+            $("#Name-Input").hide();
+            $("#PhoneNum-Input").hide();
+            $("#Email-Input").hide();
+            $("#Password-Input").hide();
+
+        }
+
+        function showAll() {
+            hideAll();
+            $("#Name-Group").show('medium');
+            $("#PhoneNum-Group").show('medium');
+            $("#Email-Group").show('medium');
+            $("#Password-Group").show('medium');
+        }
+
+
+        function OpenForm(id) {
+            hideAll();
+            showAll();
+            if (id == 1) {
+                $('#Name-Group').hide();
+                $("#Name-Input").show('medium');
+            }
+
+            else if (id == 2) {
+                $('#PhoneNum-Group').hide();
+                $("#PhoneNum-Input").show('medium');
+            }
+
+            else if (id == 3) {
+                $('#Email-Group').hide();
+                $("#Email-Input").show('medium');
+            }
+
+            else if (id == 4) {
+                $('#Password-Group').hide();
+                $("#Password-Input").show('medium');
+            }
+        }
+
+        const inputElement = document.querySelector('input[type="file"]');
+        const pond = FilePond.create(inputElement);
+
+        FilePond.registerPlugin(
+            FilePondPluginFileValidateType,
+            FilePondPluginImageExifOrientation,
+            FilePondPluginImagePreview,
+            FilePondPluginImageCrop,
+            FilePondPluginImageResize,
+            FilePondPluginImageTransform,
+            FilePondPluginImageEdit,
+            FilePondPluginFilePoster,
+            FilePondPluginFileEncode
+        );
+
+        //FilePond.registerPlugin(
+        //    FilePondPluginFileValidateType
+        //);
+
+
+        FilePond.setOptions({
+            server: {
+                url: '/SystemAPI/Account',
+                process: '/UploadProfilePic',
+                revert: null,
+            }
+        });
+
+        // Select the file input and use
+        // create() to turn it into a pond
+        var inputPic = FilePond.create(
+            document.getElementById('input-profilepic'),
+            {
+                labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Change Profile Picture`,
+                imagePreviewHeight: 200,
+                imageCropAspectRatio: '1:1',
+                imageResizeTargetWidth: 200,
+                imageResizeTargetHeight: 200,
+                stylePanelLayout: 'integrated',
+                styleLoadIndicatorPosition: 'center bottom',
+                styleProgressIndicatorPosition: 'right bottom',
+                styleButtonRemoveItemPosition: 'left bottom',
+                styleButtonProcessItemPosition: 'right bottom',
+                acceptedFileTypes: ['image/png', 'image/jpeg'],
+                allowFileEncode: true,
+                instantUpload: false,
+                allowProcess: false,
+                maxFiles: 1,
+                credits: false,
+                files: [
+                    {
+                        // the server file reference
+                        source: '12345',
+
+                        // set type to local to indicate an already uploaded file
+                        options: {
+                            type: 'local',
+
+                            // stub file information
+                            file: {
+                                name: 'Profile Picture',
+                            },
+
+                            // pass poster property
+                            metadata: {
+                                poster: '/SystemAPI/Account/GetCurrentProfilePic',
+                                filePosterMaxHeight: 200
+                            }
+                        }
+                    }
+                ]
+            });
+
+            $('#uploadPhotoBtn').click(() => {
+                if (inputPic.getFile() == null) {
+                    $.ajax({
+                        url: '/SystemAPI/Account/DeleteProfilePic',
+                        method: 'DELETE',
+                        success: (() => {
+                            location.reload();
+                        })
+                    })
+                }
+
+                else if (inputPic.getFile().fileSize == undefined) {
+                    location.reload();
+                }
+
+                else {
+                    inputPic.processFile().then(() => {
+                        location.reload();
+                    });
+                }
+                
+            });      
+
+    </script>
+}

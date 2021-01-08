@@ -1,68 +1,317 @@
-﻿@model PMS.Models.Database.Job
+﻿@model Tuple<PMS.Models.Database.Job, PMS.Models.Database.JobDate, PMS.Models.Database.JobDateUser, PMS.Models.Database.JobCharge>
 
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
 }
 
-<h2>Detail</h2>
+<h2>Job's Detail</h2>
 
-<div>
-    <h4>Job</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
+<div class="container" style="font-size:16px">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card h-100" style="padding:15px">
+                <div class="card-header">
+                    <h4>Job's Information</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Date Issued
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
+                        <dd>
+                            @Model.Item1.DateCreated.ToString("dd/MM/yyyy hh:mm tt")
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.paymentstatus)
-        </dt>
+                        <dt>
+                            Payment Status
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.paymentstatus)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.paymentstatus)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.JobStatu.name)
-        </dt>
+                        <dt>
+                            Status
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.JobStatu.name)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.JobStatu.name)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Package.name)
-        </dt>
+                        <dt>
+                            Package Name
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Package.name)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.Package.name)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.email)
-        </dt>
+                        <dt>
+                            Client's Email
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.email)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Item1.User.email)
+                        </dd>
+                    </dl>
+                </div>
 
-    </dl>
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#statusModal">Update</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card h-100" style="padding:15px;">
+                <div class="card-header">
+                    <h4>Job's Date Information</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Item2 != null)
+                    {
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Session Date & Time
+                            </dt>
+
+                            <dd>
+                                @Model.Item2.jobdate1.ToString("dd/MM/yyyy hh:mm tt")
+                            </dd>
+
+                            <dt>
+                                Photoshoot Location
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Item2.location)
+                            </dd>
+
+                            <dt>
+                                Session Description
+                            </dt>
+
+                            @if (!string.IsNullOrWhiteSpace(Model.Item2.description))
+                            {
+                                <dd>@Html.DisplayFor(model => model.Item2.description)</dd>
+                            }
+                            else
+                            {
+                                <dd>-</dd>
+                            }
+
+                        </dl>
+                    }
+                    else
+                    {
+                        <h5>No Data Yet!</h5>
+                    }
+                </div>
+
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#dateModal">Update</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card h-100" style="padding:15px">
+                <div class="card-header">
+                    <h4>Assigned Staff</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Item3 != null)
+                    {
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Name
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
+                            </dd>
+
+                            <dt>
+                                Email
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
+                            </dd>
+
+                            <dt>
+                                Phone Number
+                            </dt>
+
+                            @if (!string.IsNullOrWhiteSpace(Model.Item3.UserStudio.User.phonenumber))
+                            {
+                                <dd>@Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)</dd>
+                            }
+                            else
+                            {
+                                <dd>-</dd>
+                            }
+                        </dl>
+                    }
+                    else
+                    {
+                        <h5>No Data Yet!</h5>
+                    }
+                </div>
+
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card h-100" style="padding:15px">
+                <div class="card-header">
+                    <h4>Job's Service Charges</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Item4 != null)
+                    {
+                        <table id="jobChargeTable" class="table table-striped table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    }
+                    else
+                    {
+                        <h5>No Data Yet!</h5>
+                    }
+                </div>
+
+                <div class="card-footer">
+                    @if (ViewBag.StudioRoleID == 1)
+                    {
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#jobChargeModal">Add Service Charge</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#staffModal">Assign Staff</button> |
-    @Html.ActionLink("Back to List", "jobhome")
-</p>
 
-<!-- Modal -->
+@if (ViewBag.StudioRoleID == null)
+{
+    <div style="position:sticky;bottom:0px;padding:10px">
+        <a href="" class="btn btn-primary btn-block">Pay Now</a>
+    </div>
+}
+
+<!-- Modal Section -->
+<div class="modal fade" id="statusModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Update Job</h4>
+                        <hr />
+                        <form action="~/@ViewBag.StudioUrl/job/changestatus" method="post">
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" value="@Model.Item1.id" name="id" />
+
+                            <div class="form-group">
+                                <select title="Status" name="jsid" id="jobStatus" class="form-control"></select>
+                            </div>
+                            <div class="form-group">
+                                <select title="Package" name="pid" id="packages" class="form-control"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="dateModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                @if (Model.Item2 == null)
+                {
+                    <h5>Please determine the date for the photoshoot session before you can proceed to assign staff/photographer</h5>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Update Job Description</h4>
+                            <hr />
+                            <form action="~/@ViewBag.StudioUrl/job/changedate" method="post">
+                                @Html.AntiForgeryToken()
+
+                                @if (Model.Item2 != null)
+                                {
+                                    @Html.HiddenFor(x => x.Item2.id, new { @Value = Model.Item2.id });
+                                }
+                                @Html.HiddenFor(x => x.Item2.jobid, new { @Value = Model.Item1.id })
+                                <div class="form-group">
+                                    <input type="date" name="jobdate" class="form-control" value="@Model.Item2.jobdate1.ToString("yyyy-MM-dd")" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="time" name="jobtime" class="form-control" value="@Model.Item2.jobdate1.TimeOfDay" />
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item2.description, new { @class = "form-control", type = "text", placeholder = "Description..." })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item2.location, new { @class = "form-control", type = "text", placeholder = "Location..." })
+                                </div>
+                                <div class="form-group">
+                                    <select title="Status" name="jsid" id="jobDateStatus" class="form-control"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 <div class="modal fade" id="staffModal" role="dialog">
     <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">
                 <div class="card">
@@ -80,12 +329,51 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
 
     </div>
 </div>
+<div class="modal fade" id="jobChargeModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Add Charge to Session</h4>
+                        <hr />
+                        <form action="~/@ViewBag.StudioUrl/job/jobcharge" method="post">
+                            @Html.AntiForgeryToken()
+
+                            @Html.HiddenFor(x => x.Item4.jobid, new { @Value = Model.Item1.id })
+                            <div class="form-group">
+                                <select name="cid" class="form-control" id="listCharge"></select>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(x => x.Item4.amount, new { @class = "form-control", placeholder = "Amount...", @Value = "" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(x => x.Item4.remarks, new { @class = "form-control", placeholder = "Remarks...", @Value = "" })
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End Modal Section -->
+
 
 @section Scripts {
     <script>
@@ -93,8 +381,35 @@
         headers: { 'StudioCredential': '@ViewBag.StudioID' }
     });
         var table;
+        var jctable;
+        var jobstatus;
+        var packages;
+        var charges;
         $(function () {
-             table = $("#adminTable").DataTable(
+            jctable = $("#jobChargeTable").DataTable(
+                {
+                    serverSide: false,
+                    ajax: {
+                        type: "GET",
+                        url: "/api/system/loadjobcharges/@Model.Item1.id",
+                        dataSrc: ''
+                    },
+                    bLengthChange: true,
+                    paging: false,
+                    searchPlaceholder: "Search User",
+                    search: true,
+                    bSort: true,
+                    info: false,
+                    processing: true,
+                    columns: [
+                        { data: 'Name', autoWidth: true },
+                        { data: 'id', render: function (data, type, row) { return `<a href="@Request.Url/editjobcharge/${data}">Edit</a> | <a href="@Request.Url/deletejobcharge/${data}">Delete</a>` }, autoWidth: true }
+                    ]
+                }
+            );
+        });
+        $(function () {
+            table = $("#adminTable").DataTable(
                 {
                     serverSide: false,
                     ajax: {
@@ -117,10 +432,73 @@
                                             <p class="font-weight-light">${row.StudioRole}</p>
                                         ` }, "autoWidth": true
                         },
-                        { data: 'userid', render: function (data, type, row) { return `<button class="btn btn-secondary" onclick="popupEditModal(${data})" data-toggle="modal" data-target="#editRoleModal">Edit</button>` }, width: "10%" }
+                        {
+                            data: 'userid', render: function (data, type, row) {
+                                return `@if (Model.Item3 != null && Model.Item2 != null) {
+                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=@Model.Item3.id&jdid=@Model.Item2.id" class="btn btn-secondary">Assign</a>
+                                    }
+                                    else if (Model.Item2 != null) {
+                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=&jdid=@Model.Item2.id" class="btn btn-secondary">Assign</a>
+                                    }
+                                    else {
+                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=&jdid=" class="btn btn-secondary">Assign</a>
+                                    }` }, width: "10%"
+                        }
                     ]
                 }
             );
+        });
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadJobStatus",
+                dataSrc: '',
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        if (obj.id === @Model.Item1.jobstatusid) {
+                            jobstatus = `<option value='${obj.id}' selected>${obj.name}</option>`
+                        }
+                        else {
+                            jobstatus = `<option value='${obj.id}'>${obj.name}</option>`
+                        }
+
+                        $("#jobStatus").append(jobstatus)
+                        $("#jobDateStatus").append(jobstatus)
+                    })
+                }
+            })
+        });
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadpackages/@ViewBag.StudioID",
+                dataSrc: '',
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        if (obj.id === @Model.Item1.packageid) {
+                            packages = `<option value='${obj.id}' selected>${obj.name}</option>`
+                        }
+                        else {
+                            packages = `<option value='${obj.id}'>${obj.name}</option>`
+                        }
+
+                        $("#packages").append(packages)
+                    })
+                }
+            })
+        });
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadcharges/@ViewBag.StudioID",
+                dataSrc: '',
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        charges = `<option value='${obj.id}'>${obj.Name}</option>`
+                        $("#listCharge").append(charges)
+                    })
+                }
+            })
         });
     </script>
 }

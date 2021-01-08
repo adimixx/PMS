@@ -6,52 +6,76 @@
     ViewBag.Title = "ChatList";
 }
 
-<h2>ChatList</h2>
-
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ChatRoom.GroupChatName)
-        </th>
-        <th>
-     
-        </th>
- 
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-<tr>
-
-    @if (item.ChatRoom.GroupChat == true)
-    {
-        <td>@item.ChatRoom.GroupChatName</td>
-
-
-            }
-            else
-            {
-            var whichchatroomID = item.ChatRoom.ChatID;
-            PMS.Models.Database.photogEntities ent = new PMS.Models.Database.photogEntities();
-            var whichuser = (User)UserAuthentication.Identity();
-            int userid = whichuser.id;
-            var whichchatkey = ent.ChatKeys.FirstOrDefault(x => x.UserID != userid && x.ChatID == whichchatroomID);
-            int targeteduserid = (int)whichchatkey.UserID;
-            var targeteduser = ent.Users.FirstOrDefault(x => x.id == targeteduserid);
-
-        <td>@targeteduser.name</td>
-
-        }
 
 
 
+@* this is new *@
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title mb-4">ChatList</h4>
+        <div class="table-responsive">
+            <table class="table table-hover table-centered table-nowrap mb-0">
+                <thead>
+                    <tr>
+                     
+                        <th scope="col">Name</th>
+                        
+                        <th scope="col" colspan="2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
 
-        <td>
-            @Html.ActionLink("Enter Chat Room", "ChatMain", new { chatid = item.ChatKeyID }) |
+                        @{
+                            var whichchatroomID = item.ChatKey_Key;
 
-        </td>
-    </tr>
-}
+                            PMS.Models.Database.photogEntities ent = new PMS.Models.Database.photogEntities();
+                            var whichuser = (User)UserAuthentication.Identity();
+                            int userid = whichuser.id;
 
-</table>
+                            var whichchatkey = ent.ChatKeys.FirstOrDefault(x => x.UserID != userid && x.ChatKey_Key == whichchatroomID);
+                            int targeteduserid;
+                            if (whichchatkey.UserID == null)
+                            {
+                                targeteduserid = (int)whichchatkey.StudioID;
+                                var targeteduser = ent.Studios.FirstOrDefault(x => x.id == targeteduserid);
+                                <td>
+                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
+                                    @targeteduser.name
+                                </td>
+                            }
+                            else
+                            {
+                                targeteduserid = (int)whichchatkey.UserID;
+                                var targeteduser = ent.Users.FirstOrDefault(x => x.id == targeteduserid);
+                                <td>
+                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
+                                    @targeteduser.name
+                                </td>
+                            }
+
+
+
+
+                        }
+
+
+
+
+                        <td>
+                            @Html.ActionLink("enter", "ChatMain", new { chatid = item.ChatKeyID }, new { @class = "btn btn-primary btn-sm" })
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@* this is end of new *@
+

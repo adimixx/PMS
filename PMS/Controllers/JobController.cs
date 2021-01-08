@@ -117,21 +117,160 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 2)]
         [HttpGet]
-        public ActionResult jobhome()
+        public ActionResult JobHome()
         {
             return View();
         }
 
-        [StudioPermalinkValidate(RoleID = 1)]
+        [StudioPermalinkValidate]
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            var data = db.Jobs.Find(id);
+            var job = db.Jobs.Find(id);
+            var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
+            var jobdateuser = jobdate != null ? db.JobDateUsers.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobdateid == jobdate.id) : null;
+            var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
 
-            if (ViewBag.StudioID != data.Package.studioid)
+            if (ViewBag.StudioID != job.Package.studioid)
                 return RedirectToAction("jobhome");
 
-            return View(data);
+            return View(new Tuple<Job, JobDate, JobDateUser, JobCharge>(job, jobdate, jobdateuser, jobcharge));
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult ChangeStatus(int id, int jsid, int pid)
+        {
+            try
+            {
+                var data = db.Jobs.Find(id);
+                data.jobstatusid = jsid;
+                data.packageid = pid;
+                db.SaveChanges();
+
+                return RedirectToAction("detail/" + id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult ChangeDate([Bind(Prefix = "Item2")]JobDate job, int jsid, DateTime jobdate, TimeSpan jobtime)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    job.jobstatusid = jsid;
+                    job.jobdate1 = jobdate.Add(jobtime);
+                    if (job.id != 0)
+                    {
+                        db.Entry(job).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.JobDates.Add(job);
+                        db.SaveChanges();
+                    }
+
+                    return RedirectToAction("detail/" + job.jobid);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+                return View("Error");
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult AssignStaff(int id, int? jduid, int jdid)
+        {
+            try
+            {
+                var jdu = new JobDateUser();
+                if (jduid.HasValue)
+                    jdu = db.JobDateUsers.Find(jduid.Value);
+
+                var sid = (int)ViewBag.StudioID;
+                ViewBag.UserStudioID = db.UserStudios.FirstOrDefault(x => x.studioid == sid && x.userid == id).id;
+                ViewBag.JobDateID = jdid;
+
+                return View(jdu);
+            }
+            catch (Exception)
+            {
+                return View("error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult AssignStaff(JobDateUser jobDateUser)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (jobDateUser.id == 0)
+                    {
+                        db.JobDateUsers.Add(jobDateUser);
+                    }
+                    else
+                    {
+                        db.Entry(jobDateUser).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    db.SaveChanges();
+
+                    return RedirectToAction("detail/" + db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid).jobid);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult JobCharge([Bind(Prefix = "Item4")] JobCharge jobCharge, int cid)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    jobCharge.chargeid = cid;
+                    if (jobCharge.id == 0)
+                    {
+                        db.JobCharges.Add(jobCharge);
+                    }
+                    else
+                    {
+                        db.Entry(jobCharge).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    db.SaveChanges();
+
+                    return RedirectToAction("detail/" + jobCharge.jobid);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         // ---------------------- Job Management End ----------------------- //

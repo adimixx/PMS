@@ -15,6 +15,18 @@ namespace PMS
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "ChatPackageAPI",
+                routeTemplate: "SystemAPI/Package/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "ChatPackageAPI" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "AccountAPI",
+                routeTemplate: "SystemAPI/Account/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "AccountAPI" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "StudioRolesAPI",
                 routeTemplate: "SystemAPI/StudioRoles/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional, controller = "StudioRolesAPI" }
