@@ -14,7 +14,7 @@ namespace PMS.Controllers
         photogEntities db = new photogEntities();
 
         [HttpGet]
-        public ActionResult CheckoutIndex(int id, decimal total)
+        public ActionResult CheckoutIndex(int id)
         {
             var invoice = db.Invoices.Find(id);
 
@@ -22,7 +22,7 @@ namespace PMS.Controllers
             var service = new PaymentIntentService();
             var options = new PaymentIntentCreateOptions
             {
-                Amount = (long)total * 100,
+                Amount = (long)invoice.total * 100,
                 Currency = "myr",
                 PaymentMethodTypes = new List<string>
                 {
@@ -38,7 +38,6 @@ namespace PMS.Controllers
                 },
             };
             ViewBag.intent = service.Create(options);
-            ViewBag.total = total;
             return View(invoice);
         }
 
