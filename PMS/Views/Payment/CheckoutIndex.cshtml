@@ -24,7 +24,9 @@
             <div class="form-group">
                 @Html.LabelFor(item => Model.Job.Package.price, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    RM @Html.DisplayFor(item => Model.Job.Package.price, new { htmlAttribute = new { @class = "form-control" } })
+                    <span class="form-control">
+                        RM @ViewBag.total
+                    </span>
                 </div>
             </div>
 

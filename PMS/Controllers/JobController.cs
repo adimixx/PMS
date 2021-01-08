@@ -260,6 +260,14 @@ namespace PMS.Controllers
                     }
                     db.SaveChanges();
 
+                    if (jobCharge.Job.Invoices.Any(x => x.detail == "Charge Payment"))
+                    {
+                        var invoice = db.Invoices.FirstOrDefault(x => x.jobid == jobCharge.jobid && x.detail == "Charge Payment");
+                        invoice.total += jobCharge.amount;
+                        invoice.totalunpaid += jobCharge.amount;
+                        db.SaveChanges();
+                    }
+
                     return RedirectToAction("detail/" + jobCharge.jobid);
                 }
                 catch (Exception)
@@ -273,6 +281,202 @@ namespace PMS.Controllers
             }
         }
 
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult EditJobCharge(int id)
+        {
+            var data = db.JobCharges.Find(id);
+            return View(data);
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult EditJobCharge(JobCharge jobCharge, int cid)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    jobCharge.chargeid = cid;
+                    db.Entry(jobCharge).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    if (jobCharge.Job.Invoices.Any(x => x.detail == "Charge Payment"))
+                    {
+                        var invoice = db.Invoices.FirstOrDefault(x => x.jobid == jobCharge.jobid && x.detail == "Charge Payment");
+                        invoice.total = db.JobCharges.Where(x => x.jobid == jobCharge.jobid).Sum(x => x.amount);
+                        invoice.totalunpaid = db.JobCharges.Where(x => x.jobid == jobCharge.jobid).Sum(x => x.amount) - (invoice.total - invoice.totalunpaid);
+                        db.SaveChanges();
+                    }
+
+                    return RedirectToAction("detail/" + jobCharge.jobid);
+                }
+                catch (Exception)
+                {
+                    return View("error");
+                }
+            }
+            else
+            {
+                return View(jobCharge);
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult DeleteJobCharge(int id)
+        {
+            try
+            {
+                var data = db.JobCharges.Find(id);
+                var jobid = data.jobid;
+
+                if (data.Job.Invoices.Any(x => x.detail == "Charge Payment"))
+                {
+                    var invoice = db.Invoices.FirstOrDefault(x => x.jobid == data.jobid && x.detail == "Charge Payment");
+                    invoice.total -= data.amount;
+                    invoice.totalunpaid -= data.amount;
+                    db.SaveChanges();
+                }
+
+                db.JobCharges.Remove(data);
+                db.SaveChanges();
+                return RedirectToAction("detail/" + jobid);
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+        }
+
         // ---------------------- Job Management End ----------------------- //
+
+        // ---------------------- Invoice Management Start ---------------------- //
+
+        [StudioPermalinkValidate]
+        [HttpGet]
+        public ActionResult PaymentView(int id)
+        {
+            ViewBag.jobid = id;
+            return View();
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult CreateDepositInvoice(int id)
+        {
+            try
+            {
+                var job = db.Jobs.Find(id);
+                db.Invoices.Add(new Invoice
+                {
+                    expirydate = DateTime.Now.AddMonths(3),
+                    invdate = DateTime.Now,
+                    jobid = id,
+                    total = job.Package.depositprice,
+                    totalunpaid = job.Package.depositprice,
+                    detail = "Deposit",
+                    status = "Not Paid",
+                });
+                db.SaveChanges();
+
+                return RedirectToAction("paymentview/" + id);
+            }
+            catch (Exception)
+            {
+                return View("error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult CreateChargeInvoice(int id)
+        {
+            try
+            {
+                var job = db.Jobs.Find(id);
+                var chargeamount = db.JobCharges.Where(x => x.jobid == id).Sum(x => x.amount);
+                db.Invoices.Add(new Invoice
+                {
+                    expirydate = DateTime.Now.AddMonths(3),
+                    invdate = DateTime.Now,
+                    jobid = id,
+                    total = chargeamount,
+                    totalunpaid = chargeamount,
+                    detail = "Charge Payment",
+                    status = "Not Paid",
+                });
+                db.SaveChanges();
+
+                return RedirectToAction("paymentview/" + id);
+            }
+            catch (Exception)
+            {
+                return View("error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult CreateFullInvoice(int id)
+        {
+            try
+            {
+                var job = db.Jobs.Find(id);
+                if (job.Invoices.Any(x => x.detail == "Deposit"))
+                {
+                    db.Invoices.Add(new Invoice
+                    {
+                        expirydate = DateTime.Now.AddMonths(3),
+                        invdate = DateTime.Now,
+                        jobid = id,
+                        total = job.Package.price - job.Package.depositprice,
+                        totalunpaid = job.Package.price - job.Package.depositprice,
+                        detail = "Full Payment",
+                        status = "Not Paid",
+                    });
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Invoices.Add(new Invoice
+                    {
+                        expirydate = DateTime.Now.AddMonths(3),
+                        invdate = DateTime.Now,
+                        jobid = id,
+                        total = job.Package.price,
+                        totalunpaid = job.Package.price,
+                        detail = "Full Payment",
+                        status = "Not Paid",
+                    });
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("paymentview/" + id);
+            }
+            catch (Exception)
+            {
+                return View("error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult deleteInvoice(int id)
+        {
+            try
+            {
+                var data = db.Invoices.Find(id);
+                db.Invoices.Remove(data);
+                db.SaveChanges();
+                return View();
+            }
+            catch (Exception)
+            {
+                return View("error");
+            }
+        }
+
+        // ---------------------- Invoice Management End ---------------------- //
     }
 }

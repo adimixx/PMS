@@ -14,7 +14,7 @@ namespace PMS.Controllers
         photogEntities db = new photogEntities();
 
         [HttpGet]
-        public ActionResult CheckoutIndex(int id)
+        public ActionResult CheckoutIndex(int id, decimal total)
         {
             var invoice = db.Invoices.Find(id);
 
@@ -22,20 +22,23 @@ namespace PMS.Controllers
             var service = new PaymentIntentService();
             var options = new PaymentIntentCreateOptions
             {
-                Amount = (long)invoice.total * 100,
+                Amount = (long)total * 100,
                 Currency = "myr",
                 PaymentMethodTypes = new List<string>
                 {
                     "fpx",
                 },
-                Description = "Payment for invoice " + invoice.id + " : " + invoice.Job.paymentstatus,
+                Description = "Payment for invoice " + invoice.id,
                 Metadata = new Dictionary<string, string>
                 {
                     { "packageID", invoice.Job.packageid.ToString() },
                     { "jobID", invoice.jobid.ToString() },
+                    { "invoiceID", invoice.id.ToString() },
+                    { "statusPayment", invoice.detail }
                 },
             };
             ViewBag.intent = service.Create(options);
+            ViewBag.total = total;
             return View(invoice);
         }
 
@@ -46,6 +49,23 @@ namespace PMS.Controllers
             var intent = service.Get(id);
             if (intent.Status.Contains("succeeded"))
             {
+                int iid = int.Parse(intent.Metadata["invoiceID"]);
+                db.Transactions.Add(new Transaction
+                {
+                    invoiceid = iid,
+                    paymentmethodid = 1,
+                    reference = id,
+                    total = decimal.Parse((intent.Amount / 100).ToString(".00")),
+                    transdate = DateTime.Now
+                });
+                db.SaveChanges();
+
+                var invoice = db.Invoices.Find(iid);
+                invoice.totalunpaid -= decimal.Parse((intent.Amount / 100).ToString(".00"));
+                invoice.status = "Paid";
+                db.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
                 return View("success");
             }
             else

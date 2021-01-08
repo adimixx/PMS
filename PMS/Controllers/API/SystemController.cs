@@ -108,6 +108,7 @@ namespace PMS.Controllers
                 {
                     item.id,
                     item.Charge.Name,
+                    item.remarks
                 });
             }
             return Ok(data);
@@ -126,6 +127,29 @@ namespace PMS.Controllers
                 {
                     item.id,
                     item.Name,
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadInvoices(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Invoices.Where(x => x.jobid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    invdate = item.invdate.ToString("dd/MM/yyyy"),
+                    expirydate = item.expirydate.ToString("dd/MM/yyyy"),
+                    item.total,
+                    item.totalunpaid,
+                    item.detail,
+                    item.status
                 });
             }
             return Ok(data);

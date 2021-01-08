@@ -21,6 +21,7 @@ namespace PMS.Models.Database
             this.Jobs = new HashSet<Job>();
             this.UserStudios = new HashSet<UserStudio>();
             this.UserSystemRoles = new HashSet<UserSystemRole>();
+            this.DbBackupRecords = new HashSet<DbBackupRecord>();
         }
     
         public int id { get; set; }
@@ -41,5 +42,7 @@ namespace PMS.Models.Database
         public virtual ICollection<UserStudio> UserStudios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserSystemRole> UserSystemRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DbBackupRecord> DbBackupRecords { get; set; }
     }
 }

@@ -26,6 +26,8 @@ namespace PMS.Models.Database
         public System.DateTime expirydate { get; set; }
         public decimal total { get; set; }
         public decimal totalunpaid { get; set; }
+        public string detail { get; set; }
+        public string status { get; set; }
     
         public virtual Job Job { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
