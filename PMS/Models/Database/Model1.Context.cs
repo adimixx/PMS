@@ -45,5 +45,6 @@ namespace PMS.Models.Database
         public virtual DbSet<UserFeedback> UserFeedbacks { get; set; }
         public virtual DbSet<UserStudio> UserStudios { get; set; }
         public virtual DbSet<UserSystemRole> UserSystemRoles { get; set; }
+        public virtual DbSet<PackageImage> PackageImages { get; set; }
     }
 }

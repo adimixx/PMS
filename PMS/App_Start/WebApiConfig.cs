@@ -15,6 +15,12 @@ namespace PMS
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "PackageImageAPI",
+                routeTemplate: "SystemAPI/PackageImage/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "PackageImageAPI" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "ChatPackageAPI",
                 routeTemplate: "SystemAPI/Package/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional, controller = "ChatPackageAPI" }

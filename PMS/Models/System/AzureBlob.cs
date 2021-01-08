@@ -41,6 +41,37 @@ namespace PMS.Models
             blobContainer = cloudBlobClient.GetContainerReference(dataBlob);
         }
 
+        //public List<string> UploadMultipleFileAPI(List<HttpPostedFile> ListFileToUpload, string FolderID)
+        //{
+        //    List<string> AbsoluteUri = new List<string>();
+        //    // Check HttpPostedFileBase is null or not  
+        //    if (ListFileToUpload.Count <= 0)
+        //        return null;
+        //    try
+        //    {
+        //        foreach (var FileToUpload in ListFileToUpload)
+        //        {
+        //            CloudBlockBlob blockBlob;
+        //            // Create a block blob  
+        //            blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
+        //            // Set the object's content type  
+        //            blockBlob.Properties.ContentType = FileToUpload.ContentType;
+        //            var data = FileToUpload.InputStream.Length;
+
+        //            // upload to blob  
+        //            blockBlob.UploadFromStream(FileToUpload.InputStream);
+
+        //            AbsoluteUri.Add(blockBlob.Name);
+        //        }
+
+        //    }
+        //    catch (Exception ExceptionObj)
+        //    {
+        //        throw ExceptionObj;
+        //    }
+        //    return AbsoluteUri;
+        //}
+
         public string UploadFileAPI(HttpPostedFile FileToUpload, string FolderID)
         {
             string AbsoluteUri;
@@ -49,7 +80,6 @@ namespace PMS.Models
                 return null;
             try
             {
-
                 CloudBlockBlob blockBlob;
                 // Create a block blob  
                 blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));

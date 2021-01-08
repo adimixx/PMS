@@ -77,6 +77,7 @@ namespace PMS.Controllers
 
                 var edit = new CreatePackageViewModel
             {
+                    id = data.id,
                 depoprice = data.depositprice,
                 details = data.details,
                 price = data.price,

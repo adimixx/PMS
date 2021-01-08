@@ -72,7 +72,7 @@
     <div id="studio-head">
         <h2 style=""> @Model.name </h2>
         <p class="mb-0">
-            <span style="position: relative; top: -6px; font-weight: 500;"> Speaking through visual. #pelatography</span>
+            <span style="position: relative; top: -6px; font-weight: 500;"> @Model.shortDesc </span>
             <br>
             <span style="color:#9F9F9F;font-weight:500">
                 <i class="ti-location-pin"></i> @Model.location &nbsp;&nbsp;
@@ -88,8 +88,8 @@
         <div class="col-md-2 col-12">
             <div class="row">
                 <div class="col-12">
-                    <span class="mdi mdi-phone"> &nbsp; +601250024</span> <br>
-                    <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">trixxboy.12@gmail.com</a></span>
+                    <span class="mdi mdi-phone"> &nbsp; @Model.phoneNum</span> <br>
+                    <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">@Model.email</a></span>
                 </div>
                 <div class="col-12">
                     <button class="chatbtn"><i class="mdi mdi-chat"></i> Chat</button>
@@ -133,8 +133,8 @@
                             </div>
                         </div>
                         <div class="card-body pt-0 pb-5">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500
                         </div>
                         <div class="date-review">26 Dec 2020</div>
                     </div>
@@ -170,130 +170,40 @@
             </div>
         </div>
         <div class="col-md-10 col-12">
-            <h3 class="pb-2">Bio</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
+            @if (!string.IsNullOrWhiteSpace(Model.longDesc))
+            {
+                <h3 class="pb-2">Bio</h3>
+                <p>
+                    @Model.longDesc
+                </p>
+            }
             <h3 class="pb-2">Packages</h3>
             <div id="brick" class="bricklayer">
-                <div class="card cd">
-                    <div class="imgWrap">
-                        <img class="myImg card-img-top mx-0 d-block" src="~/src/images/gallery/work-1.jpg">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title cdtitle">Wedding Basic</h3>
-                        <article class="card-text">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </article>
-                        <div class="row">
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Deposit</span><br>
-                                <span class="ttl-title" style="color:#FFA500">RM20.00</span>
-                            </div>
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Total</span><br>
-                                <span class="ttl-title" style="color:#85bb65">RM200.00</span>
-                            </div>
+                @foreach (var item in Model.Packages)
+                {
+                    <div class="card cd">
+                        <div class="imgWrap">
+                            <img class="myImg card-img-top mx-0 d-block" src="~/src/images/gallery/work-1.jpg">
                         </div>
-                        <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
-                    </div>
-                </div>
-                <div class="card cd">
-                    <div class="imgWrap">
-                        <img class="myImg card-img-top mx-0 d-block" src="~/src/images/gallery/work-2.jpg">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title cdtitle">Wedding Premium</h3>
-                        <article class="card-text">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </article>
-                        <div class="row">
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Deposit</span><br>
-                                <span class="ttl-title" style="color:#FFA500">RM20.00</span>
+                        <div class="card-body">
+                            <h3 class="card-title cdtitle">@item.name</h3>
+                            <article class="card-text">
+                                @item.details
+                            </article>
+                            <div class="row">
+                                <div class="col-6 pt-1">
+                                    <span class="pay-title">Deposit</span><br>
+                                    <span class="ttl-title" style="color:#FFA500">RM @item.depositprice</span>
+                                </div>
+                                <div class="col-6 pt-1">
+                                    <span class="pay-title">Total</span><br>
+                                    <span class="ttl-title" style="color:#85bb65">RM @item.price</span>
+                                </div>
                             </div>
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Total</span><br>
-                                <span class="ttl-title" style="color:#85bb65">RM200.00</span>
-                            </div>
+                            <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
                         </div>
-                        <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
                     </div>
-                </div>
-                <div class="card cd">
-                    <div class="imgWrap">
-                        <img class="myImg card-img-top mx-0 d-block" src="~/src/images/gallery/work-3.jpg">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title cdtitle">Wedding Premium</h3>
-                        <article class="card-text">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </article>
-                        <div class="row">
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Deposit</span><br>
-                                <span class="ttl-title" style="color:#FFA500">RM20.00</span>
-                            </div>
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Total</span><br>
-                                <span class="ttl-title" style="color:#85bb65">RM200.00</span>
-                            </div>
-                        </div>
-                        <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
-                    </div>
-                </div>
-                <div class="card cd">
-                    <div class="imgWrap">
-                        <img class="myImg card-img-top mx-0 d-block" src="~/src/images/gallery/work-4.jpg">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title cdtitle">Wedding Basic</h3>
-                        <article class="card-text">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </article>
-                        <div class="row">
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Deposit</span><br>
-                                <span class="ttl-title" style="color:#FFA500">RM20.00</span>
-                            </div>
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Total</span><br>
-                                <span class="ttl-title" style="color:#85bb65">RM200.00</span>
-                            </div>
-                        </div>
-                        <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
-                    </div>
-                </div>
-                <div class="card cd">
-                    <div class="imgWrap">
-                        <img class="myImg card-img-top mx-0 d-block" src="~/src/images/gallery/work-5.jpg">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title cdtitle">Wedding Premium</h3>
-                        <article class="card-text">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </article>
-                        <div class="row">
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Deposit</span><br>
-                                <span class="ttl-title" style="color:#FFA500">RM20.00</span>
-                            </div>
-                            <div class="col-6 pt-1">
-                                <span class="pay-title">Total</span><br>
-                                <span class="ttl-title" style="color:#85bb65">RM200.00</span>
-                            </div>
-                        </div>
-                        <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>

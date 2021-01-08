@@ -18,6 +18,7 @@ namespace PMS.Models.Database
         public Package()
         {
             this.Jobs = new HashSet<Job>();
+            this.PackageImages = new HashSet<PackageImage>();
         }
     
         public int id { get; set; }
@@ -30,5 +31,7 @@ namespace PMS.Models.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Job> Jobs { get; set; }
         public virtual Studio Studio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PackageImage> PackageImages { get; set; }
     }
 }

@@ -28,7 +28,12 @@ namespace PMS.Models.Database
         public string name { get; set; }
         public string uniquename { get; set; }
         public string location { get; set; }
-        public byte[] ImgLogo { get; set; }
+        public string ImgLogo { get; set; }
+        public string ImgCover { get; set; }
+        public string shortDesc { get; set; }
+        public string longDesc { get; set; }
+        public string phoneNum { get; set; }
+        public string email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Charge> Charges { get; set; }
