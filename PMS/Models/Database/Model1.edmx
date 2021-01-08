@@ -25,6 +25,16 @@
           <Property Name="UserID" Type="int" />
           <Property Name="StudioID" Type="int" />
         </EntityType>
+        <EntityType Name="DbBackupRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BackupDate" Type="datetime" Nullable="false" />
+          <Property Name="FileName" Type="varchar(max)" Nullable="false" />
+          <Property Name="BackupType" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="id" />
@@ -35,6 +45,8 @@
           <Property Name="expirydate" Type="datetime" Nullable="false" />
           <Property Name="total" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="totalunpaid" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="detail" Type="varchar" MaxLength="30" />
+          <Property Name="status" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -186,6 +198,18 @@
           <Property Name="systemroleid" Type="int" />
           <Property Name="userid" Type="int" />
         </EntityType>
+        <Association Name="FK__DbBackupR__UserI__625A9A57">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="DbBackupRecord" Type="Self.DbBackupRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DbBackupRecord">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Invoice__jobid__2EDAF651">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
@@ -465,6 +489,7 @@
         <EntityContainer Name="photogModelStoreContainer">
           <EntitySet Name="Charges" EntityType="Self.Charges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatKey" EntityType="Self.ChatKey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbBackupRecord" EntityType="Self.DbBackupRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobCharges" EntityType="Self.JobCharges" Schema="dbo" store:Type="Tables" />
@@ -482,6 +507,10 @@
           <EntitySet Name="UserFeedback" EntityType="Self.UserFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStudio" EntityType="Self.UserStudio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSystemRole" EntityType="Self.UserSystemRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DbBackupR__UserI__625A9A57" Association="Self.FK__DbBackupR__UserI__625A9A57">
+            <End Role="User" EntitySet="User" />
+            <End Role="DbBackupRecord" EntitySet="DbBackupRecord" />
+          </AssociationSet>
           <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="Self.FK__Invoice__jobid__2EDAF651">
             <End Role="Job" EntitySet="Job" />
             <End Role="Invoice" EntitySet="Invoice" />
@@ -691,6 +720,11 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
+          <EntitySet Name="DbBackupRecords" EntityType="photogModel.DbBackupRecord" />
+          <AssociationSet Name="FK__DbBackupR__UserI__625A9A57" Association="photogModel.FK__DbBackupR__UserI__625A9A57">
+            <End Role="User" EntitySet="Users" />
+            <End Role="DbBackupRecord" EntitySet="DbBackupRecords" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Charge">
           <Key>
@@ -728,6 +762,8 @@
           <Property Name="totalunpaid" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <NavigationProperty Name="Job" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Invoice" ToRole="Job" />
           <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__invoi__3A4CA8FD" FromRole="Invoice" ToRole="Transaction" />
+          <Property Name="detail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -885,6 +921,7 @@
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
           <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="User" ToRole="UserSystemRole" />
+          <NavigationProperty Name="DbBackupRecords" Relationship="photogModel.FK__DbBackupR__UserI__625A9A57" FromRole="User" ToRole="DbBackupRecord" />
         </EntityType>
         <EntityType Name="UserFeedback">
           <Key>
@@ -1195,6 +1232,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DbBackupRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BackupDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BackupType" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="photogModel.FK__DbBackupR__UserI__625A9A57" FromRole="DbBackupRecord" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__DbBackupR__UserI__625A9A57">
+          <End Type="photogModel.User" Role="User" Multiplicity="1" />
+          <End Type="photogModel.DbBackupRecord" Role="DbBackupRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DbBackupRecord">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1226,6 +1286,8 @@
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="photogModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
                 <ScalarProperty Name="totalunpaid" ColumnName="totalunpaid" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="expirydate" ColumnName="expirydate" />
@@ -1397,6 +1459,17 @@
               <MappingFragment StoreEntitySet="UserSystemRole">
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="systemroleid" ColumnName="systemroleid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbBackupRecords">
+            <EntityTypeMapping TypeName="photogModel.DbBackupRecord">
+              <MappingFragment StoreEntitySet="DbBackupRecord">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BackupType" ColumnName="BackupType" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="BackupDate" ColumnName="BackupDate" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

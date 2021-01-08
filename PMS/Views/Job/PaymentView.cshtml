@@ -9,9 +9,9 @@
 @if (ViewBag.StudioRoleID == 1)
 {
     <div>
-        <a href="/@ViewBag.StudioUrl/job/createdepositinvoice/@ViewBag.jobid">Create Deposit Invoice</a> |
-        <a href="/@ViewBag.StudioUrl/job/createdepositinvoice/@ViewBag.jobid">Create Charge Payment Invoice</a> |
-        <a href="/@ViewBag.StudioUrl/job/createdepositinvoice/@ViewBag.jobid">Create Full Payment Invoice</a>
+        <a href="/@ViewBag.StudioUrl/job/createdepositinvoice/@ViewBag.jobid" class="btn btn-primary">Create Deposit Invoice</a> |
+        <a href="/@ViewBag.StudioUrl/job/createfullinvoice/@ViewBag.jobid" class="btn btn-primary">Create Full Payment Invoice</a> |
+        <a href="/@ViewBag.StudioUrl/job/createchargeinvoice/@ViewBag.jobid" class="btn btn-primary">Create Charge Payment Invoice</a>
     </div>
 }
 
@@ -23,6 +23,7 @@
                 <th>Payment Due</th>
                 <th>Total (RM)</th>
                 <th>Total Unpaid (RM)</th>
+                <th>Payment Detail</th>
                 <th>Payment Status</th>
                 <th></th>
             </tr>
@@ -53,8 +54,9 @@
                         { data: 'expirydate', autoWidth: true },
                         { data: 'total', autoWidth: true },
                         { data: 'totalunpaid', autoWidth: true },
-                        { data: 'paymentstatus', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID == null) { <a href="/payment/checkoutindex/${data}?total=${row.total}">Pay</a> } else { <a href="/@ViewBag.StudioUrl/job/deleteinvoice/${data}">Delete</a> }` }, autoWidth: true }
+                        { data: 'detail', autoWidth: true },
+                        { data: 'status', autoWidth: true },
+                        { data: 'id', render: function (data, type, row) { return (row.status == "Not Paid") ? `@if (ViewBag.StudioRoleID == null) { <a href="/payment/checkoutindex/${data}?total=${row.total}">Pay</a> } else { <a href="/@ViewBag.StudioUrl/job/deleteinvoice/${data}">Delete</a> }` : `` }, autoWidth: true }
                     ]
                 }
             );

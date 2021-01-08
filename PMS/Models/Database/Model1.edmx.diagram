@@ -47,6 +47,8 @@
         <AssociationConnector Association="photogModel.FK__UserSyste__syste__40058253" />
         <AssociationConnector Association="photogModel.FK__UserStudi__useri__3F115E1A" />
         <AssociationConnector Association="photogModel.FK__UserSyste__useri__40F9A68C" />
+        <EntityTypeShape EntityType="photogModel.DbBackupRecord" Width="1.5" PointX="6" PointY="1.375" />
+        <AssociationConnector Association="photogModel.FK__DbBackupR__UserI__625A9A57" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

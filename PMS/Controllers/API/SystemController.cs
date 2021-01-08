@@ -136,7 +136,7 @@ namespace PMS.Controllers
         public IHttpActionResult loadInvoices(int id)
         {
             photogEntities db = new photogEntities();
-            var model = db.Invoices.Where(x => x.jobid == id && x.totalunpaid != 0).ToList();
+            var model = db.Invoices.Where(x => x.jobid == id).ToList();
 
             List<dynamic> data = new List<dynamic>();
             foreach (var item in model)
@@ -148,7 +148,8 @@ namespace PMS.Controllers
                     expirydate = item.expirydate.ToString("dd/MM/yyyy"),
                     item.total,
                     item.totalunpaid,
-                    item.Job.paymentstatus
+                    item.detail,
+                    item.status
                 });
             }
             return Ok(data);

@@ -28,12 +28,13 @@ namespace PMS.Controllers
                 {
                     "fpx",
                 },
-                Description = "Payment for invoice " + invoice.id + " : " + invoice.Job.paymentstatus,
+                Description = "Payment for invoice " + invoice.id,
                 Metadata = new Dictionary<string, string>
                 {
                     { "packageID", invoice.Job.packageid.ToString() },
                     { "jobID", invoice.jobid.ToString() },
                     { "invoiceID", invoice.id.ToString() },
+                    { "statusPayment", invoice.detail }
                 },
             };
             ViewBag.intent = service.Create(options);
@@ -61,6 +62,7 @@ namespace PMS.Controllers
 
                 var invoice = db.Invoices.Find(iid);
                 invoice.totalunpaid -= decimal.Parse((intent.Amount / 100).ToString(".00"));
+                invoice.status = "Paid";
                 db.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
