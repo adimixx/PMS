@@ -1,4 +1,4 @@
-body {
+﻿body {
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -41,6 +41,7 @@ textarea {
     position: relative;
     grid-template-columns: repeat(12,1fr);
     grid-template-rows: repeat(4,0.8fr);
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
 }
 
 .validation-summary-errors {
@@ -97,7 +98,6 @@ textarea {
 }
 
 #page-head {
-    width: 103%;
     background-color: #ECECED;
 }
 
@@ -254,4 +254,92 @@ textarea {
         .card li a:hover {
             background-color: #ff8423;
             color: white;
+        }
+
+.body-profile {
+    padding-left: 110px;
+    padding-right: 110px;
+    padding-top: 30px;
+}
+
+    .body-profile .chatbtn {
+        width: 100%;
+        background-color: #76CED2;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 10px;
+        border-radius: 50px;
+        color: white;
+        font-size: 16px;
+    }
+
+
+    .body-profile .rating > span {
+        display: inline-block;
+        position: relative;
+        width: 1.1em;
+        color: #F7B346;
+    }
+
+    .body-profile .review {
+        color: #7a7a7a;
+    }
+
+    .body-profile article {
+        max-height: 1.5em;
+        overflow: hidden;
+        transition: 0.3s height ease;
+    }
+
+    .body-profile .imgWrap {
+        /* min-height: 13vw; */
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .body-profile .myImg {
+        transition: 0.3s;
+        position: relative;
+        top: 0;
+        /* bottom: 70px; */
+        margin: auto;
+        max-width: 100%;
+        max-height: 735px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .body-profile .card {
+        margin-right: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+
+    .body-profile .card-title {
+        color: #53BCC1;
+        font-size: 18px;
+    }
+
+    .body-profile .cr-btn {
+        opacity: 1;
+        background-color: white;
+        width: 50px;
+        border-radius: 50%;
+        height: 50px;
+        top: 195px;
+        box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.15);
+        color: #8C8C8C;
+        transition: background-color .3s ease-out;
+    }
+
+        .body-profile .cr-btn:hover {
+            background-color: #76CED2;
+            color: white;
+        }
+
+        .body-profile .cr-btn.left {
+            left: -14px;
+        }
+
+        .body-profile .cr-btn.right {
+            right: -4px;
         }
