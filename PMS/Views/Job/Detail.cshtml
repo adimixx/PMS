@@ -401,7 +401,7 @@
                     columns: [
                         { data: 'Name', autoWidth: true },
                         { data: 'remarks', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return `<a href="/@ViewBag.StudioUrl/job/editjobcharge/${data}">Edit</a> | <a href="/@ViewBag.StudioUrl/job/deletejobcharge/${data}">Delete</a>` }, autoWidth: true }
+                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null) { <a href="/@ViewBag.StudioUrl/job/editjobcharge/${data}">Edit</a> <span>|</span> <a href="/@ViewBag.StudioUrl/job/deletejobcharge/${data}">Delete</a> }` }, autoWidth: true }
                     ]
                 }
             );
