@@ -135,7 +135,7 @@ namespace PMS.Controllers
                 return RedirectToAction("jobhome");
 
             var identity = UserAuthentication.Identity();
-            if (!db.Jobs.Any(x => x.userid == identity.id && x.id == id))
+            if (!db.Jobs.Any(x => x.userid == identity.id && x.id == id) && ViewBag.StudioRoleID == null)
                 return Redirect("/");
 
             return View(new Tuple<Job, JobDate, JobDateUser, JobCharge>(job, jobdate, jobdateuser, jobcharge));
