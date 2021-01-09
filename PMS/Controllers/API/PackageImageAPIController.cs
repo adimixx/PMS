@@ -44,7 +44,6 @@ namespace PMS.Controllers.API
 
             if (file != null && file.ContentLength > 0)
             {
-                string fl = file.FileName;
                 AzureBlob BlobManagerObj = new AzureBlob(2);
                 string FileName = BlobManagerObj.UploadFileAPI(file, StudioID.ToString());
                 FileName = FileName.Substring(FileName.IndexOf('/') + 1);
@@ -59,33 +58,36 @@ namespace PMS.Controllers.API
             return BadRequest();
         }
 
-        [HttpPost]
-        public IHttpActionResult UploadList()
-        {
-            var file = HttpContext.Current.Request.Files;
+        //[HttpPost]
+        //public IHttpActionResult UploadList()
+        //{
+        //    var file = HttpContext.Current.Request.Files;
+        //    if (file.Count > 0)
+        //    {
+        //        List<HttpPostedFile> httpPostedFiles = new List<HttpPostedFile>();
 
-            foreach (HttpPostedFile item in file)
-            {
-                string fl = item.FileName;
-                AzureBlob BlobManagerObj = new AzureBlob(2);
-                string FileName = BlobManagerObj.UploadFileAPI(item, StudioID.ToString());
-                FileName = FileName.Substring(FileName.IndexOf('/') + 1);
+        //        for (int i = 0; i < file.Count; i++)
+        //        {
+        //            httpPostedFiles.Add(file[0]);
 
-                photogEntities db = new photogEntities();
-                var id = UserAuthentication.Identity().id;
-                var user = db.Users.FirstOrDefault(x => x.id == id);
-                user.imgprofile = FileName;
-                db.SaveChanges();
+        //        }
 
-                UserAuthentication.UpdateClaim();
-            }
+        //        AzureBlob BlobManagerObj = new AzureBlob(2);
+        //        List<String> filenames = BlobManagerObj.UploadMultipleFileAPI(httpPostedFiles, StudioID.ToString());
 
-            return BadRequest();
-        }
+        //        photogEntities db = new photogEntities();
+        //        List<PackageImage> images = filenames.Select((x, index) => new PackageImage { ImageName = x, PackageID = PackageID, IsCoverPhoto = (index == 0) }).ToList();
+        //        db.PackageImages.AddRange(images);
+        //        db.SaveChanges();
 
-        [AllowCorsAPI]
+        //        return Ok();
+        //    }         
+
+        //    return BadRequest();
+        //}
+
         [HttpGet]
-        public HttpResponseMessage GetCurrentProfilePic()
+        public HttpResponseMessage GetPackagePic()
         {
             using (WebClient client = new WebClient())
             {
@@ -101,39 +103,22 @@ namespace PMS.Controllers.API
 
         }
 
-        [AllowCorsAPI]
         [HttpDelete]
-        public IHttpActionResult DeleteProfilePic()
+        public IHttpActionResult Delete(string img)
         {
-            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
-
-            if (file != null && file.ContentLength > 0)
+            if (!string.IsNullOrWhiteSpace(img))
             {
-                string fl = file.FileName;
-                if (file.FileName == UserAuthentication.Identity().imgprofile) return Ok();
-            }
+                AzureBlob BlobManagerObj = new AzureBlob(2);
+                string deletedBlob = BlobManagerObj.DeleteBlob(StudioID.ToString(), img);
 
-            else
-            {
-                AzureBlob BlobManagerObj = new AzureBlob(1);
                 photogEntities db = new photogEntities();
-                var id = UserAuthentication.Identity().id;
-                var user = db.Users.FirstOrDefault(x => x.id == id);
+                var deleted = db.PackageImages.FirstOrDefault(x => x.ImageName == deletedBlob);
+                db.PackageImages.Remove(deleted);
 
-                if (user.imgprofile == null) return Ok();
-
-                else if (BlobManagerObj.DeleteBlob(user.id.ToString(), User.Identity.GetProfilePhotoLink()))
-                {
-                    user.imgprofile = null;
-                    db.SaveChanges();
-
-                    UserAuthentication.UpdateClaim();
-
-                    return Ok();
-                }
+                return Ok();
             }
-            return BadRequest();
 
+            return BadRequest();
         }
     }
 }

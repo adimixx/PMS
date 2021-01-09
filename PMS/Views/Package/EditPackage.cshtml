@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Package Form</h4>
@@ -71,12 +71,12 @@
                             <input type="file" id="input-profilepic" class="filepond" name="filepond" accept="" multiple />
                         </div>
                     </div>
-                   
+
                     <div class="form-group m-3">
                         <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Profile Photo</button>
                     </div>
                 </div>
-            </div>         
+            </div>
         </div>
     </div>
 }
@@ -115,6 +115,24 @@
                 }
             },
             revert: null,
+            load: (source, load, error, progress, abort, headers) => {
+                var myRequest = new Request(/*'https://cors-anywhere.herokuapp.com/' +*/ source);
+                fetch(myRequest).then(function (response) {
+                    response.blob().then(function (myBlob) {
+                        load(myBlob)
+                    });
+                });
+            },
+            remove: (source, load, error) => {
+                axios.delete('/SystemApI/PackageImage/Delete?img=' + source, {
+                    headers: {
+                        'StudioCredential': @ViewBag.StudioID,
+                        'Package': @Model.id
+                    }
+                }).then(response => {
+                    inputPic.removeFile(source);
+                });
+            }
         }
     });
 
@@ -124,29 +142,26 @@
             labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Change Profile Picture`,
             allowMultiple: true,
             imagePreviewHeight: 200,
-            //stylePanelLayout: 'integrated',
             acceptedFileTypes: ['image/png', 'image/jpeg'],
             allowFileEncode: true,
             instantUpload: false,
             allowProcess: false,
-            credits: false
+            credits: false,
+            files: [
+                @foreach(var item in Model.images)
+                {
+                    @:{                        
+                    @:  source: "@String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
+                    @:  // set type to local to indicate an already uploaded file
+                    @:  options:
+                    @:  {
+                    @:      type: 'local',
+                    @:      id: @item.ID
+                    @:  }
+                    @:},
+                }
+            ]
         });
-
-    // Select the file input and use
-    // create() to turn it into a pond
-    //var inputPic = FilePond.create(
-    //    document.getElementById('input-profilepic'),
-    //    {
-    //        labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Change Profile Picture`,
-    //        imagePreviewHeight: 200,
-    //        stylePanelLayout: 'integrated',
-    //        acceptedFileTypes: ['image/png', 'image/jpeg'],
-    //        allowFileEncode: true,
-    //        instantUpload: false,
-    //        allowProcess: false,
-    //        maxFiles: 10,
-    //        credits: false
-    //    });
 
     $('#uploadPhotoBtn').click(() => {
         if (inputPic.getFile() == null) {
@@ -164,7 +179,7 @@
         }
 
         else {
-            inputPic.processFile().then(() => {
+            inputPic.processFiles().then(() => {
                 //location.reload();
             });
         }
@@ -172,5 +187,5 @@
     });
 
     </script>
-    
+
 }

@@ -30,6 +30,8 @@ namespace PMS.Models
 
         public IEnumerable<SelectListItem> studio { get; set; }
 
+        public List<PackageImage> images { get; set; }
+
         [Required]
         [DisplayName("Studio")]
         public int studioid { get; set; }

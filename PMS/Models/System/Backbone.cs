@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
 namespace PMS.Models
@@ -156,15 +157,22 @@ namespace PMS.Models
         }
     }
 
-    public class AllowCorsAPI : ActionFilterAttribute
+    public class AllowCors : ActionFilterAttribute
     {
         public string URL { get; set; }
+
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
-            if (actionExecutedContext.Response != null)
-                actionExecutedContext.Response.Headers.Add("Access-Control-Allow-Origin", URL);
-
+            actionExecutedContext.Request.Headers.Add("Access-Control-Allow-Origin", "*");
             base.OnActionExecuted(actionExecutedContext);
         }
+
+        //public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        //{
+        //    if (actionExecutedContext.Response != null)
+        //        actionExecutedContext.Response.Headers.Add("Access-Control-Allow-Origin", URL);
+
+        //    base.OnActionExecuted(actionExecutedContext);
+        //}
     }
 }

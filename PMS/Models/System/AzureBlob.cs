@@ -144,7 +144,7 @@ namespace PMS.Models
             return _blobList;
         }
 
-        public bool DeleteBlob(string folder, string AbsoluteUri)
+        public string DeleteBlob(string folder, string AbsoluteUri)
         {
             try
             {
@@ -156,13 +156,12 @@ namespace PMS.Models
 
                 // delete blob from container      
                 blockBlob.Delete();
-                return true;
+                return BlobName;
             }
             catch (Exception ExceptionObj)
             {
                 throw ExceptionObj;
             }
         }
-
     }
 }

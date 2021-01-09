@@ -67,6 +67,7 @@ namespace PMS.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
+
             var data = db.Packages.Find(id);
 
             if (ViewBag.StudioID != data.studioid)
@@ -82,7 +83,8 @@ namespace PMS.Controllers
                 details = data.details,
                 price = data.price,
                 studioid = data.studioid.Value,
-                name = data.name
+                name = data.name,
+                images = data.PackageImages.ToList()
             };
             return View("editpackage", edit);
         }
