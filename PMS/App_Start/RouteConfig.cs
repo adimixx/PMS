@@ -20,7 +20,11 @@ namespace PMS
                 url: "Database/{action}/{id}",
                defaults: new { controller = "ManageDb", action = "Index", id = UrlParameter.Optional }
            );
-
+            routes.MapRoute(
+               name: "Studio createchat",
+               url: "{permalink}/createchat",
+               defaults: new { controller = "Chat", action = "createchat", id = UrlParameter.Optional }
+           );
 
             routes.MapRoute(
                name: "ChatStudio",
@@ -82,7 +86,7 @@ namespace PMS
                 defaults: new { controller = "StudioPermalink", action = "Index", id = UrlParameter.Optional }
             );
 
-
+            
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

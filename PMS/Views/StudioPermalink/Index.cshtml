@@ -91,8 +91,9 @@
                     <span class="mdi mdi-phone"> &nbsp; @Model.phoneNum</span> <br>
                     <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">@Model.email</a></span>
                 </div>
-                <div class="col-12">
-                    <button class="chatbtn"><i class="mdi mdi-chat"></i> Chat</button>
+                <div class="col-12"onclick="">
+                    
+                    <a class="chatbtn" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "createchat")" ><i class="mdi mdi-chat"></i> Chat</a>
                 </div>
                 <div class="col-12">
                     <div class="row">
