@@ -15,6 +15,12 @@ namespace PMS
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+               name: "StudioAPI",
+               routeTemplate: "SystemAPI/Studio/{action}/{id}",
+               defaults: new { id = RouteParameter.Optional, controller = "StudioAPI" }
+           );
+
+            config.Routes.MapHttpRoute(
                 name: "PackageImageAPI",
                 routeTemplate: "SystemAPI/PackageImage/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional, controller = "PackageImageAPI" }

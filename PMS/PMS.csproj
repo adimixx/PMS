@@ -257,6 +257,7 @@
     <Compile Include="Controllers\API\ChatPackageAPIController.cs" />
     <Compile Include="Controllers\API\PackageImageAPIController.cs" />
     <Compile Include="Controllers\API\PackageJson.cs" />
+    <Compile Include="Controllers\API\StudioAPIController.cs" />
     <Compile Include="Controllers\API\StudioRolesAPIController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

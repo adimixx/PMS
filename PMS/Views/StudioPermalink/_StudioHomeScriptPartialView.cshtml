@@ -75,7 +75,7 @@
     var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
     var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
 
-    <script type="text/javascript">
+<script type="text/javascript">
     const inputElement = document.querySelector('input[type="file"]');
 const pond = FilePond.create(inputElement);
 
@@ -92,30 +92,31 @@ FilePond.registerPlugin(
 );
 
 FilePond.setOptions({
-  server: {
-    url: "/SystemAPI/StudioImage",
-    process: {
-      url: "/Upload",
-      headers: {
-        StudioCredential: "@ViewBag.StudioID",
-        Package: "@Model.id",
-      },
-    },
-    revert: null,
-    load: (source, load, error, progress, abort, headers) => {
-      var myRequest = new Request(source);
-      fetch(myRequest).then(function (response) {
-        response.blob().then(function (myBlob) {
-          load(myBlob);
-        });
-      });
-    }
-  },
+
+    
 });
 
-var inputPic = FilePond.create(
+    var inputPic = FilePond.create(
   document.getElementById("input-studioProfilePic"),
   {
+    server: {
+      url: "/SystemAPI/Studio",
+      process: {
+        url: "/UploadProfilePic",
+        headers: {
+          StudioCredential: "@ViewBag.StudioID",
+        },
+          },
+          revert: null,
+          load: (source, load, error, progress, abort, headers) => {
+              var myRequest = new Request(source);
+              fetch(myRequest).then(function (response) {
+                  response.blob().then(function (myBlob) {
+                      load(myBlob);
+                  });
+              });
+          }
+    },
     labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
     allowMultiple: false,
     imagePreviewHeight: 200,
@@ -136,15 +137,33 @@ var inputPic = FilePond.create(
         source: "@profileImage",
         options: {
           type: "local",
-        }
-      }
-    ]
+        },
+      },
+    ],
   }
 );
 
-var inputPicCover = FilePond.create(
+    var inputPicCover = FilePond.create(
   document.getElementById("input-studioCoverPic"),
   {
+    server: {
+      url: "/SystemAPI/Studio",
+      process: {
+        url: "/UploadCoverPic",
+        headers: {
+          StudioCredential: "@ViewBag.StudioID",
+          }         
+          },
+          revert: null,
+          load: (source, load, error, progress, abort, headers) => {
+              var myRequest = new Request(source);
+              fetch(myRequest).then(function (response) {
+                  response.blob().then(function (myBlob) {
+                      load(myBlob);
+                  });
+              });
+          }
+    },
     labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
     allowMultiple: false,
     imageResizeMode: "force",
@@ -162,18 +181,21 @@ var inputPicCover = FilePond.create(
         source: "@coverImage",
         options: {
           type: "local",
-        }
-      }
-    ]
+        },
+      },
+    ],
   }
 );
 
-$("#uploadPhotoBtn").click(() => {
-  inputPic.processFiles().then(() => {
-    location.reload();
-  });
-});
+    async function onSubmit(e){
+        e.preventDefault();
 
-    </script>
+        const prom1 = inputPic.processFiles();
+        const prom2 = inputPicCover.processFiles();
+
+        await Promise.all([prom1, prom2]);
+        $('form').submit();
+    }
+</script>
 
 }
