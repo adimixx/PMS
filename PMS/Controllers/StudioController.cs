@@ -31,7 +31,7 @@ namespace PMS.Controllers
             {
                 photogEntities db = new photogEntities();
 
-                Studio studio = new Studio { name = create.Name, location = (string.IsNullOrWhiteSpace(create.SelectedState)) ? create.SelectedCity : string.Format("{0}, {1}", create.SelectedCity, create.SelectedState), uniquename = Backbone.Random(5) };
+                Studio studio = new Studio { /*name = create.Name,*//* location = (string.IsNullOrWhiteSpace(create.SelectedState)) ? create.SelectedCity : string.Format("{0}, {1}", create.SelectedCity, create.SelectedState),*/ uniquename = Backbone.Random(5) };
                 UserStudio userCred = new UserStudio { userid = UserAuthentication.Identity().id, studioroleid = 1 };
                 studio.UserStudios.Add(userCred);
                 db.Studios.Add(studio);

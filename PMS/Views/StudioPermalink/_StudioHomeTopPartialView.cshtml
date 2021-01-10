@@ -2,15 +2,38 @@
 @model PMS.Models.Database.Studio
 
 <div class="cover-profile">
-    <img src="~/src/img/cover-default.jpg" id="cover-photo" />
-    <div id="studio-profile-img"><img class="rounded-circle" style="width: 90%;margin: 10.2px;" src="@User.Identity.GetProfilePhotoLink()"></div>
+    @if (ViewBag.IsStudioSetting != null)
+    {
+        <div id="cover-photo">
+            <input type="file" id="input-studioCoverPic" class="filepond" name="filepond" accept="" />
+        </div>
+    }
+    else
+    {
+        var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
+        <img src="@coverImage" id="cover-photo" />
+    }
+    <div id="studio-profile-img">
+        @if (ViewBag.IsStudioSetting != null)
+        {
+            <div style="width: 90%;margin: 10.2px;">
+                <input type="file" id="input-studioProfilePic" class="filepond" name="filepond" accept="" />
+            </div>
+        }
+        else
+        {
+            var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
+
+            <img class="rounded-circle" style="width: 90%;margin: 10.2px;" src="@profileImage">
+        }
+    </div>
     <div id="studio-head">
         <h2 style=""> {{Studio.Name}} </h2>
         <p class="mb-0">
             <span style="position: relative; top: -6px; font-weight: 500;"> {{Studio.ShortDesc}}  </span>
             <br>
             <span style="color:#9F9F9F;font-weight:500">
-                <i class="ti-location-pin"></i> {{Studio.Location}} &nbsp;&nbsp;
+                <i class="ti-location-pin"></i> {{StudioLocation}} &nbsp;&nbsp;
                 <i class="ti-facebook"></i> Adi Iman &nbsp;&nbsp;
                 <i class="ti-instagram"></i> adi_iman10 &nbsp;&nbsp;
                 <i class="ti-twitter-alt"></i> trixxboy &nbsp;&nbsp;
@@ -24,7 +47,7 @@
             <div class="row">
                 <div class="col-12">
                     <span class="mdi mdi-phone"> &nbsp; {{Studio.PhoneNum}} </span> <br>
-                    <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href=""> {{Studio.Email}} </a></span>
+                    <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">{{Studio.Email}} </a></span>
                 </div>
                 <div class="col-12" onclick="">
                     <a class="chatbtn" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "createchat")"><i class="mdi mdi-chat"></i> Chat</a>
@@ -109,13 +132,10 @@
             </div>
         </div>
         <div class="col-md-10 col-12">
-            @if (!string.IsNullOrWhiteSpace(Model.longDesc))
-            {
-                <h3 class="pb-2">Bio</h3>
-                <p>
-                    @Model.longDesc
-                </p>
-            }
+            <h3 class="pb-2">Bio</h3>
+            <p>
+                {{Studio.Bio}}
+            </p>
 
             @if (ViewBag.IsStudioIndex != null)
             {

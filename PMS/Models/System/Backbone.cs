@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Reflection;
 using System.Web;
 using System.Web.Http.Controllers;
@@ -17,6 +18,19 @@ namespace PMS.Models
             Random random = new Random();
             string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public static bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }
@@ -175,4 +189,6 @@ namespace PMS.Models
         //    base.OnActionExecuted(actionExecutedContext);
         //}
     }
+
+    
 }

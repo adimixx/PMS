@@ -35,6 +35,7 @@ namespace PMS.Models.Database
         public virtual DbSet<JobDateUser> JobDateUsers { get; set; }
         public virtual DbSet<JobStatu> JobStatus { get; set; }
         public virtual DbSet<Package> Packages { get; set; }
+        public virtual DbSet<PackageImage> PackageImages { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Studio> Studios { get; set; }
         public virtual DbSet<StudioLink> StudioLinks { get; set; }
@@ -45,6 +46,5 @@ namespace PMS.Models.Database
         public virtual DbSet<UserFeedback> UserFeedbacks { get; set; }
         public virtual DbSet<UserStudio> UserStudios { get; set; }
         public virtual DbSet<UserSystemRole> UserSystemRoles { get; set; }
-        public virtual DbSet<PackageImage> PackageImages { get; set; }
     }
 }

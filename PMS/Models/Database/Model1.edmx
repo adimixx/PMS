@@ -130,13 +130,14 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="uniquename" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="location" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
           <Property Name="ImgLogo" Type="varchar(max)" />
           <Property Name="ImgCover" Type="varchar(max)" />
-          <Property Name="shortDesc" Type="nchar" MaxLength="50" />
+          <Property Name="shortDesc" Type="varchar" MaxLength="50" />
           <Property Name="longDesc" Type="varchar(max)" />
-          <Property Name="phoneNum" Type="nchar" MaxLength="20" />
-          <Property Name="email" Type="nchar" MaxLength="50" />
+          <Property Name="phoneNum" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="StudioLink">
           <Key>
@@ -650,6 +651,7 @@
           <EntitySet Name="JobDateUsers" EntityType="photogModel.JobDateUser" />
           <EntitySet Name="JobStatus" EntityType="photogModel.JobStatu" />
           <EntitySet Name="Packages" EntityType="photogModel.Package" />
+          <EntitySet Name="PackageImages" EntityType="photogModel.PackageImage" />
           <EntitySet Name="PaymentMethods" EntityType="photogModel.PaymentMethod" />
           <EntitySet Name="Studios" EntityType="photogModel.Studio" />
           <EntitySet Name="StudioLinks" EntityType="photogModel.StudioLink" />
@@ -728,6 +730,10 @@
             <End Role="Studio" EntitySet="Studios" />
             <End Role="Package" EntitySet="Packages" />
           </AssociationSet>
+          <AssociationSet Name="FK__PackageIm__Packa__7755B73D" Association="photogModel.FK__PackageIm__Packa__7755B73D">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="PackageImage" EntitySet="PackageImages" />
+          </AssociationSet>
           <AssociationSet Name="FK__Transacti__payme__3B40CD36" Association="photogModel.FK__Transacti__payme__3B40CD36">
             <End Role="PaymentMethod" EntitySet="PaymentMethods" />
             <End Role="Transaction" EntitySet="Transactions" />
@@ -755,11 +761,6 @@
           <AssociationSet Name="FK__UserSyste__useri__40F9A68C" Association="photogModel.FK__UserSyste__useri__40F9A68C">
             <End Role="User" EntitySet="Users" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
-          </AssociationSet>
-          <EntitySet Name="PackageImages" EntityType="photogModel.PackageImage" />
-          <AssociationSet Name="FK__PackageIm__Packa__7755B73D" Association="photogModel.FK__PackageIm__Packa__7755B73D">
-            <End Role="Package" EntitySet="Packages" />
-            <End Role="PackageImage" EntitySet="PackageImages" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Charge">
@@ -890,6 +891,16 @@
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Package" ToRole="Studio" />
           <NavigationProperty Name="PackageImages" Relationship="photogModel.FK__PackageIm__Packa__7755B73D" FromRole="Package" ToRole="PackageImage" />
         </EntityType>
+        <EntityType Name="PackageImage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PackageID" Type="Int32" Nullable="false" />
+          <Property Name="IsCoverPhoto" Type="Boolean" />
+          <NavigationProperty Name="Package" Relationship="photogModel.FK__PackageIm__Packa__7755B73D" FromRole="PackageImage" ToRole="Package" />
+        </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
             <PropertyRef Name="id" />
@@ -905,13 +916,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="uniquename" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ImgLogo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ImgCover" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="shortDesc" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="shortDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="longDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="phoneNum" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="phoneNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Charges" Relationship="photogModel.FK_Charges_Studio" FromRole="Studio" ToRole="Charge" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_Studio" FromRole="Studio" ToRole="ChatKey" />
           <NavigationProperty Name="Packages" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Studio" ToRole="Package" />
@@ -1213,6 +1225,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PackageIm__Packa__7755B73D">
+          <End Type="photogModel.Package" Role="Package" Multiplicity="1" />
+          <End Type="photogModel.PackageImage" Role="PackageImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PackageImage">
+              <PropertyRef Name="PackageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Transacti__payme__3B40CD36">
           <End Type="photogModel.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
           <End Type="photogModel.Transaction" Role="Transaction" Multiplicity="*" />
@@ -1297,29 +1321,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PackageImage">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PackageID" Type="Int32" Nullable="false" />
-          <Property Name="IsCoverPhoto" Type="Boolean" />
-          <NavigationProperty Name="Package" Relationship="photogModel.FK__PackageIm__Packa__7755B73D" FromRole="PackageImage" ToRole="Package" />
-        </EntityType>
-        <Association Name="FK__PackageIm__Packa__7755B73D">
-          <End Type="photogModel.Package" Role="Package" Multiplicity="1" />
-          <End Type="photogModel.PackageImage" Role="PackageImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Package">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PackageImage">
-              <PropertyRef Name="PackageID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1437,6 +1439,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PackageImages">
+            <EntityTypeMapping TypeName="photogModel.PackageImage">
+              <MappingFragment StoreEntitySet="PackageImage">
+                <ScalarProperty Name="IsCoverPhoto" ColumnName="IsCoverPhoto" />
+                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PaymentMethods">
             <EntityTypeMapping TypeName="photogModel.PaymentMethod">
               <MappingFragment StoreEntitySet="PaymentMethod">
@@ -1454,7 +1466,8 @@
                 <ScalarProperty Name="shortDesc" ColumnName="shortDesc" />
                 <ScalarProperty Name="ImgCover" ColumnName="ImgCover" />
                 <ScalarProperty Name="ImgLogo" ColumnName="ImgLogo" />
-                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="uniquename" ColumnName="uniquename" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -1540,16 +1553,6 @@
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="systemroleid" ColumnName="systemroleid" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PackageImages">
-            <EntityTypeMapping TypeName="photogModel.PackageImage">
-              <MappingFragment StoreEntitySet="PackageImage">
-                <ScalarProperty Name="IsCoverPhoto" ColumnName="IsCoverPhoto" />
-                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
-                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

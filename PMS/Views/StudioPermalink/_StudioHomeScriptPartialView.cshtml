@@ -7,16 +7,55 @@
         Studio: {
             Name: `@Model.name`,
             ShortDesc: `@Model.shortDesc`,
-            Location: `@Model.location`,
+            City: `@Model.City`,
+            State: `@Model.State`,
             PhoneNum: `@Model.phoneNum`,
-            Email : `@Model.email`
+            Email: `@Model.email`,
+            Bio: `@Model.longDesc`
         }
     };
 
+    function resetCity() {
+        axios.get(`/api/system/getcity?state=${data.Studio.State}`).then(response => {
+            var result = response.data;
+            var selectCity = $('#SelectedCity');
+            selectCity.find('option').remove().end();
+            if (result.length == 0) {
+                selectCity.attr('disabled', 'disabled');
+            }
+            else {
+                selectCity.append(`<option disabled="disabled" selected="selected" value="">Select City</option>}`);
+                for (var i = 0; i < result.length; i++) {
+                    selectCity.append(`<option value="${result[i]}">${result[i]}</option>}`);
+                }
+                selectCity.removeAttr('disabled');
+                selectCity.val(data.Studio.City);
+            }
+        });
+    }
+
     var doc = new Vue({
         el: "#app",
-        data: data
-    });    
+        data: data,
+        mounted: () => {
+            resetCity();
+            $('#SuccessAlert').delay(3000).fadeOut('fast');
+        },
+        computed: {
+            StudioLocation: () => {
+                if (data.Studio.City) {
+                    return data.Studio.City + "," + data.Studio.State;
+                }
+                else return data.Studio.State;
+            }
+        },
+        methods: {
+            StateChanged: () => {
+                data.Studio.City = '';
+                resetCity();
+            }
+        }
+    });
 </script>
 
 @if (ViewBag.IsStudioIndex != null)
@@ -29,4 +68,112 @@
             lessLink: '<a href="#">Read less</a>'
         });
     </script>
+}
+
+@if (ViewBag.IsStudioSetting != null)
+{
+    var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
+    var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
+
+    <script type="text/javascript">
+    const inputElement = document.querySelector('input[type="file"]');
+const pond = FilePond.create(inputElement);
+
+FilePond.registerPlugin(
+  FilePondPluginFileValidateType,
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginImageCrop,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform,
+  FilePondPluginImageEdit,
+  FilePondPluginFilePoster,
+  FilePondPluginFileEncode
+);
+
+FilePond.setOptions({
+  server: {
+    url: "/SystemAPI/StudioImage",
+    process: {
+      url: "/Upload",
+      headers: {
+        StudioCredential: "@ViewBag.StudioID",
+        Package: "@Model.id",
+      },
+    },
+    revert: null,
+    load: (source, load, error, progress, abort, headers) => {
+      var myRequest = new Request(source);
+      fetch(myRequest).then(function (response) {
+        response.blob().then(function (myBlob) {
+          load(myBlob);
+        });
+      });
+    }
+  },
+});
+
+var inputPic = FilePond.create(
+  document.getElementById("input-studioProfilePic"),
+  {
+    labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
+    allowMultiple: false,
+    imagePreviewHeight: 200,
+    imageCropAspectRatio: "1:1",
+    imageResizeTargetWidth: 200,
+    imageResizeTargetHeight: 200,
+    acceptedFileTypes: ["image/png", "image/jpeg"],
+    allowFileEncode: true,
+    instantUpload: false,
+    allowProcess: false,
+    credits: false,
+    dropValidation: true,
+    dropOnPage: true,
+    stylePanelLayout: "compact circle",
+    allowPaste: false,
+    files: [
+      {
+        source: "@profileImage",
+        options: {
+          type: "local",
+        }
+      }
+    ]
+  }
+);
+
+var inputPicCover = FilePond.create(
+  document.getElementById("input-studioCoverPic"),
+  {
+    labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
+    allowMultiple: false,
+    imageResizeMode: "force",
+    acceptedFileTypes: ["image/png", "image/jpeg"],
+    allowFileEncode: true,
+    instantUpload: false,
+    allowProcess: false,
+    credits: false,
+    dropValidation: true,
+    dropOnPage: true,
+    stylePanelLayout: "integrated",
+    allowPaste: false,
+    files: [
+      {
+        source: "@coverImage",
+        options: {
+          type: "local",
+        }
+      }
+    ]
+  }
+);
+
+$("#uploadPhotoBtn").click(() => {
+  inputPic.processFiles().then(() => {
+    location.reload();
+  });
+});
+
+    </script>
+
 }

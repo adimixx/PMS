@@ -27,7 +27,8 @@ namespace PMS.Models.Database
         public int id { get; set; }
         public string name { get; set; }
         public string uniquename { get; set; }
-        public string location { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
         public string ImgLogo { get; set; }
         public string ImgCover { get; set; }
         public string shortDesc { get; set; }
