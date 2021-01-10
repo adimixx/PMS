@@ -1,0 +1,32 @@
+﻿@model PMS.Models.Database.Studio
+<script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
+
+<script type="text/javascript">
+    var data = {
+        Studio: {
+            Name: `@Model.name`,
+            ShortDesc: `@Model.shortDesc`,
+            Location: `@Model.location`,
+            PhoneNum: `@Model.phoneNum`,
+            Email : `@Model.email`
+        }
+    };
+
+    var doc = new Vue({
+        el: "#app",
+        data: data
+    });    
+</script>
+
+@if (ViewBag.IsStudioIndex != null)
+{
+    <script type="text/javascript">
+        var bricklayer = new Bricklayer(document.querySelector('#brick'))
+
+        $('article.card-text').readmore({
+            speed: 75,
+            lessLink: '<a href="#">Read less</a>'
+        });
+    </script>
+}

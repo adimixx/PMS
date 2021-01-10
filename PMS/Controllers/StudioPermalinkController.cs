@@ -16,6 +16,7 @@ namespace PMS.Controllers
         {
             long studioID = (long)ViewBag.StudioID;
             var studio = db.Studios.FirstOrDefault(x => x.id == studioID);
+            ViewBag.IsStudioIndex = "true";
 
             return View(studio);
         }

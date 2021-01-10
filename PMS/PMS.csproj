@@ -2392,6 +2392,7 @@
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\StudioPermalink\Settings.cshtml" />
     <Content Include="Views\StudioPermalink\_StudioHomeTopPartialView.cshtml" />
+    <Content Include="Views\StudioPermalink\_StudioHomeScriptPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
