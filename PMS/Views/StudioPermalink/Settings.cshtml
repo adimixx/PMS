@@ -1,0 +1,30 @@
+﻿@model PMS.Models.Database.Studio
+
+
+@{
+    ViewBag.Title = "Studio Settings - " + Model.name;
+
+    if (ViewBag.StudioRoleID != null)
+    {
+        Layout = "~/views/shared/_LayoutStudioManage.cshtml";
+    }
+    Styles.Render("StudioHomeStyle");
+
+    Html.RenderPartial("_StudioHomeTopPartialView", Model);
+
+}
+
+@section Scripts {
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
+
+    <script>
+        var bricklayer = new Bricklayer(document.querySelector('#brick'))
+
+        $('article.card-text').readmore({
+            speed: 75,
+            lessLink: '<a href="#">Read less</a>'
+        });
+
+    </script>
+}

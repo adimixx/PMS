@@ -2259,6 +2259,7 @@
     <Content Include="src\user\js\pages\table-editable.init.js" />
     <Content Include="src\user\js\pages\table-responsive.init.js" />
     <Content Include="src\user\js\pages\vector-maps.init.js" />
+    <Content Include="Views\StudioPermalink\StudioHomeStyle.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2389,6 +2390,8 @@
     <Content Include="Views\Shared\_LayoutTopnavUser.cshtml" />
     <Content Include="Views\StudioPermalink\StudioRoles.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\StudioPermalink\Settings.cshtml" />
+    <Content Include="Views\StudioPermalink\_StudioHomeTopPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

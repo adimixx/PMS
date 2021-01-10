@@ -20,6 +20,16 @@ namespace PMS.Controllers
             return View(studio);
         }
 
+        [HttpGet]
+        [StudioPermalinkValidate(RoleID = 1)]
+        public ActionResult Settings()
+        {
+            long studioID = (long)ViewBag.StudioID;
+            var studio = db.Studios.FirstOrDefault(x => x.id == studioID);
+
+            return View(studio);
+        }
+
         // GET: StudioUser
         [StudioPermalinkValidate(RoleID = 1)]
         public ActionResult Roles()
