@@ -181,9 +181,12 @@
             <div id="brick" class="bricklayer">
                 @foreach (var item in Model.Packages)
                 {
+                    var image = item.PackageImages.FirstOrDefault();
+                    string coverImgPackage;
+                    coverImgPackage = (image == null) ? "~/src/images/gallery/work-1.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, image.ImageName);
                     <div class="card cd">
                         <div class="imgWrap">
-                            <img class="myImg card-img-top mx-0 d-block" src="~/src/images/gallery/work-1.jpg">
+                            <img class="myImg card-img-top mx-0 d-block"  src="@coverImgPackage">
                         </div>
                         <div class="card-body">
                             <h3 class="card-title cdtitle">@item.name</h3>

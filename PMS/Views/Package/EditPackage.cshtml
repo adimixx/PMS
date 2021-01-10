@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="form-group m-3">
-                        <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Profile Photo</button>
+                        <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Photos</button>
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
             },
             revert: null,
             load: (source, load, error, progress, abort, headers) => {
-                var myRequest = new Request(/*'https://cors-anywhere.herokuapp.com/' +*/ source);
+                var myRequest = new Request(source);
                 fetch(myRequest).then(function (response) {
                     response.blob().then(function (myBlob) {
                         load(myBlob)
@@ -130,7 +130,8 @@
                         'Package': @Model.id
                     }
                 }).then(response => {
-                    inputPic.removeFile(source);
+                    console.log(source);
+                    load();
                 });
             }
         }
@@ -139,7 +140,7 @@
     var inputPic = FilePond.create(
         document.getElementById('input-profilepic'),
         {
-            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Change Profile Picture`,
+            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
             allowMultiple: true,
             imagePreviewHeight: 200,
             acceptedFileTypes: ['image/png', 'image/jpeg'],
@@ -147,14 +148,18 @@
             instantUpload: false,
             allowProcess: false,
             credits: false,
+            dropValidation: true,
+            dropOnPage: true,
+            allowPaste: false,
             files: [
                 @foreach(var item in Model.images)
                 {
-                    @:{                        
+                    @:{
                     @:  source: "@String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
                     @:  // set type to local to indicate an already uploaded file
                     @:  options:
                     @:  {
+                    @:      name : "@String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
                     @:      type: 'local',
                     @:      id: @item.ID
                     @:  }
@@ -164,26 +169,9 @@
         });
 
     $('#uploadPhotoBtn').click(() => {
-        if (inputPic.getFile() == null) {
-            $.ajax({
-                url: '/SystemAPI/Account/DeleteProfilePic',
-                method: 'DELETE',
-                success: (() => {
-                    //location.reload();
-                })
-            })
-        }
-
-        else if (inputPic.getFile().fileSize == undefined) {
-            //location.reload();
-        }
-
-        else {
-            inputPic.processFiles().then(() => {
-                //location.reload();
-            });
-        }
-
+        inputPic.processFiles().then(() => {
+            location.reload();
+        });
     });
 
     </script>

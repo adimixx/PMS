@@ -86,23 +86,6 @@ namespace PMS.Controllers.API
         //    return BadRequest();
         //}
 
-        [HttpGet]
-        public HttpResponseMessage GetPackagePic()
-        {
-            using (WebClient client = new WebClient())
-            {
-                var data = client.DownloadData(User.Identity.GetProfilePhotoLink());
-                var contentType = client.ResponseHeaders["Content-Type"];
-                MemoryStream ms = new MemoryStream(data);
-
-                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-                response.Content = new StreamContent(ms);
-                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
-                return response;
-            }
-
-        }
-
         [HttpDelete]
         public IHttpActionResult Delete(string img)
         {
@@ -114,6 +97,7 @@ namespace PMS.Controllers.API
                 photogEntities db = new photogEntities();
                 var deleted = db.PackageImages.FirstOrDefault(x => x.ImageName == deletedBlob);
                 db.PackageImages.Remove(deleted);
+                db.SaveChanges();
 
                 return Ok();
             }
