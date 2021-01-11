@@ -324,6 +324,7 @@
     <Compile Include="Models\Database\UserSystemRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\PackageQuoteModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\StudioViewModel.cs" />
@@ -2214,6 +2215,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Chat\StudioChatList.cshtml" />
     <Content Include="Views\Chat\ChatStudioMain.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />

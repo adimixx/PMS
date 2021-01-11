@@ -24,7 +24,12 @@ namespace PMS.Controllers
             return View();
         }
 
-       
+        [HttpGet]
+        public ActionResult Search(SearchViewModel srcres)
+        {
+            //SearchViewModel src = new SearchViewModel { Search = srcres.Search };
+            return View(srcres);
+        }
 
         [HttpGet]
         public ActionResult Upload()
