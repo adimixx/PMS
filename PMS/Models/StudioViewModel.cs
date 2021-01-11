@@ -11,7 +11,6 @@ namespace PMS.Models
 {
     public class CreateStudioViewModel : Studio
     {
-
         public IList<SelectListItem> StateList { get; set; }
 
         public IList<SelectListItem> CityList { get; set; }

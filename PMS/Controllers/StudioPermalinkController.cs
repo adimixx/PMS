@@ -37,6 +37,7 @@ namespace PMS.Controllers
 
             var create = mapper.Map<Studio, CreateStudioViewModel>(studio);
             ViewBag.IsStudioSetting = "true";
+            ViewBag.Header = "Studio Settings";
             return View(create);
         }
 
@@ -45,7 +46,11 @@ namespace PMS.Controllers
         public ActionResult Settings(CreateStudioViewModel createStudio)
         {
             createStudio.name = createStudio.name?.Trim();
+            createStudio.SelectedCity = createStudio.SelectedCity?.Trim();
+            createStudio.SelectedState = createStudio.SelectedState?.Trim();
+
             ViewBag.IsStudioSetting = "true";
+            ViewBag.Header = "Studio Settings";
 
             if (string.IsNullOrWhiteSpace(createStudio.name))
             {
@@ -60,12 +65,12 @@ namespace PMS.Controllers
                 }
             }
 
-            if (!int.TryParse(createStudio.phoneNum, out int result))
+            if (!string.IsNullOrWhiteSpace(createStudio.phoneNum) && !int.TryParse(createStudio.phoneNum, out int result))
             {
                 ModelState.AddModelError("phoneNum", "Invalid Phone Number");
             }
 
-            if (!Backbone.IsValidEmail(createStudio.email))
+            if (!string.IsNullOrWhiteSpace(createStudio.email) && !Backbone.IsValidEmail(createStudio.email))
             {
                 ModelState.AddModelError("email", "Invalid Email Address");
             }
@@ -73,12 +78,28 @@ namespace PMS.Controllers
             if (ModelState.IsValid)
             {
                 var studio = db.Studios.FirstOrDefault(x => x.id == createStudio.id);
+
+                AzureBlob blob = new AzureBlob(4);
+                try
+                {
+                    blob.MoveBlobFromTemp(2, studio.id.ToString(), createStudio.ImgLogo);
+                    studio.ImgLogo = createStudio.ImgLogo;
+                }
+                catch { }
+
+                try
+                {
+                    blob.MoveBlobFromTemp(2, studio.id.ToString(), createStudio.ImgCover);
+                    studio.ImgCover = createStudio.ImgCover;
+                }
+                catch { }
+
                 studio.name = createStudio.name;
                 studio.shortDesc = createStudio.shortDesc;
                 studio.phoneNum = createStudio.phoneNum;
                 studio.email = createStudio.email;
-                studio.State = createStudio.SelectedState?.Trim();
-                studio.City = createStudio.SelectedCity?.Trim();
+                studio.State = createStudio.SelectedState;
+                studio.City = createStudio.SelectedCity;
                 studio.longDesc = createStudio.longDesc;
                 db.SaveChanges();
 

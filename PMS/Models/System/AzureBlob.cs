@@ -17,6 +17,7 @@ namespace PMS.Models
         //1 - user data
         //2 - studio data
         //3 - db-backup
+        //3 - temp
         public AzureBlob(int dataRole)
         {
             string dataBlob;
@@ -31,6 +32,9 @@ namespace PMS.Models
                 case 3:
                     dataBlob = "db-backup";
                     break;
+                case 4:
+                    dataBlob = "temp";
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("Data blob code out of range", nameof(dataRole));
             }
@@ -39,6 +43,7 @@ namespace PMS.Models
 
             CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
             blobContainer = cloudBlobClient.GetContainerReference(dataBlob);
+            blobContainer.CreateIfNotExists();
         }
 
         //public List<string> UploadMultipleFileAPI(List<HttpPostedFile> ListFileToUpload, string FolderID)
@@ -81,8 +86,16 @@ namespace PMS.Models
             try
             {
                 CloudBlockBlob blockBlob;
-                // Create a block blob  
-                blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
+                if (string.IsNullOrWhiteSpace(FolderID))
+                {
+                    // Create a block blob  
+                    blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}{1}", Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
+                }
+                else
+                {
+                    blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
+                }
+
                 // Set the object's content type  
                 blockBlob.Properties.ContentType = FileToUpload.ContentType;
                 var data = FileToUpload.InputStream.Length;
@@ -157,6 +170,27 @@ namespace PMS.Models
                 // delete blob from container      
                 blockBlob.Delete();
                 return BlobName;
+            }
+            catch (Exception ExceptionObj)
+            {
+                throw ExceptionObj;
+            }
+        }
+
+        public string MoveBlobFromTemp(int DestinationContainer, string folder, string FileName)
+        {
+            try
+            {
+                // get block blob refarence  
+                CloudBlockBlob sourceBlob = blobContainer.GetBlockBlobReference(string.Format("{0}", FileName));
+
+                AzureBlob DestinationAzure = new AzureBlob(DestinationContainer);
+                CloudBlockBlob destinationBlob = DestinationAzure.blobContainer.GetBlockBlobReference(string.Format("{0}/{1}", folder, FileName));
+
+                destinationBlob.StartCopy(sourceBlob);
+                sourceBlob.Delete();
+
+                return FileName;
             }
             catch (Exception ExceptionObj)
             {

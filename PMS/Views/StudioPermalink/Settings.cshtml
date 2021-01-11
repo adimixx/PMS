@@ -7,7 +7,7 @@
     {
         Layout = "~/views/shared/_LayoutStudioManage.cshtml";
     }
-    Styles.Render("StudioHomeStyle");
+    Styles.Render("~/Views/StudioPermalink/StudioHomeStyle.css");
 }
 
 @if (TempData["Changes"] != null)
@@ -19,24 +19,31 @@
 
 <div class="card">
     <div class="card-header">
-        <h4>Studio Settings</h4>
+        <h4>@ViewBag.Header</h4>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-md-3 col-12">
-                <ul class="nav nav-tabs nav-fill">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-muted" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "ChangeStudioUsername")">Username</a>
-                    </li>
-                </ul>
+                @if (ViewBag.Header == "Studio Settings")
+                {
+                    <ul class="nav nav-tabs nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "ChangeStudioUsername")">Username</a>
+                        </li>
+                    </ul>
+                }
+
                 <br />
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => model.id)
+                    @Html.HiddenFor(model => model.ImgCover, new Dictionary<string, object> { { "v-model", "Studio.ImgCover" } })
+                    @Html.HiddenFor(model => model.ImgLogo, new Dictionary<string, object> { { "v-model", "Studio.ImgLogo" } })
+
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         <label for="name">Studio Name</label>
@@ -84,13 +91,13 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="Save Changes" class="btn btn-success w-100" onclick="onSubmit(event)"/>
+                        <input type="submit" value="Save Changes" class="btn btn-success w-100" onclick="onSubmit(event)" />
                     </div>
                 }
             </div>
             <div class="col-md-9 col-12">
                 <h4>Preview : </h4>
-                @{ Html.RenderPartial("_StudioHomeTopPartialView", Model); }
+                @{ Html.RenderPartial("~/Views/StudioPermalink/_StudioHomeTopPartialView.cshtml", Model); }
             </div>
         </div>
     </div>
@@ -99,6 +106,6 @@
 
 @section Scripts {
     @{
-        Html.RenderPartial("_StudioHomeScriptPartialView", Model);
+        Html.RenderPartial("~/Views/StudioPermalink/_StudioHomeScriptPartialView.cshtml", Model);
     }
 }
