@@ -1,4 +1,7 @@
-﻿@section styles {
+﻿@model PMS.Models.SearchViewModel
+@using PMS.Models
+
+@section styles {
     <style>
         .carousel-caption {
             top: 0;
@@ -60,10 +63,12 @@
         </div>
         <img class="d-block w-100 h-100" src="~/src/images/gallery/banner-1.jpg">
         <div class="mid search">
-            <form>
-                <input class="input" type="text" name="s" placeholder="Search Studio">
+            @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+            {
+
+                @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required" } })
                 <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            }
         </div>
         <div class="mid recommend">
             <div class="row">
