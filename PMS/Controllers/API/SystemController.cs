@@ -155,5 +155,28 @@ namespace PMS.Controllers
             }
             return Ok(data);
         }
+
+        [HttpGet]
+        public IHttpActionResult loadSearch(string keyword)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Packages.Where(x => x.name.Contains(keyword)).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    item.name,
+                    price = item.price.ToString(".00"),
+                    studioname = item.Studio.name,
+                    depositprice = item.depositprice.ToString(".00"),
+                    item.details
+                });
+            }
+
+            return Ok(data);
+        }
     }
 }
