@@ -10,55 +10,71 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Package Form</h4>
             <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-8 ">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.depoprice, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.depoprice, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.depoprice, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.depoprice, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.depoprice, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.depoprice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.details, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.details, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.details, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.details, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.details, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.details, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.studioid, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.studioid, Model.studio, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.studioid, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.studioid, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.studioid, Model.studio, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.studioid, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 text-center">
+                    <label class="font-weight-bold">Package Pictures</label>
+                    <div style=" overflow-y: scroll;" class="w-100">
+                        <div id="ProfilePic-Input" class="w-100 bg-soft-dark" style="height: 600px;">
+                            <input type="file" id="input-profilepic" class="filepond" name="filepond" accept="" multiple />
+                        </div>
+                    </div>
+
+                    <div class="form-group m-3">
+                        <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Photos</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,3 +84,96 @@
 <div>
     @Html.ActionLink("Back to List", "PackageHome")
 </div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+    const inputElement = document.querySelector('input[type="file"]');
+    const pond = FilePond.create(inputElement);
+
+    FilePond.registerPlugin(
+        FilePondPluginFileValidateType,
+        FilePondPluginImageExifOrientation,
+        FilePondPluginImagePreview,
+        FilePondPluginImageCrop,
+        FilePondPluginImageResize,
+        FilePondPluginImageTransform,
+        FilePondPluginImageEdit,
+        FilePondPluginFilePoster,
+        FilePondPluginFileEncode
+    );
+
+    FilePond.setOptions({
+        server: {
+            url: '/SystemAPI/PackageImage',
+            process: {
+                url: '/Upload',
+                headers: {
+                    'StudioCredential': @ViewBag.StudioID,
+                    'Package': @Model.id
+                }
+            },
+            revert: null,
+            load: (source, load, error, progress, abort, headers) => {
+                var myRequest = new Request(source);
+                fetch(myRequest).then(function (response) {
+                    response.blob().then(function (myBlob) {
+                        load(myBlob)
+                    });
+                });
+            },
+            remove: (source, load, error) => {
+                axios.delete('/SystemApI/PackageImage/Delete?img=' + source, {
+                    headers: {
+                        'StudioCredential': @ViewBag.StudioID,
+                        'Package': @Model.id
+                    }
+                }).then(response => {
+                    console.log(source);
+                    load();
+                });
+            }
+        }
+    });
+
+    var inputPic = FilePond.create(
+        document.getElementById('input-profilepic'),
+        {
+            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
+            allowMultiple: true,
+            imagePreviewHeight: 200,
+            acceptedFileTypes: ['image/png', 'image/jpeg'],
+            allowFileEncode: true,
+            instantUpload: false,
+            allowProcess: false,
+            credits: false,
+            dropValidation: true,
+            dropOnPage: true,
+            allowPaste: false,
+            files: [
+                @foreach(var item in Model.images)
+                {
+                    @:{
+                    @:  source: "@String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
+                    @:  // set type to local to indicate an already uploaded file
+                    @:  options:
+                    @:  {
+                    @:      name : "@String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
+                    @:      type: 'local',
+                    @:      id: @item.ID
+                    @:  }
+                    @:},
+                }
+            ]
+        });
+
+    $('#uploadPhotoBtn').click(() => {
+        inputPic.processFiles().then(() => {
+            location.reload();
+        });
+    });
+
+    </script>
+
+}

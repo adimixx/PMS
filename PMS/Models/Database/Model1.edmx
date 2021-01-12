@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="photogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="photogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Charges">
           <Key>
             <PropertyRef Name="id" />
@@ -25,6 +25,16 @@
           <Property Name="UserID" Type="int" />
           <Property Name="StudioID" Type="int" />
         </EntityType>
+        <EntityType Name="DbBackupRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BackupDate" Type="datetime" Nullable="false" />
+          <Property Name="FileName" Type="varchar(max)" Nullable="false" />
+          <Property Name="BackupType" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="id" />
@@ -35,6 +45,8 @@
           <Property Name="expirydate" Type="datetime" Nullable="false" />
           <Property Name="total" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="totalunpaid" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="detail" Type="varchar" MaxLength="30" />
+          <Property Name="status" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -95,6 +107,15 @@
           <Property Name="depositprice" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="details" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="PackageImage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageName" Type="varchar(max)" Nullable="false" />
+          <Property Name="PackageID" Type="int" Nullable="false" />
+          <Property Name="IsCoverPhoto" Type="bit" />
+        </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
             <PropertyRef Name="id" />
@@ -109,8 +130,14 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="uniquename" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="location" Type="varchar" MaxLength="100" />
-          <Property Name="ImgLogo" Type="varbinary(max)" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="ImgLogo" Type="varchar(max)" />
+          <Property Name="ImgCover" Type="varchar(max)" />
+          <Property Name="shortDesc" Type="varchar" MaxLength="50" />
+          <Property Name="longDesc" Type="varchar(max)" />
+          <Property Name="phoneNum" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="StudioLink">
           <Key>
@@ -186,6 +213,18 @@
           <Property Name="systemroleid" Type="int" />
           <Property Name="userid" Type="int" />
         </EntityType>
+        <Association Name="FK__DbBackupR__UserI__625A9A57">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="DbBackupRecord" Type="Self.DbBackupRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DbBackupRecord">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Invoice__jobid__2EDAF651">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
@@ -315,6 +354,18 @@
             </Principal>
             <Dependent Role="Package">
               <PropertyRef Name="studioid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PackageIm__Packa__7755B73D">
+          <End Role="Package" Type="Self.Package" Multiplicity="1" />
+          <End Role="PackageImage" Type="Self.PackageImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PackageImage">
+              <PropertyRef Name="PackageID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -465,6 +516,7 @@
         <EntityContainer Name="photogModelStoreContainer">
           <EntitySet Name="Charges" EntityType="Self.Charges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatKey" EntityType="Self.ChatKey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbBackupRecord" EntityType="Self.DbBackupRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobCharges" EntityType="Self.JobCharges" Schema="dbo" store:Type="Tables" />
@@ -472,6 +524,7 @@
           <EntitySet Name="JobDateUser" EntityType="Self.JobDateUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobStatus" EntityType="Self.JobStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackageImage" EntityType="Self.PackageImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Studio" EntityType="Self.Studio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudioLink" EntityType="Self.StudioLink" Schema="dbo" store:Type="Tables" />
@@ -482,6 +535,10 @@
           <EntitySet Name="UserFeedback" EntityType="Self.UserFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStudio" EntityType="Self.UserStudio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSystemRole" EntityType="Self.UserSystemRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DbBackupR__UserI__625A9A57" Association="Self.FK__DbBackupR__UserI__625A9A57">
+            <End Role="User" EntitySet="User" />
+            <End Role="DbBackupRecord" EntitySet="DbBackupRecord" />
+          </AssociationSet>
           <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="Self.FK__Invoice__jobid__2EDAF651">
             <End Role="Job" EntitySet="Job" />
             <End Role="Invoice" EntitySet="Invoice" />
@@ -525,6 +582,10 @@
           <AssociationSet Name="FK__Package__studioi__3864608B" Association="Self.FK__Package__studioi__3864608B">
             <End Role="Studio" EntitySet="Studio" />
             <End Role="Package" EntitySet="Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PackageIm__Packa__7755B73D" Association="Self.FK__PackageIm__Packa__7755B73D">
+            <End Role="Package" EntitySet="Package" />
+            <End Role="PackageImage" EntitySet="PackageImage" />
           </AssociationSet>
           <AssociationSet Name="FK__StudioLin__studi__395884C4" Association="Self.FK__StudioLin__studi__395884C4">
             <End Role="Studio" EntitySet="Studio" />
@@ -582,6 +643,7 @@
         <EntityContainer Name="photogEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Charges" EntityType="photogModel.Charge" />
           <EntitySet Name="ChatKeys" EntityType="photogModel.ChatKey" />
+          <EntitySet Name="DbBackupRecords" EntityType="photogModel.DbBackupRecord" />
           <EntitySet Name="Invoices" EntityType="photogModel.Invoice" />
           <EntitySet Name="Jobs" EntityType="photogModel.Job" />
           <EntitySet Name="JobCharges" EntityType="photogModel.JobCharge" />
@@ -589,6 +651,7 @@
           <EntitySet Name="JobDateUsers" EntityType="photogModel.JobDateUser" />
           <EntitySet Name="JobStatus" EntityType="photogModel.JobStatu" />
           <EntitySet Name="Packages" EntityType="photogModel.Package" />
+          <EntitySet Name="PackageImages" EntityType="photogModel.PackageImage" />
           <EntitySet Name="PaymentMethods" EntityType="photogModel.PaymentMethod" />
           <EntitySet Name="Studios" EntityType="photogModel.Studio" />
           <EntitySet Name="StudioLinks" EntityType="photogModel.StudioLink" />
@@ -614,6 +677,10 @@
           <AssociationSet Name="FK_ChatKey_User" Association="photogModel.FK_ChatKey_User">
             <End Role="User" EntitySet="Users" />
             <End Role="ChatKey" EntitySet="ChatKeys" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DbBackupR__UserI__625A9A57" Association="photogModel.FK__DbBackupR__UserI__625A9A57">
+            <End Role="User" EntitySet="Users" />
+            <End Role="DbBackupRecord" EntitySet="DbBackupRecords" />
           </AssociationSet>
           <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="photogModel.FK__Invoice__jobid__2EDAF651">
             <End Role="Job" EntitySet="Jobs" />
@@ -662,6 +729,10 @@
           <AssociationSet Name="FK__Package__studioi__3864608B" Association="photogModel.FK__Package__studioi__3864608B">
             <End Role="Studio" EntitySet="Studios" />
             <End Role="Package" EntitySet="Packages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PackageIm__Packa__7755B73D" Association="photogModel.FK__PackageIm__Packa__7755B73D">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="PackageImage" EntitySet="PackageImages" />
           </AssociationSet>
           <AssociationSet Name="FK__Transacti__payme__3B40CD36" Association="photogModel.FK__Transacti__payme__3B40CD36">
             <End Role="PaymentMethod" EntitySet="PaymentMethods" />
@@ -716,6 +787,17 @@
           <NavigationProperty Name="Studio" Relationship="photogModel.FK_ChatKey_Studio" FromRole="ChatKey" ToRole="Studio" />
           <NavigationProperty Name="User" Relationship="photogModel.FK_ChatKey_User" FromRole="ChatKey" ToRole="User" />
         </EntityType>
+        <EntityType Name="DbBackupRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BackupDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BackupType" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="photogModel.FK__DbBackupR__UserI__625A9A57" FromRole="DbBackupRecord" ToRole="User" />
+        </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="id" />
@@ -726,6 +808,8 @@
           <Property Name="expirydate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="total" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="totalunpaid" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="detail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Job" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Invoice" ToRole="Job" />
           <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__invoi__3A4CA8FD" FromRole="Invoice" ToRole="Transaction" />
         </EntityType>
@@ -805,6 +889,17 @@
           <Property Name="details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__packageid__30C33EC3" FromRole="Package" ToRole="Job" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Package" ToRole="Studio" />
+          <NavigationProperty Name="PackageImages" Relationship="photogModel.FK__PackageIm__Packa__7755B73D" FromRole="Package" ToRole="PackageImage" />
+        </EntityType>
+        <EntityType Name="PackageImage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PackageID" Type="Int32" Nullable="false" />
+          <Property Name="IsCoverPhoto" Type="Boolean" />
+          <NavigationProperty Name="Package" Relationship="photogModel.FK__PackageIm__Packa__7755B73D" FromRole="PackageImage" ToRole="Package" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -821,8 +916,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="uniquename" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ImgLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ImgLogo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImgCover" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="shortDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="longDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Charges" Relationship="photogModel.FK_Charges_Studio" FromRole="Studio" ToRole="Charge" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_Studio" FromRole="Studio" ToRole="ChatKey" />
           <NavigationProperty Name="Packages" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Studio" ToRole="Package" />
@@ -882,6 +983,7 @@
           <Property Name="isVerified" Type="Boolean" Nullable="false" />
           <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_User" FromRole="User" ToRole="ChatKey" />
+          <NavigationProperty Name="DbBackupRecords" Relationship="photogModel.FK__DbBackupR__UserI__625A9A57" FromRole="User" ToRole="DbBackupRecord" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
           <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="User" ToRole="UserSystemRole" />
@@ -963,6 +1065,18 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ChatKey">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DbBackupR__UserI__625A9A57">
+          <End Type="photogModel.User" Role="User" Multiplicity="1" />
+          <End Type="photogModel.DbBackupRecord" Role="DbBackupRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DbBackupRecord">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1111,6 +1225,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PackageIm__Packa__7755B73D">
+          <End Type="photogModel.Package" Role="Package" Multiplicity="1" />
+          <End Type="photogModel.PackageImage" Role="PackageImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PackageImage">
+              <PropertyRef Name="PackageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Transacti__payme__3B40CD36">
           <End Type="photogModel.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
           <End Type="photogModel.Transaction" Role="Transaction" Multiplicity="*" />
@@ -1223,9 +1349,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DbBackupRecords">
+            <EntityTypeMapping TypeName="photogModel.DbBackupRecord">
+              <MappingFragment StoreEntitySet="DbBackupRecord">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BackupType" ColumnName="BackupType" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="BackupDate" ColumnName="BackupDate" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="photogModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
                 <ScalarProperty Name="totalunpaid" ColumnName="totalunpaid" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="expirydate" ColumnName="expirydate" />
@@ -1300,6 +1439,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PackageImages">
+            <EntityTypeMapping TypeName="photogModel.PackageImage">
+              <MappingFragment StoreEntitySet="PackageImage">
+                <ScalarProperty Name="IsCoverPhoto" ColumnName="IsCoverPhoto" />
+                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PaymentMethods">
             <EntityTypeMapping TypeName="photogModel.PaymentMethod">
               <MappingFragment StoreEntitySet="PaymentMethod">
@@ -1311,8 +1460,14 @@
           <EntitySetMapping Name="Studios">
             <EntityTypeMapping TypeName="photogModel.Studio">
               <MappingFragment StoreEntitySet="Studio">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phoneNum" ColumnName="phoneNum" />
+                <ScalarProperty Name="longDesc" ColumnName="longDesc" />
+                <ScalarProperty Name="shortDesc" ColumnName="shortDesc" />
+                <ScalarProperty Name="ImgCover" ColumnName="ImgCover" />
                 <ScalarProperty Name="ImgLogo" ColumnName="ImgLogo" />
-                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="uniquename" ColumnName="uniquename" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />

@@ -1,0 +1,212 @@
+﻿@model PMS.Models.Database.Studio
+<script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
+
+<script type="text/javascript">
+    var data = {
+        Studio: {
+            Name: `@Model.name`,
+            ShortDesc: `@Model.shortDesc`,
+            City: `@Model.City`,
+            State: `@Model.State`,
+            PhoneNum: `@Model.phoneNum`,
+            Email: `@Model.email`,
+            Bio: `@Model.longDesc`,
+            ImgCover: `@Model.ImgCover`,
+            ImgLogo: `@Model.ImgLogo`,
+        }
+    };
+
+    function resetCity() {
+        axios.get(`/api/system/getcity?state=${data.Studio.State}`).then(response => {
+            var result = response.data;
+            var selectCity = $('#SelectedCity');
+            selectCity.find('option').remove().end();
+            if (result.length == 0) {
+                selectCity.attr('disabled', 'disabled');
+            }
+            else {
+                selectCity.append(`<option disabled="disabled" selected="selected" value="">Select City</option>}`);
+                for (var i = 0; i < result.length; i++) {
+                    selectCity.append(`<option value="${result[i]}">${result[i]}</option>}`);
+                }
+                selectCity.removeAttr('disabled');
+                selectCity.val(data.Studio.City);
+            }
+        });
+    }
+
+    var doc = new Vue({
+        el: "#app",
+        data: data,
+        mounted: () => {
+            resetCity();
+            $('#SuccessAlert').delay(3000).fadeOut('fast');
+        },
+        computed: {
+            StudioLocation: () => {
+                if (data.Studio.City) {
+                    return data.Studio.City + "," + data.Studio.State;
+                }
+                else return data.Studio.State;
+            }
+        },
+        methods: {
+            StateChanged: () => {
+                data.Studio.City = '';
+                resetCity();
+            }
+        }
+    });
+</script>
+
+@if (ViewBag.IsStudioIndex != null)
+{
+    <script type="text/javascript">
+        var bricklayer = new Bricklayer(document.querySelector('#brick'))
+
+        $('article.card-text').readmore({
+            speed: 75,
+            lessLink: '<a href="#">Read less</a>'
+        });
+    </script>
+}
+
+@if (ViewBag.IsStudioSetting != null)
+{
+    var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/"+Model.id.ToString() : "temp"), Model.ImgCover);
+    var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/" + Model.id.ToString() : "temp"), Model.ImgLogo);
+
+<script type="text/javascript">
+    const inputElement = document.querySelector('input[type="file"]');
+const pond = FilePond.create(inputElement);
+
+FilePond.registerPlugin(
+  FilePondPluginFileValidateType,
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginImageCrop,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform,
+  FilePondPluginImageEdit,
+  FilePondPluginFilePoster,
+  FilePondPluginFileEncode
+);
+
+FilePond.setOptions({
+
+    
+});
+
+    var inputPic = FilePond.create(
+  document.getElementById("input-studioProfilePic"),
+  {
+    server: {
+      url: "/SystemAPI/Studio",
+      process: {
+        url: "/UploadProfilePic",
+        headers: {
+          StudioCredential: "@ViewBag.StudioID",
+        },
+          },
+          revert: null,
+          load: (source, load, error, progress, abort, headers) => {
+              var myRequest = new Request(source);
+              fetch(myRequest).then(function (response) {
+                  response.blob().then(function (myBlob) {
+                      load(myBlob);
+                  });
+              });
+          }
+    },
+    labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
+    allowMultiple: false,
+    imagePreviewHeight: 200,
+    imageCropAspectRatio: "1:1",
+    imageResizeTargetWidth: 200,
+    imageResizeTargetHeight: 200,
+    acceptedFileTypes: ["image/png", "image/jpeg"],
+    allowFileEncode: true,
+    instantUpload: false,
+    allowProcess: false,
+    credits: false,
+    dropValidation: true,
+    dropOnPage: true,
+    stylePanelLayout: "compact circle",
+    allowPaste: false,
+    files: [
+      {
+        source: "@profileImage",
+        options: {
+          type: "local",
+        },
+      },
+    ],
+  }
+);
+
+    var inputPicCover = FilePond.create(
+  document.getElementById("input-studioCoverPic"),
+  {
+    server: {
+      url: "/SystemAPI/Studio",
+      process: {
+        url: "/UploadCoverPic",
+        headers: {
+          StudioCredential: "@ViewBag.StudioID",
+          }         
+          },
+          revert: null,
+          load: (source, load, error, progress, abort, headers) => {
+              var myRequest = new Request(source);
+              fetch(myRequest).then(function (response) {
+                  response.blob().then(function (myBlob) {
+                      load(myBlob);
+                  });
+              });
+          }
+    },
+    labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
+    allowMultiple: false,
+    imageResizeMode: "force",
+    acceptedFileTypes: ["image/png", "image/jpeg"],
+    allowFileEncode: true,
+    instantUpload: false,
+    allowProcess: false,
+    credits: false,
+    dropValidation: true,
+    dropOnPage: true,
+    stylePanelLayout: "integrated",
+    allowPaste: false,
+    files: [
+      {
+        source: "@coverImage",
+        options: {
+          type: "local",
+        },
+      },
+    ],
+  }
+);
+
+    async function onSubmit(e){
+        e.preventDefault();
+
+        const prom1 = inputPic.processFiles();
+        const prom2 = inputPicCover.processFiles();
+
+        Promise.all([prom1, prom2]).then(response => {
+            if (response[0][0]) {
+                data.Studio.ImgLogo = response[0][0].serverId.replace(/"/g, "");
+            }
+
+            if (response[1][0]) {
+                data.Studio.ImgCover = response[1][0].serverId.replace(/"/g, "");
+            }
+        }).finally(() => {
+            $('form').submit();
+        });
+    }
+</script>
+
+}

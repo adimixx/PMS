@@ -38,7 +38,6 @@ namespace PMS.Controllers.API
             return BadRequest();
         }
 
-        [AllowCorsAPI]
         [HttpGet]
         public HttpResponseMessage GetCurrentProfilePic()
         {
@@ -56,7 +55,6 @@ namespace PMS.Controllers.API
   
         }
 
-        [AllowCorsAPI]
         [HttpDelete]
         public IHttpActionResult DeleteProfilePic()
         {
@@ -78,7 +76,7 @@ namespace PMS.Controllers.API
 
                 if (user.imgprofile == null) return Ok();
 
-                else if (BlobManagerObj.DeleteBlob(user.id.ToString(), User.Identity.GetProfilePhotoLink()))
+                else if (!string.IsNullOrWhiteSpace(BlobManagerObj.DeleteBlob(user.id.ToString(), User.Identity.GetProfilePhotoLink())))
                 {                   
                     user.imgprofile = null;
                     db.SaveChanges();

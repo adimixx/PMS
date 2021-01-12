@@ -108,6 +108,8 @@ namespace PMS.Controllers
                 {
                     item.id,
                     item.Charge.Name,
+                    amount = "RM" + item.amount.ToString(".00"),
+                    item.remarks
                 });
             }
             return Ok(data);
@@ -132,25 +134,25 @@ namespace PMS.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult loadSearch(string keyword)
+        public IHttpActionResult loadInvoices(int id)
         {
             photogEntities db = new photogEntities();
-            var model = db.Packages.Where(x => x.name.Contains(keyword)).ToList();
-            
+            var model = db.Invoices.Where(x => x.jobid == id).ToList();
+
             List<dynamic> data = new List<dynamic>();
             foreach (var item in model)
             {
                 data.Add(new
                 {
                     item.id,
-                    item.name,
-                    price = item.price.ToString(".00"),
-                    studioname = item.Studio.name,
-                    depositprice = item.depositprice.ToString(".00"),
-                    item.details
+                    invdate = item.invdate.ToString("dd/MM/yyyy"),
+                    expirydate = item.expirydate.ToString("dd/MM/yyyy"),
+                    item.total,
+                    item.totalunpaid,
+                    item.detail,
+                    item.status
                 });
             }
-
             return Ok(data);
         }
     }

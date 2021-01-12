@@ -1,0 +1,111 @@
+﻿@model PMS.Models.CreateStudioViewModel
+
+@{
+    ViewBag.Title = "Studio Settings - " + Model.name;
+
+    if (ViewBag.StudioRoleID != null)
+    {
+        Layout = "~/views/shared/_LayoutStudioManage.cshtml";
+    }
+    Styles.Render("~/Views/StudioPermalink/StudioHomeStyle.css");
+}
+
+@if (TempData["Changes"] != null)
+{
+    <div class="alert alert-success" role="alert" id="SuccessAlert">
+        @TempData["Changes"]
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4>@ViewBag.Header</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 col-12">
+                @if (ViewBag.Header == "Studio Settings")
+                {
+                    <ul class="nav nav-tabs nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "ChangeStudioUsername")">Username</a>
+                        </li>
+                    </ul>
+                }
+
+                <br />
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.id)
+                    @Html.HiddenFor(model => model.ImgCover, new Dictionary<string, object> { { "v-model", "Studio.ImgCover" } })
+                    @Html.HiddenFor(model => model.ImgLogo, new Dictionary<string, object> { { "v-model", "Studio.ImgLogo" } })
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="name">Studio Name</label>
+                        @Html.EditorFor(model => model.name, new { htmlAttributes = new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "Studio.Name" } } })
+                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shortDesc">Description</label>
+                        @Html.EditorFor(model => model.shortDesc, new { htmlAttributes = new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "Studio.ShortDesc" } } })
+                        @Html.ValidationMessageFor(model => model.shortDesc, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNum">Phone Number</label>
+                        @Html.EditorFor(model => model.phoneNum, new { htmlAttributes = new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "Studio.PhoneNum" } } })
+                        @Html.ValidationMessageFor(model => model.phoneNum, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "Studio.Email" } } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SelectedState)
+                            @Html.DropDownListFor(model => model.SelectedState, Model.StateList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "Studio.State" }, { "v-on:change", "StateChanged" } })
+                            @Html.ValidationMessageFor(model => model.SelectedState, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SelectedCity)
+                            @Html.DropDownListFor(model => model.SelectedCity, Model.CityList, htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "Studio.City" } })
+                            @Html.ValidationMessageFor(model => model.SelectedCity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="longDesc">Bio</label>
+                        @Html.TextAreaFor(model => model.longDesc, new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "Studio.Bio" }, { "rows", "4" } })
+                        @Html.ValidationMessageFor(model => model.longDesc, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Save Changes" class="btn btn-success w-100" onclick="onSubmit(event)" />
+                    </div>
+                }
+            </div>
+            <div class="col-md-9 col-12">
+                <h4>Preview : </h4>
+                @{ Html.RenderPartial("~/Views/StudioPermalink/_StudioHomeTopPartialView.cshtml", Model); }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        Html.RenderPartial("~/Views/StudioPermalink/_StudioHomeScriptPartialView.cshtml", Model);
+    }
+}
