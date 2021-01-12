@@ -1,25 +1,65 @@
-﻿
-@{
-    Layout = null;
-}
+﻿@model PMS.Models.Database.Transaction
 
-<html>
-<head>
-    <title>Thanks for your order!</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <section>
-        <p>
-            We appreciate your business! If you have any questions, please email
-            <a href="mailto:orders@example.com">orders@example.com</a>.
-        </p>
-    </section>
+    @{
+        Layout = null;
+    }
 
-    <script>
-        setTimeout(function () {
-            window.location.href = '/';
-        }, 5000);
-    </script>
-</body>
+    <html>
+    <head>
+        <title>Thanks for your order!</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                            <p>
+                                <em>Date: @Model.transdate.ToString("dd MMMM, yyyy")</em>
+                            </p>
+                            <p>
+                                <em>Receipt #: @Model.invoiceid</em>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="text-center">
+                            <h1>Receipt</h1>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Package</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-9"><em>@Model.Invoice.Job.Package.name</em></td>
+                                    <td class="col-md-1" style="text-align: center"> RM @Model.total.ToString(".00") </td>
+                                    <td class="col-md-1 text-center">RM @Model.total.ToString(".00")</td>
+                                </tr>
+                                <tr>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                                    <td class="text-center text-danger"><h4><strong>RM @Model.total.ToString(".00")</strong></h4></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" onclick="window.print();" class="btn btn-success btn-lg btn-block">
+                            Print   <span class="glyphicon glyphicon-chevron-right"></span>
+                        </button>
+                        <a href="/@Model.Invoice.Job.Package.Studio.uniquename/job/detail/@Model.Invoice.jobid" class="btn btn-primary btn-lg btn-block">
+                            Return   <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

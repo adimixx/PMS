@@ -49,14 +49,15 @@ namespace PMS.Controllers
             if (intent.Status.Contains("succeeded"))
             {
                 int iid = int.Parse(intent.Metadata["invoiceID"]);
-                db.Transactions.Add(new Transaction
+                var transaction = new Transaction
                 {
                     invoiceid = iid,
                     paymentmethodid = 1,
                     reference = id,
                     total = decimal.Parse((intent.Amount / 100).ToString(".00")),
                     transdate = DateTime.Now
-                });
+                };
+                db.Transactions.Add(transaction);
                 db.SaveChanges();
 
                 var invoice = db.Invoices.Find(iid);
@@ -65,7 +66,7 @@ namespace PMS.Controllers
                 db.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
-                return View("success");
+                return View("success", db.Transactions.FirstOrDefault(x => x.invoiceid == iid));
             }
             else
             {
