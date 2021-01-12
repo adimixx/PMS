@@ -11,7 +11,9 @@
             State: `@Model.State`,
             PhoneNum: `@Model.phoneNum`,
             Email: `@Model.email`,
-            Bio: `@Model.longDesc`
+            Bio: `@Model.longDesc`,
+            ImgCover: `@Model.ImgCover`,
+            ImgLogo: `@Model.ImgLogo`,
         }
     };
 
@@ -72,8 +74,8 @@
 
 @if (ViewBag.IsStudioSetting != null)
 {
-    var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
-    var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
+    var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/"+Model.id.ToString() : "temp"), Model.ImgCover);
+    var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/" + Model.id.ToString() : "temp"), Model.ImgLogo);
 
 <script type="text/javascript">
     const inputElement = document.querySelector('input[type="file"]');
@@ -166,7 +168,7 @@ FilePond.setOptions({
     },
     labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
     allowMultiple: false,
-    imageResizeMode: "force",
+      imageResizeMode: "cover",
     acceptedFileTypes: ["image/png", "image/jpeg"],
     allowFileEncode: true,
     instantUpload: false,
@@ -174,9 +176,9 @@ FilePond.setOptions({
     credits: false,
     dropValidation: true,
     dropOnPage: true,
-    stylePanelLayout: "integrated",
-    allowPaste: false,
-    files: [
+      stylePanelLayout: "integrated",
+      allowPaste: false,
+      files: [
       {
         source: "@coverImage",
         options: {
@@ -193,8 +195,17 @@ FilePond.setOptions({
         const prom1 = inputPic.processFiles();
         const prom2 = inputPicCover.processFiles();
 
-        await Promise.all([prom1, prom2]);
-        $('form').submit();
+        Promise.all([prom1, prom2]).then(response => {
+            if (response[0][0]) {
+                data.Studio.ImgLogo = response[0][0].serverId.replace(/"/g, "");
+            }
+
+            if (response[1][0]) {
+                data.Studio.ImgCover = response[1][0].serverId.replace(/"/g, "");
+            }
+        }).finally(() => {
+            $('form').submit();
+        });
     }
 </script>
 

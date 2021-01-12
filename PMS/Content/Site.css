@@ -222,6 +222,7 @@ textarea {
     transition: transform .3s ease-out,box-shadow .3s ease-out,width .3s ease-out;
     will-change: transform,box-shadow;
     padding: 0 66px 66px 0;
+    cursor:pointer;
 }
 
     .GridItem:hover {

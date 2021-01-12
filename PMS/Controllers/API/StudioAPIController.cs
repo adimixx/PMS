@@ -33,13 +33,9 @@ namespace PMS.Controllers.API
 
             if (file != null && file.ContentLength > 0)
             {
-                AzureBlob BlobManagerObj = new AzureBlob(2);
-                string FileName = BlobManagerObj.UploadFileAPI(file, StudioID.ToString());
+                AzureBlob BlobManagerObj = new AzureBlob(4);
+                string FileName = BlobManagerObj.UploadFileAPI(file, null);
                 FileName = FileName.Substring(FileName.IndexOf('/') + 1);
-
-                studio.ImgLogo = FileName;
-                db.SaveChanges();
-
                 return Ok(FileName);
             }
             return BadRequest();
@@ -54,14 +50,10 @@ namespace PMS.Controllers.API
 
             if (file != null && file.ContentLength > 0)
             {
-                AzureBlob BlobManagerObj = new AzureBlob(2);
+                AzureBlob BlobManagerObj = new AzureBlob(4);
 
-                string FileName = BlobManagerObj.UploadFileAPI(file, StudioID.ToString());
+                string FileName = BlobManagerObj.UploadFileAPI(file, null);
                 FileName = FileName.Substring(FileName.IndexOf('/') + 1);
-
-                studio.ImgCover = FileName;
-                db.SaveChanges();
-
                 return Ok(FileName);
             }
             return BadRequest();
