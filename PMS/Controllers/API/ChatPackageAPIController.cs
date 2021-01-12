@@ -47,6 +47,15 @@ namespace PMS.Controllers.API
             return Ok(charge);
         }
 
+        [HttpGet]
+        public IHttpActionResult GetPackageDetails(int id)
+        {
+            photogEntities db = new photogEntities();
+            var charge = db.Packages.FirstOrDefault(x => x.id == id);
+
+            return Ok(new Package { id = charge.id, depositprice = charge.depositprice, details = charge.details, name = charge.name, price = charge.price});
+        }
+
         [HttpPost]
         public async System.Threading.Tasks.Task<IHttpActionResult> PostPackageQuote(PostPackage data)
         {
@@ -59,10 +68,13 @@ namespace PMS.Controllers.API
                 return BadRequest();
             }
 
-            var deserializedData = snapshot.ConvertTo<PackageQuoteModel>();
+            var deserializedDataQuoteAll = snapshot.ConvertTo<QuotationModel>();
 
             photogEntities db = new photogEntities();
-            var chat = db.ChatKeys.FirstOrDefault(x => x.ChatKeyID == deserializedData.ChatKey);
+            int package = Convert.ToInt32(data.package);
+            var chat = db.ChatKeys.FirstOrDefault(x => x.ChatKeyID == deserializedDataQuoteAll.ChatKey);
+            var deserializedDataSel = deserializedDataQuoteAll.Packages.Select((x, index) => new { x, index }).FirstOrDefault(x => x.x.Package.Id == package);
+            var deserializedData = deserializedDataSel.x;
 
             var job = new Job
             {
@@ -72,17 +84,17 @@ namespace PMS.Controllers.API
                 DateCreated = DateTime.Now
             };
 
-            if (deserializedData.Orders != null && deserializedData.Orders.Count() != 0)
+            if (deserializedData.Charges != null && deserializedData.Charges.Count() != 0)
             {
-                foreach (var item in deserializedData.Orders)
+                foreach (var item in deserializedData.Charges)
                 {
                     job.JobCharges.Add(new JobCharge { amount = (decimal)(item.Quantity * item.PricePerUnit), remarks = item.Remarks });
                 }
             }
 
-            if (deserializedData.VenueDates != null && deserializedData.VenueDates.Count() != 0)
+            if (deserializedData.Venues != null && deserializedData.Venues.Count() != 0)
             {
-                foreach (var item in deserializedData.VenueDates)
+                foreach (var item in deserializedData.Venues)
                 {
                     job.JobDates.Add(new JobDate { jobdate1 = item.Date, location = item.Location, jobstatusid = 6 });
                 }
@@ -92,7 +104,10 @@ namespace PMS.Controllers.API
             db.SaveChanges();
 
             deserializedData.OrderStatus = "deposit";
-            await collection.SetAsync(deserializedData);
+
+            deserializedDataQuoteAll.Packages[deserializedDataSel.index] = deserializedData;
+            
+            await collection.SetAsync(deserializedDataQuoteAll);
 
             return Ok();
         }
@@ -101,5 +116,6 @@ namespace PMS.Controllers.API
     public class PostPackage
     {
         public string data { get; set; }
+        public string package { get; set; }
     }
 }

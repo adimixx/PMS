@@ -2230,6 +2230,7 @@
     <Content Include="Views\Chat\StudioChatList.cshtml" />
     <Content Include="Views\Chat\ChatStudioMain.cshtml" />
     <Content Include="Views\Job\PaymentView.cshtml" />
+    <Content Include="Views\Chat\ChatPackagePanelScript.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
@@ -2287,7 +2288,6 @@
     <Content Include="Views\Studio\ManageStudios.cshtml" />
     <Content Include="src\json\malaysian-states\states-cities.json" />
     <Content Include="src\json\malaysian-states\states.json" />
-    <Content Include="Views\Studio\CreateNewStudio.cshtml" />
     <Content Include="Views\Shared\_LayoutTopnav.cshtml" />
     <Content Include="src\user\css\app-dark.min.css.map" />
     <Content Include="src\user\css\app-rtl.min.css.map" />

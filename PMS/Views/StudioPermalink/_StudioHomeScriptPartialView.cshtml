@@ -168,7 +168,7 @@ FilePond.setOptions({
     },
     labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
     allowMultiple: false,
-    imageResizeMode: "force",
+      imageResizeMode: "cover",
     acceptedFileTypes: ["image/png", "image/jpeg"],
     allowFileEncode: true,
     instantUpload: false,
@@ -176,9 +176,9 @@ FilePond.setOptions({
     credits: false,
     dropValidation: true,
     dropOnPage: true,
-    stylePanelLayout: "integrated",
-    allowPaste: false,
-    files: [
+      stylePanelLayout: "integrated",
+      allowPaste: false,
+      files: [
       {
         source: "@coverImage",
         options: {
