@@ -90,22 +90,17 @@ namespace PMS.Controllers
             long studioID = (long)ViewBag.StudioID;
             var checkchatkey=ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey"+ studioID + "userkey"+whichuser.id);
             if (checkchatkey==null ) {
-                ChatKey ckforuser = new ChatKey();
-                ckforuser.ChatKey_Key = "studiokey" + studioID + "userkey" + whichuser.id;
-                ckforuser.UserID = whichuser.id;
-                ckforuser.StudioID = null;
-                ent.ChatKeys.Add(ckforuser);
+                ChatKey ckey = new ChatKey();
+                ckey.ChatKey_Key = "studiokey" + studioID + "userkey" + whichuser.id;
+                ckey.UserID = whichuser.id;
 
-                ChatKey ckforstudio = new ChatKey();
-                ckforstudio.ChatKey_Key = "studiokey" + studioID + "userkey" + whichuser.id;
-                ckforstudio.UserID = null;
-                ckforstudio.StudioID = (int)studioID;
-                ent.ChatKeys.Add(ckforstudio);
+                ckey.StudioID = (int)studioID;
+                ent.ChatKeys.Add(ckey);
 
 
                 ent.SaveChanges();
             }
-            checkchatkey = ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey" + studioID + "userkey" + whichuser.id&&x.StudioID==null);
+            checkchatkey = ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey" + studioID + "userkey" + whichuser.id);
             return RedirectToAction("Chatmain",new { chatid=checkchatkey.ChatKeyID});
         }
 
