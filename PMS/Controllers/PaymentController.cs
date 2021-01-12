@@ -73,5 +73,11 @@ namespace PMS.Controllers
                 return View("cancel");
             }
         }
+
+        [HttpGet]
+        public ActionResult receipt(int id)
+        {
+            return View("success", db.Transactions.FirstOrDefault(x => x.invoiceid == id));
+        }
     }
 }
