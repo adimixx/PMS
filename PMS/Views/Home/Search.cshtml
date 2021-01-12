@@ -19,6 +19,11 @@
         </div>
     </div>
 </div>
+<div class="container">
+    sini = > 
+    <div class="row" id="srcitem">
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -77,10 +82,36 @@
     <!--<p>Result = @Model.keyword</p>-->
 </div>
 
+
+
 @section Scripts {
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
 
     <script>
-        var bricklayer = new Bricklayer(document.querySelector('#brick'))
+
+        LoadAjaxSearch = function () {
+
+            jQuery.ajax({
+                url: '/api/system/loadSearch?keyword=@Model.keyword',
+                success: function (resp) {
+                    //$("#srcitem").html(resp.data["name"]);
+                    console.log(resp);
+                },
+                failure: function (resp) {
+                    console.log(resp);
+                },
+                complete: function () {
+                    var bricklayer = new Bricklayer(document.querySelector('#brick'))
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
+
+        }
+
+        LoadAjaxSearch();
+
     </script>
 }
