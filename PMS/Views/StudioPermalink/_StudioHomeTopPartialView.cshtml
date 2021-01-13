@@ -49,7 +49,7 @@
                     <span class="mdi mdi-phone"> &nbsp; {{Studio.PhoneNum}} </span> <br>
                     <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">{{Studio.Email}} </a></span>
                 </div>
-                <div class="col-12" onclick="">
+                <div class="col-12">
                     <a class="chatbtn" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "createchat")"><i class="mdi mdi-chat"></i> Chat</a>
                 </div>
 
@@ -165,7 +165,7 @@
                                         <span class="ttl-title" style="color:#85bb65">RM @item.price</span>
                                     </div>
                                 </div>
-                                <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
+                                <button class="btn-msg-package" style="z-index:10" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
                             </div>
                         </div>
                     }
