@@ -43,12 +43,10 @@
 
                               ent = new PMS.Models.Database.photogEntities();
                                
-                                var whichchatkey = ent.ChatKeys.FirstOrDefault(x => x.UserID != null && x.ChatKey_Key == whichchatroomID);
-                                int targeteduserid = (int)whichchatkey.UserID;
-                                var targeteduser = ent.Users.FirstOrDefault(x => x.id == targeteduserid);
+                        
                                 <td>
                                     @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
-                                    @targeteduser.name
+                                    @item.User.name
                                 </td>
 
                             }
