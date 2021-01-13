@@ -17,14 +17,52 @@ namespace PMS.Controllers
         photogEntities ent = new photogEntities();
 
         [NonAction]
-        private ActionResult LoadChat(int? key)
+        private async Task<ActionResult> LoadChatAsync(int? key)
         {
+            //ChatMain Page
             if (key.HasValue)
             {
                 ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == key);
-                if (chat != null) return View("ChatMain", chat);
+                if (chat != null) {
+                    System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
+                    FirestoreDb firestore = FirestoreDb.Create("photogw2");
+
+                    string docID;
+                    var collection = firestore.Collection("Quotation");
+                    var snapshot = await collection.WhereEqualTo("ChatKey", chat.ChatKeyID).GetSnapshotAsync();
+
+                    if (snapshot.Count() != 0)
+                    {
+                        docID = snapshot.Documents.FirstOrDefault().Id;
+                    }
+
+                    else
+                    {
+                        var arr = new Dictionary<string, object>().ToArray();
+                        Dictionary<string, object> data = new Dictionary<string, object>
+                        {
+                            {"ChatKey", chat.ChatKeyID }
+                        };
+                        var submitData = collection.Document();
+                        await submitData.SetAsync(data);
+                        docID = submitData.Id;
+                    }
+
+                    if (ViewBag.StudioID != null)
+                    {
+                        int studioID = (int)ViewBag.StudioID;
+                        ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
+                    }                    
+                    ViewBag.QuotationID = docID;
+                    if (TempData["Package"] != null)
+                    {
+                        ViewBag.SelectedPackageID = TempData["Package"];
+                    }
+                    return View("ChatMain", chat);
+                } 
             }
 
+            //Chat List Page
             List<ChatKey> chatlist;
 
             if (ViewBag.StudioID != null)
@@ -43,20 +81,20 @@ namespace PMS.Controllers
 
         //User Chat Panel
         [HttpGet]
-        public ActionResult ChatUser(int? key)
+        public async Task<ActionResult> ChatUser(int? key)
         {
-            return LoadChat(key);
+            return await LoadChatAsync(key);
         }
 
         //Studio Chat Panel
         [StudioPermalinkValidate(RoleID = 2)]
-        public ActionResult ChatStudio(int? key)
+        public async Task<ActionResult> ChatStudio(int? key)
         {
-            return LoadChat(key);
+            return await LoadChatAsync(key);
         }
 
         [StudioPermalinkValidate]
-        public ActionResult CreateChat()
+        public ActionResult CreateChat(int? package)
         {
             User whichuser = (User)UserAuthentication.Identity();
             long studioID = (long)ViewBag.StudioID;
@@ -74,49 +112,53 @@ namespace PMS.Controllers
                 ent.SaveChanges();
             }
 
+            if (package.HasValue)
+            {
+                TempData["Package"] = package;
+            }
             return Redirect(string.Format("/{0}?key={1}", "Chat", checkchatkey.ChatKeyID));
         }
 
         //In Development - Chat Quotation Panel
-        //[StudioPermalinkValidate]
-        //public async Task<ActionResult> Index()
-        //{
-        //    System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
-        //    FirestoreDb firestore = FirestoreDb.Create("photogw2");
-        //    string docID;
-        //    var collection = firestore.Collection("Quotation");
+        [StudioPermalinkValidate]
+        public async Task<ActionResult> Index()
+        {
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
+            FirestoreDb firestore = FirestoreDb.Create("photogw2");
+            string docID;
+            var collection = firestore.Collection("Quotation");
 
-        //    var snapshot = await collection.WhereEqualTo("ChatKey", 1).GetSnapshotAsync();
+            var snapshot = await collection.WhereEqualTo("ChatKey", 1).GetSnapshotAsync();
 
-        //    if (snapshot.Count() != 0)
-        //    {
-        //        docID = snapshot.Documents.FirstOrDefault().Id;
-        //    }
+            if (snapshot.Count() != 0)
+            {
+                docID = snapshot.Documents.FirstOrDefault().Id;
+            }
 
-        //    else
-        //    {
-        //        var arr = new Dictionary<string, object>().ToArray();
-        //        Dictionary<string, object> data = new Dictionary<string, object>
-        //    {
-        //        {"ChatKey", 1 }
-        //    };
+            else
+            {
+                var arr = new Dictionary<string, object>().ToArray();
+                Dictionary<string, object> data = new Dictionary<string, object>
+            {
+                {"ChatKey", 1 }
+            };
 
-        //        var submitData = collection.Document();
-        //        await submitData.SetAsync(data);
-        //        docID = submitData.Id;
-        //    }
+                var submitData = collection.Document();
+                await submitData.SetAsync(data);
+                docID = submitData.Id;
+            }
 
-        //    int studioID = (int)ViewBag.StudioID;
-        //    ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
+            int studioID = (int)ViewBag.StudioID;
+            ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
 
-        //    ViewBag.QuotationID = docID;
-        //    return View();
-        //}
+            ViewBag.QuotationID = docID;
+            return View();
+        }
 
-        //public PartialViewResult StudioChatPackagePanel()
-        //{
-        //    return PartialView();
-        //}
+        public PartialViewResult StudioChatPackagePanel()
+        {
+            return PartialView();
+        }
 
 
     }

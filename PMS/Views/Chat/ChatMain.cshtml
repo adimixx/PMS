@@ -22,51 +22,61 @@
     <h2>@Sender</h2>
 }
 
-<div class="col-xl-15">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title mb-4">Chat</h4>
-            <div class="chat-conversation">
-                <ul class="conversation-list" data-simplebar="init" style="min-height: 670px; background-color:white ">
-                    <div class="simplebar-wrapper" style="margin: 0px -10px;">
-                        <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
-                            <div class="simplebar-offset" style="right: -17px; bottom: 0px;">
-                                <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden scroll;">
-                                    <div class="simplebar-content" id="msg" style="padding: 0px 10px;">
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Chat</h4>
+                <div class="chat-conversation">
+                    <ul class="conversation-list" data-simplebar="init" style="min-height: 670px; background-color:white ">
+                        <div class="simplebar-wrapper" style="margin: 0px -10px;">
+                            <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
+                                <div class="simplebar-offset" style="right: -17px; bottom: 0px;">
+                                    <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden scroll;">
+                                        <div class="simplebar-content" id="msg" style="padding: 0px 10px;">
 
+                                        </div>
                                     </div>
                                 </div>
+                            </div><div class="simplebar-placeholder" style="width: auto; height: 458px;"></div>
+                        </div>
+                        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div>
+                        <div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 294px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div>
+                    </ul>
+                    <div class="row">
+                        <form id="myform" class="row" onsubmit="return sendMessage();">
+                            <div class="col-md-9 col-8 chat-inputbar">
+
+                                <input id="message" class="form-control chat-input col-lg-9" placeholder="Enter message" autocomplete="off">
                             </div>
-                        </div><div class="simplebar-placeholder" style="width: auto; height: 458px;"></div>
+                            <div class="col-sm-2 col-4 chat-send">
+                                <button type="submit" class="btn btn-success btn-block">Send</button>
+                                <input id="fileup" type="file" class="btn btn-success btn-block" value="upload image" />
+                            </div>
+                            <div class="col-sm-2 col-4 chat-send">
+
+                            </div>
+                        </form>
                     </div>
-                    <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div>
-                    <div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 294px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div>
-                </ul>
-                <div class="row">
-                    <form id="myform" class="row" onsubmit="return sendMessage();">
-                        <div class="col-md-9 col-8 chat-inputbar">
-
-                            <input id="message" class="form-control chat-input col-lg-9" placeholder="Enter message" autocomplete="off">
-                        </div>
-                        <div class="col-sm-2 col-4 chat-send">
-                            <button type="submit" class="btn btn-success btn-block">Send</button>
-                            <input id="fileup" type="file" class="btn btn-success btn-block" value="upload image" />
-                        </div>
-                        <div class="col-sm-2 col-4 chat-send">
-
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
+
+    </div>
+    <div class="col-md-6">
+        @{
+            Html.RenderPartial("ChatPackagePanel");
+        }
     </div>
 </div>
+
 
 @section Scripts{
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
     <script type="text/javascript">
-       
+
         var firebaseConfig = {
             apiKey: "AIzaSyCCQCiuqARWfqss6ksACWOYzvIPXVntFVc",
             authDomain: "photogw2.firebaseapp.com",
@@ -76,11 +86,12 @@
             messagingSenderId: "316477798255",
             appId: "1:316477798255:web:93e0ce04b4148e4033da9a",
         };
-    // Initialize Firebase
-        firebase.initializeApp(firebaseConfig); 
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
     </script>
-    @{ 
-        Html.RenderPartial("~/Views/Chat/ChatScript.cshtml", Model);
+    @{
+        Html.RenderPartial("ChatScript", Model);
+        Html.RenderPartial("ChatPackagePanelScript");
     }
 }
 

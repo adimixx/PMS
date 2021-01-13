@@ -165,7 +165,7 @@
                                         <span class="ttl-title" style="color:#85bb65">RM @item.price</span>
                                     </div>
                                 </div>
-                                <button class="btn-msg-package" data-toggle="tooltip" title="Order Now"><span class="mdi mdi-message-text"></span></button>
+                                  <button class="btn-msg-package" data-toggle="tooltip" title="Order Now" onclick="location.href = '@string.Format("/{0}/{1}?package={2}", ViewBag.StudioUrl, "createchat",item.id)';"><span class="mdi mdi-message-text"></span></button>
                             </div>
                         </div>
                     }

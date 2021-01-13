@@ -1,10 +1,9 @@
-﻿<div class="float-right" style="max-width: 600px;">
-    <div class="card" id="PackagePanel">
+﻿    <div class="card" id="PackagePanel">
         <div class="card-body">
             <div v-show="showSummary">
                 <div v-show="!CurrentEnquiries.ShowAddPackage">
                     <h5>Current Enquiries</h5>
-                    <p>Click on package to view enquiries by Customers</p>
+                    <p>Click on package to view enquiries</p>
                     <table class="table table-active thead-dark table-striped table-hover">
                         <thead>
                             <tr>
@@ -23,26 +22,33 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn btn-primary" v-on:click="CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage">Add New Package</button>
-                </div>                
-
-                <div v-show="CurrentEnquiries.ShowAddPackage">
-                    <div class="form-group">
-                        <label for="input-Package">Select Package</label>
-                        @Html.DropDownList("SelectedPackage", new SelectList(ViewBag.PackageList, "id", "name"), htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "CurrentEnquiries.SelectedPackage" } })
+                    @if (ViewBag.StudioID != null)
+                    {
+                        <button class="btn btn-primary" v-on:click="CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage">Add New Package</button>
+                    }
                     </div>
 
-                    <button class="btn btn-primary" v-on:click="onAddNewPackage(true)">Add New Package</button>
-                    <button class="btn btn-danger" v-on:click="onAddNewPackage(false)">Cancel</button>
-                </div>                
+                @if (ViewBag.StudioID != null)
+                {
+                    <div v-show="CurrentEnquiries.ShowAddPackage">
+                        <div class="form-group">
+                            <label for="input-Package">Select Package</label>
+                            @Html.DropDownList("SelectedPackage", new SelectList(ViewBag.PackageList, "id", "name"), htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "CurrentEnquiries.SelectedPackage" } })
+                        </div>
+
+                        <button class="btn btn-primary" v-on:click="onAddNewPackage(true)">Add New Package</button>
+                        <button class="btn btn-danger" v-on:click="onAddNewPackage(false)">Cancel</button>
+                    </div>
+                }
             </div>
+
 
             <div v-show="!showSummary">
                 <div class="alert alert-info" v-show="!showAddChargeButton">
                     test
-                </div> 
+                </div>
                 <div>
-                    <a href="#" v-on:click="showSummary = true">Back to List</a>
+                    <a href="#" v-on:click="showSummary = true;">Back to List</a>
                     <p>Package Enquiry : </p>
                     <h4>{{packageName}}</h4>
                     <p>Price : {{packagePrice | priceFilter}} </p>
@@ -204,8 +210,5 @@
                     }
                 </div>
             </div>
-            
-
         </div>
     </div>
-</div>

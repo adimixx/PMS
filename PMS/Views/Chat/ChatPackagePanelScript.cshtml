@@ -1,35 +1,32 @@
-﻿<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
-<script type="text/javascript">
-// Config Firebase Quotation
-var firebaseConfig = {
-  apiKey: "AIzaSyCCQCiuqARWfqss6ksACWOYzvIPXVntFVc",
-  authDomain: "photogw2.firebaseapp.com",
-  databaseURL: "https://photogw2-default-rtdb.firebaseio.com",
-  projectId: "photogw2",
-  storageBucket: "photogw2.appspot.com",
-  messagingSenderId: "316477798255",
-  appId: "1:316477798255:web:93e0ce04b4148e4033da9a",
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+﻿<script type="text/javascript">
 var db = firebase.firestore();
 var quotationData = db.collection(`Quotation`).doc("@ViewBag.QuotationID");
-    var docData;
+var docData;
     var id;
+    var i = 0;
 
 quotationData.onSnapshot((doc) => {
     docData = doc.data();
     if (!docData.Packages) {
         docData.Packages = [];
+        console.log('test execution');
     }
 
     CurrentEnquiries.List = docData.Packages;
     if (id) {
         loadPackageDetails();
     }
-});
+
+    @if (ViewBag.SelectedPackageID != null)
+        {
+            @:if (i == 0)
+            @:{
+            @:  initData();
+            @: i++;
+            @:}
+        }
+    });
+
 
 var CurrentEnquiries = {
     SelectedPackage: "",
@@ -59,7 +56,7 @@ var data = {
     quoteStatus: null
 }
 
-    function updateQuotationData() {
+function updateQuotationData() {
         var currentPackageIndex = docData.Packages.findIndex((obj) => {
             return obj.Package.Id == id;
         });
@@ -79,6 +76,7 @@ function loadPackageDetails() {
   data.CurrentPackage = docData.Packages.find((obj) => {
     return obj.Package.Id == id;
   });
+
   data.packageName = data.CurrentPackage.Package.Name;
   data.packagePrice = data.CurrentPackage.Package.Price;
     if (data.CurrentPackage.Charges) {
@@ -95,44 +93,46 @@ function loadPackageDetails() {
 }
 
 async function onAddNewPackage(isAdd) {
-  if (isAdd) {
-    if (!CurrentEnquiries.SelectedPackage) {
-      alert("Please select a Package");
-      return;
+    if (isAdd) {
+        if (!CurrentEnquiries.SelectedPackage) {
+            alert("Please select a Package");
+            return;
+        }
+        var newPackage;
+        await axios.get(
+            "/SystemAPI/Package/GetPackageDetails?id=" +
+            CurrentEnquiries.SelectedPackage
+        ).then((res) => {
+            var responseData = res.data;
+            newPackage = {
+                Package: {
+                    Id: responseData.id,
+                    Name: responseData.name,
+                    Price: responseData.price,
+                    Status: "Active",
+                },
+                OrderStatus: "quote",
+                Charges: [],
+                Venues: [],
+            };
+        });
+
+        docData.Packages.push(newPackage);
+
+        quotationData.update({ Packages: docData.Packages });
+
+        id = newPackage.Package.Id;
+        loadPackageDetails();
+        data.showSummary = false;
     }
-    var newPackage;
-    await axios.get(
-        "/SystemAPI/Package/GetPackageDetails?id=" +
-          CurrentEnquiries.SelectedPackage
-      ).then((res) => {
-        var responseData = res.data;
-        newPackage = {
-          Package: {
-            Id: responseData.id,
-            Name: responseData.name,
-            Price: responseData.price,
-            Status: "Active",
-          },
-          OrderStatus: "quote",
-          Charges: [],
-          Venues: [],
-        };
-      });
-
-      console.log(docData);
-      console.log(newPackage);
-      docData.Packages.push(newPackage);
-
-      quotationData.update({ Packages: docData.Packages });
-      id = newPackage.Package.Id;
-      loadPackageDetails();
-  }
+    else {
+        data.showSummary = true;
+    }
     CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage;
-    data.showSummary = false;
 }
 
 function onClickPackageDetails(id) {
-  this.id = id;
+    this.id = id;
     loadPackageDetails();
     data.showSummary = false;
 }
@@ -292,6 +292,19 @@ var packagePanel = new Vue({
     },
   },
 });
-
-
 </script>
+
+@if (ViewBag.SelectedPackageID != null)
+{
+    <script type="text/javascript">
+    async function initData() {
+          try {
+            await onClickPackageDetails(@ViewBag.SelectedPackageID);
+        }
+        catch {
+            CurrentEnquiries.SelectedPackage = @ViewBag.SelectedPackageID;
+            onAddNewPackage(true);
+        }
+    }
+    </script>
+}
