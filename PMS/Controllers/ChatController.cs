@@ -16,18 +16,65 @@ namespace PMS.Controllers
     {
         photogEntities ent = new photogEntities();
 
-        public ActionResult Index(int? key)
+        [NonAction]
+        private ActionResult LoadChat(int? key)
         {
             if (key.HasValue)
             {
                 ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == key);
-                if (chat != null) return View("~/Views/Chat/ChatMain.cshtml", chat);
+                if (chat != null) return View("ChatMain", chat);
             }
 
-            User whichuser = (User)UserAuthentication.Identity();
-            var listofchatroom = ent.ChatKeys.Where(x => x.UserID == whichuser.id).ToList();
+            List<ChatKey> chatlist;
 
-            return View("~/Views/Chat/ChatList.cshtml", listofchatroom);
+            if (ViewBag.StudioID != null)
+            {
+                long studioID = (long)ViewBag.StudioID;
+                chatlist = ent.ChatKeys.Where(x => x.StudioID == studioID).ToList();
+            }
+            else
+            {
+                User whichuser = (User)UserAuthentication.Identity();
+                chatlist = ent.ChatKeys.Where(x => x.UserID == whichuser.id).ToList();
+            }
+            
+            return View("ChatList", chatlist);
+        }
+
+        //User Chat Panel
+        [HttpGet]
+        public ActionResult ChatUser(int? key)
+        {
+            return LoadChat(key);
+        }
+
+        //Studio Chat Panel
+        [StudioPermalinkValidate(RoleID = 2)]
+        public ActionResult ChatStudio(int? key)
+        {
+            return LoadChat(key);
+        }
+
+        [StudioPermalinkValidate]
+        public ActionResult CreateChat()
+        {
+            User whichuser = (User)UserAuthentication.Identity();
+            long studioID = (long)ViewBag.StudioID;
+
+            var checkchatkey = ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey" + studioID + "userkey" + whichuser.id);
+            if (checkchatkey == null)
+            {
+                checkchatkey = new ChatKey();
+                checkchatkey.ChatKey_Key = "studiokey" + studioID + "userkey" + whichuser.id;
+                checkchatkey.UserID = whichuser.id;
+
+                checkchatkey.StudioID = (int)studioID;
+                ent.ChatKeys.Add(checkchatkey);
+
+                ent.SaveChanges();
+            }
+
+            return Redirect(string.Format("/{0}?key={1}", "Chat", checkchatkey.ChatKeyID));
         }
 
         //In Development - Chat Quotation Panel

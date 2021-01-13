@@ -260,7 +260,6 @@
     <Compile Include="Controllers\API\StudioAPIController.cs" />
     <Compile Include="Controllers\API\StudioRolesAPIController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
-    <Compile Include="Controllers\ChatStudioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\ManageDbController.cs" />
