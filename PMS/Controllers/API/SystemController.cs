@@ -163,6 +163,7 @@ namespace PMS.Controllers
             var model = db.Packages.Where(x => x.name.Contains(keyword)).ToList();
 
             List<dynamic> data = new List<dynamic>();
+
             foreach (var item in model)
             {
                 data.Add(new
@@ -173,6 +174,32 @@ namespace PMS.Controllers
                     studioname = item.Studio.name,
                     depositprice = item.depositprice.ToString(".00"),
                     item.details
+                });
+            }
+
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadSearchStudio(string keyword)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Studios.Where(x => x.name.Contains(keyword)).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    item.name,
+                    item.State,
+                    item.City,
+                    item.ImgLogo,
+                    item.ImgCover,
+                    item.shortDesc,
+                    item.uniquename
                 });
             }
 

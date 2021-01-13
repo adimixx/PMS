@@ -3,21 +3,21 @@
     padding-right: 25px !important;
 }
 
-@@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) {
     .bricklayer-column-sizer {
         /* divide by 3. */
         width: 33.3%;
     }
 }
 
-@@media screen and (min-width: 900px) {
+@media screen and (min-width: 900px) {
     .bricklayer-column-sizer {
         /* divide by 2. */
         width: 33.3%;
     }
 }
 
-@@media (max-width: 768px) {
+@media (max-width: 768px) {
     .carousel-inner .carousel-item > div {
         display: none;
     }
@@ -32,7 +32,7 @@
 }
 
 /* display 3 */
-@@media (min-width: 768px) {
+@media (min-width: 768px) {
 
     .carousel-inner .carousel-item-right.active,
     .carousel-inner .carousel-item-next {
