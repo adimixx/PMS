@@ -260,6 +260,7 @@
     <Compile Include="Controllers\API\StudioAPIController.cs" />
     <Compile Include="Controllers\API\StudioRolesAPIController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\ChatStudioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\ManageDbController.cs" />
@@ -2226,11 +2227,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\ManageDb\Index.cshtml" />
     <Content Include="Views\ManageDb\AddBackup.cshtml" />
-    <Content Include="Views\Chat\StudioChatList.cshtml" />
-    <Content Include="Views\Chat\ChatStudioMain.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Job\PaymentView.cshtml" />
     <Content Include="Views\Chat\ChatPackagePanelScript.cshtml" />
+    <Content Include="Views\Chat\ChatScript.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
@@ -2429,6 +2429,7 @@
     <Folder Include="src\libs\morris.js\spec\" />
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
+    <Folder Include="Views\ChatStudio\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

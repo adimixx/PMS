@@ -1,25 +1,26 @@
 ﻿@model IEnumerable<PMS.Models.Database.ChatKey>
-@using PMS.Models.Database
 
-@using PMS.Models
 @{
-    ViewBag.Title = "ChatList";
+    if (ViewBag.StudioRoleID != null)
+    {
+        Layout = "~/views/shared/_LayoutStudioManage.cshtml";
+        ViewBag.Title = "Studio Messages";
+    }
+    else
+    {
+        ViewBag.Title = "Messages";
+    }
+
 }
 
-
-
-
-@* this is new *@
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title mb-4">ChatList</h4>
+        <h4 class="card-title mb-4">@ViewBag.Title</h4>
         <div class="table-responsive">
             <table class="table table-hover table-centered table-nowrap mb-0">
                 <thead>
                     <tr>
-                     
                         <th scope="col">Name</th>
-                        
                         <th scope="col" colspan="2"></th>
                     </tr>
                 </thead>
@@ -27,35 +28,35 @@
                     @foreach (var item in Model)
                     {
                     <tr>
-
-                        @{
-                            
-                                <td>
-                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
-                                  @item.Studio.name
-                                </td>
-                          
-
-
-
-
+                        @if (ViewBag.StudioUrl != null)
+                        {
+                            <td>
+                                @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
+                                @item.User.name
+                            </td>
+                            <td>
+                                <a href="@string.Format("/{0}/Chat?key={1}", ViewBag.StudioUrl, item.ChatKeyID)" class="btn btn-primary">Enter</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
+                                @item.Studio.name
+                            </td>
+                            <td>
+                                <a href="@string.Format("/Chat?key={0}", item.ChatKeyID)" class="btn btn-primary">Enter</a>
+                            </td>
                         }
 
-
-
-
-                        <td>
-                            @Html.ActionLink("enter", "ChatMain", new { chatid = item.ChatKeyID }, new { @class = "btn btn-primary btn-sm" })
-
-                        </td>
                     </tr>
                     }
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
-
-@* this is end of new *@
-
