@@ -2207,11 +2207,9 @@
     <Content Include="Views\Payment\Success.cshtml" />
     <Content Include="Views\Payment\Cancel.cshtml" />
     <Content Include="Views\Job\Detail.cshtml" />
-    <Content Include="Views\Home\Upload.cshtml" />
-    <Content Include="Views\Home\BlobFile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
-    <Content Include="Views\Chat\StudioChatPackagePanel.cshtml" />
+    <Content Include="Views\Chat\ChatPackagePanel.cshtml" />
     <Content Include="src\json\photogw2-656bf589cae5.json" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
@@ -2228,10 +2226,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\ManageDb\Index.cshtml" />
     <Content Include="Views\ManageDb\AddBackup.cshtml" />
-    <Content Include="Views\Chat\StudioChatList.cshtml" />
-    <Content Include="Views\Chat\ChatStudioMain.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Job\PaymentView.cshtml" />
+    <Content Include="Views\Chat\ChatPackagePanelScript.cshtml" />
+    <Content Include="Views\Chat\ChatScript.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />
@@ -2289,7 +2287,6 @@
     <Content Include="Views\Studio\ManageStudios.cshtml" />
     <Content Include="src\json\malaysian-states\states-cities.json" />
     <Content Include="src\json\malaysian-states\states.json" />
-    <Content Include="Views\Studio\CreateNewStudio.cshtml" />
     <Content Include="Views\Shared\_LayoutTopnav.cshtml" />
     <Content Include="src\user\css\app-dark.min.css.map" />
     <Content Include="src\user\css\app-rtl.min.css.map" />
@@ -2431,6 +2428,7 @@
     <Folder Include="src\libs\morris.js\spec\" />
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
+    <Folder Include="Views\ChatStudio\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -11,9 +11,113 @@ using System.Web.Mvc;
 
 namespace PMS.Controllers
 {
+    [Authorize]
     public class ChatController : Controller
     {
         photogEntities ent = new photogEntities();
+
+        [NonAction]
+        private async Task<ActionResult> LoadChatAsync(int? key)
+        {
+            //ChatMain Page
+            if (key.HasValue)
+            {
+                ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == key);
+                if (chat != null) {
+                    System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
+                    FirestoreDb firestore = FirestoreDb.Create("photogw2");
+
+                    string docID;
+                    var collection = firestore.Collection("Quotation");
+                    var snapshot = await collection.WhereEqualTo("ChatKey", chat.ChatKeyID).GetSnapshotAsync();
+
+                    if (snapshot.Count() != 0)
+                    {
+                        docID = snapshot.Documents.FirstOrDefault().Id;
+                    }
+
+                    else
+                    {
+                        var arr = new Dictionary<string, object>().ToArray();
+                        Dictionary<string, object> data = new Dictionary<string, object>
+                        {
+                            {"ChatKey", chat.ChatKeyID }
+                        };
+                        var submitData = collection.Document();
+                        await submitData.SetAsync(data);
+                        docID = submitData.Id;
+                    }
+
+                    if (ViewBag.StudioID != null)
+                    {
+                        int studioID = (int)ViewBag.StudioID;
+                        ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
+                    }                    
+                    ViewBag.QuotationID = docID;
+                    if (TempData["Package"] != null)
+                    {
+                        ViewBag.SelectedPackageID = TempData["Package"];
+                    }
+                    return View("ChatMain", chat);
+                } 
+            }
+
+            //Chat List Page
+            List<ChatKey> chatlist;
+
+            if (ViewBag.StudioID != null)
+            {
+                long studioID = (long)ViewBag.StudioID;
+                chatlist = ent.ChatKeys.Where(x => x.StudioID == studioID).ToList();
+            }
+            else
+            {
+                User whichuser = (User)UserAuthentication.Identity();
+                chatlist = ent.ChatKeys.Where(x => x.UserID == whichuser.id).ToList();
+            }
+            
+            return View("ChatList", chatlist);
+        }
+
+        //User Chat Panel
+        [HttpGet]
+        public async Task<ActionResult> ChatUser(int? key)
+        {
+            return await LoadChatAsync(key);
+        }
+
+        //Studio Chat Panel
+        [StudioPermalinkValidate(RoleID = 2)]
+        public async Task<ActionResult> ChatStudio(int? key)
+        {
+            return await LoadChatAsync(key);
+        }
+
+        [StudioPermalinkValidate]
+        public ActionResult CreateChat(int? package)
+        {
+            User whichuser = (User)UserAuthentication.Identity();
+            long studioID = (long)ViewBag.StudioID;
+
+            var checkchatkey = ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey" + studioID + "userkey" + whichuser.id);
+            if (checkchatkey == null)
+            {
+                checkchatkey = new ChatKey();
+                checkchatkey.ChatKey_Key = "studiokey" + studioID + "userkey" + whichuser.id;
+                checkchatkey.UserID = whichuser.id;
+
+                checkchatkey.StudioID = (int)studioID;
+                ent.ChatKeys.Add(checkchatkey);
+
+                ent.SaveChanges();
+            }
+
+            if (package.HasValue)
+            {
+                TempData["Package"] = package;
+            }
+            return Redirect(string.Format("/{0}?key={1}", "Chat", checkchatkey.ChatKeyID));
+        }
 
         //In Development - Chat Quotation Panel
         [StudioPermalinkValidate]
@@ -33,89 +137,27 @@ namespace PMS.Controllers
 
             else
             {
+                var arr = new Dictionary<string, object>().ToArray();
                 Dictionary<string, object> data = new Dictionary<string, object>
             {
-                {"ChatKey", 1 },
-                {"OrderStatus", "quote"},
-                {"Package", new Dictionary<string, object>
-                    {
-                        {"Id",1 },
-                        {"Name", "PackageB" },
-                        {"Price",15.00 },
-                        {"Status", "active" }
-                    } }
-                };
+                {"ChatKey", 1 }
+            };
 
                 var submitData = collection.Document();
                 await submitData.SetAsync(data);
                 docID = submitData.Id;
             }
 
-            ViewBag.QuotationID = docID;
+            int studioID = (int)ViewBag.StudioID;
+            ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
 
+            ViewBag.QuotationID = docID;
             return View();
         }
 
         public PartialViewResult StudioChatPackagePanel()
         {
             return PartialView();
-        }
-
-        public ActionResult ChatList()
-        {
-            User whichuser = (User)UserAuthentication.Identity();
-            var listofchatroom = ent.ChatKeys.Where(x => x.UserID == whichuser.id).ToList();
-
-            return View(listofchatroom);
-        }
-        public ActionResult ChatMain(int chatid)
-        {
-            ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
-            return View(chat);
-        }
-
-        [StudioPermalinkValidate]
-        public ActionResult StudioChatList()
-        {
-            long studioID = (long)ViewBag.StudioID;
-            var chatlist = ent.ChatKeys.Where(x => x.StudioID == studioID).ToList();
-            return View(chatlist);
-        }
-
-
-        [StudioPermalinkValidate]
-        public ActionResult createchat() {
-
-            User whichuser = (User)UserAuthentication.Identity();
-            long studioID = (long)ViewBag.StudioID;
-            var checkchatkey=ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey"+ studioID + "userkey"+whichuser.id);
-            if (checkchatkey==null ) {
-                ChatKey ckforuser = new ChatKey();
-                ckforuser.ChatKey_Key = "studiokey" + studioID + "userkey" + whichuser.id;
-                ckforuser.UserID = whichuser.id;
-                ckforuser.StudioID = null;
-                ent.ChatKeys.Add(ckforuser);
-
-                ChatKey ckforstudio = new ChatKey();
-                ckforstudio.ChatKey_Key = "studiokey" + studioID + "userkey" + whichuser.id;
-                ckforstudio.UserID = null;
-                ckforstudio.StudioID = (int)studioID;
-                ent.ChatKeys.Add(ckforstudio);
-
-
-                ent.SaveChanges();
-            }
-            checkchatkey = ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey" + studioID + "userkey" + whichuser.id&&x.StudioID==null);
-            return RedirectToAction("Chatmain",new { chatid=checkchatkey.ChatKeyID});
-        }
-
-
-        [StudioPermalinkValidate]
-        public ActionResult ChatStudioMain(int chatid)
-        {
-            ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
-            return View(chat);
-
         }
 
 

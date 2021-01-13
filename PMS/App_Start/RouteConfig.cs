@@ -20,22 +20,23 @@ namespace PMS
                 url: "Database/{action}/{id}",
                defaults: new { controller = "ManageDb", action = "Index", id = UrlParameter.Optional }
            );
+
             routes.MapRoute(
                name: "Studio createchat",
                url: "{permalink}/createchat",
-               defaults: new { controller = "Chat", action = "createchat", id = UrlParameter.Optional }
+               defaults: new { controller = "Chat", action = "CreateChat", id = UrlParameter.Optional }
            );
 
             routes.MapRoute(
                name: "ChatStudio",
-                url: "{permalink}/Chat/{action}/{id}",
-               defaults: new { controller = "Chat", action = "StudioChatList", id = UrlParameter.Optional }
+                url: "{permalink}/Chat",
+               defaults: new { controller = "Chat", action = "ChatStudio", id = UrlParameter.Optional }
            );
 
             routes.MapRoute(
                 name: "Chat",
-                url: "Chat/{action}/{id}",
-                defaults: new { controller = "Chat", action = "ChatList", id = UrlParameter.Optional }
+                url: "Chat",
+                defaults: new { controller = "Chat", action = "ChatUser", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

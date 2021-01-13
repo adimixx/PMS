@@ -1,0 +1,228 @@
+﻿@model PMS.Models.Database.ChatKey
+@using System.Linq;
+
+<script type="text/javascript">
+    var datetime = new Date();
+
+    // self executing function here
+    (function () {
+        // your page initialization code here
+        // the DOM will be available here
+        myFunction();
+    })();
+
+    function myFunction() {
+        var element = document.getElementById("myform");
+
+        element.scrollIntoView();
+        element.scrollIntoView(false);
+        element.scrollIntoView({ block: "end" });
+        element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    }
+</script>
+
+@* If on User Page *@
+@if (ViewBag.StudioID == null)
+{
+    <script type="text/javascript">
+     var myName = '@Model.User.name';
+        var chatkey ='@Model.ChatKey_Key';
+        var myid = '@Model.UserID';
+
+    function sendMessage() {
+        // get message
+        var message = document.getElementById("message").value;
+        $("#myform")[0].reset();
+       const t = new Date();
+        const hours = ('0' + t.getHours()).slice(-2);
+        const minutes = ('0' + t.getMinutes()).slice(-2);
+        // save in database //here to track who login
+        firebase.database().ref(chatkey).push().set({
+            "id":myid,
+            "sendertype": "user",
+            "message": message,
+            "time": hours.toString() + ":" + minutes.toString(),
+            "datatype":"text"
+        });
+
+        // prevent form from submitting
+        return false;
+        }
+
+        //new push try
+        // listen for incoming messages
+        firebase.database().ref(chatkey).on("child_added", function (snapshot) {
+            var html = "";
+            // give each message a unique ID
+            if (snapshot.val().datatype == "image") {
+                if (snapshot.val().id == myid && snapshot.val().sendertype=="user") {
+                    //this is sender chat(align right side of interface)
+                    //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
+                    //html += "(me)";
+                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.User.name" + "(You)</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
+                } else {
+                    html += "<li class='clearfix ' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.Studio.name" + "</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
+                }
+            }
+            else {
+                if (snapshot.val().id == myid && snapshot.val().sendertype == "user") {
+                    //this is sender chat(align right side of interface)
+                    //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
+                    //html += "(me)";
+                    //change p
+                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.User.name"  + "(You)</span><p>" + snapshot.val().message + "</p></div></div></li >";
+                } else {
+
+                    html += "<li class='clearfix' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.Studio.name" + "</span><p>" + snapshot.val().message + "</p></div></div></li >";
+                }
+            }
+            document.getElementById("msg").innerHTML += html;
+        });
+
+        function encodeImageFIleURL() {
+            fileSelect = document.getElementById("fileup").files;
+            var validfile = [".jpeg", ".png", ".jpg"];
+            var img = document.getElementById("fileup");
+            var posofdot = img.value.lastIndexOf(".");
+            var img_ext = img.value.substring(posofdot);
+
+            var result = validfile.includes(img_ext);
+            if (result != true) {
+                //file is not valid
+                alert("Invalid File type");
+                $("#myform")[0].reset();
+                return false;
+            }
+            if (fileSelect.length > 0) {
+
+                var fileSelect = fileSelect[0];
+                var fileReader = new FileReader();
+                fileReader.onload = function (FileLoadEvent) {
+                    var srcData = FileLoadEvent.target.result;
+
+                    $("#myform")[0].reset();
+                    const t = new Date();
+                    const hours = ('0' + t.getHours()).slice(-2);
+                    const minutes = ('0' + t.getMinutes()).slice(-2);
+                    firebase.database().ref(chatkey).push().set({
+                        "id": myid,
+                        "sendertype": "user",
+                        "message": srcData,
+                        "time": hours.toString() + ":" + minutes.toString(),
+                        "datatype": "image"
+                    });
+                }
+                fileReader.readAsDataURL(fileSelect);
+            }
+        }
+
+        var fileup = document.getElementById("fileup");
+        fileup.addEventListener("change", function () {
+            encodeImageFIleURL();
+        });
+    </script>
+
+}
+
+@* If on Studio Page *@
+else
+{
+    <script type="text/javascript">
+    var chatkey ='@Model.ChatKey_Key';
+    var myid = '@Model.StudioID';
+
+    function sendMessage() {
+        // get message
+        var message = document.getElementById("message").value;
+        $("#myform")[0].reset();
+       const t = new Date();
+        const hours = ('0' + t.getHours()).slice(-2);
+        const minutes = ('0' + t.getMinutes()).slice(-2);
+        // save in database //here to track who login
+        firebase.database().ref(chatkey).push().set({
+            "id":myid,
+            "sendertype": "studio",
+            "message": message,
+            "receiver": "test123",
+            "time": hours.toString() + ":" + minutes.toString(),
+            "datatype":"text"
+        });
+        // prevent form from submitting
+        return false;
+    }
+
+    //new push try
+        // listen for incoming messages
+        firebase.database().ref(chatkey).on("child_added", function (snapshot) {
+            var html = "";
+            // give each message a unique ID
+            if (snapshot.val().datatype == "image") {
+                if (snapshot.val().id == myid && snapshot.val().sendertype == "studio") {
+                    //this is sender chat(align right side of interface)
+                    //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
+                    //html += "(me)";
+                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.Studio.name" + "(You)</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
+                } else {
+
+                    html += "<li class='clearfix ' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.User.name" + "</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
+                }
+            }
+            else {
+                if (snapshot.val().id == myid && snapshot.val().sendertype == "studio") {
+                    //this is sender chat(align right side of interface)
+                    //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
+                    //html += "(me)";
+                    //change p
+                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.Studio.name" + "(You)</span><p>" + snapshot.val().message + "</p></div></div></li >";
+                } else {
+
+                    html += "<li class='clearfix' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.User.name" +"</span><p>" + snapshot.val().message + "</p></div></div></li >";
+                }
+            }
+            document.getElementById("msg").innerHTML += html;
+        });
+
+    function encodeImageFIleURL() {
+        fileSelect = document.getElementById("fileup").files;
+        var validfile = [".jpeg", ".png", ".jpg"];
+        var img = document.getElementById("fileup");
+        var posofdot = img.value.lastIndexOf(".");
+        var img_ext = img.value.substring(posofdot);
+
+        var result = validfile.includes(img_ext);
+        if (result != true) {
+            //file is not valid
+            alert("Invalid File type");
+            $("#myform")[0].reset();
+            return false;
+        }
+        if (fileSelect.length > 0) {
+
+            var fileSelect = fileSelect[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (FileLoadEvent) {
+                var srcData = FileLoadEvent.target.result;
+
+                $("#myform")[0].reset();
+                const t = new Date();
+                const hours = ('0' + t.getHours()).slice(-2);
+                const minutes = ('0' + t.getMinutes()).slice(-2);
+                firebase.database().ref(chatkey).push().set({
+                    "id": myid,
+                    "sendertype": "studio",
+                    "message": srcData,
+                    "receiver": "test123",
+                    "time": hours.toString() + ":" + minutes.toString(),
+                    "datatype": "image"
+                });
+            }
+            fileReader.readAsDataURL(fileSelect);
+        }
+    }
+
+    var fileup = document.getElementById("fileup");
+    fileup.addEventListener("change", function () {
+        encodeImageFIleURL();
+    });
+    </script>
+}
