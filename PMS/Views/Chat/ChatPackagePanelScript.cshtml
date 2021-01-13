@@ -1,0 +1,297 @@
+﻿<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+<script type="text/javascript">
+// Config Firebase Quotation
+var firebaseConfig = {
+  apiKey: "AIzaSyCCQCiuqARWfqss6ksACWOYzvIPXVntFVc",
+  authDomain: "photogw2.firebaseapp.com",
+  databaseURL: "https://photogw2-default-rtdb.firebaseio.com",
+  projectId: "photogw2",
+  storageBucket: "photogw2.appspot.com",
+  messagingSenderId: "316477798255",
+  appId: "1:316477798255:web:93e0ce04b4148e4033da9a",
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+var quotationData = db.collection(`Quotation`).doc("@ViewBag.QuotationID");
+    var docData;
+    var id;
+
+quotationData.onSnapshot((doc) => {
+    docData = doc.data();
+    if (!docData.Packages) {
+        docData.Packages = [];
+    }
+
+    CurrentEnquiries.List = docData.Packages;
+    if (id) {
+        loadPackageDetails();
+    }
+});
+
+var CurrentEnquiries = {
+    SelectedPackage: "",
+    List: [],
+  ShowAddPackage: false,
+};
+
+var data = {
+    CurrentEnquiries : this.CurrentEnquiries,
+    CurrentPackage: '',
+    showSummary: true,
+    priceUnit: 'RM',
+    manualItem: 1,
+    prefixCharges: [],
+    cartItems: [],
+    venueItems: [],
+    packageName: '',
+    packagePrice: 0,
+    quantity: 0,
+    chargeName: '',
+    chargeNameCustom: '',
+    pricePerUnit: 1,
+    unit: '/KM',
+    showAddChargeButton: true,
+    venueDetails: null,
+    venueDate: null,
+    quoteStatus: null
+}
+
+    function updateQuotationData() {
+        var currentPackageIndex = docData.Packages.findIndex((obj) => {
+            return obj.Package.Id == id;
+        });
+
+        data.CurrentPackage.Package.Name = data.packageName;
+        data.CurrentPackage.Package.Price = data.packagePrice;
+        data.CurrentPackage.Charges = data.cartItems;
+        data.CurrentPackage.Venues = data.venueItems;
+        data.CurrentPackage.QuoteStatus = data.quoteStatus;
+
+        docData.Packages[currentPackageIndex] = data.CurrentPackage;
+
+        quotationData.update(docData);
+}
+
+function loadPackageDetails() {
+  data.CurrentPackage = docData.Packages.find((obj) => {
+    return obj.Package.Id == id;
+  });
+  data.packageName = data.CurrentPackage.Package.Name;
+  data.packagePrice = data.CurrentPackage.Package.Price;
+    if (data.CurrentPackage.Charges) {
+    data.cartItems = data.CurrentPackage.Charges;
+  }
+    if (data.CurrentPackage.Venues) {
+    data.venueItems = data.CurrentPackage.Venues;
+  }
+  data.quoteStatus = data.CurrentPackage.OrderStatus;
+
+  if (data.CurrentPackage.OrderStatus != `quote`) {
+      data.showAddChargeButton = false;
+  }
+}
+
+async function onAddNewPackage(isAdd) {
+  if (isAdd) {
+    if (!CurrentEnquiries.SelectedPackage) {
+      alert("Please select a Package");
+      return;
+    }
+    var newPackage;
+    await axios.get(
+        "/SystemAPI/Package/GetPackageDetails?id=" +
+          CurrentEnquiries.SelectedPackage
+      ).then((res) => {
+        var responseData = res.data;
+        newPackage = {
+          Package: {
+            Id: responseData.id,
+            Name: responseData.name,
+            Price: responseData.price,
+            Status: "Active",
+          },
+          OrderStatus: "quote",
+          Charges: [],
+          Venues: [],
+        };
+      });
+
+      console.log(docData);
+      console.log(newPackage);
+      docData.Packages.push(newPackage);
+
+      quotationData.update({ Packages: docData.Packages });
+      id = newPackage.Package.Id;
+      loadPackageDetails();
+  }
+    CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage;
+    data.showSummary = false;
+}
+
+function onClickPackageDetails(id) {
+  this.id = id;
+    loadPackageDetails();
+    data.showSummary = false;
+}
+
+var packagePanel = new Vue({
+  el: "#app",
+  data: this.data,
+  mounted() {
+    $("#AddChargeCard").hide();
+    $("#AddVenueCard").hide();
+
+    const getDetails = {
+      method: "GET",
+      headers: { StudioCredential: "@ViewBag.StudioID" },
+      url: "/SystemAPI/Package/GetPackageTemplate",
+    };
+
+    axios(getDetails).then((response) => {
+      data.prefixCharges = response.data;
+    });
+  },
+  computed: {
+    totalPrice: () => {
+      var total = data.pricePerUnit * data.quantity;
+      return total;
+    },
+    totalPricePackage: () => {
+      return (
+        data.cartItems.reduce(
+          (accumulator, currentValue) =>
+            accumulator + (currentValue["TotalPrice"] || 0),
+          0
+        ) + data.packagePrice
+      );
+    },
+  },
+  filters: {
+    priceFilter: (value) => {
+      return `${data.priceUnit}${value.toFixed(2)}`;
+    },
+      dateFilter: (value) => {
+          if (isNaN(value.seconds)) {
+              var date = new Date(value);
+          }
+          else {
+              var date = new Date(value.seconds * 1000);
+          }
+      return date.toLocaleString("en-MY", { hour12: true });
+    },
+  },
+  methods: {
+    onClickPackageDetails: (id) => this.onClickPackageDetails(id),
+    onAddNewPackage: (isAdd) => this.onAddNewPackage(isAdd),
+    onAdd: (id) => {
+      data.showAddChargeButton = !data.showAddChargeButton;
+
+      if (!data.showAddChargeButton) {
+        $(`#${id}`).slideDown();
+      } else {
+        $(`#${id}`).slideUp();
+      }
+    },
+    onChargeSelectChange: () => {
+      if (data.chargeName.id != 0) {
+        var item = data.prefixCharges.find((x) => x.$id == data.chargeName.id);
+
+        if (item.Price) data.pricePerUnit = item.Price;
+        else data.pricePerUnit = 1;
+
+        if (item.Unit) data.unit = `/${item.Unit}`;
+        else data.unit = "";
+      } else {
+        data.pricePerUnit = 1;
+        data.unit = "";
+      }
+    },
+    onAddChargeSubmit() {
+      var newCharge = {};
+
+      if (!data.chargeName) {
+        alert("Please Select Charge Name");
+        return;
+      }
+
+      if (!data.quantity || data.quantity < 0) {
+        alert("Quantity must have value");
+        return;
+      }
+
+      if (data.chargeName.id == 0) {
+        if (!data.chargeNameCustom) {
+          alert("Please Enter Charge Name");
+          return;
+        }
+        newCharge.Remarks = data.chargeNameCustom;
+      } else {
+        newCharge.Remarks = data.chargeName.value;
+      }
+
+      newCharge.PricePerUnit = data.pricePerUnit;
+      newCharge.Unit = data.unit.trim();
+      newCharge.Quantity = Number(data.quantity);
+      newCharge.TotalPrice = this.totalPrice;
+      data.cartItems.push(newCharge);
+      updateQuotationData();
+
+      data.showAddChargeButton = !data.showAddChargeButton;
+      $("#AddChargeCard").slideUp();
+    },
+    onRemoveCharge(index) {
+      data.cartItems.splice(index, 1);
+      updateQuotationData();
+    },
+    onConfirmQuote: () => {
+      const axiosPost = {
+        url: `/SystemAPI/Package/PostPackageQuote`,
+          method: `POST`,
+          data: { data: quotationData.id, package: id },
+      };
+      axios(axiosPost).then((response) => {
+        data.showAddChargeButton = false;
+      });
+    },
+    onAddVenue: () => {
+      if (!data.venueDetails) {
+        alert("Please Fill in Venue Details");
+        return;
+      }
+
+      if (!data.venueDate) {
+        alert("Please fill in Date");
+        return;
+      }
+
+      var d = new Date();
+      d.setDate(d.getDate() + 1);
+      d.setHours(0, 0, 0, 0);
+
+      if (d.getTime() >= new Date(data.venueDate).getTime()) {
+        alert("Date must be greater than today");
+        return;
+      }
+
+      var newVenue = {
+        Location: data.venueDetails,
+        Date: new Date(data.venueDate),
+      };
+      data.venueItems.push(newVenue);
+      updateQuotationData();
+
+      data.showAddChargeButton = !data.showAddChargeButton;
+      $("#AddVenueCard").slideUp();
+    },
+    onRemoveVenue(index) {
+      data.venueItems.splice(index, 1);
+      updateQuotationData();
+    },
+  },
+});
+
+
+</script>

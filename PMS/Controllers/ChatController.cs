@@ -33,6 +33,54 @@ namespace PMS.Controllers
 
             else
             {
+                var arr = new Dictionary<string, object>().ToArray();
+                Dictionary<string, object> data = new Dictionary<string, object>
+            {
+                {"ChatKey", 1 }
+            };
+
+                var submitData = collection.Document();
+                await submitData.SetAsync(data);
+                docID = submitData.Id;
+            }
+
+            int studioID = (int)ViewBag.StudioID;
+            ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
+
+            ViewBag.QuotationID = docID;
+            return View();
+        }
+
+        public PartialViewResult StudioChatPackagePanel()
+        {
+            return PartialView();
+        }
+
+        public ActionResult ChatList()
+        {
+            User whichuser = (User)UserAuthentication.Identity();
+            var listofchatroom = ent.ChatKeys.Where(x => x.UserID == whichuser.id).ToList();
+
+            return View(listofchatroom);
+        }
+        public async Task<ActionResult> ChatMain(int chatid)
+        {
+            ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
+
+            //Init Firestore - Adi
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
+            FirestoreDb firestore = FirestoreDb.Create("photogw2");
+            string docID;
+            var collection = firestore.Collection("Quotation");
+            var snapshot = await collection.WhereEqualTo("ChatKey", chat.ChatKeyID).GetSnapshotAsync();
+
+            if (snapshot.Count() != 0)
+            {
+                docID = snapshot.Documents.FirstOrDefault().Id;
+            }
+
+            else
+            {
                 Dictionary<string, object> data = new Dictionary<string, object>
             {
                 {"ChatKey", 1 },
@@ -53,24 +101,6 @@ namespace PMS.Controllers
 
             ViewBag.QuotationID = docID;
 
-            return View();
-        }
-
-        public PartialViewResult StudioChatPackagePanel()
-        {
-            return PartialView();
-        }
-
-        public ActionResult ChatList()
-        {
-            User whichuser = (User)UserAuthentication.Identity();
-            var listofchatroom = ent.ChatKeys.Where(x => x.UserID == whichuser.id).ToList();
-
-            return View(listofchatroom);
-        }
-        public ActionResult ChatMain(int chatid)
-        {
-            ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == chatid);
             return View(chat);
         }
 
@@ -84,8 +114,7 @@ namespace PMS.Controllers
 
 
         [StudioPermalinkValidate]
-        public ActionResult createchat() {
-
+        public ActionResult createchat() {            
             User whichuser = (User)UserAuthentication.Identity();
             long studioID = (long)ViewBag.StudioID;
             var checkchatkey=ent.ChatKeys.FirstOrDefault(x => x.ChatKey_Key == "studiokey"+ studioID + "userkey"+whichuser.id);
@@ -96,7 +125,6 @@ namespace PMS.Controllers
 
                 ckey.StudioID = (int)studioID;
                 ent.ChatKeys.Add(ckey);
-
 
                 ent.SaveChanges();
             }

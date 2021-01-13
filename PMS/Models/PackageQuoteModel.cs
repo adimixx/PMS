@@ -7,10 +7,18 @@ using System.Web;
 namespace PMS.Models
 {
     [FirestoreData]
-    public class PackageQuoteModel
+    public class QuotationModel
     {
         [FirestoreProperty]
         public long ChatKey { get; set; }
+        [FirestoreProperty]
+        public List<PackageQuoteModel> Packages { get; set; }
+    }
+
+    [FirestoreData]
+    public class PackageQuoteModel
+    {
+
         [FirestoreProperty]
         public PackageDetails Package { get; set; }
 
@@ -18,10 +26,10 @@ namespace PMS.Models
         public string OrderStatus { get; set; }
 
         [FirestoreProperty]
-        public List<PackageJsonOrders> Orders { get; set; }
+        public List<PackageJsonOrders> Charges { get; set; }
 
         [FirestoreProperty]
-        public List<PackageDate> VenueDates { get; set; }
+        public List<PackageDate> Venues { get; set; }
     }
 
     [FirestoreData]
