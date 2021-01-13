@@ -23,7 +23,6 @@
                             </tr>
                         </tbody>
                     </table>
-
                     <button class="btn btn-primary" v-on:click="CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage">Add New Package</button>
                 </div>                
 
@@ -39,6 +38,9 @@
             </div>
 
             <div v-show="!showSummary">
+                <div class="alert alert-info" v-show="!showAddChargeButton">
+                    test
+                </div> 
                 <div>
                     <a href="#" v-on:click="showSummary = true">Back to List</a>
                     <p>Package Enquiry : </p>

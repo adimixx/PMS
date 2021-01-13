@@ -2207,11 +2207,9 @@
     <Content Include="Views\Payment\Success.cshtml" />
     <Content Include="Views\Payment\Cancel.cshtml" />
     <Content Include="Views\Job\Detail.cshtml" />
-    <Content Include="Views\Home\Upload.cshtml" />
-    <Content Include="Views\Home\BlobFile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
-    <Content Include="Views\Chat\StudioChatPackagePanel.cshtml" />
+    <Content Include="Views\Chat\ChatPackagePanel.cshtml" />
     <Content Include="src\json\photogw2-656bf589cae5.json" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
