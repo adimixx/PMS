@@ -6,6 +6,10 @@
 
 @section styles {
     <style>
+        .bricklayer-column {
+            /*padding-left: 15px !important;*/
+            padding-right: 15px !important;
+        }
     </style>
 }
 
@@ -38,10 +42,10 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-2">
+        <div class="col-md-2 col-12">
             <div class="row" id="searchpg">
                 <div class="col-12">
-                    <img class="d-block w-100 h-100" style="object-fit: cover;" src="~/src/images/gallery/banner-1.jpg">
+                    <img class="d-block w-100" style="object-fit: cover;" src="~/src/images/gallery/banner-1.jpg">
                     <div class="mid search" style="position:relative;">
                         @using (Html.BeginForm("Search", "Home", FormMethod.Get))
                         {
@@ -52,16 +56,93 @@
                 </div>
             </div>
         </div>
-        <div class="col-10" id="titlestudioresult">
-            <div id="studioRes"></div>
+        <div class="col-md-10 col-12" id="titlestudioresult">
+
+            @if (Model.std.Count() > 0)
+            {
+                <p class=""><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+            }
+            else
+            {
+                <p class="mb-0"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+            }
+
+            <div id="studioRes">
+                @foreach (var item in Model.std)
+                {
+                    string imgLogo = "https://storagephotog.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
+                    string imgCover = "https://storagephotog.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
+
+                    <div class="card px-4 mb-2 srcres" style=" background-image: url(@imgCover);">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="imgstud">
+                                    <img class="rounded-circle" style="width:75px" src="@imgLogo">
+                                </div>
+                                <div class="py-1">
+                                    <h4>@item.name</h4>
+                                    <span>@item.shortDesc</span> <br>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                    <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
+                                    @item.City, @item.State
+                                </div>
+                                <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                    <span class="mdi mdi-18px mdi-package"> 10</span><br>
+                                    Packages
+                                </div>
+                                <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
+                                    <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
+                                    Review
+                                </div>
+                                <div class="w-25 float-left">
+                                    <a href="/@item.uniquename" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
+                                    <a href="/@item.uniquename/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
+                                </div>
+                            </div>
+                        </div><br>
+                    </div>
+                    <a href="#" class="float-right">Show More</a>
+                }
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-2">
+        <div class="col-md-2 col-12">
 
         </div>
-        <div class="col-10" id="titleresult">
-            <div id="brick" class="bricklayer"></div>
+        <div class="col-md-10 col-12" id="titleresult">
+            @if (Model.pkg.Count() > 0)
+            {
+                <span class="mdi mdi-package"></span>
+                @:search result for "<span style="color:#76CED2">@Model.keyword</span>"
+
+                <div class="card p-3 mt-4">test</div>
+            }
+            else
+            {
+                <span class="mdi mdi-information"></span> @:We couldn't find a "<span style="color:#76CED2">@Model.keyword</span>"
+            }
+            <div id="brick" class="bricklayer">
+                @foreach (var item in Model.pkg)
+                {
+
+                    string imgLogo = "https://storagephotog.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault().ImageName + "";
+
+                    <div class="card cd card-shad">
+                        <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>
+                        <div class="card-body">
+                            <h3 class="card-title cdtitle">@item.name</h3>
+                            <article class="card-text" style="max-height: none;">
+                                @item.details
+                            </article>
+                            <button data-toggle="tooltip" title="" onclick="location.href = '/@item.Studio.uniquename/createchat?package=@item.id';" class="btn-msg-package" data-original-title="Order Now"><span class="mdi mdi-message-text"></span></button>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -72,123 +153,6 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
     <script>
-
-        LoadAjaxSearch = function () {
-
-            jQuery.ajax({
-                url: '/api/system/loadSearch?keyword=@Model.keyword',
-                success: function (resp) {
-                    console.log(resp);
-
-                    var searchRes = " ";
-                    var titleRes = " ";
-                    var comb = " ";
-
-                    if (resp.length > 0) {
-                        searchRes += `
-                                <div class="card cd">
-                                    <div class="imgWrap"><img src="https://storagephotog.blob.core.windows.net/studio-data/5/2h40CP3.jpg" class="myImg card-img-top mx-0 d-block"></div> <div class="card-body">
-                                        <h3 class="card-title cdtitle">Convocation</h3> <article class="card-text" style="max-height: none;">
-                                            Maximum of 100 photo per shooting
-                                        </article>
-                                    </div>
-                                </div>`;
-
-                        titleRes = `<span class="mdi mdi-package"></span> search result for "<span style="color:#76CED2">@Model.keyword</span>"
-                                    <div class="card p-3 mt-4">test</div>`;
-
-                        $("#titleresult").prepend(titleRes);
-                        $("#brick").html(searchRes);
-
-                    } else {
-
-                        titleRes = `<span class="mdi mdi-information"></span> We couldn't find a "<span style="color:#76CED2">@Model.keyword</span>"`;
-
-                        $("#titleresult").prepend(titleRes);
-                        $("#brick").html(" ");
-                    }
-                },
-                failure: function (resp) {
-                    console.log(resp);
-                },
-                complete: function () {
-                    var bricklayer = new Bricklayer(document.querySelector('#brick'))
-                },
-                error: function (resp) {
-                    console.log(resp);
-                }
-            });
-
-            jQuery.ajax({
-                url: '/api/system/loadSearchStudio?keyword=@Model.keyword',
-                success: function (resp) {
-                    console.log(resp);
-                    var studioRes = " ";
-                    var titleRes = " ";
-                    if (resp.length > 0) {
-
-                        for (var i = 0; i < 1; i++) {
-                            var imgLogo = 'https://storagephotog.blob.core.windows.net/studio-data/' + resp[i]['id'] + '/' + resp[i]['ImgLogo'] + '';
-                            var imgCover = 'https://storagephotog.blob.core.windows.net/studio-data/' + resp[i]['id'] + '/' + resp[i]['ImgCover'] + '';
-
-                            studioRes += `    <div class="card px-4 mb-2 srcres" style=" background-image: url('` + imgCover + `');">
-                                                  <div class="row">
-                                                      <div class="col-7">
-                                                          <div class="imgstud">
-                                                              <img class="rounded-circle" style="width:75px" src="`+ imgLogo + `">
-                                                          </div>
-                                                          <div class="py-1">
-                                                              <h4>`+ resp[i]['name'] + `</h4>
-                                                              <span>`+ resp[i]['shortDesc'] + `</span> <br>
-                                                          </div>
-                                                      </div>
-                                                      <div class="col-5">
-                                                          <div class="w-25 float-left py-3 px-2" style="text-align:center">
-                                                              <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
-                                                              `+ resp[i]['City'] + `, ` + resp[i]['State'] + `
-                                                          </div>
-                                                          <div class="w-25 float-left py-3 px-2" style="text-align:center">
-                                                              <span class="mdi mdi-18px mdi-package"> 10</span><br>
-                                                              Packages
-                                                          </div>
-                                                          <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
-                                                              <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
-                                                              Review
-                                                          </div>
-                                                          <div class="w-25 float-left">
-                                                              <a href="/` + resp[i]['uniquename'] + `" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
-                                                              <a href="/` + resp[i]['uniquename'] + `/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
-                                                          </div>
-                                                      </div>
-                                                  </div><br>
-                                              </div>
-                                              <a href="#" class="float-right">Show More</a>`;
-                        }
-
-                        titleRes = `<p class=""><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>`;
-
-                        $("#titlestudioresult").prepend(titleRes);
-                        $("#studioRes").html(studioRes);
-                    } else {
-
-                        titleRes = `<p class="mb-0"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>`;
-
-                        $("#titlestudioresult").prepend(titleRes);
-                        $("#studioRes").html(" ");
-                    }
-
-
-                }, failure: function (resp) {
-                    console.log(resp);
-                },
-                error: function (resp) {
-                    console.log(resp);
-                }
-            });
-
-        }
-
-        LoadAjaxSearch();
-
+        var bricklayer = new Bricklayer(document.querySelector('#brick'));
     </script>
 }
