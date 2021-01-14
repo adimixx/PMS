@@ -186,6 +186,7 @@
           <Property Name="imgprofile" Type="varchar" MaxLength="255" />
           <Property Name="isVerified" Type="bit" Nullable="false" />
           <Property Name="verifiedKey" Type="varchar(max)" />
+          <Property Name="emailTemp" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserFeedback">
           <Key>
@@ -204,6 +205,7 @@
           <Property Name="studioid" Type="int" />
           <Property Name="userid" Type="int" />
           <Property Name="studioroleid" Type="int" />
+          <Property Name="isActive" Type="bit" />
         </EntityType>
         <EntityType Name="UserSystemRole">
           <Key>
@@ -987,6 +989,7 @@
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
           <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="User" ToRole="UserSystemRole" />
+          <Property Name="emailTemp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="UserFeedback">
           <Key>
@@ -1010,6 +1013,7 @@
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__UserStudi__studi__3D2915A8" FromRole="UserStudio" ToRole="Studio" />
           <NavigationProperty Name="StudioRole" Relationship="photogModel.FK__UserStudi__studi__3E1D39E1" FromRole="UserStudio" ToRole="StudioRole" />
           <NavigationProperty Name="User" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="UserStudio" ToRole="User" />
+          <Property Name="isActive" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserSystemRole">
           <Key>
@@ -1515,6 +1519,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="photogModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="emailTemp" ColumnName="emailTemp" />
                 <ScalarProperty Name="verifiedKey" ColumnName="verifiedKey" />
                 <ScalarProperty Name="isVerified" ColumnName="isVerified" />
                 <ScalarProperty Name="imgprofile" ColumnName="imgprofile" />
@@ -1540,6 +1545,7 @@
           <EntitySetMapping Name="UserStudios">
             <EntityTypeMapping TypeName="photogModel.UserStudio">
               <MappingFragment StoreEntitySet="UserStudio">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="studioroleid" ColumnName="studioroleid" />
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="studioid" ColumnName="studioid" />

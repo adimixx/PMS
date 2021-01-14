@@ -24,6 +24,7 @@ namespace PMS.Models.Database
         public Nullable<int> studioid { get; set; }
         public Nullable<int> userid { get; set; }
         public Nullable<int> studioroleid { get; set; }
+        public Nullable<bool> isActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobDateUser> JobDateUsers { get; set; }
