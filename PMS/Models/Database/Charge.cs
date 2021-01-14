@@ -14,12 +14,6 @@ namespace PMS.Models.Database
     
     public partial class Charge
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Charge()
-        {
-            this.JobCharges = new HashSet<JobCharge>();
-        }
-    
         public int id { get; set; }
         public int StudioID { get; set; }
         public string Name { get; set; }
@@ -27,8 +21,6 @@ namespace PMS.Models.Database
         public Nullable<decimal> Price { get; set; }
         public string Unit { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<JobCharge> JobCharges { get; set; }
         public virtual Studio Studio { get; set; }
     }
 }
