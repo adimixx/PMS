@@ -1,6 +1,9 @@
-﻿using PMS.Models;
+﻿using Google.Cloud.Firestore;
+using PMS.Models;
 using PMS.Models.Database;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -27,7 +30,14 @@ namespace PMS.Controllers
         [HttpGet]
         public ActionResult Search(SearchViewModel srcres)
         {
-            //SearchViewModel src = new SearchViewModel { Search = srcres.Search };
+            photogEntities db = new photogEntities();
+
+            var a = db.Packages.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+            var b = db.Studios.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+
+            srcres.pkg = a;
+            srcres.std = b;
+
             return View(srcres);
         }
     }
