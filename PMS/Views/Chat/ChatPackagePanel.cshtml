@@ -48,7 +48,7 @@
                     test
                 </div>
                 <div>
-                    <a href="#" v-on:click="showSummary = true;">Back to List</a>
+                    <a href="#" v-on:click="onBackToList">Back to List</a>
                     <p>Package Enquiry : </p>
                     <h4>{{packageName}}</h4>
                     <p>Price : {{packagePrice | priceFilter}} </p>
@@ -86,12 +86,14 @@
                                 <td>
                                     <p class="font-weight-bold text-success">{{ cart.TotalPrice | priceFilter}}</p>
                                 </td>
-                                <td v-show="showAddChargeButton">
-                                    <button class="btn btn-dark" v-on:click="onRemoveCharge(index)">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-
-                                </td>
+                                @if (ViewBag.StudioID != null)
+                                {
+                                    <td v-show="showAddChargeButton">
+                                        <button class="btn btn-dark" v-on:click="onRemoveCharge(index)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </td>
+                                }
                             </tr>
                         </tbody>
                     </table>
@@ -118,12 +120,14 @@
                                 <td>
                                     <p class="text-primary">{{ cart.Date | dateFilter}}</p>
                                 </td>
-                                <td v-show="showAddChargeButton">
-                                    <button class="btn btn-dark" v-on:click="onRemoveVenue(index)">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-
-                                </td>
+                                @if (ViewBag.StudioID != null)
+                                {
+                                    <td v-show="showAddChargeButton">
+                                        <button class="btn btn-dark" v-on:click="onRemoveVenue(index)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </td>
+                                }
                             </tr>
                         </tbody>
                     </table>
@@ -209,6 +213,11 @@
                         </div>
                     }
                 </div>
+
+                <div v-show="jobUrl != ''">
+                    <a v-bind:href="jobUrl" class="btn btn-primary">Detail</a>
+                </div>
+
             </div>
         </div>
     </div>

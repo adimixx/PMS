@@ -107,7 +107,6 @@ namespace PMS.Controllers
                 data.Add(new
                 {
                     item.id,
-                    item.Charge.Name,
                     amount = "RM" + item.amount.ToString(".00"),
                     item.remarks
                 });
