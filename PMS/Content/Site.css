@@ -429,9 +429,7 @@ textarea {
 }
 
     .btn-src:hover {
-        border: 2px solid #76CED2;
-        background-color: white;
-        color: #76CED2 !important;
+        background-color: #7bd7db;
     }
 
 .btn-msg-package {
@@ -503,4 +501,11 @@ textarea {
     top: 50%;
     right: 30.2%;
     transform: translate(50%,-50%);
+}
+
+.pricerange {
+    width: 26px;
+    height: 2px;
+    margin-top: 16px;
+    background: #bdbdbd;
 }
