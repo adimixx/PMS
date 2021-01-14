@@ -6,15 +6,6 @@
 
 <h2>Payment</h2>
 
-@if (ViewBag.StudioRoleID == 1)
-{
-    <div>
-        <a href="/@ViewBag.StudioUrl/job/createdepositinvoice/@ViewBag.jobid" class="btn btn-primary">Create Deposit Invoice</a> |
-        <a href="/@ViewBag.StudioUrl/job/createfullinvoice/@ViewBag.jobid" class="btn btn-primary">Create Full Payment Invoice</a> |
-        <a href="/@ViewBag.StudioUrl/job/createchargeinvoice/@ViewBag.jobid" class="btn btn-primary">Create Charge Payment Invoice</a>
-    </div>
-}
-
 <div class="container">
     <table id="invoiceTable" class="table table-striped table-bordered w-100">
         <thead>

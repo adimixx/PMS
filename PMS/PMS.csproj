@@ -255,6 +255,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\AccountAPIController.cs" />
     <Compile Include="Controllers\API\ChatPackageAPIController.cs" />
+    <Compile Include="Controllers\API\JobAPIController.cs" />
     <Compile Include="Controllers\API\PackageImageAPIController.cs" />
     <Compile Include="Controllers\API\PackageJson.cs" />
     <Compile Include="Controllers\API\StudioAPIController.cs" />

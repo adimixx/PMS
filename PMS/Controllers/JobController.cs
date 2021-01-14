@@ -365,14 +365,14 @@ namespace PMS.Controllers
             return View();
         }
 
-        [StudioPermalinkValidate(RoleID = 1)]
+        [StudioPermalinkValidate]
         [HttpGet]
         public ActionResult CreateDepositInvoice(int id)
         {
             try
             {
                 var job = db.Jobs.Find(id);
-                db.Invoices.Add(new Invoice
+                var invoice = new Invoice
                 {
                     expirydate = DateTime.Now.AddMonths(3),
                     invdate = DateTime.Now,
@@ -381,10 +381,11 @@ namespace PMS.Controllers
                     totalunpaid = job.Package.depositprice,
                     detail = "Deposit",
                     status = "Not Paid",
-                });
+                };
+                db.Invoices.Add(invoice);
                 db.SaveChanges();
 
-                return RedirectToAction("paymentview/" + id);
+                return RedirectToAction("checkoutindex/" + invoice.id, "Payment");
             }
             catch (Exception)
             {
@@ -420,43 +421,47 @@ namespace PMS.Controllers
             }
         }
 
-        [StudioPermalinkValidate(RoleID = 1)]
+        [StudioPermalinkValidate]
         [HttpGet]
-        public ActionResult CreateFullInvoice(int id)
+        public ActionResult CreateFullInvoice(int id, decimal amount)
         {
             try
             {
                 var job = db.Jobs.Find(id);
                 if (job.Invoices.Any(x => x.detail == "Deposit"))
                 {
-                    db.Invoices.Add(new Invoice
+                    var invoice = new Invoice
                     {
                         expirydate = DateTime.Now.AddMonths(3),
                         invdate = DateTime.Now,
                         jobid = id,
-                        total = job.Package.price - job.Package.depositprice,
-                        totalunpaid = job.Package.price - job.Package.depositprice,
+                        total = (job.Package.price + amount) - job.Package.depositprice,
+                        totalunpaid = (job.Package.price + amount) - job.Package.depositprice,
                         detail = "Full Payment",
                         status = "Not Paid",
-                    });
+                    };
+                    db.Invoices.Add(invoice);
                     db.SaveChanges();
+
+                    return RedirectToAction("checkoutindex/" + invoice.id, "payment");
                 }
                 else
                 {
-                    db.Invoices.Add(new Invoice
+                    var invoice = new Invoice
                     {
                         expirydate = DateTime.Now.AddMonths(3),
                         invdate = DateTime.Now,
                         jobid = id,
-                        total = job.Package.price,
-                        totalunpaid = job.Package.price,
+                        total = amount,
+                        totalunpaid = amount,
                         detail = "Full Payment",
                         status = "Not Paid",
-                    });
+                    };
+                    db.Invoices.Add(invoice);
                     db.SaveChanges();
-                }
 
-                return RedirectToAction("paymentview/" + id);
+                    return RedirectToAction("checkoutindex/" + invoice.id);
+                }
             }
             catch (Exception)
             {
