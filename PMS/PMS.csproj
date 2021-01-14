@@ -279,9 +279,6 @@
     <Compile Include="Models\Database\ChatKey.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Database\DbBackupRecord.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Database\Invoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -340,9 +337,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\User.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\UserFeedback.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\UserStudio.cs">

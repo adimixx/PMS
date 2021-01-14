@@ -20,7 +20,6 @@ namespace PMS.Models.Database
             this.Invoices = new HashSet<Invoice>();
             this.JobCharges = new HashSet<JobCharge>();
             this.JobDates = new HashSet<JobDate>();
-            this.UserFeedbacks = new HashSet<UserFeedback>();
         }
     
         public int id { get; set; }
@@ -29,6 +28,8 @@ namespace PMS.Models.Database
         public Nullable<int> jobstatusid { get; set; }
         public System.DateTime DateCreated { get; set; }
         public string paymentstatus { get; set; }
+        public Nullable<decimal> PackagePrice { get; set; }
+        public Nullable<decimal> TotalPrice { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Invoice> Invoices { get; set; }
@@ -39,7 +40,5 @@ namespace PMS.Models.Database
         public virtual ICollection<JobCharge> JobCharges { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobDate> JobDates { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserFeedback> UserFeedbacks { get; set; }
     }
 }

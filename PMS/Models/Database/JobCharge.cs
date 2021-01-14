@@ -16,11 +16,9 @@ namespace PMS.Models.Database
     {
         public int id { get; set; }
         public Nullable<int> jobid { get; set; }
-        public Nullable<int> chargeid { get; set; }
         public decimal amount { get; set; }
         public string remarks { get; set; }
     
-        public virtual Charge Charge { get; set; }
         public virtual Job Job { get; set; }
     }
 }
