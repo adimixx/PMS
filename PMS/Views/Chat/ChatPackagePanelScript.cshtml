@@ -87,7 +87,7 @@ function loadPackageDetails() {
   }
   data.quoteStatus = data.CurrentPackage.OrderStatus;
 
-  if (data.CurrentPackage.OrderStatus != `quote`) {
+    if (data.CurrentPackage.OrderStatus.toLowerCase() != `quote`) {
       data.showAddChargeButton = false;
   }
 }

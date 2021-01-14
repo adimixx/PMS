@@ -81,7 +81,7 @@ namespace PMS.Controllers.API
                 packageid = (int)deserializedData.Package.Id,
                 userid = chat.UserID,
                 jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "quote").id,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,               
             };
 
             if (deserializedData.Charges != null && deserializedData.Charges.Count() != 0)
@@ -103,7 +103,7 @@ namespace PMS.Controllers.API
             db.Jobs.Add(job);
             db.SaveChanges();
 
-            deserializedData.OrderStatus = "deposit";
+            deserializedData.OrderStatus = job.JobStatu.name;
 
             deserializedDataQuoteAll.Packages[deserializedDataSel.index] = deserializedData;
             

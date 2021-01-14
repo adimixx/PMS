@@ -86,13 +86,15 @@
                                 <td>
                                     <p class="font-weight-bold text-success">{{ cart.TotalPrice | priceFilter}}</p>
                                 </td>
-                                <td v-show="showAddChargeButton">
-                                    <button class="btn btn-dark" v-on:click="onRemoveCharge(index)">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-
-                                </td>
-                            </tr>
+                                @if (ViewBag.StudioID != null)
+                                {
+                                    <td v-show="showAddChargeButton">
+                                        <button class="btn btn-dark" v-on:click="onRemoveCharge(index)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </td>
+                                }
+                                </tr>                               
                         </tbody>
                     </table>
 
@@ -118,13 +120,15 @@
                                 <td>
                                     <p class="text-primary">{{ cart.Date | dateFilter}}</p>
                                 </td>
-                                <td v-show="showAddChargeButton">
-                                    <button class="btn btn-dark" v-on:click="onRemoveVenue(index)">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-
-                                </td>
-                            </tr>
+                                @if (ViewBag.StudioID != null)
+                                {
+                                    <td v-show="showAddChargeButton">
+                                        <button class="btn btn-dark" v-on:click="onRemoveVenue(index)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </td>
+                                }
+                                </tr>
                         </tbody>
                     </table>
 
