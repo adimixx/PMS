@@ -155,7 +155,7 @@ textarea {
         padding: .375rem .75rem;
         color: #495057;
         background-color: #fff;
-        border-radius: 1.25rem;
+        border-radius: 0.25rem;
         transition: box-shadow 0.15s linear;
     }
 
@@ -171,7 +171,47 @@ textarea {
         right: 30px;
     }
 
+#searchpg .search {
+    top: 50%;
+}
 
+    #searchpg .search input {
+        width: 100%;
+        max-width: unset;
+        height: 40px;
+        padding: .375rem .75rem;
+        color: #495057;
+        background-color: #fff;
+        border-radius: 0.25rem;
+        transition: box-shadow 0.15s linear;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+
+    #searchpg .search button {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+    }
+
+    #searchpg .search input:focus {
+        outline: none;
+    }
+
+
+#searchpg img {
+    background: rgba(0,0,0,0.3);
+}
+
+#searchpg .mid {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    left: 0;
+    top: 0;
+    transform: translate(0%, 50%);
+    width: 100%;
+}
 
 #brick .box {
     display: flex;
@@ -222,7 +262,7 @@ textarea {
     transition: transform .3s ease-out,box-shadow .3s ease-out,width .3s ease-out;
     will-change: transform,box-shadow;
     padding: 0 66px 66px 0;
-    cursor:pointer;
+    cursor: pointer;
 }
 
     .GridItem:hover {
@@ -271,6 +311,8 @@ textarea {
         border-radius: 50px;
         color: white;
         font-size: 16px;
+        display: block;
+        text-align: center;
     }
 
 
@@ -293,18 +335,22 @@ textarea {
 
     .body-profile .imgWrap {
         /* min-height: 13vw; */
-        background-color: white;
+        background-color: grey;
         border-radius: 10px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
     }
 
     .body-profile .myImg {
         transition: 0.3s;
         position: relative;
         top: 0;
+        object-fit: cover;
         /* bottom: 70px; */
         margin: auto;
         max-width: 100%;
-        max-height: 735px;
+        /* max-height: 735px; */
+        height: 290px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
@@ -367,6 +413,27 @@ textarea {
         color: white;
     }
 
+.btn-src {
+    width: 100%;
+    border: 2px solid #76CED2;
+    background-color: #76CED2;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    padding: 3px;
+    border-radius: 0px;
+    color: white !important;
+    font-size: 16px;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s ease-out;
+}
+
+    .btn-src:hover {
+        border: 2px solid #76CED2;
+        background-color: white;
+        color: #76CED2 !important;
+    }
+
 .btn-msg-package {
     color: white;
     background-color: #76CED2;
@@ -389,4 +456,51 @@ textarea {
 .ttl-title {
     font-size: 16px;
     color: #85bb65;
+}
+
+.imgstud {
+    width: 100px;
+    float: left;
+}
+
+.srcres:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.3);
+}
+
+.srcres {
+    color: white;
+    background-size: cover;
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.1);
+    height: 103px;
+}
+
+.stddtl {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.stdimg {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
+
+.filter {
+    width: 100px;
+    height: 38px;
+    background-color: white;
+    color: black;
+    position: absolute;
+    top: 50%;
+    right: 30.2%;
+    transform: translate(50%,-50%);
 }

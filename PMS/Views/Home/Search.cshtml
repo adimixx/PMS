@@ -1,4 +1,5 @@
 ﻿@model PMS.Models.SearchViewModel
+
 @{
     ViewBag.Title = "Search";
 }
@@ -8,78 +9,61 @@
     </style>
 }
 
-<div class="row" id="banner">
-    <div class="col-12 pt-4">
-        <div class="mid search" style="position:relative">
+<div class="row" id="searchpg" hidden>
+    <div class="col-12 p-0">
+        <img class="d-block w-100" style="object-fit: cover;height:80px" src="~/src/images/gallery/banner-1.jpg">
+        <div class="mid search" style="position:relative;top: -33%">
             @using (Html.BeginForm("Search", "Home", FormMethod.Get))
             {
                 @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required", value = @Model.keyword } })
                 <button type="submit"><i class="fa fa-search"></i></button>
+                <div class="filter" style="">test</div>
             }
         </div>
     </div>
 </div>
-<div class="container">
-    sini = > 
-    <div class="row" id="srcitem">
+
+<div id="page-head" class="row">
+    <div class="col-12 p-0">
+        <ul>
+            <li>
+                <a class="homeref" href="/Studio">Profile</a>
+            </li>
+            <li>
+                <a class="homeref" href="/Studio">Create Studio</a>
+            </li>
+        </ul>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <h2>Search</h2>
-        </div>
-        <div class="col-12">
-            <div id="brick" class="bricklayer">
-                <div class="GridItem">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-1.jpg">
-                    Pelatography
-                </div>
-                <div class="GridItem">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-2.jpg">
-                    Julaphotography
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-3.jpg">
-                    Czone
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-4.jpg">
-                    Kodak
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-5.jpg">
-                    Tecware
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-6.jpg">
-                    MSI
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-7.jpg">
-                    Razer
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-8.jpg">
-                    Coolermaster
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-9.jpg">
-                    Strix
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-10.jpg">
-                    ROG
-                </div>
-                <div class="GridItem pt-2">
-                    <img class="card-img-top mx-0 d-block pb-4" src="~/src/images/gallery/work-11.jpg">
-                    Asus
+        <div class="col-2">
+            <div class="row" id="searchpg">
+                <div class="col-12">
+                    <img class="d-block w-100 h-100" style="object-fit: cover;" src="~/src/images/gallery/banner-1.jpg">
+                    <div class="mid search" style="position:relative;">
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+                        {
+                            @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required", value = @Model.keyword } })
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-10" id="titlestudioresult">
+            <div id="studioRes"></div>
+        </div>
     </div>
-    <!--<p>Result = @Model.keyword</p>-->
+    <div class="row">
+        <div class="col-2">
+
+        </div>
+        <div class="col-10" id="titleresult">
+            <div id="brick" class="bricklayer"></div>
+        </div>
+    </div>
 </div>
 
 
@@ -87,7 +71,6 @@
 @section Scripts {
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
-
     <script>
 
         LoadAjaxSearch = function () {
@@ -95,14 +78,108 @@
             jQuery.ajax({
                 url: '/api/system/loadSearch?keyword=@Model.keyword',
                 success: function (resp) {
-                    //$("#srcitem").html(resp.data["name"]);
                     console.log(resp);
+
+                    var searchRes = " ";
+                    var titleRes = " ";
+                    var comb = " ";
+
+                    if (resp.length > 0) {
+                        searchRes += `
+                                <div class="card cd">
+                                    <div class="imgWrap"><img src="https://storagephotog.blob.core.windows.net/studio-data/5/2h40CP3.jpg" class="myImg card-img-top mx-0 d-block"></div> <div class="card-body">
+                                        <h3 class="card-title cdtitle">Convocation</h3> <article class="card-text" style="max-height: none;">
+                                            Maximum of 100 photo per shooting
+                                        </article>
+                                    </div>
+                                </div>`;
+
+                        titleRes = `<span class="mdi mdi-package"></span> search result for "<span style="color:#76CED2">@Model.keyword</span>"
+                                    <div class="card p-3 mt-4">test</div>`;
+
+                        $("#titleresult").prepend(titleRes);
+                        $("#brick").html(searchRes);
+
+                    } else {
+
+                        titleRes = `<span class="mdi mdi-information"></span> We couldn't find a "<span style="color:#76CED2">@Model.keyword</span>"`;
+
+                        $("#titleresult").prepend(titleRes);
+                        $("#brick").html(" ");
+                    }
                 },
                 failure: function (resp) {
                     console.log(resp);
                 },
                 complete: function () {
                     var bricklayer = new Bricklayer(document.querySelector('#brick'))
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
+
+            jQuery.ajax({
+                url: '/api/system/loadSearchStudio?keyword=@Model.keyword',
+                success: function (resp) {
+                    console.log(resp);
+                    var studioRes = " ";
+                    var titleRes = " ";
+                    if (resp.length > 0) {
+
+                        for (var i = 0; i < 1; i++) {
+                            var imgLogo = 'https://storagephotog.blob.core.windows.net/studio-data/' + resp[i]['id'] + '/' + resp[i]['ImgLogo'] + '';
+                            var imgCover = 'https://storagephotog.blob.core.windows.net/studio-data/' + resp[i]['id'] + '/' + resp[i]['ImgCover'] + '';
+
+                            studioRes += `    <div class="card px-4 mb-2 srcres" style=" background-image: url('` + imgCover + `');">
+                                                  <div class="row">
+                                                      <div class="col-7">
+                                                          <div class="imgstud">
+                                                              <img class="rounded-circle" style="width:75px" src="`+ imgLogo + `">
+                                                          </div>
+                                                          <div class="py-1">
+                                                              <h4>`+ resp[i]['name'] + `</h4>
+                                                              <span>`+ resp[i]['shortDesc'] + `</span> <br>
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-5">
+                                                          <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                                              <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
+                                                              `+ resp[i]['City'] + `, ` + resp[i]['State'] + `
+                                                          </div>
+                                                          <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                                              <span class="mdi mdi-18px mdi-package"> 10</span><br>
+                                                              Packages
+                                                          </div>
+                                                          <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
+                                                              <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
+                                                              Review
+                                                          </div>
+                                                          <div class="w-25 float-left">
+                                                              <a href="/` + resp[i]['uniquename'] + `" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
+                                                              <a href="/` + resp[i]['uniquename'] + `/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
+                                                          </div>
+                                                      </div>
+                                                  </div><br>
+                                              </div>
+                                              <a href="#" class="float-right">Show More</a>`;
+                        }
+
+                        titleRes = `<p class=""><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>`;
+
+                        $("#titlestudioresult").prepend(titleRes);
+                        $("#studioRes").html(studioRes);
+                    } else {
+
+                        titleRes = `<p class="mb-0"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>`;
+
+                        $("#titlestudioresult").prepend(titleRes);
+                        $("#studioRes").html(" ");
+                    }
+
+
+                }, failure: function (resp) {
+                    console.log(resp);
                 },
                 error: function (resp) {
                     console.log(resp);
