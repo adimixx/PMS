@@ -2,7 +2,10 @@
 
 @{
     ViewBag.Title = "Detail";
-    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+    if (ViewBag.StudioRoleID != null)
+    {
+        Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+    }
 }
 
 <h2>Job's Detail</h2>
