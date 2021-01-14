@@ -205,5 +205,33 @@ namespace PMS.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        public IHttpActionResult loadSearchPackageImg(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.PackageImages.Where(x => x.PackageID == id).ToList();
+            var model2 = db.Studios
+                         .Join(db.Packages, std => std.id, pkg => pkg.studioid, (std, pkg) => new { std, pkg })
+                         .Join(db.PackageImages, ppkg => ppkg.pkg.id, pkgi => pkgi.PackageID, (ppkg, pkgi) => new { ppkg, pkgi })
+                         .Where(x => x.pkgi.PackageID == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+
+            foreach (var item in model2)
+            {
+                data.Add(new
+                {
+                    item.ppkg.std.id,
+                    item.ppkg.std.name,
+                    item.ppkg.std.shortDesc,
+                    item.pkgi.ID,
+                    item.pkgi.ImageName,
+                    item.pkgi.PackageID
+                });
+            }
+
+            return Ok(data);
+        }
     }
 }
