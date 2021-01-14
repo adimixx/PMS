@@ -53,7 +53,8 @@ var data = {
     showAddChargeButton: true,
     venueDetails: null,
     venueDate: null,
-    quoteStatus: null
+    quoteStatus: null,
+    jobUrl = ''
 }
 
 function updateQuotationData() {
@@ -72,24 +73,31 @@ function updateQuotationData() {
         quotationData.update(docData);
 }
 
-function loadPackageDetails() {
-  data.CurrentPackage = docData.Packages.find((obj) => {
-    return obj.Package.Id == id;
-  });
+    function loadPackageDetails() {
+        data.CurrentPackage = docData.Packages.find((obj) => {
+            return obj.Package.Id == id;
+        });
 
-  data.packageName = data.CurrentPackage.Package.Name;
-  data.packagePrice = data.CurrentPackage.Package.Price;
-    if (data.CurrentPackage.Charges) {
-    data.cartItems = data.CurrentPackage.Charges;
-  }
-    if (data.CurrentPackage.Venues) {
-    data.venueItems = data.CurrentPackage.Venues;
-  }
-    data.quoteStatus = data.CurrentPackage.OrderStatus;
-    console.log(data.CurrentPackage.OrderStatus.toLowerCase());
-    if (data.CurrentPackage.OrderStatus.toLowerCase() != `quote`) {
-      data.showAddChargeButton = false;
-  }
+        data.packageName = data.CurrentPackage.Package.Name;
+        data.packagePrice = data.CurrentPackage.Package.Price;
+        if (data.CurrentPackage.Charges) {
+            data.cartItems = data.CurrentPackage.Charges;
+        }
+        if (data.CurrentPackage.Venues) {
+            data.venueItems = data.CurrentPackage.Venues;
+        }
+        data.quoteStatus = data.CurrentPackage.OrderStatus;
+        console.log(data.CurrentPackage.OrderStatus.toLowerCase());
+        if (data.CurrentPackage.OrderStatus.toLowerCase() != `quote`) {
+            data.showAddChargeButton = false;
+        }
+
+        if (data.CurrentPackage.JobLink) {
+            data.jobUrl = data.CurrentPackage.JobLink;
+        }
+        else {
+            data.jobUrl = '';
+        }
 }
 
 async function onAddNewPackage(isAdd) {

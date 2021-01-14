@@ -109,7 +109,8 @@ namespace PMS.Controllers.API
             
             await collection.SetAsync(deserializedDataQuoteAll);
 
-            return Ok();
+            string url = string.Format("/{0}/job/detail/{1}", job.Package.Studio.uniquename, job.id.ToString());
+            return Ok(url);
         }
     }   
 
