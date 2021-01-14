@@ -31,9 +31,30 @@ namespace PMS.Controllers
         public ActionResult Search(SearchViewModel srcres)
         {
             photogEntities db = new photogEntities();
-
             var a = db.Packages.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
             var b = db.Studios.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+
+            if (srcres.sortby != null)
+            {
+                if (srcres.sortby == "pricelh")
+                {
+                    a = a.OrderBy(x => x.price).ToList();
+                }
+                else if (srcres.sortby == "pricehl")
+                {
+                    a = a.OrderByDescending(x => x.price).ToList();
+                }
+            }
+
+            if(srcres.minprice != null)
+            {
+                a = a.Where(z => z.price >= decimal.Parse(srcres.minprice)).ToList();
+            }
+
+            if (srcres.maxprice != null)
+            {
+                a = a.Where(z => z.price <= decimal.Parse(srcres.maxprice)).ToList();
+            }
 
             srcres.pkg = a;
             srcres.std = b;

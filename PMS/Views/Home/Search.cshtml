@@ -60,11 +60,11 @@
 
             @if (Model.std.Count() > 0)
             {
-                <p class=""><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
             }
             else
             {
-                <p class="mb-0"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                <p class="mb-0" style="font-size:16px"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
             }
 
             <div id="studioRes">
@@ -111,19 +111,64 @@
     </div>
     <div class="row">
         <div class="col-md-2 col-12">
-
+            <h4 style="text-align:center"><span class="mdi mdi-filter-outline"></span> Search Filter</h4>
+            <hr />
+            <h5>Price</h5>
+            <div class="row">
+                <div class="col-5">
+                    <input type="text" class="form-control" name="minprice" id="minprice" value="@Model.minprice" maxlength="5" placeholder="min price" />
+                </div>
+                <div class="col-2 ">
+                    <div class="pricerange"></div>
+                </div>
+                <div class="col-5">
+                    <input type="text" class="form-control" name="maxprice" id="maxprice" value="@Model.maxprice" maxlength="5" placeholder="max price" />
+                </div>
+                <div class="col-12">
+                    <input type="submit" class="btn-src" onclick="pricefil()" name="name" value="Apply" />
+                </div>
+            </div>
         </div>
         <div class="col-md-10 col-12" id="titleresult">
             @if (Model.pkg.Count() > 0)
             {
-                <span class="mdi mdi-package"></span>
-                @:search result for "<span style="color:#76CED2">@Model.keyword</span>"
+                <p style="font-size:16px">
+                    <span class="mdi mdi-package"></span>search result for "<span style="color:#76CED2">@Model.keyword</span>"
+                </p>
 
-                <div class="card p-3 mt-4">test</div>
+                <div class="row">
+                    <div class="col-12">
+                        <span>@Model.pkg.Count() packages found</span>
+                        <select name="sortBy" id="sortBy" onchange="sortby(this.value)" class="custom-select float-right">
+
+                            @if (Model.sortby == "pricelh")
+                            {
+
+                                <option value="pricelh" selected>Price low to high</option>
+                                <option value="pricehl">Price high to low</option>
+                            }
+                            else if (Model.sortby == "pricehl")
+                            {
+                                <option value="pricelh">Price low to high</option>
+                                <option value="pricehl" selected>Price high to low</option>
+                            }
+                            else
+                            {
+                                <option value="pricelh">Price low to high</option>
+                                <option value="pricehl">Price high to low</option>
+                            }
+
+                        </select>
+                        <span class="float-right p-2">Sort by</span>
+
+                    </div>
+                </div>
             }
             else
             {
-                <span class="mdi mdi-information"></span> @:We couldn't find a "<span style="color:#76CED2">@Model.keyword</span>"
+                <p style="font-size:16px">
+                    <span class="mdi mdi-information"></span> We couldn't find a "<span style="color:#76CED2">@Model.keyword</span>"
+                </p>
             }
             <div id="brick" class="bricklayer">
                 @foreach (var item in Model.pkg)
@@ -138,6 +183,16 @@
                             <article class="card-text" style="max-height: none;">
                                 @item.details
                             </article>
+                            <div class="row">
+                                <div class="col-6 pt-1">
+                                    <span class="pay-title">Deposit</span><br>
+                                    <span class="ttl-title" style="color:#FFA500">RM @item.depositprice</span>
+                                </div>
+                                <div class="col-6 pt-1">
+                                    <span class="pay-title">Total</span><br>
+                                    <span class="ttl-title" style="color:#85bb65">RM @item.price</span>
+                                </div>
+                            </div>
                             <button data-toggle="tooltip" title="" onclick="location.href = '/@item.Studio.uniquename/createchat?package=@item.id';" class="btn-msg-package" data-original-title="Order Now"><span class="mdi mdi-message-text"></span></button>
                         </div>
                     </div>
@@ -151,8 +206,50 @@
 
 @section Scripts {
 
+    <script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
     <script>
         var bricklayer = new Bricklayer(document.querySelector('#brick'));
+
+        $('article.card-text').readmore({
+            speed: 75,
+            lessLink: '<a href="#">Read less</a>'
+        });
+
+        function sortby(dropDownValue) {
+            window.location.href = '/Home/Search?keyword=@Model.keyword&sortby=' + dropDownValue;
+        }
+
+        function pricefil() {
+            var maxprice = $("#maxprice").val();
+            var minprice = $("#minprice").val();
+            var pricefil = "";
+
+            if (maxprice != " ") {
+                pricefil += "&maxprice=" + maxprice;
+            }
+
+            if (minprice != " ") {
+                pricefil += "&minprice=" + minprice;
+            }
+
+            window.location.href = '/Home/Search?keyword=@Model.keyword' + pricefil;
+        }
+
+        $(document).ready(function () {
+
+            //called when key is pressed in textbox
+            $("#maxprice").keypress(function (e) {
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            });
+
+            $("#minprice").keypress(function (e) {
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            });
+        });
     </script>
 }
