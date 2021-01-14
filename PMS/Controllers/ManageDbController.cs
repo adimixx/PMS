@@ -17,13 +17,13 @@ namespace PMS.Controllers
         photogEntities db;
         HttpClient client = new HttpClient();
         // GET: List of Backup DB
-        public ActionResult Index()
-        {
-            db = new photogEntities();
-            var list = db.DbBackupRecords.ToList();
+        //public ActionResult Index()
+        //{
+        //    db = new photogEntities();
+        //    var list = db.DbBackupRecords.ToList();
 
-            return View(list);
-        }
+        //    return View(list);
+        //}
 
         [HttpGet]
         public ActionResult AddBackup()
@@ -32,46 +32,46 @@ namespace PMS.Controllers
             return View(backup);
         }
 
-        [HttpPost]
-        public async System.Threading.Tasks.Task<ActionResult> AddBackup(DbBackupViewModel backup)
-        {
-            if (ModelState.IsValid)
-            {
-                ListDictionary items = new ListDictionary
-                {
-                    {"storageKeyType", "StorageAccessKey"},
-                    {"storageKey", "58Fd7I3W9zl89r0TIbB4z6lmVi/zSACty3oOiJRsxUZQIq2B3/5E/RDxGNqKwU6aewS8iGxruYdKUlxMpnT0Xw=="},
-                    {"storageUri", "https://storagephotog.blob.core.windows.net/db-backup"},
-                    {"authenticationType","SQL" },
-                    {"administratorLogin","photog" },
-                    {"administratorLoginPassword","Qi^YSy#4Ae63" }
-                };
+        //[HttpPost]
+        //public async System.Threading.Tasks.Task<ActionResult> AddBackup(DbBackupViewModel backup)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ListDictionary items = new ListDictionary
+        //        {
+        //            {"storageKeyType", "StorageAccessKey"},
+        //            {"storageKey", "58Fd7I3W9zl89r0TIbB4z6lmVi/zSACty3oOiJRsxUZQIq2B3/5E/RDxGNqKwU6aewS8iGxruYdKUlxMpnT0Xw=="},
+        //            {"storageUri", "https://storagephotog.blob.core.windows.net/db-backup"},
+        //            {"authenticationType","SQL" },
+        //            {"administratorLogin","photog" },
+        //            {"administratorLoginPassword","Qi^YSy#4Ae63" }
+        //        };
 
-                HttpResponseMessage responseMessage = await client.PostAsJsonAsync(ServerCredentials.ExportLink, items);
+        //        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(ServerCredentials.ExportLink, items);
 
-                if (responseMessage.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var dataName = await responseMessage.Content.ReadAsStringAsync();
-                    var dataJson = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataName);
+        //        if (responseMessage.StatusCode == System.Net.HttpStatusCode.OK)
+        //        {
+        //            var dataName = await responseMessage.Content.ReadAsStringAsync();
+        //            var dataJson = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataName);
 
-                    var fileName = (string)dataJson.FirstOrDefault(X => X.Key == "data").Value;
+        //            var fileName = (string)dataJson.FirstOrDefault(X => X.Key == "data").Value;
 
-                    DbBackupRecord newBackup = new DbBackupRecord { BackupDate = DateTime.Now, UserID = UserAuthentication.Identity().id, FileName = fileName };
-                    if (backup.SelectedBackupType == 1)
-                    {
-                        newBackup.BackupType = "Full";
-                    }
+        //            DbBackupRecord newBackup = new DbBackupRecord { BackupDate = DateTime.Now, UserID = UserAuthentication.Identity().id, FileName = fileName };
+        //            if (backup.SelectedBackupType == 1)
+        //            {
+        //                newBackup.BackupType = "Full";
+        //            }
 
-                    db.DbBackupRecords.Add(newBackup);
-                    db.SaveChanges();
-                    TempData["BackupMessage"] = String.Format("Backup on {0} has been created successfully", newBackup.BackupDate.ToString("dd/MM/yyyy HH:mm:ss"));
+        //            db.DbBackupRecords.Add(newBackup);
+        //            db.SaveChanges();
+        //            TempData["BackupMessage"] = String.Format("Backup on {0} has been created successfully", newBackup.BackupDate.ToString("dd/MM/yyyy HH:mm:ss"));
 
-                    return RedirectToAction("Index", "Database");
-                }
-            }
+        //            return RedirectToAction("Index", "Database");
+        //        }
+        //    }
 
-            return View(backup);
-        }
+        //    return View(backup);
+        //}
 
         internal class ServerCredentials
         {

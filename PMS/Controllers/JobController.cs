@@ -253,7 +253,7 @@ namespace PMS.Controllers
             {
                 try
                 {
-                    jobCharge.chargeid = cid;
+                    //jobCharge.chargeid = cid;
                     if (jobCharge.id == 0)
                     {
                         db.JobCharges.Add(jobCharge);
@@ -301,7 +301,7 @@ namespace PMS.Controllers
             {
                 try
                 {
-                    jobCharge.chargeid = cid;
+                    //jobCharge.chargeid = cid;
                     db.Entry(jobCharge).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
