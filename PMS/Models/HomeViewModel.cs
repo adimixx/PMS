@@ -13,6 +13,16 @@ namespace PMS.Models
         [Required]
         [DisplayName("keyword")]
         public string keyword { get; set; }
+
+        [DisplayName("sortby")]
+        public string sortby { get; set; }
+
+        [DisplayName("minprice")]
+        public string minprice { get; set; }
+
+        [DisplayName("maxprice")]
+        public string maxprice { get; set; }
+
         public List<Package> pkg { get; set; }
 
         public List<Studio> std { get; set; }
