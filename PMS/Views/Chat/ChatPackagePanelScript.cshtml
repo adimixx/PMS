@@ -85,8 +85,8 @@ function loadPackageDetails() {
     if (data.CurrentPackage.Venues) {
     data.venueItems = data.CurrentPackage.Venues;
   }
-  data.quoteStatus = data.CurrentPackage.OrderStatus;
-
+    data.quoteStatus = data.CurrentPackage.OrderStatus;
+    console.log(data.CurrentPackage.OrderStatus.toLowerCase());
     if (data.CurrentPackage.OrderStatus.toLowerCase() != `quote`) {
       data.showAddChargeButton = false;
   }
@@ -98,6 +98,17 @@ async function onAddNewPackage(isAdd) {
             alert("Please select a Package");
             return;
         }
+
+        var checkPackage = docData.Packages.find((obj) => {
+            return obj.Package.Id == CurrentEnquiries.SelectedPackage;
+        });
+
+        console.log(checkPackage);
+        if (checkPackage != null) {
+            alert('Package Already have Quotation in progress. Please Complete the Quote First');
+            return;
+        }
+
         var newPackage;
         await axios.get(
             "/SystemAPI/Package/GetPackageDetails?id=" +
@@ -289,7 +300,11 @@ var packagePanel = new Vue({
     onRemoveVenue(index) {
       data.venueItems.splice(index, 1);
       updateQuotationData();
-    },
+      },
+      onBackToList: () => {
+          data.showSummary = true;
+          CurrentEnquiries.ShowAddPackage = false;
+      }
   },
 });
 </script>

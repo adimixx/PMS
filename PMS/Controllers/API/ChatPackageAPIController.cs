@@ -80,7 +80,7 @@ namespace PMS.Controllers.API
             {
                 packageid = (int)deserializedData.Package.Id,
                 userid = chat.UserID,
-                jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "quote").id,
+                jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "pending deposit").id,
                 DateCreated = DateTime.Now,               
             };
 
