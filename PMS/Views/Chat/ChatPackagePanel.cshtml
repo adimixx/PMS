@@ -94,7 +94,7 @@
                                         </button>
                                     </td>
                                 }
-                                </tr>                               
+                            </tr>
                         </tbody>
                     </table>
 
@@ -128,7 +128,7 @@
                                         </button>
                                     </td>
                                 }
-                                </tr>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -214,9 +214,10 @@
                     }
                 </div>
 
-                <div>
-                    <a href="/@ViewBag.StudioUrl/job/detail/9" class="btn btn-primary">Detail</a>
+                <div v-show="jobUrl != ''">
+                    <a v-bind:href="jobUrl" class="btn btn-primary">Detail</a>
                 </div>
+
             </div>
         </div>
     </div>

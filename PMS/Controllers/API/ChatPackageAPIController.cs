@@ -104,13 +104,12 @@ namespace PMS.Controllers.API
             db.SaveChanges();
 
             deserializedData.OrderStatus = job.JobStatu.name;
+            deserializedData.JobLink = string.Format("/{0}/job/detail/{1}", chat.Studio.uniquename, job.id.ToString());
 
             deserializedDataQuoteAll.Packages[deserializedDataSel.index] = deserializedData;
             
             await collection.SetAsync(deserializedDataQuoteAll);
-
-            string url = string.Format("/{0}/job/detail/{1}", job.Package.Studio.uniquename, job.id.ToString());
-            return Ok(url);
+            return Ok();
         }
     }   
 
