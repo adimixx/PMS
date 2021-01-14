@@ -121,6 +121,12 @@ namespace PMS.Controllers
         {
             return View();
         }
+        
+        [HttpGet]
+        public ActionResult JobCustomer()
+        {
+            return View();
+        }
 
         [StudioPermalinkValidate]
         [HttpGet]
@@ -362,6 +368,8 @@ namespace PMS.Controllers
         public ActionResult PaymentView(int id)
         {
             ViewBag.jobid = id;
+            ViewBag.hasDeposit = db.Invoices.Any(x => x.jobid == id && x.status == "Paid" && x.detail == "Deposit");
+            ViewBag.hasFull = db.Invoices.Any(x => x.jobid == id && x.detail == "Full Payment");
             return View();
         }
 
@@ -423,7 +431,7 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate]
         [HttpGet]
-        public ActionResult CreateFullInvoice(int id, decimal amount)
+        public ActionResult CreateFullInvoice(int id)
         {
             try
             {
@@ -435,15 +443,22 @@ namespace PMS.Controllers
                         expirydate = DateTime.Now.AddMonths(3),
                         invdate = DateTime.Now,
                         jobid = id,
-                        total = (job.Package.price + amount) - job.Package.depositprice,
-                        totalunpaid = (job.Package.price + amount) - job.Package.depositprice,
+                        total = (job.TotalPrice) - job.Package.depositprice,
+                        totalunpaid = (job.TotalPrice) - job.Package.depositprice,
                         detail = "Full Payment",
                         status = "Not Paid",
                     };
                     db.Invoices.Add(invoice);
                     db.SaveChanges();
 
-                    return RedirectToAction("checkoutindex/" + invoice.id, "payment");
+                    if (ViewBag.StudioRoleID != null)
+                    {
+                        return RedirectToAction("paymentview/" + invoice.jobid);
+                    }
+                    else
+                    {
+                        return RedirectToAction("checkoutindex/" + invoice.id, "payment");
+                    }
                 }
                 else
                 {
@@ -452,15 +467,22 @@ namespace PMS.Controllers
                         expirydate = DateTime.Now.AddMonths(3),
                         invdate = DateTime.Now,
                         jobid = id,
-                        total = amount,
-                        totalunpaid = amount,
+                        total = job.TotalPrice,
+                        totalunpaid = job.TotalPrice,
                         detail = "Full Payment",
                         status = "Not Paid",
                     };
                     db.Invoices.Add(invoice);
                     db.SaveChanges();
 
-                    return RedirectToAction("checkoutindex/" + invoice.id);
+                    if (ViewBag.StudioRoleID != null)
+                    {
+                        return RedirectToAction("paymentview/" + invoice.jobid);
+                    }
+                    else
+                    {
+                        return RedirectToAction("checkoutindex/" + invoice.id, "payment");
+                    }
                 }
             }
             catch (Exception)

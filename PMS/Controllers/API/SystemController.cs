@@ -90,6 +90,33 @@ namespace PMS.Controllers
                     client = item.User.name,
                     package = item.Package.name,
                     status = item.JobStatu.name,
+                    paymentstatus = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status,
+                    paymentdetail = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadJobCustomer()
+        {
+            photogEntities db = new photogEntities();
+            var aid = UserAuthentication.Identity().id;
+            var model = db.Jobs.Where(x => x.userid == aid).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    DateCreated = item.DateCreated.ToString("dd/MM/yyyy hh:mm"),
+                    client = item.User.name,
+                    package = item.Package.name,
+                    status = item.JobStatu.name,
+                    paymentstatus = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status,
+                    paymentdetail = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail,
+                    studiolink = item.Package.Studio.uniquename
                 });
             }
             return Ok(data);

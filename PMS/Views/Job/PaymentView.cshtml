@@ -1,10 +1,20 @@
 ﻿
 @{
     ViewBag.Title = "Payment";
-    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+    if (ViewBag.StudioRoleID != null)
+    {
+        Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+    }
 }
 
 <h2>Payment</h2>
+
+@if (ViewBag.StudioRoleID != null && ViewBag.hasDeposit && !ViewBag.hasFull)
+{
+    <div style="margin-top:10px">
+        <a href="/@ViewBag.StudioUrl/job/createfullinvoice/@ViewBag.jobid">Create Full Payment Invoice</a>
+    </div>
+}
 
 <div class="container">
     <table id="invoiceTable" class="table table-striped table-bordered w-100">
@@ -23,6 +33,7 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
         $(function () {
             $("#invoiceTable").DataTable(
