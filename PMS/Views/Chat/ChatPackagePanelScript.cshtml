@@ -9,7 +9,6 @@ quotationData.onSnapshot((doc) => {
     docData = doc.data();
     if (!docData.Packages) {
         docData.Packages = [];
-        console.log('test execution');
     }
 
     CurrentEnquiries.List = docData.Packages;
@@ -87,7 +86,6 @@ function updateQuotationData() {
             data.venueItems = data.CurrentPackage.Venues;
         }
         data.quoteStatus = data.CurrentPackage.OrderStatus;
-        console.log(data.CurrentPackage.OrderStatus.toLowerCase());
         if (data.CurrentPackage.OrderStatus.toLowerCase() != `quote`) {
             data.showAddChargeButton = false;
         }
@@ -111,7 +109,6 @@ async function onAddNewPackage(isAdd) {
             return obj.Package.Id == CurrentEnquiries.SelectedPackage;
         });
 
-        console.log(checkPackage);
         if (checkPackage != null) {
             alert('Package Already have Quotation in progress. Please Complete the Quote First');
             return;
