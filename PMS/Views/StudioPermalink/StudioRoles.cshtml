@@ -67,8 +67,7 @@
                 <p class="font-weight-light">{{userEmail}}</p>
 
                 <div v-if="isUserAllowed == true">
-
-                    <form id="editRoleForm">
+                    <form id="editRoleForm" v-on:submit.prevent>
                         <div class="form-group">
                             <label for="Role">Role : </label>
                             <select name="Role" class="custom-select" v-model="userRole">
@@ -78,8 +77,10 @@
                         </div>
 
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Save changes"/>
+                        <button class="btn btn-danger" v-on:click="onRevokeUser(userEmail)" >Revoke User</button>
+                        <input type="submit" class="btn btn-primary" value="Save changes" />
                     </form>
+
                 </div>
 
                 <div v-if="isUserAllowed == false">
@@ -93,7 +94,7 @@
 </div>
 
 @section Scripts {
-    <script>
+    <script type="text/javascript">
     $.ajaxSetup({
         headers: { 'StudioCredential': '@ViewBag.StudioID' }
     });
@@ -184,7 +185,39 @@
 
         var popupModalVue = new Vue({
             el: "#editRoleModal",
-            data: dataModal
+            data: dataModal,
+            methods: {
+                onRevokeUser(email) {
+                    var aler = confirm("Confirm to revoke this user?");
+
+                    if (aler) {
+                        var form = {
+                            Operation: 3,
+                            Email: email
+                        };
+
+                        var submitAjax = $.ajax({
+                            type: "POST",
+                            url: "/systemapi/studioroles/SetRoleList",
+                            data: form
+                        });
+                        submitAjax.fail((xhr, status, error) => {
+                            data.showAlert = true;
+                            data.alertError = true;
+                            alertSuccess: false;
+                            data.NewRoleMessage = xhr.responseJSON.Message;
+                        });
+                        submitAjax.done((msg) => {
+                            data.showAlert = true;
+                            data.alertSuccess = true;
+                            alertError: false;
+                            data.NewRoleMessage = msg
+                            table.ajax.reload();
+                        });
+                        $('#editRoleModal').modal('hide');
+                    }
+                }
+            }
         });
 
         function popupEditModal(userid) {

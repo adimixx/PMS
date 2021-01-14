@@ -6,10 +6,28 @@
 }
 <div class="container">
     <h2>Profile</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    else if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary()
+        </div>
+    }
+    else if (TempData["Email"] != null)
+    {
+        <div class="alert alert-info">
+            @TempData["Email"]
+        </div>
+    }
+
 
     <div class="card">
         <div class="card-body">
-
             <div class="row">
                 <div class="col-sm-12 col-md-4 text-center">
                     <label class="font-weight-bold">Profile Picture</label>
@@ -22,7 +40,6 @@
                 </div>
 
                 <div class="col-sm-12 col-md-8">
-
                     <table class="table">
                         <tbody>
                             <tr id="Name-Group">
@@ -41,7 +58,6 @@
                                     @using (Html.BeginForm())
                                     {
                                         @Html.AntiForgeryToken();
-
                                         <div class="form-group row">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-form-label col-3" })
                                             <div class="col-9">
@@ -305,28 +321,28 @@
                 ]
             });
 
-            $('#uploadPhotoBtn').click(() => {
-                if (inputPic.getFile() == null) {
-                    $.ajax({
-                        url: '/SystemAPI/Account/DeleteProfilePic',
-                        method: 'DELETE',
-                        success: (() => {
-                            location.reload();
-                        })
-                    })
-                }
-
-                else if (inputPic.getFile().fileSize == undefined) {
-                    location.reload();
-                }
-
-                else {
-                    inputPic.processFile().then(() => {
+        $('#uploadPhotoBtn').click(() => {
+            if (inputPic.getFile() == null) {
+                $.ajax({
+                    url: '/SystemAPI/Account/DeleteProfilePic',
+                    method: 'DELETE',
+                    success: (() => {
                         location.reload();
-                    });
-                }
-                
-            });      
+                    })
+                })
+            }
+
+            else if (inputPic.getFile().fileSize == undefined) {
+                location.reload();
+            }
+
+            else {
+                inputPic.processFile().then(() => {
+                    location.reload();
+                });
+            }
+
+        });
 
     </script>
 }

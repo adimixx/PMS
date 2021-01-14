@@ -92,17 +92,24 @@ namespace PMS.Controllers.API
                     }
 
                     if (role.Operation == 1)
-                    {                     
-                        if (user.UserStudios.Any(x => x.studioid == StudioID))
+                    {
+                        var userStudio = user.UserStudios.FirstOrDefault(x => x.studioid == StudioID);
+                        if (userStudio == null)
+                        {
+                            db.UserStudios.Add(new UserStudio { studioid = StudioID, userid = user.id, studioroleid = role.Role });
+                        }
+                        else if (userStudio.isActive == false)
+                        {
+                            userStudio.isActive = true;
+                        }
+
+                        else
                         {
                             return BadRequest("User already registered with this Studio");
                         }
-                        else
-                        {
-                            db.UserStudios.Add(new UserStudio { studioid = StudioID, userid = user.id, studioroleid = role.Role });
-                            db.SaveChanges();
-                            return Ok("User has been added successfully");
-                        }
+
+                        db.SaveChanges();
+                        return Ok("User has been added successfully");
                     }
 
                     else if (role.Operation == 2)
@@ -121,7 +128,31 @@ namespace PMS.Controllers.API
 
                     else if (role.Operation == 3)
                     {
+                        var userStudio = user.UserStudios.FirstOrDefault(x => x.studioid == StudioID);
 
+                        if (userStudio == null)
+                        {
+                            return BadRequest("User is not registered with this Studio");
+                        }
+                        else if (userStudio.userid == UserAuthentication.Identity().id)
+                        {
+                            return BadRequest("Cannot delete your own profile from studio!");
+                        }
+                        else if (db.UserStudios.Where(x=>x.id != userStudio.id && x.studioroleid == 1).Count() <= 0)
+                        {
+                            return BadRequest("No Admin Detected. Please assign other admin before removing account");
+                        }
+                        else if (userStudio.JobDateUsers.Count() != 0)
+                        {
+                            userStudio.isActive = false;
+                        }
+                        else
+                        {
+                            db.UserStudios.Remove(userStudio);
+                        }
+                        
+                        db.SaveChanges();
+                        return Ok("User role have been deleted");
                     }
                 }
                 return BadRequest("Invalid Request");
