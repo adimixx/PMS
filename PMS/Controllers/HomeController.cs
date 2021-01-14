@@ -27,7 +27,14 @@ namespace PMS.Controllers
         [HttpGet]
         public ActionResult Search(SearchViewModel srcres)
         {
-            //SearchViewModel src = new SearchViewModel { Search = srcres.Search };
+            photogEntities db = new photogEntities();
+
+            var a = db.Packages.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+            var b = db.Studios.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+
+            srcres.pkg = a;
+            srcres.std = b;
+
             return View(srcres);
         }
     }

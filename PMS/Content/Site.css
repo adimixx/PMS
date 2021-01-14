@@ -172,7 +172,7 @@ textarea {
     }
 
 #searchpg .search {
-    top: 50%;
+    /* top: 50%; */
 }
 
     #searchpg .search input {
@@ -182,6 +182,7 @@ textarea {
         padding: .375rem .75rem;
         color: #495057;
         background-color: #fff;
+        margin-top: 10px;
         border-radius: 0.25rem;
         transition: box-shadow 0.15s linear;
         box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
@@ -190,7 +191,7 @@ textarea {
     #searchpg .search button {
         position: absolute;
         right: 15px;
-        top: 11px;
+        bottom: 8px;
     }
 
     #searchpg .search input:focus {
@@ -203,13 +204,13 @@ textarea {
 }
 
 #searchpg .mid {
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    left: 0;
-    top: 0;
-    transform: translate(0%, 50%);
+    /* position: absolute; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    /* text-align: center; */
+    /* left: 0; */
+    /* top: -21%; */
+    /* transform: translate(0%, 50%); */
     width: 100%;
 }
 
@@ -333,32 +334,31 @@ textarea {
         transition: 0.3s height ease;
     }
 
-    .body-profile .imgWrap {
-        /* min-height: 13vw; */
-        background-color: grey;
-        border-radius: 10px;
-        border-bottom-right-radius: 0px;
-        border-bottom-left-radius: 0px;
-    }
+.imgWrap {
+    /* min-height: 13vw; */
+    background-color: grey;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
 
-    .body-profile .myImg {
-        transition: 0.3s;
-        position: relative;
-        top: 0;
-        object-fit: cover;
-        /* bottom: 70px; */
-        margin: auto;
-        max-width: 100%;
-        /* max-height: 735px; */
-        height: 290px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-
-    .body-profile .card {
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-    }
+.myImg {
+    transition: 0.3s;
+    position: relative;
+    top: 0;
+    object-fit: cover;
+    /* bottom: 70px; */
+    margin: auto;
+    max-width: 100%;
+    /* max-height: 735px; */
+    height: 290px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.card-shad {
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
 
 .cdtitle {
     color: #53BCC1;
