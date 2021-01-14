@@ -53,7 +53,10 @@ var data = {
     venueDetails: null,
     venueDate: null,
     quoteStatus: null,
-    jobUrl: ''
+    jobUrl: '',
+    jobId: '',
+    studioUrl: '',
+    option: '1',
 }
 
 function updateQuotationData() {
@@ -92,9 +95,24 @@ function updateQuotationData() {
 
         if (data.CurrentPackage.JobLink) {
             data.jobUrl = data.CurrentPackage.JobLink;
+            data.jobId = data.CurrentPackage.JobID;
         }
         else {
             data.jobUrl = '';
+        }
+
+        if (data.CurrentPackage.JobID) {
+            data.jobId = data.CurrentPackage.JobID;
+        }
+        else {
+            data.jobId = '';
+        }
+
+        if (data.CurrentPackage.StudioUrl) {
+            data.studioUrl = data.CurrentPackage.StudioUrl;
+        }
+        else {
+            data.studioUrl = '';
         }
 }
 
@@ -271,6 +289,27 @@ var packagePanel = new Vue({
       axios(axiosPost).then((response) => {
         data.showAddChargeButton = false;
       });
+      },
+    onCancelClick: () => {
+      const axiosCancel = {
+        url: `/SystemAPI/job/canceljob/${data.jobId}`,
+          method: `GET`,
+      };
+        axios(axiosCancel).then((response) => {
+            if (response) {
+                window.location.href = "/";
+            }
+      });
+    },
+      onPayClick: () => {
+          var TotalPrice = this.totalPrice;
+          console.log(TotalPrice);
+          if (data.option === '1') {
+              window.location.href = `/${data.studioUrl}/job/createdepositinvoice/${data.jobId}`;
+          }
+          else {
+              window.location.href = `/${data.studioUrl}/job/createfullinvoice/${data.jobId}`;
+          }
     },
     onAddVenue: () => {
       if (!data.venueDetails) {

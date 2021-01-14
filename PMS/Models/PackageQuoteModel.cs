@@ -29,6 +29,12 @@ namespace PMS.Models
         public string JobLink { get; set; }
 
         [FirestoreProperty]
+        public string JobID { get; set; }
+
+        [FirestoreProperty]
+        public string StudioUrl { get; set; }
+
+        [FirestoreProperty]
         public List<PackageJsonOrders> Charges { get; set; }
 
         [FirestoreProperty]

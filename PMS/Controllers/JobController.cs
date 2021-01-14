@@ -121,6 +121,12 @@ namespace PMS.Controllers
         {
             return View();
         }
+        
+        [HttpGet]
+        public ActionResult JobCustomer()
+        {
+            return View();
+        }
 
         [StudioPermalinkValidate]
         [HttpGet]
@@ -362,17 +368,19 @@ namespace PMS.Controllers
         public ActionResult PaymentView(int id)
         {
             ViewBag.jobid = id;
+            ViewBag.hasDeposit = db.Invoices.Any(x => x.jobid == id && x.status == "Paid" && x.detail == "Deposit");
+            ViewBag.hasFull = db.Invoices.Any(x => x.jobid == id && x.detail == "Full Payment");
             return View();
         }
 
-        [StudioPermalinkValidate(RoleID = 1)]
+        [StudioPermalinkValidate]
         [HttpGet]
         public ActionResult CreateDepositInvoice(int id)
         {
             try
             {
                 var job = db.Jobs.Find(id);
-                db.Invoices.Add(new Invoice
+                var invoice = new Invoice
                 {
                     expirydate = DateTime.Now.AddMonths(3),
                     invdate = DateTime.Now,
@@ -381,10 +389,11 @@ namespace PMS.Controllers
                     totalunpaid = job.Package.depositprice,
                     detail = "Deposit",
                     status = "Not Paid",
-                });
+                };
+                db.Invoices.Add(invoice);
                 db.SaveChanges();
 
-                return RedirectToAction("paymentview/" + id);
+                return RedirectToAction("checkoutindex/" + invoice.id, "Payment");
             }
             catch (Exception)
             {
@@ -420,7 +429,7 @@ namespace PMS.Controllers
             }
         }
 
-        [StudioPermalinkValidate(RoleID = 1)]
+        [StudioPermalinkValidate]
         [HttpGet]
         public ActionResult CreateFullInvoice(int id)
         {
@@ -429,34 +438,52 @@ namespace PMS.Controllers
                 var job = db.Jobs.Find(id);
                 if (job.Invoices.Any(x => x.detail == "Deposit"))
                 {
-                    db.Invoices.Add(new Invoice
+                    var invoice = new Invoice
                     {
                         expirydate = DateTime.Now.AddMonths(3),
                         invdate = DateTime.Now,
                         jobid = id,
-                        total = job.Package.price - job.Package.depositprice,
-                        totalunpaid = job.Package.price - job.Package.depositprice,
+                        total = (job.TotalPrice) - job.Package.depositprice,
+                        totalunpaid = (job.TotalPrice) - job.Package.depositprice,
                         detail = "Full Payment",
                         status = "Not Paid",
-                    });
+                    };
+                    db.Invoices.Add(invoice);
                     db.SaveChanges();
+
+                    if (ViewBag.StudioRoleID != null)
+                    {
+                        return RedirectToAction("paymentview/" + invoice.jobid);
+                    }
+                    else
+                    {
+                        return RedirectToAction("checkoutindex/" + invoice.id, "payment");
+                    }
                 }
                 else
                 {
-                    db.Invoices.Add(new Invoice
+                    var invoice = new Invoice
                     {
                         expirydate = DateTime.Now.AddMonths(3),
                         invdate = DateTime.Now,
                         jobid = id,
-                        total = job.Package.price,
-                        totalunpaid = job.Package.price,
+                        total = job.TotalPrice,
+                        totalunpaid = job.TotalPrice,
                         detail = "Full Payment",
                         status = "Not Paid",
-                    });
+                    };
+                    db.Invoices.Add(invoice);
                     db.SaveChanges();
-                }
 
-                return RedirectToAction("paymentview/" + id);
+                    if (ViewBag.StudioRoleID != null)
+                    {
+                        return RedirectToAction("paymentview/" + invoice.jobid);
+                    }
+                    else
+                    {
+                        return RedirectToAction("checkoutindex/" + invoice.id, "payment");
+                    }
+                }
             }
             catch (Exception)
             {

@@ -255,6 +255,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\AccountAPIController.cs" />
     <Compile Include="Controllers\API\ChatPackageAPIController.cs" />
+    <Compile Include="Controllers\API\JobAPIController.cs" />
     <Compile Include="Controllers\API\PackageImageAPIController.cs" />
     <Compile Include="Controllers\API\PackageJson.cs" />
     <Compile Include="Controllers\API\StudioAPIController.cs" />
@@ -2224,6 +2225,7 @@
     <Content Include="Views\Job\PaymentView.cshtml" />
     <Content Include="Views\Chat\ChatPackagePanelScript.cshtml" />
     <Content Include="Views\Chat\ChatScript.cshtml" />
+    <Content Include="Views\Job\JobCustomer.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />

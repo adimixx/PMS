@@ -107,6 +107,8 @@ namespace PMS.Controllers.API
 
             deserializedData.OrderStatus = job.JobStatu.name;
             deserializedData.JobLink = string.Format("/{0}/job/detail/{1}", chat.Studio.uniquename, job.id.ToString());
+            deserializedData.JobID = job.id.ToString();
+            deserializedData.StudioUrl = chat.Studio.uniquename;
 
             deserializedDataQuoteAll.Packages[deserializedDataSel.index] = deserializedData;
             

@@ -1,223 +1,251 @@
-﻿    <div class="card" id="PackagePanel">
-        <div class="card-body">
-            <div v-show="showSummary">
-                <div v-show="!CurrentEnquiries.ShowAddPackage">
-                    <h5>Current Enquiries</h5>
-                    <p>Click on package to view enquiries</p>
-                    <table class="table table-active thead-dark table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Package Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item , index) in CurrentEnquiries.List" v-on:click="onClickPackageDetails(item.Package.Id)">
-                                <td>
-                                    {{ index + 1 }}
+﻿<div class="card" id="PackagePanel">
+    <div class="card-body">
+        <div v-show="showSummary">
+            <div v-show="!CurrentEnquiries.ShowAddPackage">
+                <h5>Current Enquiries</h5>
+                <p>Click on package to view enquiries</p>
+                <table class="table table-active thead-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Package Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item , index) in CurrentEnquiries.List" v-on:click="onClickPackageDetails(item.Package.Id)">
+                            <td>
+                                {{ index + 1 }}
+                            </td>
+                            <td>
+                                <p class="font-weight-bolder">{{item.Package.Name}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @if (ViewBag.StudioID != null)
+                {
+                    <button class="btn btn-primary" v-on:click="CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage">Add New Package</button>
+                }
+            </div>
+
+            @if (ViewBag.StudioID != null)
+            {
+                <div v-show="CurrentEnquiries.ShowAddPackage">
+                    <div class="form-group">
+                        <label for="input-Package">Select Package</label>
+                        @Html.DropDownList("SelectedPackage", new SelectList(ViewBag.PackageList, "id", "name"), htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "CurrentEnquiries.SelectedPackage" } })
+                    </div>
+
+                    <button class="btn btn-primary" v-on:click="onAddNewPackage(true)">Add New Package</button>
+                    <button class="btn btn-danger" v-on:click="onAddNewPackage(false)">Cancel</button>
+                </div>
+            }
+        </div>
+
+
+        <div v-show="!showSummary">
+            <div class="alert alert-info" v-show="!showAddChargeButton">
+                test
+            </div>
+            <div>
+                <a href="#" v-on:click="onBackToList">Back to List</a>
+                <p>Package Enquiry : </p>
+                <h4>{{packageName}}</h4>
+                <p>Price : {{packagePrice | priceFilter}} </p>
+                <p>Status : {{quoteStatus}}</p>
+            </div>
+
+            <div class="p-2">
+                <p>Charges : </p>
+
+                <table class="table table-responsive thead-dark table-striped table-hover" id="orderTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Remarks</th>
+                            <th>PPU(RM)</th>
+                            <th>Quantity</th>
+                            <th>Total Price (RM)</th>
+                            <th v-show="showAddChargeButton"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(cart , index) in cartItems">
+                            <td>
+                                {{ index + 1 }}
+                            </td>
+                            <td>
+                                <p class="font-weight-bolder">{{cart.Remarks}}</p>
+                            </td>
+                            <td>
+                                <p class="text-primary">{{ cart.PricePerUnit | priceFilter}}</p>
+                            </td>
+                            <td>
+                                <p class="text-primary">{{ cart.Quantity }} </p>
+                            </td>
+                            <td>
+                                <p class="font-weight-bold text-success">{{ cart.TotalPrice | priceFilter}}</p>
+                            </td>
+                            @if (ViewBag.StudioID != null)
+                            {
+                                <td v-show="showAddChargeButton">
+                                    <button class="btn btn-dark" v-on:click="onRemoveCharge(index)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
                                 </td>
-                                <td>
-                                    <p class="font-weight-bolder">{{item.Package.Name}}</p>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Venues : </p>
+
+                <table class="table table-active thead-dark table-striped table-hover" id="orderTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Venue</th>
+                            <th>Date</th>
+                            <th v-show="showAddChargeButton"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(cart , index) in venueItems">
+                            <td>
+                                {{ index + 1 }}
+                            </td>
+                            <td>
+                                <p class="font-weight-bolder">{{cart.Location}}</p>
+                            </td>
+                            <td>
+                                <p class="text-primary">{{ cart.Date | dateFilter}}</p>
+                            </td>
+                            @if (ViewBag.StudioID != null)
+                            {
+                                <td v-show="showAddChargeButton">
+                                    <button class="btn btn-dark" v-on:click="onRemoveVenue(index)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
                                 </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-left d-flex d-inline-flex w-100 m-2">
+                    <label class="mr-3 mt-1">Total Price : </label>
+                    <h3 class="text-monospace"> {{ totalPricePackage | priceFilter}}</h3>
                     @if (ViewBag.StudioID != null)
                     {
-                        <button class="btn btn-primary" v-on:click="CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage">Add New Package</button>
+                        <button class="btn btn-success ml-auto" v-on:click="onConfirmQuote" v-show="showAddChargeButton">Confirm Quotation</button>
                     }
-                    </div>
+                </div>
 
                 @if (ViewBag.StudioID != null)
                 {
-                    <div v-show="CurrentEnquiries.ShowAddPackage">
-                        <div class="form-group">
-                            <label for="input-Package">Select Package</label>
-                            @Html.DropDownList("SelectedPackage", new SelectList(ViewBag.PackageList, "id", "name"), htmlAttributes: new Dictionary<string, object> { { "class", "form-control" }, { "v-model", "CurrentEnquiries.SelectedPackage" } })
-                        </div>
+                    <div class="card">
+                        <div class="card-body bg-soft-dark">
+                            <div class="col-12" v-show="showAddChargeButton">
+                                <button class="btn btn-info w-100 m-2" v-on:click="onAdd('AddChargeCard')">Add Charges</button>
+                                <button class="btn btn-light w-100 m-2" v-on:click="onAdd('AddVenueCard')">Add Venue</button>
+                            </div>
 
-                        <button class="btn btn-primary" v-on:click="onAddNewPackage(true)">Add New Package</button>
-                        <button class="btn btn-danger" v-on:click="onAddNewPackage(false)">Cancel</button>
+                            <div class="row" id="AddChargeCard">
+                                <div class="col-12">
+                                    <h5>Add New Charge</h5>
+                                    <div class="form-group">
+                                        <label>Charge Name</label>
+                                        <select class="form-control" v-model="chargeName" v-on:change="onChargeSelectChange">
+                                            <option v-for="pf in prefixCharges" v-bind:value="{id: pf.$id, value: pf.Name}">{{pf.Name}}</option>
+                                            <option v-bind:value="{id: 0, value: 'Custom'}">Custom Charge</option>
+                                        </select>
+                                    </div>
+                                    <input type="text" placeholder="Enter Charge Details" class="form-control" v-model="chargeNameCustom" v-show="chargeName.id == '0'" />
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Price Per Unit</label>
+                                        <p class="text-monospace">{{pricePerUnit | priceFilter}} {{unit}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input type="number" v-model="quantity" class="form-control w-100" />
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <label>Total Price</label>
+                                    <h3 class="text-monospace"> {{ totalPrice | priceFilter}}</h3>
+                                </div>
+
+                                <div class="col-6">
+                                    <button class="btn btn-info w-100" v-on:click="onAddChargeSubmit()">Add</button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-danger w-100" v-on:click="onAdd('AddChargeCard')">Cancel</button>
+                                </div>
+                            </div>
+
+                            <div class="row" id="AddVenueCard">
+                                <div class="col-12">
+                                    <h5>Add New Venue</h5>
+                                    <div class="form-group">
+                                        <label>Venue Location</label>
+                                        <textarea placeholder="Enter Venue Name & Detail" class="form-control" v-model="venueDetails"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Venue Date</label>
+                                        <input type="datetime-local" class="form-control" v-model="venueDate" />
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <button class="btn btn-info w-100" v-on:click="onAddVenue">Add</button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-danger w-100" v-on:click="onAdd('AddVenueCard')">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 }
             </div>
 
-
-            <div v-show="!showSummary">
-                <div class="alert alert-info" v-show="!showAddChargeButton">
-                    test
-                </div>
-                <div>
-                    <a href="#" v-on:click="onBackToList">Back to List</a>
-                    <p>Package Enquiry : </p>
-                    <h4>{{packageName}}</h4>
-                    <p>Price : {{packagePrice | priceFilter}} </p>
-                    <p>Status : {{quoteStatus}}</p>
-                </div>
-
-                <div class="p-2">
-                    <p>Charges : </p>
-
-                    <table class="table table-responsive thead-dark table-striped table-hover" id="orderTable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Remarks</th>
-                                <th>PPU(RM)</th>
-                                <th>Quantity</th>
-                                <th>Total Price (RM)</th>
-                                <th v-show="showAddChargeButton"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(cart , index) in cartItems">
-                                <td>
-                                    {{ index + 1 }}
-                                </td>
-                                <td>
-                                    <p class="font-weight-bolder">{{cart.Remarks}}</p>
-                                </td>
-                                <td>
-                                    <p class="text-primary">{{ cart.PricePerUnit | priceFilter}}</p>
-                                </td>
-                                <td>
-                                    <p class="text-primary">{{ cart.Quantity }} </p>
-                                </td>
-                                <td>
-                                    <p class="font-weight-bold text-success">{{ cart.TotalPrice | priceFilter}}</p>
-                                </td>
-                                @if (ViewBag.StudioID != null)
-                                {
-                                    <td v-show="showAddChargeButton">
-                                        <button class="btn btn-dark" v-on:click="onRemoveCharge(index)">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </td>
-                                }
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <p>Venues : </p>
-
-                    <table class="table table-active thead-dark table-striped table-hover" id="orderTable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Venue</th>
-                                <th>Date</th>
-                                <th v-show="showAddChargeButton"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(cart , index) in venueItems">
-                                <td>
-                                    {{ index + 1 }}
-                                </td>
-                                <td>
-                                    <p class="font-weight-bolder">{{cart.Location}}</p>
-                                </td>
-                                <td>
-                                    <p class="text-primary">{{ cart.Date | dateFilter}}</p>
-                                </td>
-                                @if (ViewBag.StudioID != null)
-                                {
-                                    <td v-show="showAddChargeButton">
-                                        <button class="btn btn-dark" v-on:click="onRemoveVenue(index)">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </td>
-                                }
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="text-left d-flex d-inline-flex w-100 m-2">
-                        <label class="mr-3 mt-1">Total Price : </label>
-                        <h3 class="text-monospace"> {{ totalPricePackage | priceFilter}}</h3>
-                        @if (ViewBag.StudioID != null)
-                        {
-                            <button class="btn btn-success ml-auto" v-on:click="onConfirmQuote" v-show="showAddChargeButton">Confirm Quotation</button>
-                        }
-                    </div>
-
-                    @if (ViewBag.StudioID != null)
-                    {
-                        <div class="card">
-                            <div class="card-body bg-soft-dark">
-                                <div class="col-12" v-show="showAddChargeButton">
-                                    <button class="btn btn-info w-100 m-2" v-on:click="onAdd('AddChargeCard')">Add Charges</button>
-                                    <button class="btn btn-light w-100 m-2" v-on:click="onAdd('AddVenueCard')">Add Venue</button>
-                                </div>
-
-                                <div class="row" id="AddChargeCard">
-                                    <div class="col-12">
-                                        <h5>Add New Charge</h5>
-                                        <div class="form-group">
-                                            <label>Charge Name</label>
-                                            <select class="form-control" v-model="chargeName" v-on:change="onChargeSelectChange">
-                                                <option v-for="pf in prefixCharges" v-bind:value="{id: pf.$id, value: pf.Name}">{{pf.Name}}</option>
-                                                <option v-bind:value="{id: 0, value: 'Custom'}">Custom Charge</option>
-                                            </select>
-                                        </div>
-                                        <input type="text" placeholder="Enter Charge Details" class="form-control" v-model="chargeNameCustom" v-show="chargeName.id == '0'" />
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Price Per Unit</label>
-                                            <p class="text-monospace">{{pricePerUnit | priceFilter}} {{unit}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Quantity</label>
-                                            <input type="number" v-model="quantity" class="form-control w-100" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 text-center">
-                                        <label>Total Price</label>
-                                        <h3 class="text-monospace"> {{ totalPrice | priceFilter}}</h3>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <button class="btn btn-info w-100" v-on:click="onAddChargeSubmit()">Add</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button class="btn btn-danger w-100" v-on:click="onAdd('AddChargeCard')">Cancel</button>
-                                    </div>
-                                </div>
-
-                                <div class="row" id="AddVenueCard">
-                                    <div class="col-12">
-                                        <h5>Add New Venue</h5>
-                                        <div class="form-group">
-                                            <label>Venue Location</label>
-                                            <textarea placeholder="Enter Venue Name & Detail" class="form-control" v-model="venueDetails"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Venue Date</label>
-                                            <input type="datetime-local" class="form-control" v-model="venueDate" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <button class="btn btn-info w-100" v-on:click="onAddVenue">Add</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button class="btn btn-danger w-100" v-on:click="onAdd('AddVenueCard')">Cancel</button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    }
-                </div>
-
-                <div v-show="jobUrl != ''">
-                    <a v-bind:href="jobUrl" class="btn btn-primary">Detail</a>
-                </div>
-
+            <div class="row">
+                <a v-show="jobUrl != ''" v-bind:href="jobUrl" class="btn btn-block btn-primary col-2">Detail</a>
+                <button v-show="studioUrl != ''" class="btn btn-block btn-success col-2" data-toggle="modal" data-target="#modalPayment">Pay Now</button>
+                <button v-show="jobId != ''" v-on:click="onCancelClick" class="btn btn-block btn-danger col-2">Cancel</button>
             </div>
+
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalPayment" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Choose option to pay the service</h4>
+                        <select v-model="option" class="form-control">
+                            <option value="1">Deposit</option>
+                            <option value="2">Full</option>
+                        </select>
+
+                        <br />
+                        <button v-on:click="onPayClick" class="btn btn-success">Pay</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

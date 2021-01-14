@@ -28,8 +28,8 @@ namespace PMS.Models.Database
         public Nullable<int> jobstatusid { get; set; }
         public System.DateTime DateCreated { get; set; }
         public string paymentstatus { get; set; }
-        public Nullable<decimal> PackagePrice { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }
+        public decimal PackagePrice { get; set; }
+        public decimal TotalPrice { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Invoice> Invoices { get; set; }
