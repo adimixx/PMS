@@ -23,6 +23,7 @@
                 @Html.HiddenFor(x => x.userstudioid, new { @Value = ViewBag.UserStudioID })
                 @Html.HiddenFor(x => x.id, new { @Value = Model.id })
                 <div class="form-group">
+                    @Html.DisplayFor(model => model.charge, "Charge", new { htmlAttribute = new { @class = "form-control" } })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.charge, new { htmlAttributes = new { @class = "form-control", @placeholder = "Charge..." } })
                     </div>

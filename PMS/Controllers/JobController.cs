@@ -121,7 +121,7 @@ namespace PMS.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult JobCustomer()
         {
@@ -228,6 +228,11 @@ namespace PMS.Controllers
             {
                 try
                 {
+                    if (db.JobDateUsers.Any(x => x.JobDate.jobdate1 == jobDateUser.JobDate.jobdate1 && x.userstudioid == jobDateUser.userstudioid))
+                    {
+                        return View("Error");
+                    }
+
                     if (jobDateUser.id == 0)
                     {
                         db.JobDateUsers.Add(jobDateUser);
@@ -259,7 +264,6 @@ namespace PMS.Controllers
             {
                 try
                 {
-                    //jobCharge.chargeid = cid;
                     if (jobCharge.id == 0)
                     {
                         db.JobCharges.Add(jobCharge);
@@ -307,7 +311,6 @@ namespace PMS.Controllers
             {
                 try
                 {
-                    //jobCharge.chargeid = cid;
                     db.Entry(jobCharge).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
