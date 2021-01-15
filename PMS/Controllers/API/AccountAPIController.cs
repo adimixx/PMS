@@ -43,7 +43,8 @@ namespace PMS.Controllers.API
         {
             using (WebClient client = new WebClient())
             {
-                var data = client.DownloadData(User.Identity.GetProfilePhotoLink());
+                var photo = User.Identity.GetProfilePhotoLink();
+                var data = client.DownloadData(photo);
                 var contentType = client.ResponseHeaders["Content-Type"];
                 MemoryStream ms = new MemoryStream(data);
 

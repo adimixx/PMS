@@ -74,8 +74,8 @@
 
 @if (ViewBag.IsStudioSetting != null)
 {
-    var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/"+Model.id.ToString() : "temp"), Model.ImgCover);
-    var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/" + Model.id.ToString() : "temp"), Model.ImgLogo);
+    var coverImage = (Model.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/"+Model.id.ToString() : "temp"), Model.ImgCover);
+    var profileImage = (Model.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/" + Model.id.ToString() : "temp"), Model.ImgLogo);
 
 <script type="text/javascript">
     const inputElement = document.querySelector('input[type="file"]');

@@ -10,7 +10,7 @@
     }
     else
     {
-        var coverImage = (Model.ImgCover == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
+        var coverImage = (Model.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
         <img src="@coverImage" id="cover-photo" />
     }
     <div id="studio-profile-img">
@@ -22,7 +22,7 @@
         }
         else
         {
-            var profileImage = (Model.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
+            var profileImage = (Model.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
 
             <img class="rounded-circle" style="width: 90%;margin: 10.2px;" src="@profileImage">
         }
@@ -145,7 +145,7 @@
                     {
                         var image = item.PackageImages.FirstOrDefault();
                         string coverImgPackage;
-                        coverImgPackage = (image == null) ? "~/src/images/gallery/work-1.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", Model.id, image.ImageName);
+                        coverImgPackage = (image == null) ? String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", "default", "default-package.jpg") : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.id, image.ImageName);
                         <div class="card cd card-shad">
                             <div class="imgWrap">
                                 <img class="myImg card-img-top mx-0 d-block" src="@coverImgPackage">

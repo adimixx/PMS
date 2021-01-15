@@ -57,8 +57,8 @@
             <div id="studioRes">
                 @foreach (var item in Model.std)
                 {
-                    string imgLogo = "https://storagephotog.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
-                    string imgCover = "https://storagephotog.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
+                    string imgLogo = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
+                    string imgCover = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
 
                     <div class="card px-4 mb-2 srcres" style=" background-image: url(@imgCover);">
                         <div class="row">
@@ -161,7 +161,7 @@
                 @foreach (var item in Model.pkg)
                 {
 
-                    string imgLogo = "https://storagephotog.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault().ImageName + "";
+                    string imgLogo = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault().ImageName + "";
 
                     <div class="card cd card-shad">
                         <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>

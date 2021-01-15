@@ -155,11 +155,11 @@
                 @foreach(var item in Model.images)
                 {
                     @:{
-                    @:  source: "@String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
+                    @:  source: "@String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
                     @:  // set type to local to indicate an already uploaded file
                     @:  options:
                     @:  {
-                    @:      name : "@String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
+                    @:      name : "@String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid,item.ImageName)",
                     @:      type: 'local',
                     @:      id: @item.ID
                     @:  }
