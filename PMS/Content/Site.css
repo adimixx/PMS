@@ -117,7 +117,8 @@ textarea {
         padding: 0;
         overflow: hidden;
         background-color: #333333;
-        padding: 0px 122px;
+        padding: 0px 20px;
+        /* width: 85%; */
     }
 
     #page-head li {
