@@ -142,6 +142,26 @@ namespace PMS.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult loadJobStaff(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.JobDateUsers.Where(x => x.jobdateid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.UserStudio.User.name,
+                    item.UserStudio.User.email,
+                    phone = item.UserStudio.User.phonenumber,
+                    item.id
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
         public IHttpActionResult loadCharges(int id)
         {
             photogEntities db = new photogEntities();

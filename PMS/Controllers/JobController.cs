@@ -134,7 +134,7 @@ namespace PMS.Controllers
         {
             var job = db.Jobs.Find(id);
             var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
-            var jobdateuser = jobdate != null ? db.JobDateUsers.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobdateid == jobdate.id) : null;
+            var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.jobdateid == jobdate.id).ToList() : null;
             var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
 
             if (ViewBag.StudioID != job.Package.studioid)
@@ -144,7 +144,7 @@ namespace PMS.Controllers
             if (!db.Jobs.Any(x => x.userid == identity.id && x.id == id) && ViewBag.StudioRoleID == null)
                 return Redirect("/");
 
-            return View(new Tuple<Job, JobDate, JobDateUser, JobCharge>(job, jobdate, jobdateuser, jobcharge));
+            return View(new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
@@ -200,14 +200,12 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
-        public ActionResult AssignStaff(int id, int? jduid, int jdid)
+        public ActionResult AssignStaff(int id, int jdid)
         {
             try
             {
                 var jdu = new JobDateUser();
-                if (jduid.HasValue)
-                    jdu = db.JobDateUsers.Find(jduid.Value);
-
+                jdu.jobdateid = jdid;
                 var sid = (int)ViewBag.StudioID;
                 ViewBag.UserStudioID = db.UserStudios.FirstOrDefault(x => x.studioid == sid && x.userid == id).id;
                 ViewBag.JobDateID = jdid;
@@ -228,22 +226,42 @@ namespace PMS.Controllers
             {
                 try
                 {
-                    if (db.JobDateUsers.Any(x => x.JobDate.jobdate1 == jobDateUser.JobDate.jobdate1 && x.userstudioid == jobDateUser.userstudioid))
+                    var date = db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid)?.jobdate1;
+                    if (db.JobDates.Any(x => x.JobDateUsers.Any(y => y.userstudioid == jobDateUser.userstudioid && y.JobDate.jobdate1 == date)))
                     {
                         return View("Error");
                     }
 
-                    if (jobDateUser.id == 0)
-                    {
-                        db.JobDateUsers.Add(jobDateUser);
-                    }
-                    else
-                    {
-                        db.Entry(jobDateUser).State = System.Data.Entity.EntityState.Modified;
-                    }
+                    db.JobDateUsers.Add(jobDateUser);
                     db.SaveChanges();
 
                     return RedirectToAction("detail/" + db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid).jobid);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult deleteJobStaff(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var jobDateUser = db.JobDateUsers.Find(id);
+                    var jobid = jobDateUser.JobDate.jobid;
+                    db.JobDateUsers.Remove(jobDateUser);
+                    db.SaveChanges();
+
+                    return RedirectToAction("detail/" + jobid);
                 }
                 catch (Exception)
                 {

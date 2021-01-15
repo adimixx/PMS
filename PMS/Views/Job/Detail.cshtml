@@ -1,4 +1,4 @@
-﻿@model Tuple<PMS.Models.Database.Job, PMS.Models.Database.JobDate, PMS.Models.Database.JobDateUser, PMS.Models.Database.JobCharge>
+﻿@model Tuple<PMS.Models.Database.Job, PMS.Models.Database.JobDate, List<PMS.Models.Database.JobDateUser>, PMS.Models.Database.JobCharge>
 
 @{
     ViewBag.Title = "Detail";
@@ -136,38 +136,18 @@
                     <h4>Assigned Staff</h4>
                 </div>
                 <div class="card-body">
-                    @if (Model.Item3 != null)
+                    @if (Model.Item3.Count() != 0)
                     {
-                        <dl class="dl-horizontal">
-                            <dt>
-                                Name
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Item3.UserStudio.User.name)
-                            </dd>
-
-                            <dt>
-                                Email
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Item3.UserStudio.User.email)
-                            </dd>
-
-                            <dt>
-                                Phone Number
-                            </dt>
-
-                            @if (!string.IsNullOrWhiteSpace(Model.Item3.UserStudio.User.phonenumber))
-                            {
-                                <dd>@Html.DisplayFor(model => model.Item3.UserStudio.User.phonenumber)</dd>
-                            }
-                            else
-                            {
-                                <dd>-</dd>
-                            }
-                        </dl>
+                        <table id="jduTable" class="table table-striped table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>Staff</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
                     }
                     else
                     {
@@ -386,6 +366,31 @@
         var packages;
         var charges;
         $(function () {
+            jctable = $("#jduTable").DataTable(
+                {
+                    serverSide: false,
+                    ajax: {
+                        type: "GET",
+                        url: "/api/system/loadjobstaff/@Model.Item2.id",
+                        dataSrc: ''
+                    },
+                    bLengthChange: true,
+                    paging: false,
+                    searchPlaceholder: "Search User",
+                    search: true,
+                    bSort: true,
+                    info: false,
+                    processing: true,
+                    columns: [
+                        { data: 'name', autoWidth: true },
+                        { data: 'email', autoWidth: true },
+                        { data: 'phone', autoWidth: true },
+                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null) { <a href="/@ViewBag.StudioUrl/job/deletejobstaff/${data}">Delete</a> }` }, autoWidth: true }
+                    ]
+                }
+            );
+        });
+        $(function () {
             jctable = $("#jobChargeTable").DataTable(
                 {
                     serverSide: false,
@@ -435,14 +440,8 @@
                         },
                         {
                             data: 'userid', render: function (data, type, row) {
-                                return `@if (Model.Item3 != null && Model.Item2 != null) {
-                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=@Model.Item3.id&jdid=@Model.Item2.id" class="btn btn-secondary">Assign</a>
-                                    }
-                                    else if (Model.Item2 != null) {
-                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=&jdid=@Model.Item2.id" class="btn btn-secondary">Assign</a>
-                                    }
-                                    else {
-                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jduid=&jdid=" class="btn btn-secondary">Assign</a>
+                                return `@if (Model.Item2 != null) {
+                                        <a href="/@ViewBag.StudioUrl/Job/assignstaff/${data}?jdid=@Model.Item2.id" class="btn btn-secondary">Assign</a>
                                     }` }, width: "10%"
                         }
                     ]
