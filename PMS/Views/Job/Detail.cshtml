@@ -8,6 +8,8 @@
     }
 }
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
+
 <h2>Job's Detail</h2>
 <div style="padding:10px">
     <a href="/@ViewBag.StudioUrl/job/paymentview/@Model.Item1.id" class="btn btn-primary">Open Invoice/Payment Menu</a>
@@ -356,6 +358,7 @@
 
 
 @section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
     $.ajaxSetup({
         headers: { 'StudioCredential': '@ViewBag.StudioID' }

@@ -90,8 +90,8 @@ namespace PMS.Controllers
                     client = item.User.name,
                     package = item.Package.name,
                     status = item.JobStatu.name,
-                    paymentstatus = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status,
-                    paymentdetail = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail
+                    paymentstatus = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status : "-",
+                    paymentdetail = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail : "-"
                 });
             }
             return Ok(data);
@@ -114,8 +114,8 @@ namespace PMS.Controllers
                     client = item.User.name,
                     package = item.Package.name,
                     status = item.JobStatu.name,
-                    paymentstatus = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status,
-                    paymentdetail = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail,
+                    paymentstatus = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status : "-",
+                    paymentdetail = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail : "-",
                     studiolink = item.Package.Studio.uniquename
                 });
             }
