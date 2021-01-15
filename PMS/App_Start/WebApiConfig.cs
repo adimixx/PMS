@@ -21,6 +21,12 @@ namespace PMS
            );
 
             config.Routes.MapHttpRoute(
+                name: "JobAPI",
+                routeTemplate: "SystemAPI/Job/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "JobAPI" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "PackageImageAPI",
                 routeTemplate: "SystemAPI/PackageImage/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional, controller = "PackageImageAPI" }

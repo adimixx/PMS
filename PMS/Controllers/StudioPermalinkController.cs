@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace PMS.Controllers
 {
-
     public class StudioPermalinkController : Controller
     {
         photogEntities db = new photogEntities();

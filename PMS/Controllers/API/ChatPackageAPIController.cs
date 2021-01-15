@@ -81,7 +81,9 @@ namespace PMS.Controllers.API
                 packageid = (int)deserializedData.Package.Id,
                 userid = chat.UserID,
                 jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "pending deposit").id,
-                DateCreated = DateTime.Now,               
+                DateCreated = DateTime.Now,    
+                PackagePrice = Decimal.Parse(deserializedData.Package.Price.ToString()),
+                TotalPrice = decimal.Parse((deserializedData.Charges.Sum(x=> (x.Quantity * x.PricePerUnit)) + deserializedData.Package.Price).ToString())
             };
 
             if (deserializedData.Charges != null && deserializedData.Charges.Count() != 0)
@@ -105,6 +107,8 @@ namespace PMS.Controllers.API
 
             deserializedData.OrderStatus = job.JobStatu.name;
             deserializedData.JobLink = string.Format("/{0}/job/detail/{1}", chat.Studio.uniquename, job.id.ToString());
+            deserializedData.JobID = job.id.ToString();
+            deserializedData.StudioUrl = chat.Studio.uniquename;
 
             deserializedDataQuoteAll.Packages[deserializedDataSel.index] = deserializedData;
             

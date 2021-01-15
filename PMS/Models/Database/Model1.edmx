@@ -25,16 +25,6 @@
           <Property Name="UserID" Type="int" />
           <Property Name="StudioID" Type="int" />
         </EntityType>
-        <EntityType Name="DbBackupRecord">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BackupDate" Type="datetime" Nullable="false" />
-          <Property Name="FileName" Type="varchar(max)" Nullable="false" />
-          <Property Name="BackupType" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="id" />
@@ -58,6 +48,8 @@
           <Property Name="jobstatusid" Type="int" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="paymentstatus" Type="varchar" MaxLength="20" />
+          <Property Name="PackagePrice" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="TotalPrice" Type="decimal" Precision="6" Scale="2" />
         </EntityType>
         <EntityType Name="JobCharges">
           <Key>
@@ -65,9 +57,8 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="jobid" Type="int" />
-          <Property Name="chargeid" Type="int" />
           <Property Name="amount" Type="decimal" Precision="6" Scale="2" Nullable="false" />
-          <Property Name="remarks" Type="varchar" MaxLength="50" />
+          <Property Name="remarks" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="JobDate">
           <Key>
@@ -186,15 +177,7 @@
           <Property Name="imgprofile" Type="varchar" MaxLength="255" />
           <Property Name="isVerified" Type="bit" Nullable="false" />
           <Property Name="verifiedKey" Type="varchar(max)" />
-        </EntityType>
-        <EntityType Name="UserFeedback">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="jobid" Type="int" />
-          <Property Name="rate" Type="int" Nullable="false" />
-          <Property Name="comment" Type="varchar" MaxLength="100" />
+          <Property Name="emailTemp" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserStudio">
           <Key>
@@ -204,6 +187,7 @@
           <Property Name="studioid" Type="int" />
           <Property Name="userid" Type="int" />
           <Property Name="studioroleid" Type="int" />
+          <Property Name="isActive" Type="bit" />
         </EntityType>
         <EntityType Name="UserSystemRole">
           <Key>
@@ -213,18 +197,6 @@
           <Property Name="systemroleid" Type="int" />
           <Property Name="userid" Type="int" />
         </EntityType>
-        <Association Name="FK__DbBackupR__UserI__625A9A57">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="DbBackupRecord" Type="Self.DbBackupRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DbBackupRecord">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Invoice__jobid__2EDAF651">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
@@ -270,18 +242,6 @@
             </Principal>
             <Dependent Role="Job">
               <PropertyRef Name="userid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__JobCharge__charg__32AB8735">
-          <End Role="Charges" Type="Self.Charges" Multiplicity="0..1" />
-          <End Role="JobCharges" Type="Self.JobCharges" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Charges">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="JobCharges">
-              <PropertyRef Name="chargeid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -405,18 +365,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeedb__jobid__3C34F16F">
-          <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
-          <End Role="UserFeedback" Type="Self.UserFeedback" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Job">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="UserFeedback">
-              <PropertyRef Name="jobid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__UserStudi__studi__3D2915A8">
           <End Role="Studio" Type="Self.Studio" Multiplicity="0..1" />
           <End Role="UserStudio" Type="Self.UserStudio" Multiplicity="*" />
@@ -516,7 +464,6 @@
         <EntityContainer Name="photogModelStoreContainer">
           <EntitySet Name="Charges" EntityType="Self.Charges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatKey" EntityType="Self.ChatKey" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DbBackupRecord" EntityType="Self.DbBackupRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobCharges" EntityType="Self.JobCharges" Schema="dbo" store:Type="Tables" />
@@ -532,13 +479,8 @@
           <EntitySet Name="SystemRole" EntityType="Self.SystemRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserFeedback" EntityType="Self.UserFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStudio" EntityType="Self.UserStudio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSystemRole" EntityType="Self.UserSystemRole" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__DbBackupR__UserI__625A9A57" Association="Self.FK__DbBackupR__UserI__625A9A57">
-            <End Role="User" EntitySet="User" />
-            <End Role="DbBackupRecord" EntitySet="DbBackupRecord" />
-          </AssociationSet>
           <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="Self.FK__Invoice__jobid__2EDAF651">
             <End Role="Job" EntitySet="Job" />
             <End Role="Invoice" EntitySet="Invoice" />
@@ -554,10 +496,6 @@
           <AssociationSet Name="FK__Job__userid__31B762FC" Association="Self.FK__Job__userid__31B762FC">
             <End Role="User" EntitySet="User" />
             <End Role="Job" EntitySet="Job" />
-          </AssociationSet>
-          <AssociationSet Name="FK__JobCharge__charg__32AB8735" Association="Self.FK__JobCharge__charg__32AB8735">
-            <End Role="Charges" EntitySet="Charges" />
-            <End Role="JobCharges" EntitySet="JobCharges" />
           </AssociationSet>
           <AssociationSet Name="FK__JobCharge__jobid__339FAB6E" Association="Self.FK__JobCharge__jobid__339FAB6E">
             <End Role="Job" EntitySet="Job" />
@@ -599,10 +537,6 @@
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeedb__jobid__3C34F16F" Association="Self.FK__UserFeedb__jobid__3C34F16F">
-            <End Role="Job" EntitySet="Job" />
-            <End Role="UserFeedback" EntitySet="UserFeedback" />
-          </AssociationSet>
           <AssociationSet Name="FK__UserStudi__studi__3D2915A8" Association="Self.FK__UserStudi__studi__3D2915A8">
             <End Role="Studio" EntitySet="Studio" />
             <End Role="UserStudio" EntitySet="UserStudio" />
@@ -643,7 +577,6 @@
         <EntityContainer Name="photogEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Charges" EntityType="photogModel.Charge" />
           <EntitySet Name="ChatKeys" EntityType="photogModel.ChatKey" />
-          <EntitySet Name="DbBackupRecords" EntityType="photogModel.DbBackupRecord" />
           <EntitySet Name="Invoices" EntityType="photogModel.Invoice" />
           <EntitySet Name="Jobs" EntityType="photogModel.Job" />
           <EntitySet Name="JobCharges" EntityType="photogModel.JobCharge" />
@@ -659,13 +592,8 @@
           <EntitySet Name="SystemRoles" EntityType="photogModel.SystemRole" />
           <EntitySet Name="Transactions" EntityType="photogModel.Transaction" />
           <EntitySet Name="Users" EntityType="photogModel.User" />
-          <EntitySet Name="UserFeedbacks" EntityType="photogModel.UserFeedback" />
           <EntitySet Name="UserStudios" EntityType="photogModel.UserStudio" />
           <EntitySet Name="UserSystemRoles" EntityType="photogModel.UserSystemRole" />
-          <AssociationSet Name="FK__JobCharge__charg__32AB8735" Association="photogModel.FK__JobCharge__charg__32AB8735">
-            <End Role="Charge" EntitySet="Charges" />
-            <End Role="JobCharge" EntitySet="JobCharges" />
-          </AssociationSet>
           <AssociationSet Name="FK_Charges_Studio" Association="photogModel.FK_Charges_Studio">
             <End Role="Studio" EntitySet="Studios" />
             <End Role="Charge" EntitySet="Charges" />
@@ -677,10 +605,6 @@
           <AssociationSet Name="FK_ChatKey_User" Association="photogModel.FK_ChatKey_User">
             <End Role="User" EntitySet="Users" />
             <End Role="ChatKey" EntitySet="ChatKeys" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DbBackupR__UserI__625A9A57" Association="photogModel.FK__DbBackupR__UserI__625A9A57">
-            <End Role="User" EntitySet="Users" />
-            <End Role="DbBackupRecord" EntitySet="DbBackupRecords" />
           </AssociationSet>
           <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="photogModel.FK__Invoice__jobid__2EDAF651">
             <End Role="Job" EntitySet="Jobs" />
@@ -709,10 +633,6 @@
           <AssociationSet Name="FK__JobDate__jobid__3493CFA7" Association="photogModel.FK__JobDate__jobid__3493CFA7">
             <End Role="Job" EntitySet="Jobs" />
             <End Role="JobDate" EntitySet="JobDates" />
-          </AssociationSet>
-          <AssociationSet Name="FK__UserFeedb__jobid__3C34F16F" Association="photogModel.FK__UserFeedb__jobid__3C34F16F">
-            <End Role="Job" EntitySet="Jobs" />
-            <End Role="UserFeedback" EntitySet="UserFeedbacks" />
           </AssociationSet>
           <AssociationSet Name="FK__JobDate__jobstat__3587F3E0" Association="photogModel.FK__JobDate__jobstat__3587F3E0">
             <End Role="JobStatu" EntitySet="JobStatus" />
@@ -773,7 +693,6 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="6" Scale="2" />
           <Property Name="Unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__charg__32AB8735" FromRole="Charge" ToRole="JobCharge" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK_Charges_Studio" FromRole="Charge" ToRole="Studio" />
         </EntityType>
         <EntityType Name="ChatKey">
@@ -786,17 +705,6 @@
           <Property Name="StudioID" Type="Int32" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK_ChatKey_Studio" FromRole="ChatKey" ToRole="Studio" />
           <NavigationProperty Name="User" Relationship="photogModel.FK_ChatKey_User" FromRole="ChatKey" ToRole="User" />
-        </EntityType>
-        <EntityType Name="DbBackupRecord">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BackupDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FileName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="BackupType" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="photogModel.FK__DbBackupR__UserI__625A9A57" FromRole="DbBackupRecord" ToRole="User" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -823,13 +731,14 @@
           <Property Name="jobstatusid" Type="Int32" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="paymentstatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PackagePrice" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="6" Scale="2" />
           <NavigationProperty Name="Invoices" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Job" ToRole="Invoice" />
           <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__Job__jobstatusid__2FCF1A8A" FromRole="Job" ToRole="JobStatu" />
           <NavigationProperty Name="Package" Relationship="photogModel.FK__Job__packageid__30C33EC3" FromRole="Job" ToRole="Package" />
           <NavigationProperty Name="User" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="Job" ToRole="User" />
           <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__jobid__339FAB6E" FromRole="Job" ToRole="JobCharge" />
           <NavigationProperty Name="JobDates" Relationship="photogModel.FK__JobDate__jobid__3493CFA7" FromRole="Job" ToRole="JobDate" />
-          <NavigationProperty Name="UserFeedbacks" Relationship="photogModel.FK__UserFeedb__jobid__3C34F16F" FromRole="Job" ToRole="UserFeedback" />
         </EntityType>
         <EntityType Name="JobCharge">
           <Key>
@@ -837,10 +746,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="jobid" Type="Int32" />
-          <Property Name="chargeid" Type="Int32" />
           <Property Name="amount" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <Property Name="remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Charge" Relationship="photogModel.FK__JobCharge__charg__32AB8735" FromRole="JobCharge" ToRole="Charge" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Job" Relationship="photogModel.FK__JobCharge__jobid__339FAB6E" FromRole="JobCharge" ToRole="Job" />
         </EntityType>
         <EntityType Name="JobDate">
@@ -982,21 +889,11 @@
           <Property Name="imgprofile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="isVerified" Type="Boolean" Nullable="false" />
           <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="emailTemp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_User" FromRole="User" ToRole="ChatKey" />
-          <NavigationProperty Name="DbBackupRecords" Relationship="photogModel.FK__DbBackupR__UserI__625A9A57" FromRole="User" ToRole="DbBackupRecord" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
           <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="User" ToRole="UserSystemRole" />
-        </EntityType>
-        <EntityType Name="UserFeedback">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="jobid" Type="Int32" />
-          <Property Name="rate" Type="Int32" Nullable="false" />
-          <Property Name="comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Job" Relationship="photogModel.FK__UserFeedb__jobid__3C34F16F" FromRole="UserFeedback" ToRole="Job" />
         </EntityType>
         <EntityType Name="UserStudio">
           <Key>
@@ -1006,6 +903,7 @@
           <Property Name="studioid" Type="Int32" />
           <Property Name="userid" Type="Int32" />
           <Property Name="studioroleid" Type="Int32" />
+          <Property Name="isActive" Type="Boolean" />
           <NavigationProperty Name="JobDateUsers" Relationship="photogModel.FK__JobDateUs__users__37703C52" FromRole="UserStudio" ToRole="JobDateUser" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__UserStudi__studi__3D2915A8" FromRole="UserStudio" ToRole="Studio" />
           <NavigationProperty Name="StudioRole" Relationship="photogModel.FK__UserStudi__studi__3E1D39E1" FromRole="UserStudio" ToRole="StudioRole" />
@@ -1021,18 +919,6 @@
           <NavigationProperty Name="SystemRole" Relationship="photogModel.FK__UserSyste__syste__40058253" FromRole="UserSystemRole" ToRole="SystemRole" />
           <NavigationProperty Name="User" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="UserSystemRole" ToRole="User" />
         </EntityType>
-        <Association Name="FK__JobCharge__charg__32AB8735">
-          <End Type="photogModel.Charge" Role="Charge" Multiplicity="0..1" />
-          <End Type="photogModel.JobCharge" Role="JobCharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Charge">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="JobCharge">
-              <PropertyRef Name="chargeid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Charges_Studio">
           <End Type="photogModel.Studio" Role="Studio" Multiplicity="1" />
           <End Type="photogModel.Charge" Role="Charge" Multiplicity="*" />
@@ -1065,18 +951,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ChatKey">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__DbBackupR__UserI__625A9A57">
-          <End Type="photogModel.User" Role="User" Multiplicity="1" />
-          <End Type="photogModel.DbBackupRecord" Role="DbBackupRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DbBackupRecord">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1161,18 +1035,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="JobDate">
-              <PropertyRef Name="jobid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__UserFeedb__jobid__3C34F16F">
-          <End Type="photogModel.Job" Role="Job" Multiplicity="0..1" />
-          <End Type="photogModel.UserFeedback" Role="UserFeedback" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Job">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="UserFeedback">
               <PropertyRef Name="jobid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1349,17 +1211,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DbBackupRecords">
-            <EntityTypeMapping TypeName="photogModel.DbBackupRecord">
-              <MappingFragment StoreEntitySet="DbBackupRecord">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BackupType" ColumnName="BackupType" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="BackupDate" ColumnName="BackupDate" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="photogModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
@@ -1377,6 +1228,8 @@
           <EntitySetMapping Name="Jobs">
             <EntityTypeMapping TypeName="photogModel.Job">
               <MappingFragment StoreEntitySet="Job">
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="PackagePrice" ColumnName="PackagePrice" />
                 <ScalarProperty Name="paymentstatus" ColumnName="paymentstatus" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="jobstatusid" ColumnName="jobstatusid" />
@@ -1391,7 +1244,6 @@
               <MappingFragment StoreEntitySet="JobCharges">
                 <ScalarProperty Name="remarks" ColumnName="remarks" />
                 <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="chargeid" ColumnName="chargeid" />
                 <ScalarProperty Name="jobid" ColumnName="jobid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -1515,6 +1367,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="photogModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="emailTemp" ColumnName="emailTemp" />
                 <ScalarProperty Name="verifiedKey" ColumnName="verifiedKey" />
                 <ScalarProperty Name="isVerified" ColumnName="isVerified" />
                 <ScalarProperty Name="imgprofile" ColumnName="imgprofile" />
@@ -1527,19 +1380,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserFeedbacks">
-            <EntityTypeMapping TypeName="photogModel.UserFeedback">
-              <MappingFragment StoreEntitySet="UserFeedback">
-                <ScalarProperty Name="comment" ColumnName="comment" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="jobid" ColumnName="jobid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserStudios">
             <EntityTypeMapping TypeName="photogModel.UserStudio">
               <MappingFragment StoreEntitySet="UserStudio">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="studioroleid" ColumnName="studioroleid" />
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="studioid" ColumnName="studioid" />
