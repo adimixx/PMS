@@ -104,8 +104,7 @@ File: Main Css File
 }
 
 .page-content {
-    /*padding: calc(70px) calc(24px / 2) 60px calc(24px / 2); */
-    padding: calc(60px) calc(24px / 2) 60px calc(24px / 2);
+    padding: calc(70px) calc(24px / 2) 60px calc(24px / 2);
 }
 
 .header-item {
@@ -258,7 +257,7 @@ body[data-layout="horizontal"] .navbar-brand-box {
 }
 
 body[data-layout="horizontal"] .page-content {
-    margin-top: 70px;
+    margin-top: 60px;
     padding: calc(55px) calc(24px / 2) 60px calc(24px / 2);
 }
 
@@ -3865,3 +3864,17 @@ a.faq[data-toggle=collapse]:before {
     transform: translateX(0%);
     visibility: visible;
 }
+
+.ic-nav {
+    top: -2px;
+    position: relative;
+}
+
+.text-template {
+    background-color: #76CED2 !important;
+    color: white;
+}
+    .text-template:hover {
+        background-color: #70c1c4 !important;
+        color: white !important;
+    }

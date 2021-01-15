@@ -13,6 +13,22 @@
 
 }
 
+@if (ViewBag.StudioRoleID == null)
+{
+    @:<div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Chats</h2>
+                <p>Inbox list of all studio that you chatted with.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h2> <i class="mdi mdi-chat"></i> Chats</h2>
+        <p>Inbox list of all the customer who chat the studio.</p>
+    }
+
 <div class="card">
     <div class="card-body">
         <h4 class="card-title mb-4">@ViewBag.Title</h4>
@@ -21,35 +37,31 @@
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
-                        <th scope="col" colspan="2"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        @if (ViewBag.StudioUrl != null)
-                        {
-                            <td>
-                                @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
-                                @item.User.name
-                            </td>
-                            <td>
-                                <a href="@string.Format("/{0}/Chat?key={1}", ViewBag.StudioUrl, item.ChatKeyID)" class="btn btn-primary">Enter</a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
-                                @item.Studio.name
-                            </td>
-                            <td>
-                                <a href="@string.Format("/Chat?key={0}", item.ChatKeyID)" class="btn btn-primary">Enter</a>
-                            </td>
-                        }
+                        <tr>
+                            @if (ViewBag.StudioUrl != null)
+                            {
+                                <td>
+                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
+                                    @item.User.name
+                                    <a href="@string.Format("/{0}/Chat?key={1}", ViewBag.StudioUrl, item.ChatKeyID)" class="btn btn-primary float-right">Enter</a>
 
-                    </tr>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
+                                    @item.Studio.name
+                                    <a href="@string.Format("/Chat?key={0}", item.ChatKeyID)" class="btn btn-primary float-right">Enter</a>
+                                </td>
+                            }
+
+                        </tr>
                     }
                     <tr>
                         <td>
@@ -60,3 +72,8 @@
         </div>
     </div>
 </div>
+
+@if (ViewBag.StudioRoleID == null)
+{
+@:</div>
+}
