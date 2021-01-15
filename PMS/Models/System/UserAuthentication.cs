@@ -40,7 +40,7 @@ namespace PMS.Models
 
             var userData = JsonConvert.SerializeObject(userObj, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
-            string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "https://storagephotog.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
+            string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
 
             var claimsIdentity = new ClaimsIdentity(new[]
                     {

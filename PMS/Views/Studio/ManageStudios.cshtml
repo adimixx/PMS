@@ -4,7 +4,7 @@
     ViewBag.Title = "Studio";
 }
 
-<div class="mt-4">
+<div class="container">
     <div class="row">
         <div class="col-6 text-left">
             <h3>Studios You Manage</h3>
@@ -24,16 +24,16 @@
             {
                 foreach (var mod in Model)
                 {
-                    var profileImage = (mod.ImgLogo == null) ? "https://storagephotog.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog.blob.core.windows.net/studio-data/{0}/{1}", mod.id, mod.ImgLogo);
+                    var profileImage = (mod.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", mod.id, mod.ImgLogo);
                     var Location = (mod.City == null) ? mod.State : mod.City + "," + mod.State;
 
                     <a href="/@mod.uniquename">
                         <div class="d-flex">
-                            <img src="@profileImage" style="height: 50px;" class="rounded-circle"/>
+                            <img src="@profileImage" style="height: 50px;" class="rounded-circle" />
                             <div class="mx-3">
                                 <h6 class="text-dark">@mod.name</h6>
                                 <p class="text-info">@Location</p>
-                            </div>                            
+                            </div>
                         </div>
                     </a>
                     <hr class="m-1" />
@@ -42,7 +42,6 @@
         </div>
     </div>
 </div>
-
 @section scripts{
 
     <script>

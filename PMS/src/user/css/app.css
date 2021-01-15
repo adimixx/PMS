@@ -2927,3 +2927,18 @@ a.faq[data-toggle=collapse]:before {
   -webkit-transform: translateX(0%);
   transform: translateX(0%);
   visibility: visible; }
+
+.ic-nav {
+    top: -2px;
+    position: relative;
+}
+
+.text-template {
+    background-color: #76CED2 !important;
+    color: white;
+}
+
+    .text-template:hover {
+        background-color: #70c1c4 !important;
+        color: white !important;
+    }

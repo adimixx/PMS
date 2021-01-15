@@ -5,7 +5,11 @@
     ViewBag.Title = "Profile";
 }
 <div class="container">
-    <h2>Profile</h2>
+
+    <div class="row">
+        <div class="col-12"><h2>Profile</h2></div>
+    </div>
+
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success">
@@ -24,7 +28,6 @@
             @TempData["Email"]
         </div>
     }
-
 
     <div class="card">
         <div class="card-body">
@@ -272,6 +275,7 @@
             server: {
                 url: '/SystemAPI/Account',
                 process: '/UploadProfilePic',
+                method: 'POST',
                 revert: null,
             }
         });
