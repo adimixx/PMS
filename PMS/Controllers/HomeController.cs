@@ -38,7 +38,7 @@ namespace PMS.Controllers
             photogEntities db = new photogEntities();
 
             var a = db.Packages.ToList();
-            var b = db.Studios.ToList();       
+            var b = db.Studios.ToList();
 
             if (srcres.keyword != null)
             {
@@ -74,5 +74,9 @@ namespace PMS.Controllers
             return View(srcres);
         }
 
+        public ActionResult Error500()
+        {
+            return View("~/Views/Shared/Error500.cshtml");
+        }
     }
 }

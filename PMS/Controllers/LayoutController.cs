@@ -16,7 +16,7 @@ namespace PMS.Controllers
             photogEntities db = new photogEntities();
             var userid = UserAuthentication.Identity().id;
 
-            var model = db.UserStudios.Where(x=>x.userid == userid).ToList();
+            var model = db.UserStudios.Where(x=>x.userid == userid).OrderBy(x => x.Studio.name).ToList();
             return PartialView("~/Views/Shared/_LayoutStudioList.cshtml", model);
         }
     }
