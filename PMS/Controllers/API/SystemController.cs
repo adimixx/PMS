@@ -99,6 +99,30 @@ namespace PMS.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult loadJobStaffMain(int id)
+        {
+            photogEntities db = new photogEntities();
+            var aid = UserAuthentication.Identity().id;
+            var model = db.JobDateUsers.Where(x => x.UserStudio.userid == aid && x.UserStudio.studioid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.id,
+                    DateCreated = item.JobDate.Job.DateCreated.ToString("dd/MM/yyyy hh:mm"),
+                    client = item.JobDate.Job.User.name,
+                    package = item.JobDate.Job.Package.name,
+                    status = item.JobDate.Job.JobStatu.name,
+                    paymentstatus = item.JobDate.Job.Invoices.Any() ? item.JobDate.Job.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.JobDate.jobid).status : "-",
+                    paymentdetail = item.JobDate.Job.Invoices.Any() ? item.JobDate.Job.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.JobDate.jobid).detail : "-"
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
         public IHttpActionResult loadJobCustomer()
         {
             photogEntities db = new photogEntities();
