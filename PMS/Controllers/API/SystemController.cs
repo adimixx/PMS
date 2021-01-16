@@ -279,5 +279,30 @@ namespace PMS.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        public IHttpActionResult loadPackageCharges(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Charges.Where(x => x.StudioID == id).Select(x => new { x.id, x.Name, x.Description, x.Price, x.Unit }).ToList();
+
+            return Ok(model);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult deletePackageCharges(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Charges.FirstOrDefault(x => x.id == id);
+
+            if (model != null)
+            {
+                db.Charges.Remove(model);
+                db.SaveChanges();
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }

@@ -2227,6 +2227,8 @@
     <Content Include="Views\Chat\ChatScript.cshtml" />
     <Content Include="Views\Job\JobCustomer.cshtml" />
     <Content Include="Views\Job\AssignStaff.cshtml" />
+    <Content Include="Views\Package\PackageChargesPresetsPartialView.cshtml" />
+    <Content Include="Views\Package\ChargePresetForm.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />

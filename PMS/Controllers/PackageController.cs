@@ -164,5 +164,79 @@ namespace PMS.Controllers
                 throw;
             }
         }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult AddCharge()
+        {
+            ViewBag.Title = "Create New Charge Preset";
+            ViewBag.SubmitButton = "Create";
+            return View("ChargePresetForm");
+        }
+
+        private void CheckModel(Charge charge)
+        {
+            if (string.IsNullOrWhiteSpace(charge.Name))
+            {
+                ModelState.AddModelError("Name", "Charge Name is required");
+            }    
+
+            else if (charge.Price <= 0 || !charge.Price.HasValue)
+            {
+                ModelState.AddModelError("Price", "Charge Price cannot be less than 1");
+            }            
+        }        
+
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult AddCharge(Charge charge)
+        {
+            ViewBag.Title = "Create New Charge Preset";
+            ViewBag.SubmitButton = "Create";
+            CheckModel(charge);
+            if (!ModelState.IsValid)
+            {
+                return View("ChargePresetForm", charge);
+            }
+
+            charge.StudioID = ViewBag.StudioID;
+            db.Charges.Add(charge);
+            db.SaveChanges();
+            return RedirectToAction("packagehome");
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult EditCharge(int id)
+        {
+            ViewBag.Title = "Edit Charge Preset";
+            ViewBag.SubmitButton = "Save Changes";
+            var charge = db.Charges.FirstOrDefault(x => x.id == id);
+
+            return View("ChargePresetForm",charge);
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
+        [HttpPost]
+        public ActionResult EditCharge(int id, Charge charge)
+        {
+            ViewBag.Title = "Edit Charge Preset";
+            ViewBag.SubmitButton = "Save Changes";
+            CheckModel(charge);
+            if (!ModelState.IsValid)
+            {
+                return View("ChargePresetForm", charge);
+            }
+
+            var chargeNow = db.Charges.FirstOrDefault(x => x.id == charge.id);
+            chargeNow.Name = charge.Name;
+            chargeNow.Price = charge.Price;
+            chargeNow.Description = charge.Description;
+            chargeNow.Unit = charge.Unit;
+            db.SaveChanges();
+
+            return RedirectToAction("packagehome");
+        }
     }
 }
