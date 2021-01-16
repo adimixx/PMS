@@ -263,6 +263,7 @@
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageDbController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -611,12 +612,19 @@
     <Content Include="src\images\users\user-7.jpg" />
     <Content Include="src\images\users\user-8.jpg" />
     <Content Include="src\images\users\user-9.jpg" />
+    <Content Include="src\img\bg.jpg" />
     <Content Include="src\img\cover-default.jpg" />
     <Content Include="src\img\default-profile.jpg" />
     <Content Include="src\img\email.png" />
     <Content Include="src\img\favicon.ico" />
     <Content Include="src\img\logo-lg.png" />
     <Content Include="src\img\logo-sm.png" />
+    <Content Include="src\img\logo-pg.png" />
+    <Content Include="src\img\logo-pg-white.png" />
+    <Content Include="src\img\logo-pg-white2.png" />
+    <Content Include="src\img\logo-pg-sm-white.png" />
+    <Content Include="src\img\srcbg2.jpg" />
+    <Content Include="src\img\srcbg.jpg" />
     <Content Include="src\libs\%40curiosityx\bootstrap-session-timeout\index.js" />
     <Content Include="src\libs\admin-resources\bootstrap-filestyle\bootstrap-filestyle.min.js" />
     <Content Include="src\libs\admin-resources\jquery.vectormap\jquery-jvectormap-1.2.2.css" />
@@ -2393,6 +2401,7 @@
     <Content Include="Views\StudioPermalink\_StudioHomeTopPartialView.cshtml" />
     <Content Include="Views\StudioPermalink\_StudioHomeScriptPartialView.cshtml" />
     <Content Include="Views\StudioPermalink\ChangeStudioUsername.cshtml" />
+    <Content Include="Views\Shared\_LayoutStudioList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2424,6 +2433,7 @@
     <Folder Include="src\libs\morris.js\spec\" />
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
+    <Folder Include="Views\Layout\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
