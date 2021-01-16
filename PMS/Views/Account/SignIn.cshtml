@@ -5,6 +5,19 @@
     Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
+<style>
+    .btn-sub {
+        background-color: #76CED2;
+        color: white;
+        transition:all .3s ease-out;
+    }
+
+    .btn-sub:hover {
+        background-color: #70c1c4;
+        color: white;
+    }
+</style>
+
 <div>
     @if (TempData.ContainsKey("isVerified"))
     {
@@ -47,7 +60,7 @@
         @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label" })
     </div>
 
-    <input type="submit" value="Sign In" class="btn btn-primary col-12" />
+    <input type="submit" value="Sign In" class="btn btn-sub col-12" />
 </div>
 }
 

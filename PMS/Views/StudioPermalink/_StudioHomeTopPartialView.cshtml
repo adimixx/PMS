@@ -1,6 +1,10 @@
 ﻿@using PMS.Models
 @model PMS.Models.Database.Studio
 
+@if (ViewBag.IsStudioSetting == null)
+{
+    @:<div class="container">
+    }
 <div class="cover-profile">
     @if (ViewBag.IsStudioSetting != null)
     {
@@ -50,83 +54,6 @@
                 <div class="col-12">
                     <a class="chatbtn" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "createchat")"><i class="mdi mdi-chat"></i> Chat</a>
                 </div>
-
-                @if (ViewBag.IsStudioIndex != null)
-                {
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-md-4 col-12 py-0">
-                                <span class="float-right" style="font-size:30px">3.8</span>
-                            </div>
-                            <div class="col-md-8 col-12 py-0">
-                                <div class="rating">
-                                    <span class="mdi mdi-star"></span>
-                                    <span class="mdi mdi-star"></span>
-                                    <span class="mdi mdi-star"></span>
-                                    <span class="mdi mdi-star-half"></span>
-                                    <span class="mdi mdi-star-outline"></span>
-                                </div>
-                                <div class="review">
-                                    193 reviews
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card cd">
-                            <div class="card-title mb-1">
-                                <div class="row">
-                                    <div class="col-3 ml-3 pb-0">
-                                        <img class="rounded-circle" style="width: 35px;margin: 10.2px;" src="@User.Identity.GetProfilePhotoLink()">
-                                    </div>
-                                    <div class="col-8 pb-0">
-                                        <span style="font-size:14px">Iqmal Rizal</span><br>
-                                        <div class="rating">
-                                            <span class="mdi mdi-star"></span>
-                                            <span class="mdi mdi-star"></span>
-                                            <span class="mdi mdi-star"></span>
-                                            <span class="mdi mdi-star-half"></span>
-                                            <span class="mdi mdi-star-outline"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0 pb-5">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500
-                            </div>
-                            <div class="date-review">26 Dec 2020</div>
-                        </div>
-                        <div class="card cd">
-                            <div class="card-title mb-1">
-                                <div class="row">
-                                    <div class="col-3 ml-3 pb-0">
-                                        <img class="rounded-circle" style="width: 35px;margin: 10.2px;" src="@User.Identity.GetProfilePhotoLink()">
-                                    </div>
-                                    <div class="col-8 pb-0">
-                                        <span style="font-size:14px">Ahmad Raziq</span><br>
-                                        <div class="rating">
-                                            <span class="mdi mdi-star"></span>
-                                            <span class="mdi mdi-star"></span>
-                                            <span class="mdi mdi-star"></span>
-                                            <span class="mdi mdi-star"></span>
-                                            <span class="mdi mdi-star"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0 pb-5">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            </div>
-                            <div class="date-review">21 Dec 2020</div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <center>
-                            <button class="btn-review">Show more reviews</button>
-                        </center>
-                    </div>
-                }
             </div>
         </div>
         <div class="col-md-10 col-12">
@@ -173,3 +100,8 @@
         </div>
     </div>
 </div>
+
+@if (ViewBag.IsStudioSetting == null)
+{
+    @:</div>
+}

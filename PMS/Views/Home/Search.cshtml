@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Search";
+
+    int i = 0;
 }
 
 @section styles {
@@ -13,19 +15,6 @@
     </style>
 }
 
-<div class="row" id="searchpg" hidden>
-    <div class="col-12 p-0">
-        <img class="d-block w-100" style="object-fit: cover;height:80px" src="~/src/images/gallery/banner-1.jpg">
-        <div class="mid search" style="position:relative;top: -33%">
-            @using (Html.BeginForm("Search", "Home", FormMethod.Get))
-            {
-                @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required", value = @Model.keyword } })
-                <button type="submit"><i class="fa fa-search"></i></button>
-                <div class="filter" style="">test</div>
-            }
-        </div>
-    </div>
-</div>
 
 <div class="container">
     <div class="row">
@@ -47,7 +36,14 @@
 
             @if (Model.std.Count() > 0)
             {
-                <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                if (Model.keyword != null)
+                {
+                    <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                }
+                else
+                {
+                    <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for <span style="color:#76CED2">recomended studio</span></p>
+                }
             }
             else
             {
@@ -57,41 +53,46 @@
             <div id="studioRes">
                 @foreach (var item in Model.std)
                 {
-                    string imgLogo = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
-                    string imgCover = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
+                    if (i == 0)
+                    {
 
-                    <div class="card px-4 mb-2 srcres" style=" background-image: url(@imgCover);">
-                        <div class="row">
-                            <div class="col-7">
-                                <div class="imgstud">
-                                    <img class="rounded-circle" style="width:75px" src="@imgLogo">
+                        string imgLogo = (item.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
+                        string imgCover = (item.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
+
+                        <div class="card px-4 mb-2 srcres" style=" background-image: url(@imgCover);">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="imgstud">
+                                        <img class="rounded-circle" style="width:75px" src="@imgLogo">
+                                    </div>
+                                    <div class="py-1">
+                                        <h4>@item.name</h4>
+                                        <span>@item.shortDesc</span> <br>
+                                    </div>
                                 </div>
-                                <div class="py-1">
-                                    <h4>@item.name</h4>
-                                    <span>@item.shortDesc</span> <br>
+                                <div class="col-5">
+                                    <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                        <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
+                                        @item.City, @item.State
+                                    </div>
+                                    <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                        <span class="mdi mdi-18px mdi-package"> 10</span><br>
+                                        Packages
+                                    </div>
+                                    <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
+                                        <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
+                                        Review
+                                    </div>
+                                    <div class="w-25 float-left">
+                                        <a href="/@item.uniquename" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
+                                        <a href="/@item.uniquename/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="w-25 float-left py-3 px-2" style="text-align:center">
-                                    <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
-                                    @item.City, @item.State
-                                </div>
-                                <div class="w-25 float-left py-3 px-2" style="text-align:center">
-                                    <span class="mdi mdi-18px mdi-package"> 10</span><br>
-                                    Packages
-                                </div>
-                                <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
-                                    <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
-                                    Review
-                                </div>
-                                <div class="w-25 float-left">
-                                    <a href="/@item.uniquename" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
-                                    <a href="/@item.uniquename/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
-                                </div>
-                            </div>
-                        </div><br>
-                    </div>
-                    <a href="#" class="float-right">Show More</a>
+                            </div><br>
+                        </div>
+                        <a href="#" class="float-right">Show More</a>
+                    }
+                    i++;
                 }
             </div>
         </div>
@@ -119,9 +120,18 @@
         <div class="col-md-10 col-12" id="titleresult">
             @if (Model.pkg.Count() > 0)
             {
-                <p style="font-size:16px">
-                    <span class="mdi mdi-package"></span>search result for "<span style="color:#76CED2">@Model.keyword</span>"
-                </p>
+                if (Model.keyword != null)
+                {
+                    <p style="font-size:16px">
+                        <span class="mdi mdi-package"></span>search result for "<span style="color:#76CED2">@Model.keyword</span>"
+                    </p>
+                }
+                else
+                {
+                    <p style="font-size:16px">
+                        <span class="mdi mdi-package"></span>search result for <span style="color:#76CED2">all packages</span>
+                    </p>
+                }
 
                 <div class="row">
                     <div class="col-12">
@@ -158,10 +168,11 @@
                 </p>
             }
             <div id="brick" class="bricklayer">
+
                 @foreach (var item in Model.pkg)
                 {
-
-                    string imgLogo = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault().ImageName + "";
+                    string imgLogo = (item.PackageImages.Count(x => x.PackageID == item.id) == 0 ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-image-package.png"
+                                                                     : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault(x => x.PackageID == item.id).ImageName + "");
 
                     <div class="card cd card-shad">
                         <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>
@@ -190,18 +201,12 @@
 </div>
 
 
-
 @section Scripts {
 
     <script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
     <script>
         var bricklayer = new Bricklayer(document.querySelector('#brick'));
-
-        $('article.card-text').readmore({
-            speed: 75,
-            lessLink: '<a href="#">Read less</a>'
-        });
 
         function sortby(dropDownValue) {
             window.location.href = '/Home/Search?keyword=@Model.keyword&sortby=' + dropDownValue;
@@ -236,6 +241,12 @@
                 if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
                     return false;
                 }
+            });
+
+
+            $('article.card-text').readmore({
+                speed: 75,
+                lessLink: '<a href="#">Read less</a>'
             });
         });
     </script>
