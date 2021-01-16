@@ -31,7 +31,7 @@ namespace PMS.Controllers
         public ActionResult Search(SearchViewModel srcres)
         {
             photogEntities db = new photogEntities();
-            var a = db.Packages.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+            var a = db.Packages.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower()) && x.status == "Enabled").ToList();
             var b = db.Studios.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
 
             if (srcres.sortby != null)

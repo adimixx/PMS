@@ -79,7 +79,7 @@ namespace PMS.Controllers.API
             var job = new Job
             {
                 packageid = (int)deserializedData.Package.Id,
-                userid = chat.UserID,
+                userid = chat.UserID.Value,
                 jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "pending deposit").id,
                 DateCreated = DateTime.Now,    
                 PackagePrice = Decimal.Parse(deserializedData.Package.Price.ToString()),

@@ -27,6 +27,7 @@ namespace PMS.Models.Database
         public decimal price { get; set; }
         public decimal depositprice { get; set; }
         public string details { get; set; }
+        public string status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Job> Jobs { get; set; }

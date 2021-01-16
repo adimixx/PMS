@@ -149,7 +149,14 @@ namespace PMS.Controllers
 
                 if (package.Studio.UserStudios.Any(x => x.userid == UserAuthentication.Identity().id))
                 {
-                    db.Packages.Remove(package);
+                    if (package.status == "Enabled")
+                    {
+                        package.status = "Disabled";
+                    }
+                    else
+                    {
+                        package.status = "Enabled";
+                    }
                     db.SaveChanges();
 
                     return RedirectToAction("packagehome");
