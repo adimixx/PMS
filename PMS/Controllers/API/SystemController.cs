@@ -50,7 +50,8 @@ namespace PMS.Controllers
                     price = item.price.ToString(".00"),
                     studioname = item.Studio.name,
                     depositprice = item.depositprice.ToString(".00"),
-                    item.details
+                    item.details,
+                    item.status
                 });
             }
             return Ok(data);
