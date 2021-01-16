@@ -15,13 +15,13 @@
         <table id="jobTable" class="table table-striped table-bordered" style="width:100%">
             <thead class="text-center">
                 <tr>
-                  <th>Date Issued</th>
-                  <th>Client's Name</th>
-                  <th>Package Chosen</th>
-                  <th>Status</th>
-                  <th>Payment Status</th>
-                  <th>Payment Detail</th>
-                  <th></th>
+                    <th>Date Issued</th>
+                    <th>Client's Name</th>
+                    <th>Package Chosen</th>
+                    <th>Status</th>
+                    <th>Payment Status</th>
+                    <th>Payment Detail</th>
+                    <th></th>
                 </tr>
             </thead>
         </table>
@@ -30,7 +30,8 @@
 @section Scripts {
 
     <script>
-        $(function () {
+        if (@ViewBag.StudioRoleID === 1) {
+            $(function () {
             $.ajax({
                 type: "GET",
                 url: "/api/system/loadJobAdmin/@ViewBag.StudioID",
@@ -67,6 +68,46 @@
                 }
             });
         });
+        }
+        else {
+            $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/system/loadJobStaffMain/@ViewBag.StudioID",
+                dataType: "json",
+                success: function (response) {
+                    $("#jobTable").DataTable(
+                        {
+                            bLengthChange: true,
+                            lengthMenu: [[20, 40, -1], [20, 40, "All"]],
+                            bFilter: true,
+                            bSort: true,
+                            bPaginate: true,
+                            scrollX: true,
+                            data: response,
+                            scrollY: 400,
+                            scrollCollapse: true,
+                            processing: true,
+                            columns: [
+                                { 'data': 'DateCreated', "autoWidth": true },
+                                { 'data': 'client', "autoWidth": true },
+                                { 'data': 'package', "autoWidth": true },
+                                { 'data': 'status', "autoWidth": true },
+                                { 'data': 'paymentstatus', "autoWidth": true },
+                                { 'data': 'paymentdetail', "autoWidth": true },
+                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/detail/' + data + '">Details</a>'; } }
+                            ]
+                        });
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                error: function (response) {
+                    alert(response.d);
+                }
+            });
+        });
+        }
     </script>
 }
 
