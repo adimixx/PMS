@@ -71,21 +71,21 @@
                             <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div>
                             <div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 294px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div>
                         </ul>
-                        <div class="row">
-                            <form id="myform" class="row" onsubmit="return sendMessage();">
-                                <div class="col-md-12 chat-inputbar">
-                                    <input id="message" class="form-control chat-input col-12" placeholder="Enter message" autocomplete="off">
-                                </div>
-                                <div class="col-sm-2 col-4 chat-send">
-                                    <button type="submit" class="btn btn-success btn-block">Send</button>
-                                    <input id="fileup" type="file" class="btn btn-success btn-block" value="upload image" />
-                                </div>
-                                <div class="col-sm-2 col-4 chat-send">
 
-                                </div>
-                            </form>
-                        </div>
                     </div>
+                </div>
+                <div class="card-footer" style="border-top: 1px solid rgb(235, 240, 245);background-color:white">
+                    <form id="myform" class="row" onsubmit="return sendMessage();">
+                        <input id="message" class="chat-input" placeholder="Type a message" autocomplete="off">
+                        <button type="submit" class="btn btn-send"><i class="mdi mdi-send"></i></button>
+                        <!-- <div class="col-sm-2 col-4 chat-send">
+                            <button type="submit" class="btn btn-success btn-block">Send</button>
+                            <input id="fileup" type="file" class="btn btn-success btn-block" value="upload image" />
+                        </div>
+                        <div class="col-sm-2 col-4 chat-send">
+
+                        </div>-->
+                    </form>
                 </div>
             </div>
 
