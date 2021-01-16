@@ -219,7 +219,7 @@ namespace PMS.Controllers
                 jdu.userstudioid = ViewBag.UserStudioID;
                 jdu.jobdateid = ViewBag.JobDateID;
                 var date = db.JobDates.FirstOrDefault(x => x.id == jdu.jobdateid)?.jobdate1.Date;
-                if (db.JobDates.ToList().Any(x => x.JobDateUsers.ToList().Any(y => y.userstudioid == jdu.userstudioid && y.JobDate.jobdate1.Date == date)))
+                if (db.JobDateUsers.ToList().Any(x => x.JobDate.jobdate1.Date == date && x.UserStudio.userid == id))
                 {
                     return RedirectToAction("Error500", "Home", new { errormsg = "Staff is busy on that date, Bitchass Nigga!" });
                 }
@@ -241,7 +241,7 @@ namespace PMS.Controllers
                 try
                 {
                     var date = db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid)?.jobdate1.Date;
-                    if (db.JobDates.ToList().Any(x => x.JobDateUsers.ToList().Any(y => y.userstudioid == jobDateUser.userstudioid && y.JobDate.jobdate1.Date == date)))
+                    if (db.JobDateUsers.ToList().Any(x => x.JobDate.jobdate1.Date == date && x.userstudioid == jobDateUser.userstudioid))
                     {
                         return RedirectToAction("Error500", "Home");
                     }
