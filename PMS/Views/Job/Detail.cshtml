@@ -10,82 +10,38 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
 <style>
-    a:hover, a:focus {
-        text-decoration: none;
-        outline: none;
-    }
-
-    #accordion .panel {
-        border: none;
-        border-radius: 3px;
-        box-shadow: none;
-        margin-bottom: 15px;
-    }
-
-    #accordion .panel-heading {
-        padding: 0;
-        border: none;
-        border-radius: 3px;
-    }
-
-    #accordion .panel-title a {
+    .collapsible-link::before {
+        content: '';
+        width: 14px;
+        height: 2px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 1px);
+        right: 1rem;
         display: block;
-        padding: 12px 15px;
-        background: #fff;
-        font-size: 18px;
-        font-weight: bold;
-        color: #f81ac1;
-        border: 1px solid #ececec;
-        box-shadow: 0 0 10px rgba(0,0,0,.05);
-        position: relative;
-        transition: all 0.5s ease 0s;
+        transition: all 0.3s;
     }
 
-        #accordion .panel-title a.collapsed {
-            box-shadow: none;
-            color: #676767;
-        }
-
-            #accordion .panel-title a:before,
-            #accordion .panel-title a.collapsed:before {
-                content: "\f067";
-                font-family: "Font Awesome 5 Free";
-                width: 25px;
-                height: 25px;
-                line-height: 28px;
-                font-size: 15px;
-                font-weight: 900;
-                color: #f81ac1;
-                text-align: center;
-                position: absolute;
-                top: 8px;
-                right: 15px;
-                transform: rotate(135deg);
-                transition: all 0.3s ease 0s;
-            }
-
-            #accordion .panel-title a.collapsed:before {
-                color: #676767;
-                transform: rotate(0);
-            }
-
-        #accordion .panel-title a:after {
-            content: "";
-            width: 1px;
-            height: 100%;
-            background: #ececec;
-            position: absolute;
-            top: 0;
-            right: 55px;
-        }
-
-    #accordion .panel-body {
-        padding: 10px 15px 15px;
-        border: none;
-        font-size: 15px;
-        color: #615f5f;
-        line-height: 27px;
+    .collapsible-link[aria-expanded='true']::before {
+        transform: rotate(180deg);
     }
+
+    .collapsible-link::after {
+        content: '';
+        width: 2px;
+        height: 14px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 7px);
+        right: calc(1rem + 6px);
+        display: block;
+        transition: all 0.3s;
+    }
+
+    .collapsible-link[aria-expanded='true']::after {
+        transform: rotate(90deg) translateX(-1px);
+    }
+
 </style>
 
 <div class="container" style="font-size:16px">
@@ -96,18 +52,19 @@
         </div>
         <div class="card-body" style="padding:30px">
             <div class="row">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="width:100%">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Job's Information
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                <div class="card" style="padding:10px">
+                <div class="container-wrapper-scroll p-2 mb-3 col-12">
+                    <div id="accordionExample1" class="accordion shadow">
+                        <!-- Accordion item 1 -->
+                        <div class="card">
+                            <div id="heading1" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Job's Information
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" aria-labelledby="heading1" data-parent="#accordionExample1" class="collapse show" style="">
+                                <div class="card-body">
                                     <dl class="dl-horizontal">
                                         <dt>
                                             Date Issued
@@ -123,7 +80,7 @@
 
                                         <dd style="margin-left:5px">
                                             @if (string.IsNullOrWhiteSpace(Model.Item1.paymentstatus))
-                                            { <span>-</span> }
+                                            {<span>-</span> }
                                             else
                                             { @Html.DisplayFor(model => model.Item1.paymentstatus)}
                                         </dd>
@@ -179,18 +136,17 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Job's Date Information
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                            <div class="panel-body">
-                                <div class="card" style="padding:10px">
+                    <div id="accordionExample2" class="accordion shadow">
+                        <div class="card">
+                            <div id="heading2" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Job's Date Information
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse2" aria-labelledby="heading2" data-parent="#accordionExample2" class="collapse show">
+                                <div class="card-body">
                                     @if (Model.Item2 != null)
                                     {
                                         <dl class="dl-horizontal">
@@ -237,75 +193,77 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Assigned Staff
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                            <div class="panel-body">
-                                <div class="card" style="padding:10px">
-                                    @if (Model.Item3.Count() != 0)
-                                    {
-                                        <table id="jduTable" class="table table-striped table-bordered w-100">
-                                            <thead>
-                                                <tr>
-                                                    <th>Staff</th>
-                                                    <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    }
-                                    else
-                                    {
-                                        <h5>No Data Yet!</h5>
-                                    }
-                                    @if (ViewBag.StudioRoleID == 1)
-                                    {
-                                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
-                                    }
+                    <div id="accordionExample3" class="accordion shadow">
+                        <div class="card">
+                            <div id="heading3" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Assigned Staff
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse3" aria-labelledby="heading3" data-parent="#accordionExample3" class="collapse show">
+                                <div class="card-body">
+                                    <div class="card" style="padding:10px">
+                                        @if (Model.Item3.Count() != 0)
+                                        {
+                                            <table id="jduTable" class="table table-striped table-bordered w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Staff</th>
+                                                        <th>Email</th>
+                                                        <th>Phone</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <h5>No Data Yet!</h5>
+                                        }
+                                        @if (ViewBag.StudioRoleID == 1)
+                                        {
+                                            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingFour">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    Service Charges
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                            <div class="panel-body">
-                                <div class="card" style="padding:10px">
-                                    @if (Model.Item4 != null)
-                                    {
-                                        <table id="jobChargeTable" class="table table-striped table-bordered w-100">
-                                            <thead>
-                                                <tr>
-                                                    <th>Description</th>
-                                                    <th>Amount</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    }
-                                    else
-                                    {
-                                        <h5>No Data Yet!</h5>
-                                    }
-                                    @if (ViewBag.StudioRoleID == 1)
-                                    {
-                                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#jobChargeModal">Add Service Charge</button>
-                                    }
+                    <div id="accordionExample4" class="accordion shadow">
+                        <div class="card">
+                            <div id="heading4" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Services Charges
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse4" aria-labelledby="heading4" data-parent="#accordionExample4" class="collapse show">
+                                <div class="card-body">
+                                    <div class="card" style="padding:10px">
+                                        @if (Model.Item4 != null)
+                                        {
+                                            <table id="jobChargeTable" class="table table-striped table-bordered w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <th>Amount</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <h5>No Data Yet!</h5>
+                                        }
+                                        @if (ViewBag.StudioRoleID == 1)
+                                        {
+                                            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#jobChargeModal">Add Service Charge</button>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>

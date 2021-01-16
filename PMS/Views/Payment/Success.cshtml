@@ -7,6 +7,29 @@
 <html>
 <head>
     <title>Thanks for your order!</title>
+    <style>
+        @@media print {
+            #printPageButton {
+                display: none;
+            }
+
+            #returnPageButton {
+                display: none;
+            }
+
+            #topnav {
+                display: none;
+            }
+
+            @@page {
+                margin: 0;
+            }
+
+            body {
+                margin: 0.5cm;
+            }
+        }
+    </style>
 </head>
 <body style="font-size:16px">
     <div class="container" style="padding:50px">
@@ -55,11 +78,11 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" onclick="window.print();" class="btn btn-success btn-lg btn-block">
-                Print   <span class="glyphicon glyphicon-chevron-right"></span>
+            <button type="button" onclick="window.print();" id="printPageButton" class="btn btn-success">
+                <span class="mdi mdi-file-pdf"> Print</span>
             </button>
-            <a href="/@Model.Invoice.Job.Package.Studio.uniquename/job/detail/@Model.Invoice.jobid" class="btn btn-primary btn-lg btn-block">
-                Return   <span class="glyphicon glyphicon-chevron-right"></span>
+            <a href="/@Model.Invoice.Job.Package.Studio.uniquename/job/detail/@Model.Invoice.jobid" id="returnPageButton" class="btn btn-primary ml-2">
+                <span class="mdi mdi-chevron-left-circle"> Return</span>
             </a>
         </div>
     </div>
