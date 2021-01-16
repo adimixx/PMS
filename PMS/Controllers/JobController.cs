@@ -226,8 +226,8 @@ namespace PMS.Controllers
             {
                 try
                 {
-                    var date = db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid)?.jobdate1;
-                    if (db.JobDates.Any(x => x.JobDateUsers.Any(y => y.userstudioid == jobDateUser.userstudioid && y.JobDate.jobdate1 == date)))
+                    var date = db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid)?.jobdate1.Date;
+                    if (db.JobDates.ToList().Any(x => x.JobDateUsers.ToList().Any(y => y.userstudioid == jobDateUser.userstudioid && y.JobDate.jobdate1.Date == date)))
                     {
                         return View("Error");
                     }

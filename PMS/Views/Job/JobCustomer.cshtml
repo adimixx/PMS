@@ -53,7 +53,30 @@
                                 { 'data': 'DateCreated', "autoWidth": true },
                                 { 'data': 'client', "autoWidth": true },
                                 { 'data': 'package', "autoWidth": true },
-                                { 'data': 'status', "autoWidth": true },
+                                {
+                                    'data': 'status', 'render': function (data, type, row) {
+                                        if (data == "Pending")
+                                        {
+                                            return `<span style="background-color:orange;padding:5px;border-radius:10px;color:white">${data}</span>`
+                                        }
+                                        else if (data == "Pending Deposit")
+                                        {
+                                            return `<span style="background-color:red;padding:5px;border-radius:10px;color:white">${data}</span>`
+                                        }
+                                        else if (data == "Quote")
+                                        {
+                                            return `<span style="background-color:blue;padding:5px;border-radius:10px;color:white">${data}</span>`
+                                        }
+                                        else if (data == "Completed")
+                                        {
+                                            return `<span style="background-color:green;padding:5px;border-radius:10px;color:white">${data}</span>`
+                                        }
+                                        else
+                                        {
+                                            return `<span style="background-color:gray;padding:5px;border-radius:10px;color:white">${data}</span>`
+                                        }
+                                    }, "autoWidth": true
+                                },
                                 { 'data': 'paymentstatus', "autoWidth": true },
                                 { 'data': 'paymentdetail', "autoWidth": true },
                                 { 'data': 'id', 'render': function (data, type, row) { return `<a href="/${row.studiolink}/job/detail/${data}">Details</a>`; } }
