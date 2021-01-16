@@ -202,7 +202,7 @@ namespace PMS.Controllers
                 }
             }
             else
-                return RedirectToAction("Error500", "Home");
+                return RedirectToAction("Error500", "Home", new { errormsg = "There is an error processing your input/request!" });
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
@@ -258,7 +258,7 @@ namespace PMS.Controllers
             }
             else
             {
-                return RedirectToAction("Error500", "Home");
+                return RedirectToAction("Error500", "Home", new { errormsg = "There is an error processing your input/request!" });
             }
         }
 
@@ -284,7 +284,7 @@ namespace PMS.Controllers
             }
             else
             {
-                return RedirectToAction("Error500", "Home");
+                return RedirectToAction("Error500", "Home", new { errormsg = "There is an error processing your input/request!" });
             }
         }
 
@@ -323,7 +323,7 @@ namespace PMS.Controllers
             }
             else
             {
-                return RedirectToAction("Error500", "Home");
+                return RedirectToAction("Error500", "Home", new { errormsg = "There is an error processing your input/request!" });
             }
         }
 
