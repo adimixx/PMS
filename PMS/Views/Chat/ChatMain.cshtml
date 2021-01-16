@@ -6,29 +6,55 @@
     }
 
     string Receiver, Sender;
+    string Image = "";
     if (ViewBag.StudioID != null)
     {
         Receiver = Model.Studio.name;
         Sender = Model.User.name;
+
+        if (Model.User.imgprofile == null)
+        {
+            Image = "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg";
+        }
+        else
+        {
+            Image = @String.Format("https://storagephotog2.blob.core.windows.net/user-data/{0}/{1}", Model.UserID, Model.User.imgprofile);
+        }
     }
     else
     {
         Receiver = Model.User.name;
         Sender = Model.Studio.name;
+
+        if (Model.Studio.ImgLogo == null)
+        {
+            Image = "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg";
+        }
+        else
+        {
+            Image = @String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.StudioID, Model.Studio.ImgLogo);
+        }
     }
 
     ViewBag.Title = "Message : " + Sender;
 
 }
+<style>
+</style>
 
 <div class="container">
 
-    <h2>@Sender</h2>
     <div class="row">
         <div class="col-md-6">
             <div class="card">
+                <div class="card-header" style="background-color:white;border-bottom:1px solid #EBF0F5">
+
+                    <div class="header-chat">
+                        <img src="@Image" class="rounded-circle" width="20" />
+                        <h4>@Sender</h4>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h4 class="card-title mb-4">Chat</h4>
                     <div class="chat-conversation" id="chatcon">
                         <ul class="conversation-list" data-simplebar="init" style="min-height: 670px; background-color:white ">
                             <div class="simplebar-wrapper" style="margin: 0px -10px;">
@@ -47,17 +73,16 @@
                         </ul>
                         <div class="row">
                             <form id="myform" class="row" onsubmit="return sendMessage();">
-                                <div class="col-md-9 col-8 chat-inputbar">
-
+                                <div class="col-md-12 chat-inputbar">
                                     <input id="message" class="form-control chat-input col-12" placeholder="Enter message" autocomplete="off">
                                 </div>
-                                <div class="col-sm-2 col-4 chat-send">
+                                <!-- <div class="col-sm-2 col-4 chat-send">
                                     <button type="submit" class="btn btn-success btn-block">Send</button>
                                     <input id="fileup" type="file" class="btn btn-success btn-block" value="upload image" />
                                 </div>
                                 <div class="col-sm-2 col-4 chat-send">
 
-                                </div>
+                                </div>-->
                             </form>
                         </div>
                     </div>

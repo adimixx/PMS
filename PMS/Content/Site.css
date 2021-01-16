@@ -370,11 +370,11 @@ textarea {
         color: #7a7a7a;
     }
 
-    article {
-        max-height: 1.5em;
-        overflow: hidden;
-        transition: 0.3s height ease;
-    }
+article {
+    max-height: 1.5em;
+    overflow: hidden;
+    transition: 0.3s height ease;
+}
 
 .imgWrap {
     /* min-height: 13vw; */
@@ -556,4 +556,17 @@ textarea {
 
 .card {
     box-shadow: 0 4px 24px 0 rgba(34,41,47,.1);
+}
+
+.header-chat img {
+    float: left;
+    width: 33px;
+    height: 33px;
+    background: #555;
+}
+
+.header-chat h4 {
+    position: relative;
+    top: 3px;
+    left: 10px;
 }
