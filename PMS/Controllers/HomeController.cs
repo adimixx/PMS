@@ -74,8 +74,9 @@ namespace PMS.Controllers
             return View(srcres);
         }
 
-        public ActionResult Error500()
+        public ActionResult Error500(string errormsg)
         {
+            ViewBag.ErrorMsg = errormsg;
             return View("~/Views/Shared/Error500.cshtml");
         }
     }

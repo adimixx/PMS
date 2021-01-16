@@ -47,9 +47,9 @@ namespace PMS.Controllers
 
                     return Redirect("/JobStatus");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
 
@@ -82,9 +82,9 @@ namespace PMS.Controllers
 
                     return Redirect("/jobstatus");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
 
@@ -105,9 +105,9 @@ namespace PMS.Controllers
 
                 return Redirect("/jobstatus");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -132,19 +132,26 @@ namespace PMS.Controllers
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            var job = db.Jobs.Find(id);
-            var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
-            var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.jobdateid == jobdate.id).ToList() : null;
-            var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
+            try
+            {
+                var job = db.Jobs.Find(id);
+                var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
+                var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.jobdateid == jobdate.id).ToList() : null;
+                var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
 
-            if (ViewBag.StudioID != job.Package.studioid)
-                return RedirectToAction("jobhome");
+                if (ViewBag.StudioID != job.Package.studioid)
+                    return RedirectToAction("jobhome");
 
-            var identity = UserAuthentication.Identity();
-            if (!db.Jobs.Any(x => x.userid == identity.id && x.id == id) && ViewBag.StudioRoleID == null)
-                return Redirect("/");
+                var identity = UserAuthentication.Identity();
+                if (!db.Jobs.Any(x => x.userid == identity.id && x.id == id) && ViewBag.StudioRoleID == null)
+                    return Redirect("/");
 
-            return View(new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
+                return View(new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
+            }
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
@@ -160,9 +167,9 @@ namespace PMS.Controllers
 
                 return RedirectToAction("detail/" + id);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -189,13 +196,13 @@ namespace PMS.Controllers
 
                     return RedirectToAction("detail/" + job.jobid);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
             else
-                return View("Error");
+                return RedirectToAction("Error500", "Home");
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
@@ -214,14 +221,14 @@ namespace PMS.Controllers
                 var date = db.JobDates.FirstOrDefault(x => x.id == jdu.jobdateid)?.jobdate1.Date;
                 if (db.JobDates.ToList().Any(x => x.JobDateUsers.ToList().Any(y => y.userstudioid == jdu.userstudioid && y.JobDate.jobdate1.Date == date)))
                 {
-                    return RedirectToAction("Error500", "Home");
+                    return RedirectToAction("Error500", "Home", new { errormsg = "Staff is busy on that date, Bitchass Nigga!" });
                 }
 
                 return View(jdu);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error500", "Home");
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -244,14 +251,14 @@ namespace PMS.Controllers
 
                     return RedirectToAction("detail/" + db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid).jobid);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
             else
             {
-                return View("Error");
+                return RedirectToAction("Error500", "Home");
             }
         }
 
@@ -270,14 +277,14 @@ namespace PMS.Controllers
 
                     return RedirectToAction("detail/" + jobid);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
             else
             {
-                return View("Error");
+                return RedirectToAction("Error500", "Home");
             }
         }
 
@@ -309,14 +316,14 @@ namespace PMS.Controllers
 
                     return RedirectToAction("detail/" + jobCharge.jobid);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
             else
             {
-                return View("Error");
+                return RedirectToAction("Error500", "Home");
             }
         }
 
@@ -349,9 +356,9 @@ namespace PMS.Controllers
 
                     return RedirectToAction("detail/" + jobCharge.jobid);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return View("error");
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
             else
@@ -381,9 +388,9 @@ namespace PMS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("detail/" + jobid);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error");
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -395,10 +402,17 @@ namespace PMS.Controllers
         [HttpGet]
         public ActionResult PaymentView(int id)
         {
-            ViewBag.jobid = id;
-            ViewBag.hasDeposit = db.Invoices.Any(x => x.jobid == id && x.status == "Paid" && x.detail == "Deposit");
-            ViewBag.hasFull = db.Invoices.Any(x => x.jobid == id && x.detail == "Full Payment");
-            return View();
+            try
+            {
+                ViewBag.jobid = id;
+                ViewBag.hasDeposit = db.Invoices.Any(x => x.jobid == id && x.status == "Paid" && x.detail == "Deposit");
+                ViewBag.hasFull = db.Invoices.Any(x => x.jobid == id && x.detail == "Full Payment");
+                return View();
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
+            }
         }
 
         [StudioPermalinkValidate]
@@ -423,9 +437,9 @@ namespace PMS.Controllers
 
                 return RedirectToAction("checkoutindex/" + invoice.id, "Payment");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -451,9 +465,9 @@ namespace PMS.Controllers
 
                 return RedirectToAction("paymentview/" + id);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -513,9 +527,9 @@ namespace PMS.Controllers
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -530,9 +544,9 @@ namespace PMS.Controllers
                 db.SaveChanges();
                 return View();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
