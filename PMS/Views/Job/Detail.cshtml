@@ -9,192 +9,265 @@
 }
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
+<style>
+    .collapsible-link::before {
+        content: '';
+        width: 14px;
+        height: 2px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 1px);
+        right: 1rem;
+        display: block;
+        transition: all 0.3s;
+    }
 
-<h2>Job's Detail</h2>
-<div style="padding:10px">
-    <a href="/@ViewBag.StudioUrl/job/paymentview/@Model.Item1.id" class="btn btn-primary">Open Invoice/Payment Menu</a>
-</div>
+    .collapsible-link[aria-expanded='true']::before {
+        transform: rotate(180deg);
+    }
+
+    .collapsible-link::after {
+        content: '';
+        width: 2px;
+        height: 14px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 7px);
+        right: calc(1rem + 6px);
+        display: block;
+        transition: all 0.3s;
+    }
+
+    .collapsible-link[aria-expanded='true']::after {
+        transform: rotate(90deg) translateX(-1px);
+    }
+
+</style>
 
 <div class="container" style="font-size:16px">
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card h-100" style="padding:15px">
-                <div class="card-header">
-                    <h4>Job's Information</h4>
-                </div>
-                <div class="card-body">
-                    <dl class="dl-horizontal">
-                        <dt>
-                            Date Issued
-                        </dt>
-
-                        <dd>
-                            @Model.Item1.DateCreated.ToString("dd/MM/yyyy hh:mm tt")
-                        </dd>
-
-                        <dt>
-                            Payment Status
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Item1.paymentstatus)
-                        </dd>
-
-                        <dt>
-                            Status
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Item1.JobStatu.name)
-                        </dd>
-
-                        <dt>
-                            Package Name
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Item1.Package.name)
-                        </dd>
-
-                        <dt>
-                            Client's Email
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Item1.User.email)
-                        </dd>
-                    </dl>
-                </div>
-
-                <div class="card-footer">
-                    @if (ViewBag.StudioRoleID == 1)
-                    {
-                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#statusModal">Update</button>
-                    }
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="float-left"><i class="mdi mdi-briefcase-clock"></i> Job's Detail</h4>
+            <a href="/@ViewBag.StudioUrl/job/paymentview/@Model.Item1.id" class="btn btn-primary float-right">Open Invoice/Payment Menu</a>
         </div>
+        <div class="card-body" style="padding:30px">
+            <div class="row">
+                <div class="container-wrapper-scroll p-2 mb-3 col-12">
+                    <div id="accordionExample1" class="accordion shadow">
+                        <!-- Accordion item 1 -->
+                        <div class="card">
+                            <div id="heading1" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Job's Information
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" aria-labelledby="heading1" data-parent="#accordionExample1" class="collapse show" style="">
+                                <div class="card-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            Date Issued
+                                        </dt>
 
-        <div class="col-lg-6">
-            <div class="card h-100" style="padding:15px;">
-                <div class="card-header">
-                    <h4>Job's Date Information</h4>
-                </div>
-                <div class="card-body">
-                    @if (Model.Item2 != null)
-                    {
-                        <dl class="dl-horizontal">
-                            <dt>
-                                Session Date & Time
-                            </dt>
+                                        <dd style="margin-left:5px">
+                                            @Model.Item1.DateCreated.ToString("dd/MM/yyyy hh:mm tt")
+                                        </dd>
 
-                            <dd>
-                                @Model.Item2.jobdate1.ToString("dd/MM/yyyy hh:mm tt")
-                            </dd>
+                                        <dt>
+                                            Payment Status
+                                        </dt>
 
-                            <dt>
-                                Photoshoot Location
-                            </dt>
+                                        <dd style="margin-left:5px">
+                                            @if (string.IsNullOrWhiteSpace(Model.Item1.paymentstatus))
+                                            {<span>-</span> }
+                                            else
+                                            { @Html.DisplayFor(model => model.Item1.paymentstatus)}
+                                        </dd>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Item2.location)
-                            </dd>
+                                        <dt>
+                                            Status
+                                        </dt>
 
-                            <dt>
-                                Session Description
-                            </dt>
+                                        <dd style="margin-left:5px">
+                                            @if (Model.Item1.JobStatu.name == "Pending")
+                                            {
+                                                <span style="background-color:orange;padding:5px;border-radius:10px;color:white">@Model.Item1.JobStatu.name</span>
+                                            }
+                                            else if (Model.Item1.JobStatu.name == "Pending Deposit")
+                                            {
+                                                <span style="background-color:red;padding:5px;border-radius:10px;color:white">@Model.Item1.JobStatu.name</span>
+                                            }
+                                            else if (Model.Item1.JobStatu.name == "Quote")
+                                            {
+                                                <span style="background-color:blue;padding:5px;border-radius:10px;color:white">@Model.Item1.JobStatu.name</span>
+                                            }
+                                            else if (Model.Item1.JobStatu.name == "Completed")
+                                            {
+                                                <span style="background-color:green;padding:5px;border-radius:10px;color:white">@Model.Item1.JobStatu.name</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="background-color:gray;padding:5px;border-radius:10px;color:white">@Model.Item1.JobStatu.name</span>
+                                            }
+                                        </dd>
 
-                            @if (!string.IsNullOrWhiteSpace(Model.Item2.description))
-                            {
-                                <dd>@Html.DisplayFor(model => model.Item2.description)</dd>
-                            }
-                            else
-                            {
-                                <dd>-</dd>
-                            }
+                                        <dt>
+                                            Package Name
+                                        </dt>
 
-                        </dl>
-                    }
-                    else
-                    {
-                        <h5>No Data Yet!</h5>
-                    }
-                </div>
+                                        <dd style="margin-left:5px">
+                                            @Html.DisplayFor(model => model.Item1.Package.name)
+                                        </dd>
 
-                <div class="card-footer">
-                    @if (ViewBag.StudioRoleID == 1)
-                    {
-                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#dateModal">Update</button>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
+                                        <dt>
+                                            Client's Email
+                                        </dt>
 
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card h-100" style="padding:15px">
-                <div class="card-header">
-                    <h4>Assigned Staff</h4>
-                </div>
-                <div class="card-body">
-                    @if (Model.Item3.Count() != 0)
-                    {
-                        <table id="jduTable" class="table table-striped table-bordered w-100">
-                            <thead>
-                                <tr>
-                                    <th>Staff</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </table>
-                    }
-                    else
-                    {
-                        <h5>No Data Yet!</h5>
-                    }
-                </div>
+                                        <dd style="margin-left:5px">
+                                            @Html.DisplayFor(model => model.Item1.User.email)
+                                        </dd>
+                                    </dl>
+                                    @if (ViewBag.StudioRoleID == 1)
+                                    {
+                                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#statusModal">Update</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="accordionExample2" class="accordion shadow">
+                        <div class="card">
+                            <div id="heading2" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Job's Date Information
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse2" aria-labelledby="heading2" data-parent="#accordionExample2" class="collapse show">
+                                <div class="card-body">
+                                    @if (Model.Item2 != null)
+                                    {
+                                        <dl class="dl-horizontal">
+                                            <dt>
+                                                Session Date & Time
+                                            </dt>
 
-                <div class="card-footer">
-                    @if (ViewBag.StudioRoleID == 1)
-                    {
-                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
-                    }
-                </div>
-            </div>
-        </div>
+                                            <dd style="margin-left:5px">
+                                                @Model.Item2.jobdate1.ToString("dd/MM/yyyy hh:mm tt")
+                                            </dd>
 
-        <div class="col-lg-6">
-            <div class="card h-100" style="padding:15px">
-                <div class="card-header">
-                    <h4>Job's Service Charges</h4>
-                </div>
-                <div class="card-body">
-                    @if (Model.Item4 != null)
-                    {
-                        <table id="jobChargeTable" class="table table-striped table-bordered w-100">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Amount</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </table>
-                    }
-                    else
-                    {
-                        <h5>No Data Yet!</h5>
-                    }
-                </div>
+                                            <dt>
+                                                Photoshoot Location
+                                            </dt>
 
-                <div class="card-footer">
-                    @if (ViewBag.StudioRoleID == 1)
-                    {
-                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#jobChargeModal">Add Service Charge</button>
-                    }
+                                            <dd style="margin-left:5px">
+                                                @Html.DisplayFor(model => model.Item2.location)
+                                            </dd>
+
+                                            <dt>
+                                                Session Description
+                                            </dt>
+
+                                            @if (!string.IsNullOrWhiteSpace(Model.Item2.description))
+                                            {
+                                                <dd style="margin-left:5px">@Html.DisplayFor(model => model.Item2.description)</dd>
+                                            }
+                                            else
+                                            {
+                                                <dd style="margin-left:5px">-</dd>
+                                            }
+
+                                        </dl>
+                                    }
+                                    else
+                                    {
+                                        <h5>No Data Yet!</h5>
+                                    }
+                                    @if (ViewBag.StudioRoleID == 1)
+                                    {
+                                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#dateModal">Update</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="accordionExample3" class="accordion shadow">
+                        <div class="card">
+                            <div id="heading3" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Assigned Staff
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse3" aria-labelledby="heading3" data-parent="#accordionExample3" class="collapse show">
+                                <div class="card-body">
+                                    <div class="card" style="padding:10px">
+                                        @if (Model.Item3.Count() != 0)
+                                        {
+                                            <table id="jduTable" class="table table-striped table-bordered w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Staff</th>
+                                                        <th>Email</th>
+                                                        <th>Phone</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <h5>No Data Yet!</h5>
+                                        }
+                                        @if (ViewBag.StudioRoleID == 1)
+                                        {
+                                            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="accordionExample4" class="accordion shadow">
+                        <div class="card">
+                            <div id="heading4" class="card-header shadow-sm border-0">
+                                <h4 class="mb-0">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                                        Services Charges
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse4" aria-labelledby="heading4" data-parent="#accordionExample4" class="collapse show">
+                                <div class="card-body">
+                                    <div class="card" style="padding:10px">
+                                        @if (Model.Item4 != null)
+                                        {
+                                            <table id="jobChargeTable" class="table table-striped table-bordered w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <th>Amount</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <h5>No Data Yet!</h5>
+                                        }
+                                        @if (ViewBag.StudioRoleID == 1)
+                                        {
+                                            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#jobChargeModal">Add Service Charge</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

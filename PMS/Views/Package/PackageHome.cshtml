@@ -24,6 +24,7 @@
                     <th>Deposit Price (RM)</th>
                     <th>Package Details</th>
                     <th>Studio Name</th>
+                    <th>Package Status</th>
                     <th></th>
                 </tr>
             </thead>
@@ -64,7 +65,17 @@
                                 { 'data': 'depositprice', "autoWidth": true },
                                 { 'data': 'details', "autoWidth": true },
                                 { 'data': 'studioname', "autoWidth": true },
-                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/Edit/' + data + '">Edit</a> | <a href="@Request.Url/Detail/' + data + '">Details</a> | <a href="@Request.Url/Delete/' + data + '">Delete</a>'; } }
+                                {
+                                    'data': 'status', 'render': function (data, type, row) {
+                                        if (data === 'Enabled') {
+                                            return `<span style="color:white;background-color:green;border-radius:10px;padding:5px">${data}</span>`
+                                        }
+                                        else {
+                                            return `<span style="color:white;background-color:red;border-radius:10px;padding:5px">${data}</span>`
+                                        }
+                                    }, "autoWidth": true
+                                },
+                                { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/Edit/' + data + '">Edit</a> | <a href="@Request.Url/Detail/' + data + '">Details</a> | <a href="@Request.Url/Delete/' + data + '">Change Status</a>'; } }
                             ]
                         });
                 },

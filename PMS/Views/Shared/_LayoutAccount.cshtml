@@ -10,8 +10,8 @@
     @Styles.Render("~/Content/cssUser")
 </head>
 
-<body class="account-pages">
-    <div class="accountbg" style="background: url('/src/img/img1.jpg');background-size: cover;background-position: center;"></div>
+<body class="account-pages" style="overflow:auto">
+    <div class="accountbg" style="background: url('/src/img/bg.jpg');background-size: cover;background-position: center;"></div>
 
     <div class="wrapper-page account-page-full">
 
@@ -22,7 +22,7 @@
                         <div class="p-2">
                             <div class="text-center mt-4">
                                 <a href="@Url.Action("Index","Home")">
-                                    <img src="~/src/img/logo.png" class="w-100 my-4"  />
+                                    <img src="~/src/img/logo-pg.png" class="w-100 my-4"  />
                                 </a>
                                 @RenderBody()
                             </div>

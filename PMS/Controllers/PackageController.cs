@@ -26,7 +26,7 @@ namespace PMS.Controllers
         {
             int? studioid = ViewBag.StudioID;
             if (!db.UserStudios.ToList().Any(x => x.userid == UserAuthentication.Identity().id && x.studioid == studioid.Value))
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = "You picked the wrong studio Fool!" });
 
             return View("addnewpackage", new CreatePackageViewModel());
         }
@@ -36,7 +36,7 @@ namespace PMS.Controllers
         public ActionResult Create(CreatePackageViewModel data)
         {
             if (!db.UserStudios.ToList().Any(x => x.userid == UserAuthentication.Identity().id && x.studioid == data.studioid))
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = "You picked the wrong studio Fool!" });
 
             if (ModelState.IsValid)
             {
@@ -48,15 +48,16 @@ namespace PMS.Controllers
                         details = string.IsNullOrWhiteSpace(data.details) ? null : data.details,
                         name = data.name,
                         price = data.price,
-                        studioid = data.studioid
+                        studioid = data.studioid,
+                        status = "Enabled",
                     });
 
                     db.SaveChanges();
                     return RedirectToAction("PackageHome");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
 
@@ -74,11 +75,11 @@ namespace PMS.Controllers
                 return RedirectToAction("packagehome");
 
             if (!data.Studio.UserStudios.Any(x => x.userid == UserAuthentication.Identity().id))
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = "You picked the wrong studio Fool!" });
 
-                var edit = new CreatePackageViewModel
+            var edit = new CreatePackageViewModel
             {
-                    id = data.id,
+                id = data.id,
                 depoprice = data.depositprice,
                 details = data.details,
                 price = data.price,
@@ -97,7 +98,7 @@ namespace PMS.Controllers
                 return RedirectToAction("packagehome");
 
             if (!db.UserStudios.ToList().Any(x => x.userid == UserAuthentication.Identity().id && x.studioid == data.studioid))
-                return View("error");
+                return RedirectToAction("Error500", "Home", new { errormsg = "You picked the wrong studio Fool!" });
 
             if (ModelState.IsValid)
             {
@@ -113,9 +114,9 @@ namespace PMS.Controllers
                     db.SaveChanges();
                     return RedirectToAction("PackageHome");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
                 }
             }
 
@@ -149,19 +150,26 @@ namespace PMS.Controllers
 
                 if (package.Studio.UserStudios.Any(x => x.userid == UserAuthentication.Identity().id))
                 {
-                    db.Packages.Remove(package);
+                    if (package.status == "Enabled")
+                    {
+                        package.status = "Disabled";
+                    }
+                    else
+                    {
+                        package.status = "Enabled";
+                    }
                     db.SaveChanges();
 
                     return RedirectToAction("packagehome");
                 }
                 else
                 {
-                    return View("error");
+                    return RedirectToAction("Error500", "Home", new { errormsg = "You are not authorized to delete the package Faggot!" });
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
             }
         }
 
@@ -179,13 +187,13 @@ namespace PMS.Controllers
             if (string.IsNullOrWhiteSpace(charge.Name))
             {
                 ModelState.AddModelError("Name", "Charge Name is required");
-            }    
+            }
 
             else if (charge.Price <= 0 || !charge.Price.HasValue)
             {
                 ModelState.AddModelError("Price", "Charge Price cannot be less than 1");
-            }            
-        }        
+            }
+        }
 
 
         [StudioPermalinkValidate(RoleID = 1)]
@@ -214,7 +222,7 @@ namespace PMS.Controllers
             ViewBag.SubmitButton = "Save Changes";
             var charge = db.Charges.FirstOrDefault(x => x.id == id);
 
-            return View("ChargePresetForm",charge);
+            return View("ChargePresetForm", charge);
         }
 
         [StudioPermalinkValidate(RoleID = 1)]

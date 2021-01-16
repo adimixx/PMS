@@ -121,21 +121,51 @@ textarea {
         /* width: 85%; */
     }
 
-    #page-head li {
-        float: left;
+.topnav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333547;
+}
+
+.topnav li {
+    float: left;
+}
+
+    .topnav li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 3px 18px;
+        margin-top: 8px;
+        margin-bottom: 9px;
+        text-decoration: none;
+        border-radius: 50px;
+        background-color: rgba(118, 206, 210,.6);
+        margin-right: 10px;
+        transition: background-color .3s ease-out;
     }
 
-        #page-head li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 12px;
-            text-decoration: none;
+        .topnav li a:hover {
+            background-color: rgba(118, 206, 210,1);
         }
 
-            #page-head li a:hover {
-                color: #e8e8e8;
-            }
+#page-head li {
+    float: left;
+}
+
+    #page-head li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+    }
+
+        #page-head li a:hover {
+            color: #e8e8e8;
+        }
 
 #banner .title {
     top: 20%;
@@ -148,16 +178,16 @@ textarea {
 
 #banner .mid {
     position: absolute;
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
     left: 0;
     right: 0;
-    transform: translateY(-50%);
+    transform: translateY(-35%);
     text-align: center;
 }
 
 #banner .search {
-    top: 50%;
+    top: 35%;
 }
 
     #banner .search input {
@@ -340,11 +370,11 @@ textarea {
         color: #7a7a7a;
     }
 
-    .body-profile article {
-        max-height: 1.5em;
-        overflow: hidden;
-        transition: 0.3s height ease;
-    }
+article {
+    max-height: 1.5em;
+    overflow: hidden;
+    transition: 0.3s height ease;
+}
 
 .imgWrap {
     /* min-height: 13vw; */
@@ -455,6 +485,7 @@ textarea {
     position: absolute;
     bottom: -10px;
     right: -13px;
+    z-index: 1002;
     box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
 }
 
@@ -526,3 +557,46 @@ textarea {
 .card {
     box-shadow: 0 4px 24px 0 rgba(34,41,47,.1);
 }
+
+.header-chat img {
+    float: left;
+    width: 33px;
+    height: 33px;
+    background: #555;
+}
+
+.header-chat h4 {
+    position: relative;
+    top: 3px;
+    left: 10px;
+}
+
+.chat-input {
+    /* display: block; */
+    width: 100%;
+    position: relative;
+    padding: .375rem .75rem;
+    height: calc(2.0em + 0.75rem + 2px);
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    max-width: unset;
+    bottom: 0px;
+    background-color: white;
+}
+
+    .chat-input:focus {
+        outline: none;
+    }
+
+.btn-send {
+    position: absolute;
+    right: 12px;
+    bottom: 15.5px;
+    background-color: #76CED2;
+    color: white;
+}
+
+    .btn-send:hover {
+        color: white;
+        background-color: #70c1c4;
+    }

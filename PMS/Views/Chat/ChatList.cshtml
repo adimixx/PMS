@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PMS.Models.Database.ChatKey>
+﻿@model List<PMS.Models.Database.ChatKey>
 
 @{
     if (ViewBag.StudioRoleID != null)
@@ -11,6 +11,8 @@
         ViewBag.Title = "Messages";
     }
 
+    string Image = "";
+
 }
 
 @if (ViewBag.StudioRoleID == null)
@@ -22,11 +24,13 @@
                 <p>Inbox list of all studio that you chatted with.</p>
             </div>
         </div>
+
     }
     else
     {
         <h2> <i class="mdi mdi-chat"></i> Chats</h2>
         <p>Inbox list of all the customer who chat the studio.</p>
+
     }
 
 <div class="card">
@@ -42,24 +46,53 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        if (ViewBag.StudioRoleID != null)
+                        {
+                            if (item.User.imgprofile == null)
+                            {
+                                Image = "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg";
+                            }
+                            else
+                            {
+                                Image = @String.Format("https://storagephotog2.blob.core.windows.net/user-data/{0}/{1}", item.UserID, item.User.imgprofile);
+                            }
+                        }
+                        else
+                        {
+                            if (item.Studio.ImgLogo == null)
+                            {
+                                Image = "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg";
+                            }
+                            else
+                            {
+                                Image = @String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", item.StudioID, item.Studio.ImgLogo);
+                            }
+                        }
                         <tr>
                             @if (ViewBag.StudioUrl != null)
                             {
                                 <td>
-                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
-                                    @item.User.name
-                                    <a href="@string.Format("/{0}/Chat?key={1}", ViewBag.StudioUrl, item.ChatKeyID)" class="btn btn-primary float-right">Enter</a>
-
-                                </td>
-                            }
-                            else
-                            {
-                                <td>
-                                    @*<img src="assets/images/users/user-2.jpg" alt="" class="avatar-xs rounded-circle mr-2">this reserve for image*@
-                                    @item.Studio.name
-                                    <a href="@string.Format("/Chat?key={0}", item.ChatKeyID)" class="btn btn-primary float-right">Enter</a>
-                                </td>
-                            }
+                                    <div class="header-chat">
+                                        <img src="@Image" class="rounded-circle" width="20" />
+                                        <h4>
+                                            @item.User.name
+                                            <a href="@string.Format("/{0}/Chat?key={1}", ViewBag.StudioUrl, item.ChatKeyID)" class="btn btn-primary float-right">Enter</a>
+                                        </h4>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="header-chat">
+                                    <img src="@Image" class="rounded-circle" width="20" />
+                                    <h4>
+                                        @item.Studio.name
+                                        <a href="@string.Format("/Chat?key={0}", item.ChatKeyID)" class="btn btn-primary float-right">Enter</a>
+                                    </h4>
+                                </div>
+                            </td>
+                        }
 
                         </tr>
                     }

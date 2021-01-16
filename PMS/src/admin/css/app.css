@@ -108,7 +108,7 @@ File: Main Css File
 }
 
 .header-item {
-    height: 47px;
+    height: 62px;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
     color: #525f80;
@@ -887,14 +887,13 @@ body[data-sidebar="colored"].vertical-collpsed .vertical-menu #sidebar-menu ul l
 
 .topnav {
     background: #333547;
-    padding: 0 calc(24px / 2);
-    -webkit-box-shadow: 0px 0px 13px 0px rgba(236, 236, 241, 0.44);
-    box-shadow: 0px 0px 13px 0px rgba(236, 236, 241, 0.44);
-    margin-top: 70px;
+    /* padding: 0 calc(24px / 2); */
+    margin-top: 0px;
     position: fixed;
     left: 0;
     right: 0;
     z-index: 1;
+    /* border-top: 1px solid darkslategray; */
 }
 
     .topnav .topnav-menu {
@@ -918,27 +917,36 @@ body[data-sidebar="colored"].vertical-collpsed .vertical-menu #sidebar-menu ul l
             background-color: transparent;
         }
 
-    .topnav .navbar-nav > .dropdown.active > a {
-        color: rgba(255, 255, 255, 0.9) !important;
+.nav-link {
+    color: white !important;
+    transition: color .3s ease-out;
+}
+
+    .nav-link:hover {
+        color: #76CED2 !important;
     }
 
-    .topnav .navbar-nav .dropdown-item {
-        color: #66676d;
-    }
+.topnav .navbar-nav > .dropdown.active > a {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
 
-        .topnav .navbar-nav .dropdown-item.active, .topnav .navbar-nav .dropdown-item:hover {
-            color: #626ed4;
-            background-color: transparent;
-        }
+.topnav .navbar-nav .dropdown-item {
+    color: #66676d;
+}
 
-    .topnav .navbar-nav .nav-item .nav-link.active {
-        color: #626ed4;
-    }
-
-    .topnav .navbar-nav .dropdown.active > a {
+    .topnav .navbar-nav .dropdown-item.active, .topnav .navbar-nav .dropdown-item:hover {
         color: #626ed4;
         background-color: transparent;
     }
+
+.topnav .navbar-nav .nav-item .nav-link.active {
+    color: #626ed4;
+}
+
+.topnav .navbar-nav .dropdown.active > a {
+    color: #626ed4;
+    background-color: transparent;
+}
 
 @media (min-width: 1200px) {
     body[data-layout="horizontal"] .container-fluid,
@@ -1635,14 +1643,14 @@ body[data-layout="horizontal"][data-layout-size="boxed"] .container-fluid, body[
 
     .conversation-list .ctext-wrap .user-name {
         display: block;
-        font-weight: 600;
+        font-weight: 500;
         position: relative;
         font-size: 12px;
-        color: #626ed4;
+        color: white;
     }
 
     .conversation-list .ctext-wrap p {
-        color: #2f3cab;
+        color: white;
     }
 
     .conversation-list .conversation-text {
@@ -1667,8 +1675,8 @@ body[data-layout="horizontal"][data-layout-size="boxed"] .container-fluid, body[
             right: 100%;
             top: 0;
             border: solid transparent;
-            border-right-color: #e2e4f7;
-            border-top-color: #e2e4f7;
+            border-right-color: #4B9AF9;
+            border-top-color: #4B9AF9;
             border-width: 5px;
         }
 
@@ -1689,20 +1697,24 @@ body[data-layout="horizontal"][data-layout-size="boxed"] .container-fluid, body[
     }
 
     .conversation-list .odd .ctext-wrap {
-        background: #eff1f3 !important;
+        background: #F2F8FF !important;
         border-radius: 7px 0px 7px 7px;
     }
 
+        .conversation-list .odd .ctext-wrap .user-name {
+            color: #333547;
+        }
+
         .conversation-list .odd .ctext-wrap p {
-            color: #495057;
+            color: #333547;
         }
 
         .conversation-list .odd .ctext-wrap:after {
             left: 100% !important;
             top: 0 !important;
             border-color: rgba(238, 238, 242, 0) !important;
-            border-left-color: #eff1f3 !important;
-            border-top-color: #eff1f3 !important;
+            border-left-color: #F2F8FF !important;
+            border-top-color: #F2F8FF !important;
         }
 
 .button-items {
@@ -3874,6 +3886,7 @@ a.faq[data-toggle=collapse]:before {
     background-color: #76CED2 !important;
     color: white;
 }
+
     .text-template:hover {
         background-color: #70c1c4 !important;
         color: white !important;

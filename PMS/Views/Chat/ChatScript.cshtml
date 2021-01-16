@@ -59,9 +59,9 @@
                     //this is sender chat(align right side of interface)
                     //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
                     //html += "(me)";
-                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.User.name" + "(You)</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
+                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name' style='color:#333547 !important'>" + "@Model.User.name" + "(You)</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
                 } else {
-                    html += "<li class='clearfix ' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.Studio.name" + "</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
+                    html += "<li class='clearfix ' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:#4B9AF9'><span class='user-name'>" + "@Model.Studio.name" + "</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
                 }
             }
             else {
@@ -69,11 +69,12 @@
                     //this is sender chat(align right side of interface)
                     //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
                     //html += "(me)";
+                    //html += "(me)";
                     //change p
-                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.User.name"  + "(You)</span><p>" + snapshot.val().message + "</p></div></div></li >";
+                    html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name' style='color:#333547 !important'>" + "@Model.User.name"  + "(You)</span><p>" + snapshot.val().message + "</p></div></div></li >";
                 } else {
 
-                    html += "<li class='clearfix' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.Studio.name" + "</span><p>" + snapshot.val().message + "</p></div></div></li >";
+                    html += "<li class='clearfix' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:#4B9AF9'><span class='user-name'>" + "@Model.Studio.name" + "</span><p>" + snapshot.val().message + "</p></div></div></li >";
                 }
             }
             document.getElementById("msg").innerHTML += html;
@@ -164,7 +165,7 @@ else
                     html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.Studio.name" + "(You)</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
                 } else {
 
-                    html += "<li class='clearfix ' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.User.name" + "</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
+                    html += "<li class='clearfix ' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:#4B9AF9'><span class='user-name'>" + "@Model.User.name" + "</span><img style='max-height:500px;max-width:500px;'  src='" + snapshot.val().message + "' ></div></div></li >";
                 }
             }
             else {
@@ -176,7 +177,7 @@ else
                     html += "<li class='clearfix odd' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' ><span class='user-name'>" + "@Model.Studio.name" + "(You)</span><p>" + snapshot.val().message + "</p></div></div></li >";
                 } else {
 
-                    html += "<li class='clearfix' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:lightgrey'><span class='user-name'>" + "@Model.User.name" +"</span><p>" + snapshot.val().message + "</p></div></div></li >";
+                    html += "<li class='clearfix' id='message-" + snapshot.key + "'><div class='chat-avatar'><span class='time'>" + snapshot.val().time + "</span></div><div class='conversation-text'><div class='ctext-wrap' style='background-color:#4B9AF9'><span class='user-name'>" + "@Model.User.name" +"</span><p>" + snapshot.val().message + "</p></div></div></li >";
                 }
             }
             document.getElementById("msg").innerHTML += html;
@@ -224,5 +225,7 @@ else
     fileup.addEventListener("change", function () {
         encodeImageFIleURL();
     });
+
+
     </script>
 }

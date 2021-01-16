@@ -50,7 +50,8 @@ namespace PMS.Controllers
                     price = item.price.ToString(".00"),
                     studioname = item.Studio.name,
                     depositprice = item.depositprice.ToString(".00"),
-                    item.details
+                    item.details,
+                    item.status
                 });
             }
             return Ok(data);
@@ -92,6 +93,30 @@ namespace PMS.Controllers
                     status = item.JobStatu.name,
                     paymentstatus = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status : "-",
                     paymentdetail = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail : "-"
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadJobStaffMain(int id)
+        {
+            photogEntities db = new photogEntities();
+            var aid = UserAuthentication.Identity().id;
+            var model = db.JobDateUsers.Where(x => x.UserStudio.userid == aid && x.UserStudio.studioid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.JobDate.Job.id,
+                    DateCreated = item.JobDate.Job.DateCreated.ToString("dd/MM/yyyy hh:mm"),
+                    client = item.JobDate.Job.User.name,
+                    package = item.JobDate.Job.Package.name,
+                    status = item.JobDate.Job.JobStatu.name,
+                    paymentstatus = item.JobDate.Job.Invoices.Any() ? item.JobDate.Job.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.JobDate.jobid).status : "-",
+                    paymentdetail = item.JobDate.Job.Invoices.Any() ? item.JobDate.Job.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.JobDate.jobid).detail : "-"
                 });
             }
             return Ok(data);

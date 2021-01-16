@@ -6,70 +6,97 @@
     }
 
     string Receiver, Sender;
+    string Image = "";
     if (ViewBag.StudioID != null)
     {
         Receiver = Model.Studio.name;
         Sender = Model.User.name;
+
+        if (Model.User.imgprofile == null)
+        {
+            Image = "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg";
+        }
+        else
+        {
+            Image = @String.Format("https://storagephotog2.blob.core.windows.net/user-data/{0}/{1}", Model.UserID, Model.User.imgprofile);
+        }
     }
     else
     {
         Receiver = Model.User.name;
         Sender = Model.Studio.name;
+
+        if (Model.Studio.ImgLogo == null)
+        {
+            Image = "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg";
+        }
+        else
+        {
+            Image = @String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.StudioID, Model.Studio.ImgLogo);
+        }
     }
 
     ViewBag.Title = "Message : " + Sender;
 
-    <h2>@Sender</h2>
 }
+<style>
+</style>
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title mb-4">Chat</h4>
-                <div class="chat-conversation">
-                    <ul class="conversation-list" data-simplebar="init" style="min-height: 670px; background-color:white ">
-                        <div class="simplebar-wrapper" style="margin: 0px -10px;">
-                            <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
-                                <div class="simplebar-offset" style="right: -17px; bottom: 0px;">
-                                    <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden scroll;">
-                                        <div class="simplebar-content" id="msg" style="padding: 0px 10px;">
+<div class="container">
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><div class="simplebar-placeholder" style="width: auto; height: 458px;"></div>
-                        </div>
-                        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div>
-                        <div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 294px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div>
-                    </ul>
-                    <div class="row">
-                        <form id="myform" class="row" onsubmit="return sendMessage();">
-                            <div class="col-md-9 col-8 chat-inputbar">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" style="background-color:white;border-bottom:1px solid #EBF0F5">
 
-                                <input id="message" class="form-control chat-input col-lg-9" placeholder="Enter message" autocomplete="off">
-                            </div>
-                            <div class="col-sm-2 col-4 chat-send">
-                                <button type="submit" class="btn btn-success btn-block">Send</button>
-                                <input id="fileup" type="file" class="btn btn-success btn-block" value="upload image" />
-                            </div>
-                            <div class="col-sm-2 col-4 chat-send">
-
-                            </div>
-                        </form>
+                    <div class="header-chat">
+                        <img src="@Image" class="rounded-circle" width="20" />
+                        <h4>@Sender</h4>
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="card-body">
+                    <div class="chat-conversation" id="chatcon">
+                        <ul class="conversation-list" data-simplebar="init" style="min-height: 670px; background-color:white ">
+                            <div class="simplebar-wrapper" style="margin: 0px -10px;">
+                                <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
+                                    <div class="simplebar-offset" style="right: -17px; bottom: 0px;">
+                                        <div class="simplebar-content-wrapper" id="scroll" style="height: auto; overflow: hidden scroll;">
+                                            <div class="simplebar-content" id="msg" style="padding: 0px 10px;">
 
-    </div>
-    <div class="col-md-6">
-        @{
-            Html.RenderPartial("ChatPackagePanel");
-        }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><div class="simplebar-placeholder" style="width: auto; height: 458px;"></div>
+                            </div>
+                            <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div>
+                            <div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 294px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="card-footer" style="border-top: 1px solid rgb(235, 240, 245);background-color:white">
+                    <form id="myform" class="row" onsubmit="return sendMessage();">
+                        <input id="message" class="chat-input" placeholder="Type a message" autocomplete="off">
+                        <button type="submit" class="btn btn-send"><i class="mdi mdi-send"></i></button>
+                        <!-- <div class="col-sm-2 col-4 chat-send">
+                            <button type="submit" class="btn btn-success btn-block">Send</button>
+                            <input id="fileup" type="file" class="btn btn-success btn-block" value="upload image" />
+                        </div>
+                        <div class="col-sm-2 col-4 chat-send">
+
+                        </div>-->
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            @{
+                Html.RenderPartial("ChatPackagePanel");
+            }
+        </div>
     </div>
 </div>
-
 
 @section Scripts{
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
@@ -88,10 +115,12 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+
     </script>
     @{
         Html.RenderPartial("ChatScript", Model);
         Html.RenderPartial("ChatPackagePanelScript");
     }
+
 }
 
