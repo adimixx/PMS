@@ -23,9 +23,9 @@ namespace PMS.Models.Database
         }
     
         public int id { get; set; }
-        public Nullable<int> packageid { get; set; }
-        public Nullable<int> userid { get; set; }
-        public Nullable<int> jobstatusid { get; set; }
+        public int packageid { get; set; }
+        public int userid { get; set; }
+        public int jobstatusid { get; set; }
         public System.DateTime DateCreated { get; set; }
         public string paymentstatus { get; set; }
         public decimal PackagePrice { get; set; }

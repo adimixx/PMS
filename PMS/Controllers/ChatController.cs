@@ -119,47 +119,9 @@ namespace PMS.Controllers
             return Redirect(string.Format("/{0}?key={1}", "Chat", checkchatkey.ChatKeyID));
         }
 
-        //In Development - Chat Quotation Panel
-        [StudioPermalinkValidate]
-        public async Task<ActionResult> Index()
-        {
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
-            FirestoreDb firestore = FirestoreDb.Create("photogw2");
-            string docID;
-            var collection = firestore.Collection("Quotation");
-
-            var snapshot = await collection.WhereEqualTo("ChatKey", 1).GetSnapshotAsync();
-
-            if (snapshot.Count() != 0)
-            {
-                docID = snapshot.Documents.FirstOrDefault().Id;
-            }
-
-            else
-            {
-                var arr = new Dictionary<string, object>().ToArray();
-                Dictionary<string, object> data = new Dictionary<string, object>
-            {
-                {"ChatKey", 1 }
-            };
-
-                var submitData = collection.Document();
-                await submitData.SetAsync(data);
-                docID = submitData.Id;
-            }
-
-            int studioID = (int)ViewBag.StudioID;
-            ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
-
-            ViewBag.QuotationID = docID;
-            return View();
-        }
-
         public PartialViewResult StudioChatPackagePanel()
         {
             return PartialView();
         }
-
-
     }
 }
