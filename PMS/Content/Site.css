@@ -570,3 +570,33 @@ article {
     top: 3px;
     left: 10px;
 }
+
+.chat-input {
+    /* display: block; */
+    width: 100%;
+    position: relative;
+    padding: .375rem .75rem;
+    height: calc(2.0em + 0.75rem + 2px);
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    max-width: unset;
+    bottom: 0px;
+    background-color: white;
+}
+
+    .chat-input:focus {
+        outline: none;
+    }
+
+.btn-send {
+    position: absolute;
+    right: 12px;
+    bottom: 15.5px;
+    background-color: #76CED2;
+    color: white;
+}
+
+    .btn-send:hover {
+        color: white;
+        background-color: #70c1c4;
+    }
