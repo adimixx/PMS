@@ -1,4 +1,11 @@
 ﻿@model PMS.Models.Database.Studio
+    @{ 
+        var fb = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "facebook")?.address;
+        var twitter = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "twitter")?.address;
+        var insta = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "instagram")?.address;
+        var web = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "web")?.address;
+    }
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
 
@@ -14,6 +21,11 @@
             Bio: `@Model.longDesc`,
             ImgCover: `@Model.ImgCover`,
             ImgLogo: `@Model.ImgLogo`,
+            Link: {
+                Facebook: `@fb`,
+                Twitter: `@twitter`,
+                Instagram: `@insta`
+            }
         }
     };
 

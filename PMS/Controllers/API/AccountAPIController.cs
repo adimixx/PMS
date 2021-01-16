@@ -38,24 +38,6 @@ namespace PMS.Controllers.API
             return BadRequest();
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetCurrentProfilePic()
-        {
-            using (WebClient client = new WebClient())
-            {
-                var photo = User.Identity.GetProfilePhotoLink();
-                var data = client.DownloadData(photo);
-                var contentType = client.ResponseHeaders["Content-Type"];
-                MemoryStream ms = new MemoryStream(data);
-
-                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-                response.Content = new StreamContent(ms);
-                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
-                return response;
-            }
-  
-        }
-
         [HttpDelete]
         public IHttpActionResult DeleteProfilePic()
         {

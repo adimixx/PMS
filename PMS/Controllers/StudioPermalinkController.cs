@@ -100,6 +100,54 @@ namespace PMS.Controllers
                 studio.State = createStudio.SelectedState;
                 studio.City = createStudio.SelectedCity;
                 studio.longDesc = createStudio.longDesc;
+
+                if (!string.IsNullOrWhiteSpace(createStudio.Facebook) && studio.StudioLinks.FirstOrDefault(x=>x.name.ToLower() == "facebook") == null)
+                {
+                    studio.StudioLinks.Add(new StudioLink { name = "Facebook", address = createStudio.Facebook });
+                }
+
+                if (!string.IsNullOrWhiteSpace(createStudio.Twitter) && studio.StudioLinks.FirstOrDefault(x => x.name.ToLower() == "twitter") == null)
+                {
+                    studio.StudioLinks.Add(new StudioLink { name = "Twitter", address = createStudio.Twitter });
+                }
+
+                if (!string.IsNullOrWhiteSpace(createStudio.Instagram) && studio.StudioLinks.FirstOrDefault(x => x.name.ToLower() == "instagram") == null)
+                {
+                    studio.StudioLinks.Add(new StudioLink { name = "Instagram", address = createStudio.Instagram });
+                }
+
+                for (int i = 0; i < studio.StudioLinks.Count(); i++)
+                {
+                    if (studio.StudioLinks.ElementAt(i).name.ToLower() == "facebook")
+                    {
+                        if (string.IsNullOrWhiteSpace(createStudio.Facebook))
+                        {
+                            studio.StudioLinks.Remove(studio.StudioLinks.ElementAt(i));
+                        }
+                        else
+                        studio.StudioLinks.ElementAt(i).address = createStudio.Facebook;
+                    }
+                    else if (studio.StudioLinks.ElementAt(i).name.ToLower() == "twitter")
+                    {
+                        if (string.IsNullOrWhiteSpace(createStudio.Twitter))
+                        {
+                            studio.StudioLinks.Remove(studio.StudioLinks.ElementAt(i));
+                        }
+                        else
+                            studio.StudioLinks.ElementAt(i).address = createStudio.Twitter;
+                    }
+                    else if (studio.StudioLinks.ElementAt(i).name.ToLower() == "instagram")
+                    {
+                        if (string.IsNullOrWhiteSpace(createStudio.Instagram))
+                        {
+                            studio.StudioLinks.Remove(studio.StudioLinks.ElementAt(i));
+                        }
+                        else
+
+                            studio.StudioLinks.ElementAt(i).address = createStudio.Instagram;
+                    }
+                }
+                
                 db.SaveChanges();
 
                 TempData["Changes"] = "Studio profile have been updated successfully";

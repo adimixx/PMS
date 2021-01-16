@@ -90,8 +90,8 @@ namespace PMS.Controllers
                     client = item.User.name,
                     package = item.Package.name,
                     status = item.JobStatu.name,
-                    paymentstatus = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status,
-                    paymentdetail = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail
+                    paymentstatus = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status : "-",
+                    paymentdetail = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail : "-"
                 });
             }
             return Ok(data);
@@ -114,8 +114,8 @@ namespace PMS.Controllers
                     client = item.User.name,
                     package = item.Package.name,
                     status = item.JobStatu.name,
-                    paymentstatus = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status,
-                    paymentdetail = item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail,
+                    paymentstatus = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).status : "-",
+                    paymentdetail = item.Invoices.Any() ? item.Invoices.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == item.id).detail : "-",
                     studiolink = item.Package.Studio.uniquename
                 });
             }
@@ -136,6 +136,26 @@ namespace PMS.Controllers
                     item.id,
                     amount = "RM" + item.amount.ToString(".00"),
                     item.remarks
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadJobStaff(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.JobDateUsers.Where(x => x.jobdateid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    item.UserStudio.User.name,
+                    item.UserStudio.User.email,
+                    phone = item.UserStudio.User.phonenumber,
+                    item.id
                 });
             }
             return Ok(data);
@@ -258,6 +278,31 @@ namespace PMS.Controllers
             }
 
             return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadPackageCharges(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Charges.Where(x => x.StudioID == id).Select(x => new { x.id, x.Name, x.Description, x.Price, x.Unit }).ToList();
+
+            return Ok(model);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult deletePackageCharges(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.Charges.FirstOrDefault(x => x.id == id);
+
+            if (model != null)
+            {
+                db.Charges.Remove(model);
+                db.SaveChanges();
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

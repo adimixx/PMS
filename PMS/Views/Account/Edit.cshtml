@@ -277,6 +277,14 @@
                 process: '/UploadProfilePic',
                 method: 'POST',
                 revert: null,
+                load: (source, load, error, progress, abort, headers) => {
+                    var myRequest = new Request(source);
+                    fetch(myRequest).then(function (response) {
+                        response.blob().then(function (myBlob) {
+                            load(myBlob)
+                        });
+                    });
+                },
             }
         });
 
@@ -303,24 +311,14 @@
                 credits: false,
                 files: [
                     {
-                        // the server file reference
-                        source: '12345',
-
-                        // set type to local to indicate an already uploaded file
-                        options: {
-                            type: 'local',
-
-                            // stub file information
-                            file: {
-                                name: 'Profile Picture',
-                            },
-
-                            // pass poster property
-                            metadata: {
-                                poster: '/SystemAPI/Account/GetCurrentProfilePic',
-                                filePosterMaxHeight: 200
-                            }
-                        }
+                      source: "@User.Identity.GetProfilePhotoLink()",
+                      // set type to local to indicate an already uploaded file
+                      options:
+                      {
+                          name : "@User.Identity.GetProfilePhotoLink()",
+                          type: 'local',
+                          id : '111'
+                      }
                     }
                 ]
             });
@@ -341,7 +339,7 @@
             }
 
             else {
-                inputPic.processFile().then(() => {
+                inputPic.processFiles().then(() => {
                     location.reload();
                 });
             }

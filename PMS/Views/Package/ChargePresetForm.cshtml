@@ -1,0 +1,52 @@
+﻿@model PMS.Models.Database.Charge
+
+@{
+    Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <h4>@ViewBag.Title</h4>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            if (Model != null)
+            {
+                Html.HiddenFor(x => x.StudioID);
+            }
+
+            <div class="form-group">
+                <label for="Name">Charge Name</label>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group">
+                <label for="Name">Charge Description</label>
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 4 })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="Name">Price Per Unit (RM)</label>
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="Name">Unit</label>
+                @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="@ViewBag.SubmitButton" class="btn btn-primary" />
+                <a href="@Url.Action("PackageHome")" class="btn btn-danger">Cancel</a>
+            </div>
+        }
+    </div>
+</div>
