@@ -110,7 +110,7 @@ namespace PMS.Controllers
             {
                 data.Add(new
                 {
-                    item.id,
+                    item.JobDate.Job.id,
                     DateCreated = item.JobDate.Job.DateCreated.ToString("dd/MM/yyyy hh:mm"),
                     client = item.JobDate.Job.User.name,
                     package = item.JobDate.Job.Package.name,
