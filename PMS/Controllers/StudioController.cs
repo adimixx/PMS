@@ -73,6 +73,22 @@ namespace PMS.Controllers
                 studio.City = createStudio.SelectedCity;
                 studio.longDesc = createStudio.longDesc;
                 studio.uniquename = Backbone.Random(5);
+
+                if (!string.IsNullOrWhiteSpace(createStudio.Facebook))
+                {
+                    studio.StudioLinks.Add(new StudioLink { name = "Facebook", address = createStudio.Facebook });
+                }
+
+                if (!string.IsNullOrWhiteSpace(createStudio.Twitter))
+                {
+                    studio.StudioLinks.Add(new StudioLink { name = "Twitter", address = createStudio.Twitter });
+                }
+
+                if (!string.IsNullOrWhiteSpace(createStudio.Instagram))
+                {
+                    studio.StudioLinks.Add(new StudioLink { name = "Instagram", address = createStudio.Instagram });
+                }
+
                 UserStudio userCred = new UserStudio { userid = UserAuthentication.Identity().id, studioroleid = 1 };
                 studio.UserStudios.Add(userCred);
 

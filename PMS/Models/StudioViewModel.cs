@@ -21,6 +21,11 @@ namespace PMS.Models
         [DisplayName("City")]
         public string SelectedCity { get; set; }
 
+        public string Facebook { get; set; }
+        public string Instagram { get; set; }
+        public string Twitter { get; set; }
+        public string Web { get; set; }
+
         public void setCityList(string state)
         {
             var location = new LocationList();
