@@ -3,25 +3,31 @@
     ViewBag.Title = "Job Home";
 }
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
-<h2 style="margin-top:15px">List of Jobs</h2>
+<div class="container">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
+    <h2><i class="mdi mdi-briefcase-clock"></i> List of Jobs</h2>
+    <p>
+        To view quotation that have been confirmed by the studios.
+    </p>
 
-<div class="container" style="padding:5px">
-    <table id="jobTable" class="table table-striped table-bordered" style="width:100%">
-        <thead class="text-center">
-            <tr>
-                <th>Date Issued</th>
-                <th>Client's Name</th>
-                <th>Package Chosen</th>
-                <th>Status</th>
-                <th>Payment Status</th>
-                <th>Payment Detail</th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
+    <div class="card">
+        <div class="card-body">
+            <table id="jobTable" class="table table-striped table-bordered" style="width:100%">
+                <thead class="text-center">
+                    <tr>
+                        <th>Date Issued</th>
+                        <th>Client's Name</th>
+                        <th>Package Chosen</th>
+                        <th>Status</th>
+                        <th>Payment Status</th>
+                        <th>Payment Detail</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </div>
-
 @section Scripts {
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
