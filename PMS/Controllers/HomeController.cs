@@ -14,25 +14,37 @@ namespace PMS.Controllers
     {
         public ActionResult Index()
         {
+            photogEntities db = new photogEntities();
+            SearchViewModel src = new SearchViewModel();
+
+            src.pkg = db.Packages.ToList();
+
             if (User.Identity.IsAuthenticated)
             {
                 if (User.IsInRole("Admin"))
                 {
-                    return View("IndexAdmin");
+                    return View("IndexAdmin", src);
                 }
             }
 
             ViewBag.Title = "Home Page";
 
-            return View();
+            return View(src);
         }
 
         [HttpGet]
         public ActionResult Search(SearchViewModel srcres)
         {
             photogEntities db = new photogEntities();
-            var a = db.Packages.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower()) && x.status == "Enabled").ToList();
-            var b = db.Studios.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+
+            var a = db.Packages.ToList();
+            var b = db.Studios.ToList();       
+
+            if (srcres.keyword != null)
+            {
+                a = a.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+                b = b.Where(x => x.name.ToLower().Contains(srcres.keyword.ToLower())).ToList();
+            }
 
             if (srcres.sortby != null)
             {
@@ -46,7 +58,7 @@ namespace PMS.Controllers
                 }
             }
 
-            if(srcres.minprice != null)
+            if (srcres.minprice != null)
             {
                 a = a.Where(z => z.price >= decimal.Parse(srcres.minprice)).ToList();
             }
@@ -61,5 +73,6 @@ namespace PMS.Controllers
 
             return View(srcres);
         }
+
     }
 }

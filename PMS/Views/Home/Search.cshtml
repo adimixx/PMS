@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Search";
+
+    int i = 0;
 }
 
 @section styles {
@@ -10,198 +12,290 @@
             /*padding-left: 15px !important;*/
             padding-right: 15px !important;
         }
+        .bg {
+            object-fit: cover;
+            height: 110px;
+        }
     </style>
 }
 
-<div class="row" id="searchpg" hidden>
-    <div class="col-12 p-0">
-        <img class="d-block w-100" style="object-fit: cover;height:80px" src="~/src/images/gallery/banner-1.jpg">
-        <div class="mid search" style="position:relative;top: -33%">
-            @using (Html.BeginForm("Search", "Home", FormMethod.Get))
-            {
-                @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required", value = @Model.keyword } })
-                <button type="submit"><i class="fa fa-search"></i></button>
-                <div class="filter" style="">test</div>
-            }
-        </div>
-    </div>
-</div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-2 col-12">
-            <div class="row" id="searchpg">
-                <div class="col-12">
-                    <img class="d-block w-100" style="object-fit: cover;" src="~/src/images/gallery/banner-1.jpg">
-                    <div class="mid search" style="position:relative;">
-                        @using (Html.BeginForm("Search", "Home", FormMethod.Get))
-                        {
-                            @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required", value = @Model.keyword } })
-                            <button type="submit"><i class="fa fa-search"></i></button>
-                        }
-                    </div>
+
+    @if (Model.view == "studio")
+    {
+        <div class="row" id="banner">
+            <div class="col-12 p-0 mb-4">
+                <h2 class="rgb">Search studio</h2>
+                <img class="d-block w-100 bg" src="~/src/img/srcbg2.jpg">
+                <div class="mid search" style=" top: 58%">
+                    @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+                    {
+                        @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required", value = @Model.keyword } })
+                        @Html.EditorFor(model => model.view, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", hidden = "hidden", @Value = "studio" } })
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    }
                 </div>
             </div>
-        </div>
-        <div class="col-md-10 col-12" id="titlestudioresult">
+            <div class="col-12 p-0" id="titlestudioresult">
 
-            @if (Model.std.Count() > 0)
-            {
-                <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
-            }
-            else
-            {
-                <p class="mb-0" style="font-size:16px"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
-            }
-
-            <div id="studioRes">
-                @foreach (var item in Model.std)
+                @if (Model.std.Count() > 0)
                 {
-                    string imgLogo = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
-                    string imgCover = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
-
-                    <div class="card px-4 mb-2 srcres" style=" background-image: url(@imgCover);">
-                        <div class="row">
-                            <div class="col-7">
-                                <div class="imgstud">
-                                    <img class="rounded-circle" style="width:75px" src="@imgLogo">
-                                </div>
-                                <div class="py-1">
-                                    <h4>@item.name</h4>
-                                    <span>@item.shortDesc</span> <br>
-                                </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="w-25 float-left py-3 px-2" style="text-align:center">
-                                    <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
-                                    @item.City, @item.State
-                                </div>
-                                <div class="w-25 float-left py-3 px-2" style="text-align:center">
-                                    <span class="mdi mdi-18px mdi-package"> 10</span><br>
-                                    Packages
-                                </div>
-                                <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
-                                    <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
-                                    Review
-                                </div>
-                                <div class="w-25 float-left">
-                                    <a href="/@item.uniquename" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
-                                    <a href="/@item.uniquename/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
-                                </div>
-                            </div>
-                        </div><br>
-                    </div>
-                    <a href="#" class="float-right">Show More</a>
+                    if (Model.keyword != null)
+                    {
+                        <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                    }
+                    else
+                    {
+                        <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for <span style="color:#76CED2">recomended studio</span></p>
+                    }
                 }
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2 col-12">
-            <h4 style="text-align:center"><span class="mdi mdi-filter-outline"></span> Search Filter</h4>
-            <hr />
-            <h5>Price</h5>
-            <div class="row">
-                <div class="col-5">
-                    <input type="text" class="form-control" name="minprice" id="minprice" value="@Model.minprice" maxlength="5" placeholder="min price" />
-                </div>
-                <div class="col-2 ">
-                    <div class="pricerange"></div>
-                </div>
-                <div class="col-5">
-                    <input type="text" class="form-control" name="maxprice" id="maxprice" value="@Model.maxprice" maxlength="5" placeholder="max price" />
-                </div>
-                <div class="col-12">
-                    <input type="submit" class="btn-src" onclick="pricefil()" name="name" value="Apply" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-10 col-12" id="titleresult">
-            @if (Model.pkg.Count() > 0)
-            {
-                <p style="font-size:16px">
-                    <span class="mdi mdi-package"></span>search result for "<span style="color:#76CED2">@Model.keyword</span>"
-                </p>
-
-                <div class="row">
-                    <div class="col-12">
-                        <span>@Model.pkg.Count() packages found</span>
-                        <select name="sortBy" id="sortBy" onchange="sortby(this.value)" class="custom-select float-right">
-
-                            @if (Model.sortby == "pricelh")
-                            {
-
-                                <option value="pricelh" selected>Price low to high</option>
-                                <option value="pricehl">Price high to low</option>
-                            }
-                            else if (Model.sortby == "pricehl")
-                            {
-                                <option value="pricelh">Price low to high</option>
-                                <option value="pricehl" selected>Price high to low</option>
-                            }
-                            else
-                            {
-                                <option value="pricelh">Price low to high</option>
-                                <option value="pricehl">Price high to low</option>
-                            }
-
-                        </select>
-                        <span class="float-right p-2">Sort by</span>
-
-                    </div>
-                </div>
-            }
-            else
-            {
-                <p style="font-size:16px">
-                    <span class="mdi mdi-information"></span> We couldn't find a "<span style="color:#76CED2">@Model.keyword</span>"
-                </p>
-            }
-            <div id="brick" class="bricklayer">
-                @foreach (var item in Model.pkg)
+                else
                 {
+                    <p class="mb-0" style="font-size:16px"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                }
 
-                    string imgLogo = "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault().ImageName + "";
+                <div id="studioRes">
+                    @foreach (var item in Model.std)
+                    {
 
-                    <div class="card cd card-shad">
-                        <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>
-                        <div class="card-body">
-                            <h3 class="card-title cdtitle">@item.name</h3>
-                            <article class="card-text" style="max-height: none;">
-                                @item.details
-                            </article>
+                        string imgLogo = (item.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
+                        string imgCover = (item.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
+
+                        <div class="card px-4 mb-4 srcres" style=" background-image: url(@imgCover);">
                             <div class="row">
-                                <div class="col-6 pt-1">
-                                    <span class="pay-title">Deposit</span><br>
-                                    <span class="ttl-title" style="color:#FFA500">RM @item.depositprice</span>
+                                <div class="col-7">
+                                    <div class="imgstud">
+                                        <img class="rounded-circle" style="width:75px" src="@imgLogo">
+                                    </div>
+                                    <div class="py-1">
+                                        <h4>@item.name</h4>
+                                        <span>@item.shortDesc</span> <br>
+                                    </div>
                                 </div>
-                                <div class="col-6 pt-1">
-                                    <span class="pay-title">Total</span><br>
-                                    <span class="ttl-title" style="color:#85bb65">RM @item.price</span>
+                                <div class="col-5">
+                                    <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                        <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
+                                        @item.City, @item.State
+                                    </div>
+                                    <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                        <span class="mdi mdi-18px mdi-package"> 10</span><br>
+                                        Packages
+                                    </div>
+                                    <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
+                                        <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
+                                        Review
+                                    </div>
+                                    <div class="w-25 float-left">
+                                        <a href="/@item.uniquename" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
+                                        <a href="/@item.uniquename/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
+                                    </div>
                                 </div>
                             </div>
-                            <button data-toggle="tooltip" title="" onclick="location.href = '/@item.Studio.uniquename/createchat?package=@item.id';" class="btn-msg-package" data-original-title="Order Now"><span class="mdi mdi-message-text"></span></button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-2 col-12">
+                <div class="row" id="searchpg">
+                    <div class="col-12">
+                        <img class="d-block w-100" style="object-fit: cover;" src="~/src/images/gallery/banner-1.jpg">
+                        <div class="mid search" style="position:relative;">
+                            @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+                            {
+                                @Html.EditorFor(model => model.keyword, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", required = "required", value = @Model.keyword } })
+                                @Html.EditorFor(model => model.sortby, new { htmlAttributes = new { @class = "input", placeholder = "Search Studio/Package", hidden = "hidden", @Value = "pricelh" } })
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 col-12" id="titlestudioresult">
+
+                @if (Model.std.Count() > 0)
+                {
+                    if (Model.keyword != null)
+                    {
+                        <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                    }
+                    else
+                    {
+                        <p class="" style="font-size:16px"><span class="mdi mdi-camera"></span> studio result for <span style="color:#76CED2">recomended studio</span></p>
+                    }
+                }
+                else
+                {
+                    <p class="mb-0" style="font-size:16px"><span class="mdi mdi-camera"></span> We couldn't find studio result for "<span style="color:#76CED2">@Model.keyword</span>"</p>
+                }
+
+                <div id="studioRes">
+                    @foreach (var item in Model.std)
+                    {
+                        if (i == 0)
+                        {
+
+                            string imgLogo = (item.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgLogo + "";
+                            string imgCover = (item.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.id + "/" + item.ImgCover + "";
+
+                            <div class="card px-4 mb-2 srcres" style=" background-image: url(@imgCover);">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="imgstud">
+                                            <img class="rounded-circle" style="width:75px" src="@imgLogo">
+                                        </div>
+                                        <div class="py-1">
+                                            <h4>@item.name</h4>
+                                            <span>@item.shortDesc</span> <br>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                            <span class="mdi mdi-18px mdi-map-marker-circle"> </span><br>
+                                            @item.City, @item.State
+                                        </div>
+                                        <div class="w-25 float-left py-3 px-2" style="text-align:center">
+                                            <span class="mdi mdi-18px mdi-package"> 10</span><br>
+                                            Packages
+                                        </div>
+                                        <div class="w-25 float-left py-3 px-2 pr-3" style="text-align:center">
+                                            <span class="mdi mdi-18px mdi-star"> 3.8</span><br>
+                                            Review
+                                        </div>
+                                        <div class="w-25 float-left">
+                                            <a href="/@item.uniquename" class="btn-src w-100 mb-1" style="border-radius:0px">View Studio</a>
+                                            <a href="/@item.uniquename/createchat" class="btn-src w-100" style="border-radius:0px"><span class="mdi mdi-chat"></span> Chat</a>
+                                        </div>
+                                    </div>
+                                </div><br>
+                            </div>
+                            <a href="/Home/Search?keyword=@Model.keyword&view=studio" class="float-right">Show More</a>
+                        }
+                        i++;
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-12">
+                <h4 style="text-align:center"><span class="mdi mdi-filter-outline"></span> Search Filter</h4>
+                <hr />
+                <h5>Price</h5>
+                <div class="row">
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="minprice" id="minprice" value="@Model.minprice" maxlength="5" placeholder="min price" />
+                    </div>
+                    <div class="col-2 ">
+                        <div class="pricerange"></div>
+                    </div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="maxprice" id="maxprice" value="@Model.maxprice" maxlength="5" placeholder="max price" />
+                    </div>
+                    <div class="col-12">
+                        <input type="submit" class="btn-src" onclick="pricefil()" name="name" value="Apply" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 col-12" id="titleresult">
+                @if (Model.pkg.Count() > 0)
+                {
+                    if (Model.keyword != null)
+                    {
+                        <p style="font-size:16px">
+                            <span class="mdi mdi-package"></span>search result for "<span style="color:#76CED2">@Model.keyword</span>"
+                        </p>
+                    }
+                    else
+                    {
+                        <p style="font-size:16px">
+                            <span class="mdi mdi-package"></span>search result for <span style="color:#76CED2">all packages</span>
+                        </p>
+                    }
+
+                    <div class="row">
+                        <div class="col-12">
+                            <span>@Model.pkg.Count() packages found</span>
+                            <select name="sortBy" id="sortBy" onchange="sortby(this.value)" class="custom-select float-right">
+
+                                @if (Model.sortby == "pricelh")
+                                {
+
+                                    <option value="pricelh" selected>Price low to high</option>
+                                    <option value="pricehl">Price high to low</option>
+                                }
+                                else if (Model.sortby == "pricehl")
+                                {
+                                    <option value="pricelh">Price low to high</option>
+                                    <option value="pricehl" selected>Price high to low</option>
+                                }
+                                else
+                                {
+                                    <option value="pricelh">Price low to high</option>
+                                    <option value="pricehl">Price high to low</option>
+                                }
+
+                            </select>
+                            <span class="float-right p-2">Sort by</span>
+
                         </div>
                     </div>
                 }
+                else
+                {
+                    <p style="font-size:16px">
+                        <span class="mdi mdi-information"></span> We couldn't find a "<span style="color:#76CED2">@Model.keyword</span>"
+                    </p>
+                }
+                <div id="brick" class="bricklayer">
+
+                    @foreach (var item in Model.pkg)
+                    {
+                        string imgLogo = (item.PackageImages.Count(x => x.PackageID == item.id) == 0 ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-image-package.png"
+                                                                         : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault(x => x.PackageID == item.id).ImageName + "");
+
+                        <div class="card cd card-shad">
+                            <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>
+                            <div class="card-body">
+                                <h3 class="card-title cdtitle">@item.name</h3>
+                                <article class="card-text" style="max-height: none;">
+                                    @item.details
+                                </article>
+                                <div class="row">
+                                    <div class="col-6 pt-1">
+                                        <span class="pay-title">Deposit</span><br>
+                                        <span class="ttl-title" style="color:#FFA500">RM @item.depositprice</span>
+                                    </div>
+                                    <div class="col-6 pt-1">
+                                        <span class="pay-title">Total</span><br>
+                                        <span class="ttl-title" style="color:#85bb65">RM @item.price</span>
+                                    </div>
+                                </div>
+                                <button data-toggle="tooltip" title="" onclick="location.href = '/@item.Studio.uniquename/createchat?package=@item.id';" class="btn-msg-package" data-original-title="Order Now"><span class="mdi mdi-message-text"></span></button>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    }
 
+</div>
 
 
 @section Scripts {
 
-    <script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
-    <script>
+    @if (Model.view != "studio")
+    {
+        <script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
+        <script>
         var bricklayer = new Bricklayer(document.querySelector('#brick'));
-
-        $('article.card-text').readmore({
-            speed: 75,
-            lessLink: '<a href="#">Read less</a>'
-        });
 
         function sortby(dropDownValue) {
             window.location.href = '/Home/Search?keyword=@Model.keyword&sortby=' + dropDownValue;
@@ -237,6 +331,13 @@
                     return false;
                 }
             });
+
+
+            $('article.card-text').readmore({
+                speed: 75,
+                lessLink: '<a href="#">Read less</a>'
+            });
         });
-    </script>
+        </script>
+    }
 }

@@ -4,6 +4,19 @@
     Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
+<style>
+    .btn-sub {
+        background-color: #76CED2;
+        color: white;
+        transition: all .3s ease-out;
+    }
+
+        .btn-sub:hover {
+            background-color: #70c1c4;
+            color: white;
+        }
+</style>
+
 <div>
     <h4 class="font-size-18 mt-5 text-center">Let's get started</h4>
     <p class="text-muted text-center">Get your Photog account ready in a minute!</p>
@@ -30,11 +43,11 @@
             @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
 
-        <input type="submit" value="Register New Account" class="btn btn-primary col-12" />
+        <input type="submit" value="Register New Account" class="btn btn-sub col-12" />
     </div>
 }
 
-<p class="text-center mt-5 pt-4">Already have an Account? @Html.ActionLink("Sign In", "SignIn", "Account",null, new { @class = "font-weight-medium text-primary" })</p>
+<p class="text-center mt-5 pt-4">Already have an Account? @Html.ActionLink("Sign In", "SignIn", "Account", null, new { @class = "font-weight-medium text-primary" })</p>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -26,6 +26,10 @@ namespace PMS.Models
         public List<Package> pkg { get; set; }
 
         public List<Studio> std { get; set; }
+
+        public List<PackageImage> pkgimg { get; set; }
+
+        public string view { get; set; }
     }
 
 
