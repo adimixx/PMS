@@ -1,0 +1,55 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>System Maintenance - Photog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    @Styles.Render("~/Content/cssUser")
+
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="authentication-bg d-flex align-items-center pb-0 vh-100">
+        <div class="content-center w-100">
+            <div class="container">
+                <div class="card mo-mt-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 ml-auto">
+                                <div class="ex-page-content">
+                                    <h1 class="text-dark display-1 mt-4">504</h1>
+                                    <h4 class="mb-4">Service Unavailable</h4>
+                                    <p class="mb-5">System is under maintenance. Sorry for the inconvenience caused</p>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-5 mx-auto">
+                                <img src="~/src/img/error.png" alt="" class="img-fluid mx-auto d-block">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end container -->
+        </div>
+
+    </div>
+    <!-- end error page -->
+    <!-- JAVASCRIPT -->
+
+    @Scripts.Render("~/bundles/jquerytemplate")
+    @Scripts.Render("~/bundles/bootstraptemplate")
+    @Scripts.Render("~/bundles/libscript")
+
+    <script src="~/src/user/js/app.js"></script>
+</body>
+</html>

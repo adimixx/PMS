@@ -47,13 +47,13 @@ namespace PMS.App_Start
             });
 
             app.UseHangfireAspNet(GetHangfireServers);
-            var option = new DashboardOptions
-            {
-                Authorization = new[] { new HangfireAuthorizeAtrribute() }
-            };
-            app.UseHangfireDashboard("/Hangfire",option);      
+            //var option = new DashboardOptions
+            //{
+            //    Authorization = new[] { new HangfireAuthorizeAtrribute() }
+            //};
+            //app.UseHangfireDashboard("/Hangfire",option);      
+            app.UseHangfireDashboard();
 
-            
         }
     }
 }

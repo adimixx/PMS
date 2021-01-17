@@ -18,67 +18,7 @@ namespace PMS.Controllers.API
 {
     public class DatabaseAPIController : ApiController
     {
-        photogEntities db = new photogEntities();
-
-        [AutomaticRetry(Attempts =0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public async System.Threading.Tasks.Task BackupProcessAsync(int id)
-        {
-            db.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
-            var DateStart = DateTime.Now.ToUniversalTime();
-            db.Database.CommandTimeout = 0;
-            await db.Database.ExecuteSqlCommandAsync("exec BACKUP_AZURE");
-            var DateEnd = DateTime.Now.ToUniversalTime();
-
-            var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
-
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
-            FirestoreDb firestore = FirestoreDb.Create("photogw2");
-            var collection = firestore.Collection("BackupRecord").Document();
-            var snapshot = await collection.GetSnapshotAsync();
-
-            var user = db.Users.FirstOrDefault(x => x.id == id);
-
-            var arr = new Dictionary<string, object>().ToArray();
-            Dictionary<string, object> data = new Dictionary<string, object>
-            {
-                 {"DateStart", DateStart },
-                 {"DateEnd", DateEnd },
-                 {"TimeTaken", diff.TotalSeconds },
-                 {"User", user.name },
-                 {"Email", user.email }
-            };
-            await collection.SetAsync(data);
-        }
-
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public async System.Threading.Tasks.Task RestoreProcessAsync(int id)
-        {
-            db.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
-            var DateStart = DateTime.Now.ToUniversalTime();
-            db.Database.CommandTimeout = 0;
-            var query = await db.Database.ExecuteSqlCommandAsync("exec RESTORE_LOCAL");
-            var DateEnd = DateTime.Now.ToUniversalTime();
-
-            var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
-
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
-            FirestoreDb firestore = FirestoreDb.Create("photogw2");
-            var collection = firestore.Collection("RestoreRecord").Document();
-            var snapshot = await collection.GetSnapshotAsync();
-
-            var user = db.Users.FirstOrDefault(x => x.id == id);
-
-            var arr = new Dictionary<string, object>().ToArray();
-            Dictionary<string, object> data = new Dictionary<string, object>
-            {
-                 {"DateStart", DateStart },
-                 {"DateEnd", DateEnd },
-                 {"TimeTaken", diff.TotalSeconds },
-                 {"User", user.name },
-                 {"Email", user.email }
-            };
-            await collection.SetAsync(data);
-        }
+       
 
 
         [NonAction]
@@ -120,14 +60,12 @@ namespace PMS.Controllers.API
         [HttpGet]
         public IHttpActionResult Backup(int id)
         {
-            BackgroundJob.Enqueue(() => BackupProcessAsync(id));
             return Content(HttpStatusCode.Accepted, "Backup is Started");
         }
 
         [HttpGet]
         public IHttpActionResult Restore(int id)
         {
-            BackgroundJob.Enqueue(() => RestoreProcessAsync(id));
             return Content(HttpStatusCode.Accepted, "Restore is Started");
         }
     }

@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>System Maintenance - Photog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    @Styles.Render("~/Content/cssUser")
+
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="authentication-bg d-flex align-items-center pb-0 vh-100">
+        <div class="content-center w-100">
+            <div class="container" id="app">
+                <div class="card mo-mt-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 ml-auto">
+                                <div class="ex-page-content">
+                                    <h1 class="text-dark display-4 mt-1">Maintenance </h1>
+                                    <h4 class="mb-4">Database is undergoing {{metadata.Type}} operation</h4>
+                                    <p class="mb-5">Action is performed by <b>{{metadata.User}} ({{metadata.Email}})</b> at <b>{{metadata.DateStart | dateFilter}}</b></p>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-5 mx-auto">
+                                <img src="~/src/img/error.png" alt="" class="img-fluid mx-auto d-block">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end container -->
+        </div>
+
+    </div>
+    <!-- end error page -->
+    <!-- JAVASCRIPT -->
+
+    @Scripts.Render("~/bundles/jquerytemplate")
+    @Scripts.Render("~/bundles/bootstraptemplate")
+    @Scripts.Render("~/bundles/libscript")
+
+    <script src="~/src/user/js/app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <script type="text/javascript">
+        var firebaseConfig = {
+            apiKey: "AIzaSyCCQCiuqARWfqss6ksACWOYzvIPXVntFVc",
+            authDomain: "photogw2.firebaseapp.com",
+            databaseURL: "https://photogw2-default-rtdb.firebaseio.com",
+            projectId: "photogw2",
+            storageBucket: "photogw2.appspot.com",
+            messagingSenderId: "316477798255",
+            appId: "1:316477798255:web:93e0ce04b4148e4033da9a",
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        /**/
+        db.collection(`BackupRestoreRecord`).orderBy("DateStart").limitToLast(1).onSnapshot((doc) => {
+            /**/
+            data.metadata = doc.docs[0].data();
+            if (data.metadata.TimeTaken) {
+                window.location.replace("/Database");
+            }
+            console.log(data.metadata);
+        });
+
+        data = {
+            metadata: ''
+        };
+
+        var packagePanel = new Vue({
+            el: "#app",
+            data: this.data,
+            filters: {
+                dateFilter: (value) => {
+                    if (value) {
+                        if (isNaN(value.seconds)) {
+                            var date = new Date(value);
+                        }
+                        else {
+                            var date = new Date(value.seconds * 1000);
+                        }
+                        return date.toLocaleString("en-MY", { hour12: true });
+                    }
+                    return '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+

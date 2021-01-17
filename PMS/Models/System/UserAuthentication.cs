@@ -24,6 +24,7 @@ namespace PMS.Models
             var userName = identity.FindFirst(ClaimTypes.Name);
             var userEmail = identity.FindFirst(ClaimTypes.Email);
             var userProfilePic = identity.FindFirst("ProfilePicUrl");
+            var roles = identity.FindFirst("Roles");
 
             if (userDataJson != null)
             {      
@@ -35,6 +36,7 @@ namespace PMS.Models
                 identity.RemoveClaim(userName);
                 identity.RemoveClaim(userEmail);
                 identity.RemoveClaim(userProfilePic);
+                identity.RemoveClaim(roles);
             }
 
             var userObj = new User { id = user.id, email = user.email, name = user.name, dateofbirth = user.dateofbirth, isVerified = user.isVerified, imgprofile = user.imgprofile, phonenumber = user.phonenumber };
@@ -43,12 +45,15 @@ namespace PMS.Models
 
             string urlPic = (string.IsNullOrWhiteSpace(user.imgprofile)) ? "https://storagephotog2.blob.core.windows.net/user-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/user-data/{0}/{1}", user.id, user.imgprofile);
 
+            var UserRole = JsonConvert.SerializeObject(user.UserSystemRoles.ToList().Select(x => x.SystemRole.name));
+
             var claimsIdentity = new ClaimsIdentity(new[]
                     {
                         new Claim(ClaimTypes.Name , user.name),
                         new Claim(ClaimTypes.Email, user.email),
                         new Claim(type: "UserDataJson", value: userData),
-                        new Claim(type: "ProfilePicUrl", value: urlPic)
+                        new Claim(type: "ProfilePicUrl", value: urlPic),
+                        new Claim(type: "Roles", value: UserRole)
                     }, "ApplicationCookie");
 
             return claimsIdentity;
@@ -142,7 +147,15 @@ namespace PMS.Models
 
         public override string[] GetRolesForUser(string username)
         {
-            return UserAuthentication.Identity().UserSystemRoles.Select(x => x.SystemRole.name).ToArray();
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+
+            var userData = identity.Claims.FirstOrDefault(x => x.Type == "Roles");
+            if (userData != null)
+            {
+                var roleArray = JsonConvert.DeserializeObject<string []>(userData.Value);
+                return roleArray;
+            }
+            return null;
         }
 
         public override string[] GetUsersInRole(string roleName)

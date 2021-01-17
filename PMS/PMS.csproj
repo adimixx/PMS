@@ -285,6 +285,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\CreatePackageViewModel.cs" />
+    <Compile Include="Models\DatabaseOperation.cs" />
     <Compile Include="Models\Database\Charge.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -2283,6 +2284,8 @@
     <Content Include="Views\Job\Error.cshtml" />
     <Content Include="Views\Job\CreateJobStatus.cshtml" />
     <Content Include="Views\Job\EditJobStatus.cshtml" />
+    <Content Include="Views\Database\Progress.cshtml" />
+    <Content Include="Views\Shared\Maintenance.cshtml" />
     <None Include="Views\Shared\Error500.cshtml" />
     <Content Include="Views\Shared\_LayoutSidebarNavAdmin.cshtml" />
     <Content Include="Views\Payment\CheckoutIndex.cshtml" />
