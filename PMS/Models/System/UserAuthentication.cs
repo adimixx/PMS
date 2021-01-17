@@ -72,7 +72,7 @@ namespace PMS.Models
                     error = "Account has not been verified. Please check your email for verification";
                 }
 
-                if (user != null)
+                else if (user != null)
                 {
                     var identity = Identity(user);            
                     var ctx = context.Request.GetOwinContext();
@@ -82,7 +82,10 @@ namespace PMS.Models
 
                     return true;
                 }
-                error = "Invalid Username or Password";
+                else
+                {
+                    error = "Invalid Username or Password";
+                }
             }
             catch
             {
