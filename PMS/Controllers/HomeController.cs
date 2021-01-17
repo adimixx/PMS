@@ -17,7 +17,7 @@ namespace PMS.Controllers
             photogEntities db = new photogEntities();
             SearchViewModel src = new SearchViewModel();
 
-            src.pkg = db.Packages.ToList();
+            src.pkg = db.Packages.ToList().OrderBy(x => Guid.NewGuid()).ToList();
 
             if (User.Identity.IsAuthenticated)
             {
