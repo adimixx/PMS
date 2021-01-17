@@ -78,6 +78,10 @@ namespace PMS.Controllers
                     db.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
+                    var job = db.Jobs.Find(invoice.jobid);
+                    job.jobstatusid = 1;
+                    db.SaveChanges();
+
                     //Remove Data from Firebase (Quoted Items)
                     var userTrans = db.Transactions.Where(x => x.Invoice.jobid == invoice.jobid);
                     if (userTrans.Count() == 1)
