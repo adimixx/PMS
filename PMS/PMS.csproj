@@ -255,6 +255,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\AccountAPIController.cs" />
     <Compile Include="Controllers\API\ChatPackageAPIController.cs" />
+    <Compile Include="Controllers\API\DatabaseAPIController.cs" />
     <Compile Include="Controllers\API\JobAPIController.cs" />
     <Compile Include="Controllers\API\PackageImageAPIController.cs" />
     <Compile Include="Controllers\API\PackageJson.cs" />
@@ -263,8 +264,8 @@
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
-    <Compile Include="Controllers\ManageDbController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\StudioPermalinkController.cs" />
@@ -276,28 +277,43 @@
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\CreatePackageViewModel.cs" />
     <Compile Include="Models\Database\Charge.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\ChatKey.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Invoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Job.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobCharge.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobDate.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobDateUser.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobStatu.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\LocalDbModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalDbModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\LocalDbModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\LocalDbModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalDbModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -315,37 +331,37 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Package.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\PackageImage.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\PaymentMethod.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Studio.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\StudioLink.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\StudioRole.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\SystemRole.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Transaction.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\User.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\UserStudio.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\UserSystemRole.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>LocalDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\DbBackupViewModel.cs" />
@@ -370,6 +386,16 @@
     <Content Include="Content\Vuetify\vuetify.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Models\Database\LocalDbModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LocalDbModel.edmx</DependentUpon>
+      <LastGenOutput>LocalDbModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Database\LocalDbModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LocalDbModel.edmx</DependentUpon>
+      <LastGenOutput>LocalDbModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\Database\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -411,6 +437,13 @@
     </EntityDeploy>
     <Content Include="Models\Database\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Database\LocalDbModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LocalDbModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Database\LocalDbModel.edmx.diagram">
+      <DependentUpon>LocalDbModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -2215,7 +2248,6 @@
     <Content Include="Views\Payment\Cancel.cshtml" />
     <Content Include="Views\Job\Detail.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Chat\ChatPackagePanel.cshtml" />
     <Content Include="src\json\photogw2-656bf589cae5.json" />
     <None Include="packages.config" />
@@ -2231,8 +2263,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\ManageDb\Index.cshtml" />
-    <Content Include="Views\ManageDb\AddBackup.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Job\PaymentView.cshtml" />
     <Content Include="Views\Chat\ChatPackagePanelScript.cshtml" />
@@ -2241,6 +2271,7 @@
     <Content Include="Views\Job\AssignStaff.cshtml" />
     <Content Include="Views\Package\PackageChargesPresetsPartialView.cshtml" />
     <Content Include="Views\Package\ChargePresetForm.cshtml" />
+    <Content Include="Views\Database\Index.cshtml" />
     <None Include="Views\Shared\_LayoutSidebarNav.cshtml" />
     <Content Include="src\user\js\app.js" />
     <Content Include="src\user\js\pages\apexcharts.init.js" />

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="68daccb4dd3b4cf3a14e7cc06cc63a01" Name="Diagram1" >
+        <EntityTypeShape EntityType="photogModel1.Charge" Width="1.5" PointX="3" PointY="18.875" />
+        <EntityTypeShape EntityType="photogModel1.ChatKey" Width="1.5" PointX="3" PointY="13" />
+        <EntityTypeShape EntityType="photogModel1.Invoice" Width="1.5" PointX="7.5" PointY="26.875" />
+        <EntityTypeShape EntityType="photogModel1.Job" Width="1.5" PointX="5.25" PointY="21.625" />
+        <EntityTypeShape EntityType="photogModel1.JobCharge" Width="1.5" PointX="7.5" PointY="24.125" />
+        <EntityTypeShape EntityType="photogModel1.JobDate" Width="1.5" PointX="7.5" PointY="20.125" />
+        <EntityTypeShape EntityType="photogModel1.JobDateUser" Width="1.5" PointX="9.75" PointY="16.75" />
+        <EntityTypeShape EntityType="photogModel1.JobStatu" Width="1.5" PointX="3" PointY="26.625" />
+        <EntityTypeShape EntityType="photogModel1.Package" Width="1.5" PointX="3" PointY="22" />
+        <EntityTypeShape EntityType="photogModel1.PackageImage" Width="1.5" PointX="5.25" PointY="28.875" />
+        <EntityTypeShape EntityType="photogModel1.PaymentMethod" Width="1.5" PointX="7.5" PointY="31.5" />
+        <EntityTypeShape EntityType="photogModel1.Studio" Width="1.5" PointX="0.75" PointY="12.125" />
+        <EntityTypeShape EntityType="photogModel1.StudioLink" Width="1.5" PointX="3" PointY="9.75" />
+        <EntityTypeShape EntityType="photogModel1.StudioRole" Width="1.5" PointX="3.75" PointY="16.375" />
+        <EntityTypeShape EntityType="photogModel1.SystemRole" Width="1.5" PointX="0.75" PointY="4.375" />
+        <EntityTypeShape EntityType="photogModel1.Transaction" Width="1.5" PointX="9.75" PointY="27" />
+        <EntityTypeShape EntityType="photogModel1.User" Width="1.5" PointX="0.75" PointY="7.25" />
+        <EntityTypeShape EntityType="photogModel1.UserStudio" Width="1.5" PointX="6" PointY="12.75" />
+        <EntityTypeShape EntityType="photogModel1.UserSystemRole" Width="1.5" PointX="3" PointY="6.125" />
+        <AssociationConnector Association="photogModel1.FK_Charges_Studio" />
+        <AssociationConnector Association="photogModel1.FK_ChatKey_Studio" />
+        <AssociationConnector Association="photogModel1.FK_ChatKey_User" />
+        <AssociationConnector Association="photogModel1.FK__Invoice__jobid__2EDAF651" />
+        <AssociationConnector Association="photogModel1.FK__Transacti__invoi__6DB73E6A" />
+        <AssociationConnector Association="photogModel1.FK__Job__jobstatusid__2FCF1A8A" />
+        <AssociationConnector Association="photogModel1.FK__Job__packageid__30C33EC3" />
+        <AssociationConnector Association="photogModel1.FK__Job__userid__31B762FC" />
+        <AssociationConnector Association="photogModel1.FK__JobCharge__jobid__339FAB6E" />
+        <AssociationConnector Association="photogModel1.FK__JobDate__jobid__3493CFA7" />
+        <AssociationConnector Association="photogModel1.FK__JobDate__jobstat__67FE6514" />
+        <AssociationConnector Association="photogModel1.FK__JobDateUs__jobda__68F2894D" />
+        <AssociationConnector Association="photogModel1.FK__JobDateUs__users__69E6AD86" />
+        <AssociationConnector Association="photogModel1.FK__Package__studioi__3864608B" />
+        <AssociationConnector Association="photogModel1.FK__PackageIm__Packa__6BCEF5F8" />
+        <AssociationConnector Association="photogModel1.FK__Transacti__payme__6EAB62A3" />
+        <AssociationConnector Association="photogModel1.FK__StudioLin__studi__395884C4" />
+        <AssociationConnector Association="photogModel1.FK__UserStudi__studi__3D2915A8" />
+        <AssociationConnector Association="photogModel1.FK__UserStudi__studi__7093AB15" />
+        <AssociationConnector Association="photogModel1.FK__UserSyste__syste__727BF387" />
+        <AssociationConnector Association="photogModel1.FK__UserStudi__useri__3F115E1A" />
+        <AssociationConnector Association="photogModel1.FK__UserSyste__useri__40F9A68C" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

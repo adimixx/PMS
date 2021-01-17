@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<button class="btn btn-primary" v-on:click="onBackup">Backup</button>
+<button class="btn btn-danger" v-on:click="onRestore">Restore</button>
+
+
+@section Scripts{
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <script type="text/javascript">
+        var firebaseConfig = {
+            apiKey: "AIzaSyCCQCiuqARWfqss6ksACWOYzvIPXVntFVc",
+            authDomain: "photogw2.firebaseapp.com",
+            databaseURL: "https://photogw2-default-rtdb.firebaseio.com",
+            projectId: "photogw2",
+            storageBucket: "photogw2.appspot.com",
+            messagingSenderId: "316477798255",
+            appId: "1:316477798255:web:93e0ce04b4148e4033da9a",
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        data = {
+
+        };
+
+        var packagePanel = new Vue({
+            el: "#app",
+            data: this.data,
+            methods: {
+                onBackup: () => {
+                    axios.get('SystemAPI/Database/Backup').then((result) => {
+                        console.log('okay');
+                        if (result.status == 202) {
+                            console.log('okay2');
+                            //var isProcess = true;
+                            //while (isProcess) {
+                            //    setTimeout(function () {
+                            //        axios.get('SystemAPI/Database/BackupStatus').then((result) => {
+                            //            console.log(result.status);
+                            //            if (result.status == 202) {
+                            //                isProcess = true;                                            
+                            //            }
+                            //        });
+                            //    }, 5000);
+                            //};
+                            //alert('Backup Success!');
+                        }
+                       
+                    });
+                },
+                onRestore: () => {
+                    axios.get('SystemAPI/Database/Restore').then((result) => {
+                        alert('Restore Success!');
+                    });
+                }
+            }
+        });
+    </script>
+
+}
