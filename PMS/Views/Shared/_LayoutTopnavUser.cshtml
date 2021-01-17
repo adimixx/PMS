@@ -41,10 +41,18 @@
                         <img class="rounded-circle header-profile-user" src="@User.Identity.GetProfilePhotoLink()" alt="Header Avatar">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right pt-0 border-0">
-                        <!-- item-->
-                        <a class="dropdown-item d-block text-template rounded-top" href="/Home">
-                            <i class="mdi mdi-home-account font-size-17 align-middle mr-1 ic-nav"></i> Users
-                        </a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="dropdown-item" href="@Url.Action("Edit","Account")">
+                                <i class="mdi mdi-face-profile font-size-17 align-middle mr-1 ic-nav"></i> Profile
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item d-block text-template rounded-top" href="/Home">
+                                <i class="mdi mdi-home-account font-size-17 align-middle mr-1 ic-nav"></i> Users
+                            </a>
+                        }
                         <a class="dropdown-item text-danger" href="/Account/SignOut">
                             <i class="mdi mdi-power font-size-17 align-middle mr-1 text-danger ic-nav ic-nav"></i> Logout
                         </a>
