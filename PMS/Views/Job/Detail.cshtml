@@ -41,7 +41,6 @@
     .collapsible-link[aria-expanded='true']::after {
         transform: rotate(90deg) translateX(-1px);
     }
-
 </style>
 
 <div class="container" style="font-size:16px">
@@ -205,7 +204,7 @@
                             <div id="collapse3" aria-labelledby="heading3" data-parent="#accordionExample3" class="collapse show">
                                 <div class="card-body">
                                     <div class="card" style="padding:10px">
-                                        @if (Model.Item3.Count() != 0)
+                                        @if (Model.Item3 != null && Model.Item3.Count() != 0)
                                         {
                                             <table id="jduTable" class="table table-striped table-bordered w-100">
                                                 <thead>
@@ -315,11 +314,7 @@
 
         <div class="modal-content">
             <div class="modal-body">
-                @if (Model.Item2 == null)
-                {
-                    <h5>Please determine the date for the photoshoot session before you can proceed to assign staff/photographer</h5>
-                }
-                else
+                @if (Model.Item2 != null)
                 {
                     <div class="card">
                         <div class="card-body">
@@ -356,6 +351,53 @@
                         </div>
                     </div>
                 }
+                else
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Update Job Description</h4>
+                            <hr />
+                            <form action="~/@ViewBag.StudioUrl/job/changedate" method="post">
+                                @Html.AntiForgeryToken()
+
+                                @Html.HiddenFor(x => x.Item2.jobid, new { @Value = Model.Item1.id })
+                                <div class="form-group">
+                                    @if (Model.Item2 != null)
+                                    {
+                                        <input type="date" name="jobdate" class="form-control" value="@Model.Item2.jobdate1.ToString("yyyy-MM-dd")" />
+                                    }
+                                    else
+                                    {
+                                        <input type="date" name="jobdate" class="form-control" />
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    @if (Model.Item2 != null)
+                                    {
+                                        <input type="time" name="jobtime" class="form-control" value="@Model.Item2.jobdate1.TimeOfDay" />
+                                    }
+                                    else
+                                    {
+                                        <input type="time" name="jobtime" class="form-control" />
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item2.description, new { @class = "form-control", type = "text", placeholder = "Description..." })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Item2.location, new { @class = "form-control", type = "text", placeholder = "Location..." })
+                                </div>
+                                <div class="form-group">
+                                    <select title="Status" name="jsid" id="jobDateStatus" class="form-control"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -369,19 +411,26 @@
 
         <div class="modal-content">
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Search for staff to assign</h4>
-                        <table id="adminTable" class="table table-striped table-bordered w-100">
-                            <thead>
-                                <tr>
-                                    <th>Sort by Role</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </table>
+                @if (Model.Item2 == null)
+                {
+                    <h5>Please determine the date for the photoshoot session before you can proceed to assign staff/photographer</h5>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Search for staff to assign</h4>
+                            <table id="adminTable" class="table table-striped table-bordered w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Sort by Role</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -429,6 +478,9 @@
 </div>
 <!-- End Modal Section -->
 
+@{
+    var jdid = Model.Item2?.id;
+}
 
 @section Scripts {
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
@@ -447,7 +499,7 @@
                     serverSide: false,
                     ajax: {
                         type: "GET",
-                        url: "/api/system/loadjobstaff/@Model.Item2.id",
+                        url: "/api/system/loadjobstaff/@jdid",
                         dataSrc: ''
                     },
                     bLengthChange: true,
