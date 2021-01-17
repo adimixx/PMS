@@ -45,7 +45,7 @@
 
         <div v-show="!showSummary">
             <div class="alert alert-info" v-show="!showAddChargeButton">
-                test
+                Booking success. Please make your payment.
             </div>
             <div>
                 <a href="#" v-on:click="onBackToList">Back to List</a>
@@ -214,11 +214,9 @@
                 }
             </div>
 
-            <div class="row">
-                <a v-show="jobUrl != ''" v-bind:href="jobUrl" class="btn btn-block btn-primary col-2">Detail</a>
-                <button v-show="studioUrl != ''" class="btn btn-block btn-success col-2" data-toggle="modal" data-target="#modalPayment">Pay Now</button>
-                <button v-show="jobId != ''" v-on:click="onCancelClick" class="btn btn-block btn-danger col-2">Cancel</button>
-            </div>
+            <button v-show="jobId != ''" v-on:click="onCancelClick" class="btn btn-danger mr-2 float-right">Cancel</button>
+            <a v-show="jobUrl != ''" v-bind:href="jobUrl" class="btn btn-primary mr-2 float-right">Detail</a>
+            <button v-show="studioUrl != ''" class="btn btn-success mr-2 float-right" data-toggle="modal" data-target="#modalPayment">Pay Now</button>
 
         </div>
     </div>
@@ -228,24 +226,26 @@
     <div class="modal-dialog">
 
         <div class="modal-content">
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Choose option to pay the service</h4>
-                        <select v-model="option" class="form-control">
-                            <option value="1">Deposit</option>
-                            <option value="2">Full</option>
-                        </select>
-
-                        <br />
-                        <button v-on:click="onPayClick" class="btn btn-success">Pay</button>
-                    </div>
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <div class="modal-body">
+                <h4 class="mb-3">Choose option to pay the service</h4>
+                <select v-model="option" class="form-control">
+                    <option value="1">Deposit</option>
+                    <option value="2">Full</option>
+                </select>
+
+                <br />
+                <img src="~/src/img/Stripe_logo.png" class="float-left" height="29" />
+                <button v-on:click="onPayClick" style="background-color: #6772E5;border:1px solid #6772E5;" class="btn btn-success float-right"><i class="mdi mdi-credit-card"></i> Pay</button>
             </div>
         </div>
 
     </div>
 </div>
+
+
