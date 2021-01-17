@@ -619,6 +619,7 @@
     <Content Include="src\img\error.png" />
     <Content Include="src\img\favicon.ico" />
     <Content Include="src\img\logo-lg.png" />
+    <Content Include="src\img\logo-pg-sm.png" />
     <Content Include="src\img\logo-sm.png" />
     <Content Include="src\img\logo-pg.png" />
     <Content Include="src\img\logo-pg-white.png" />
@@ -626,6 +627,7 @@
     <Content Include="src\img\logo-pg-sm-white.png" />
     <Content Include="src\img\srcbg2.jpg" />
     <Content Include="src\img\srcbg.jpg" />
+    <Content Include="src\img\Stripe_logo.png" />
     <Content Include="src\libs\%40curiosityx\bootstrap-session-timeout\index.js" />
     <Content Include="src\libs\admin-resources\bootstrap-filestyle\bootstrap-filestyle.min.js" />
     <Content Include="src\libs\admin-resources\jquery.vectormap\jquery-jvectormap-1.2.2.css" />
@@ -2439,6 +2441,7 @@
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
     <Folder Include="Views\Error\" />
+    <Folder Include="Views\PaymentAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
