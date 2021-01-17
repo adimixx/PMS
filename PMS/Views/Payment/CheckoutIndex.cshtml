@@ -237,7 +237,7 @@
                     fpx: fpxBank
                 },
                 // Return URL where the customer should be redirected after the authorization
-                return_url: '@string.Format("{0}/{1}", "https://localhost:44341/payment/statusPayment", ViewBag.intent.Id)'
+                return_url: '@string.Format("{0}/{1}", "/payment/statusPayment", ViewBag.intent.Id)'
             }).then((result) => {
                 if (result.error) {
                     // Inform the customer that there was an error.
