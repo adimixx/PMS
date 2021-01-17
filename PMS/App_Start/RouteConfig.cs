@@ -16,12 +16,6 @@ namespace PMS
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-              name: "Error Page",
-               url: "Error",
-              defaults: new { controller = "Home", action = "Error500", id = UrlParameter.Optional }
-          );
-
-            routes.MapRoute(
                name: "Database",
                 url: "Database/{action}/{id}",
                defaults: new { controller = "Database", action = "Index", id = UrlParameter.Optional }
