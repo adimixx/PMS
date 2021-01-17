@@ -78,12 +78,13 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" onclick="window.print();" id="printPageButton" class="btn btn-success">
-                <span class="mdi mdi-file-pdf"> Print</span>
-            </button>
-            <a href="/@Model.Invoice.Job.Package.Studio.uniquename/job/detail/@Model.Invoice.jobid" id="returnPageButton" class="btn btn-primary ml-2">
+
+            <a href="/@Model.Invoice.Job.Package.Studio.uniquename/job/detail/@Model.Invoice.jobid" id="returnPageButton" class="btn btn-primary">
                 <span class="mdi mdi-chevron-left-circle"> Return</span>
             </a>
+            <button type="button" onclick="window.print();" id="printPageButton" class="btn btn-success ml-2">
+                <span class="mdi mdi-file-pdf"> Print</span>
+            </button>
         </div>
     </div>
 </body>
