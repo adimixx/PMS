@@ -42,6 +42,12 @@ namespace PMS.Controllers
             {
                 try
                 {
+                    if (data.price < data.depoprice || data.price <= 0 || data.depoprice < 0)
+                    {
+                        TempData["error"] = "Invalid price setting";
+                        return View("addnewpackage", data);
+                    }
+
                     db.Packages.Add(new Package
                     {
                         depositprice = data.depoprice,
@@ -104,6 +110,13 @@ namespace PMS.Controllers
             {
                 try
                 {
+                    if (data.price < data.depoprice || data.price <= 0 || data.depoprice < 0)
+                    {
+                        TempData["error"] = "Invalid price setting";
+                        data.images = db.Packages.Find(data.id).PackageImages.ToList();
+                        return View("editpackage", data);
+                    }
+
                     var edit = db.Packages.First(x => x.id == data.id);
                     edit.depositprice = data.depoprice;
                     edit.details = string.IsNullOrWhiteSpace(data.details) ? null : data.details;
