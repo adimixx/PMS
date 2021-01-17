@@ -540,9 +540,10 @@ namespace PMS.Controllers
             try
             {
                 var data = db.Invoices.Find(id);
+                var jid = data.jobid;
                 db.Invoices.Remove(data);
                 db.SaveChanges();
-                return View();
+                return RedirectToAction("paymentview/" + jid);
             }
             catch (Exception e)
             {
