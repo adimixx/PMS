@@ -310,7 +310,7 @@ var packagePanel = new Vue({
           else {
               window.location.href = `/${data.studioUrl}/job/createfullinvoice/${data.jobId}`;
           }
-    },
+      },
     onAddVenue: () => {
       if (!data.venueDetails) {
         alert("Please Fill in Venue Details");
@@ -350,8 +350,10 @@ var packagePanel = new Vue({
           CurrentEnquiries.ShowAddPackage = false;
       }
   },
+
 });
 </script>
+
 
 @if (ViewBag.SelectedPackageID != null)
 {
@@ -367,3 +369,5 @@ var packagePanel = new Vue({
     }
     </script>
 }
+
+

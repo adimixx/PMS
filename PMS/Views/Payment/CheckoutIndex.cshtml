@@ -2,77 +2,219 @@
 
 @{
     ViewBag.Title = "CheckoutIndex";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+
+    int i = 1;
+    decimal totalpay = 0;
+    string img = (Model.Job.Package.PackageImages.Count() == 0 ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-image-package.png"
+                              : "https://storagephotog2.blob.core.windows.net/studio-data/" + Model.Job.Package.studioid + "/" + Model.Job.Package.PackageImages.FirstOrDefault().ImageName + "");
 }
 
-<script src="https://js.stripe.com/v3/"></script>
 
-<h2>Checkout</h2>
+<!doctype html>
+<html lang="en">
 
-<div class="card">
-    <div class="card-body">
-        <h4 class="card-title">Checkout Form</h4>
+<head>
+    <meta charset="utf-8" />
+    <title>Payment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <script src="https://js.stripe.com/v3/"></script>
 
-        <form id="payment-form" style="padding:5px">
-            <div class="form-group">
-                @Html.LabelFor(item => Model.Job.Package.name, "Package Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <span class="form-control">
-                        @Model.Job.Package.name
-                    </span>
-                </div>
+    @Styles.Render("~/Content/cssUser")
+
+    <style>
+        #checkoutcard {
+            position: absolute;
+            top: 47%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #fpx-button {
+            position: absolute;
+            bottom: 0;
+            left: 2%;
+            border: 2px solid #21D59E;
+            background-color: #21D59E;
+            color: white;
+            width: 95%;
+            font-size: 17px;
+            font-weight: 500
+        }
+
+        #backbtn {
+            width: 35px;
+            height: 35px;
+            border-radius: 35px;
+            color: white;
+        }
+
+        .contable {
+            overflow-y: auto;
+            height: 265px;
+        }
+
+        .SelectListItem {
+            padding: 10px !important;
+        }
+
+        .card-body {
+            border-radius: 6px;
+        }
+
+        .card-header {
+            background-color: #626ED4;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <img class="float-right m-2" src="~/src/img/Stripe_logo.png" height="45" />
+
+    <div class="container mt-3" id="checkoutcard">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="color:white">
+                    <button class="btn-primary mr-2" id="backbtn" onclick="history.back(-1)">
+                        <span class="mdi mdi-arrow-left-bold"></span>
+                    </button>
+                    Checkout Form
+                </h3>
             </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <center>
+                            <h4>
+                                Package : @Model.Job.Package.name
+                            </h4>
+                            <img src="@img" height="250" />
+                        </center>
+                        <div class="contable mt-3">
+                            <table id="orderTable" class="table thead-dark table-striped table-hover mt-2">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Remarks</th>
+                                        <th>PPU(RM)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Job.JobCharges)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td><p class="font-weight-bolder">@item.remarks</p></td>
+                                            <td><p class="text-primary">RM @item.amount</p></td>
+                                        </tr>
+                                        totalpay += item.amount;
+                                        i++;
+                                    }
+                                    <tr>
+                                        <td>@i</td>
+                                        <td><p class="font-weight-bolder">@Model.detail</p></td>
+                                        <td><p class="text-primary">RM @Model.total</p></td>
+                                    </tr>
 
-            <div class="form-group">
-                @Html.LabelFor(item => Model.total, "Total Price", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <span class="form-control">
-                        RM @Model.total
-                    </span>
-                </div>
-            </div>
+                                    @{totalpay += Model.total;}
 
-            @*<div class="form-group">
-                    @Html.LabelFor(item => Model.Job.Package.price, "Amount", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <input class="form-control" id="amnt" placeholder="Amount you want to pay..." value="@Model.total" type="number" />
-                    </div>
-                </div>*@
-
-            <div class="form-row">
-                <div class="form-control">
-                    <div class="form-group">
-                        <div id="fpx-bank-element">
-                            <!-- A Stripe Element will be inserted here. -->
+                                    <tr>
+                                        <td></td>
+                                        <td><p class="font-weight-bolder">Total:</p></td>
+                                        <td><p class="text-primary">RM @totalpay</p></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <center>
+                                    <span style="color: white;letter-spacing:2px;">TOTAL PRICE</span>
+                                    <h2 style="color:white;font-weight:500;">RM @totalpay</h2>
+                                    <span style="color: white;letter-spacing:1px;">@Model.detail</span>
+                                </center>
+                            </div>
+                        </div>
+                        <form id="payment-form" style="padding:5px">
+                            <div class="form-group">
+                                @Html.LabelFor(item => Model.Job.Package.name, "Package Name", htmlAttributes: new { @class = "control-label" })
+                                <span class="form-control">
+                                    @Model.Job.Package.name
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(item => Model.total, "Total Price", htmlAttributes: new { @class = "control-label" })
+                                <span class="form-control">
+                                    RM @Model.total
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <div id="fpx-bank-element" class="form-control" style='height: 2.7em; padding-top: .7em;'>
+                                    <!-- A Stripe Element will be inserted here. -->
+                                </div>
+                            </div>
+
+                            <button class="btn btn-block py-2" id="fpx-button" data-secret="@ViewBag.intent.ClientSecret">
+                                PAY RM @totalpay
+                            </button>
+
+
+                            <!-- Used to display form errors. -->
+                            <div id="error-message" role="alert"></div>
+                        </form>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-6">
-                <button style="margin-top:20px" class="btn btn-primary btn-block" id="fpx-button" data-secret="@ViewBag.intent.ClientSecret">
-                    Submit Payment
-                </button>
             </div>
+        </div>
 
-            <!-- Used to display form errors. -->
-            <div id="error-message" role="alert"></div>
-        </form>
     </div>
-</div>
 
-@section Scripts {
+    @Scripts.Render("~/bundles/jquerytemplate")
+    @Scripts.Render("~/bundles/bootstraptemplate")
+    @Scripts.Render("~/bundles/libscript")
+
+    <script src="~/src/user/js/app.js"></script>
+
     <script>
         var stripe = Stripe('pk_test_51I0pOnBQ6wryxylD17U7N5t2BQotpk92cYUxhJd4SShmkYE37oD4ivv9icfuByvAAy0VdpJOEitCpBTIbyUTDzvU00YRVXsaQi');
         var elements = stripe.elements();
         var bank = "";
+
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
 
         // Create an instance of the fpxBank Element.
         var fpxBank = elements.create(
             'fpxBank',
             {
                 accountHolderType: 'individual'
-            }
+            },
+            { style: style }
         );
 
         // Add an instance of the fpxBank Element into the container with id `fpx-bank-element`.
@@ -105,5 +247,6 @@
             });
         });
     </script>
-}
 
+</body>
+</html>
