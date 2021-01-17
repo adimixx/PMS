@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security;
+﻿using Hangfire.Dashboard;
+using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using PMS.Models.Database;
 using System;
@@ -182,6 +183,19 @@ namespace PMS.Models
         public static string GetProfilePhotoLink (this IIdentity identity)
         {
             return ((ClaimsIdentity)identity).FindFirst("ProfilePicUrl")?.Value;
+        }
+    }
+
+    public class HangfireAuthorizeAtrribute : IDashboardAuthorizationFilter
+    {   
+        public bool Authorize(DashboardContext context)
+        {
+            if (HttpContext.Current.User.IsInRole("Admin"))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

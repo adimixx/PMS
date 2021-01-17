@@ -1,8 +1,12 @@
 ﻿using Google.Cloud.Firestore;
+using Hangfire;
+using Hangfire.Storage;
 using PMS.Models;
 using PMS.Models.Database;
+using PMS.Models.HangFireModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,15 +18,15 @@ namespace PMS.Controllers.API
 {
     public class DatabaseAPIController : ApiController
     {
-        photogEntitiesLocal db = new photogEntitiesLocal();
-        Thread CurrentProcess;
+        photogEntities db = new photogEntities();
 
-        public async void BackupProcess()
+        [AutomaticRetry(Attempts =0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        public async System.Threading.Tasks.Task BackupProcessAsync(int id)
         {
-            photogEntitiesLocal db = new photogEntitiesLocal();
             db.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
             var DateStart = DateTime.Now.ToUniversalTime();
-            db.BACKUP_AZURE();
+            db.Database.CommandTimeout = 0;
+            await db.Database.ExecuteSqlCommandAsync("exec BACKUP_AZURE");
             var DateEnd = DateTime.Now.ToUniversalTime();
 
             var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
@@ -32,25 +36,28 @@ namespace PMS.Controllers.API
             var collection = firestore.Collection("BackupRecord").Document();
             var snapshot = await collection.GetSnapshotAsync();
 
+            var user = db.Users.FirstOrDefault(x => x.id == id);
+
             var arr = new Dictionary<string, object>().ToArray();
             Dictionary<string, object> data = new Dictionary<string, object>
             {
                  {"DateStart", DateStart },
                  {"DateEnd", DateEnd },
                  {"TimeTaken", diff.TotalSeconds },
-                 {"User", UserAuthentication.Identity().name },
-                 {"Email", UserAuthentication.Identity().email }
+                 {"User", user.name },
+                 {"Email", user.email }
             };
             await collection.SetAsync(data);
         }
 
-        public async void RestoreProcess()
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        public async System.Threading.Tasks.Task RestoreProcessAsync(int id)
         {
-            photogEntitiesLocal db = new photogEntitiesLocal();
             db.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
-            var DateStart = DateTime.Now;
-            db.RESTORE_LOCAL();
-            var DateEnd = DateTime.Now;
+            var DateStart = DateTime.Now.ToUniversalTime();
+            db.Database.CommandTimeout = 0;
+            var query = await db.Database.ExecuteSqlCommandAsync("exec RESTORE_LOCAL");
+            var DateEnd = DateTime.Now.ToUniversalTime();
 
             var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
 
@@ -59,42 +66,68 @@ namespace PMS.Controllers.API
             var collection = firestore.Collection("RestoreRecord").Document();
             var snapshot = await collection.GetSnapshotAsync();
 
+            var user = db.Users.FirstOrDefault(x => x.id == id);
+
             var arr = new Dictionary<string, object>().ToArray();
             Dictionary<string, object> data = new Dictionary<string, object>
             {
                  {"DateStart", DateStart },
                  {"DateEnd", DateEnd },
                  {"TimeTaken", diff.TotalSeconds },
-                 {"User", UserAuthentication.Identity().name },
-                 {"Email", UserAuthentication.Identity().email }
+                 {"User", user.name },
+                 {"Email", user.email }
             };
             await collection.SetAsync(data);
         }
 
-        [HttpGet]
-        public IHttpActionResult BackupStatus()
+
+        [NonAction]
+        private int CheckJobStatus()
         {
-            if (CurrentProcess.IsAlive)
+            //0 - Unhandled / Error
+            //1 - Success
+            //2 - Processing
+
+            var hf = new HangfireRecordEntities();
+            var currJob = hf.Jobs.ToList().LastOrDefault();
+
+            var status = currJob?.StateName?.ToLower().Trim();
+            
+            if (status != null)
             {
-                return Content(HttpStatusCode.Accepted, "Backup is still Ongoing");
-            }
-            return Ok("Backup Done");
+                if (status == "succeeded")
+                {
+                    return 1;
+                }
+                else if (status == "processing")
+                {
+                    return 2;
+                }
+            }          
+
+            return 0;
         }
 
+        [HttpGet]
+        public IHttpActionResult JobStatus()
+        {
+            var status = CheckJobStatus();
+            if (status == 1) return Ok();
+            else if (status == 2) return Content(HttpStatusCode.Accepted, "Job on Progress");
+            return Content(HttpStatusCode.Conflict, "Error");
+        }
 
         [HttpGet]
-        public IHttpActionResult Backup()
+        public IHttpActionResult Backup(int id)
         {
-            CurrentProcess = new Thread(x=> BackupProcess());
-            CurrentProcess.Start();
+            BackgroundJob.Enqueue(() => BackupProcessAsync(id));
             return Content(HttpStatusCode.Accepted, "Backup is Started");
         }
 
         [HttpGet]
-        public IHttpActionResult Restore()
+        public IHttpActionResult Restore(int id)
         {
-            CurrentProcess = new Thread(x => RestoreProcess());
-            CurrentProcess.Start();
+            BackgroundJob.Enqueue(() => RestoreProcessAsync(id));
             return Content(HttpStatusCode.Accepted, "Restore is Started");
         }
     }

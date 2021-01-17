@@ -1,4 +1,4 @@
-﻿
+﻿@using PMS.Models
 @{
     ViewBag.Title = "Index";
 }
@@ -30,34 +30,39 @@
 
         };
 
+        function checkStat() {
+            var responseFile = true;
+            var check = setInterval(() => {
+                axios.get('/SystemAPI/Database/CheckJobStatus').then((response) => {
+                    if (response.status == 200 || response.status == 409) {
+                        responseFile = false;
+                        if (response.status == 200) {
+                            console.log("okay");
+                        }
+                        else {
+                            console.log("error");
+                        }
+                    }
+                    console.log("progress");
+                }, 10000);
+            });
+
+            while (responseFile) { };
+            clearInterval(check);
+        }
+
         var packagePanel = new Vue({
             el: "#app",
             data: this.data,
             methods: {
                 onBackup: () => {
-                    axios.get('SystemAPI/Database/Backup').then((result) => {
-                        console.log('okay');
-                        if (result.status == 202) {
-                            console.log('okay2');
-                            //var isProcess = true;
-                            //while (isProcess) {
-                            //    setTimeout(function () {
-                            //        axios.get('SystemAPI/Database/BackupStatus').then((result) => {
-                            //            console.log(result.status);
-                            //            if (result.status == 202) {
-                            //                isProcess = true;                                            
-                            //            }
-                            //        });
-                            //    }, 5000);
-                            //};
-                            //alert('Backup Success!');
-                        }
-                       
+                    axios.get('/SystemAPI/Database/Backup/@UserAuthentication.Identity().id').then((result) => {
+                        checkStat();
                     });
                 },
                 onRestore: () => {
-                    axios.get('SystemAPI/Database/Restore').then((result) => {
-                        alert('Restore Success!');
+                    axios.get('/SystemAPI/Database/Restore/@UserAuthentication.Identity().id').then((result) => {
+                        checkStat();
                     });
                 }
             }

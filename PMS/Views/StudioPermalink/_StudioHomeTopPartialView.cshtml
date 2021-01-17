@@ -66,7 +66,7 @@
             {
                 <h3 class="pb-2">Packages</h3>
                 <div id="brick" class="bricklayer">
-                    @foreach (var item in Model.Packages)
+                    @foreach (var item in Model.Packages.ToList().Where(x=>x.status.ToLower() == "enabled").ToList())
                     {
                         var image = item.PackageImages.FirstOrDefault();
                         string coverImgPackage;

@@ -110,6 +110,15 @@
     <Reference Include="Grpc.Core.Api, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
       <HintPath>..\packages\Grpc.Core.Api.2.31.0\lib\net45\Grpc.Core.Api.dll</HintPath>
     </Reference>
+    <Reference Include="Hangfire.AspNet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.AspNet.0.2.0\lib\net45\Hangfire.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.7.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.7.19\lib\net46\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.7.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.7.19\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
@@ -277,43 +286,28 @@
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\CreatePackageViewModel.cs" />
     <Compile Include="Models\Database\Charge.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\ChatKey.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Invoice.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Job.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobCharge.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobDate.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobDateUser.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\JobStatu.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\LocalDbModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalDbModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\LocalDbModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\LocalDbModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalDbModel.edmx</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -331,37 +325,85 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Package.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\PackageImage.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\PaymentMethod.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Studio.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\StudioLink.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\StudioRole.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\SystemRole.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\Transaction.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\User.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\UserStudio.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\UserSystemRole.cs">
-      <DependentUpon>LocalDbModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\AggregatedCounter.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\Counter.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\HangfireModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HangfireModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\HangfireModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\HangfireModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HangfireModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\Hash.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\Job.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\JobParameter.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\JobQueue.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\List.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\Schema.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\Server.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\Set.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HangFireModel\State.cs">
+      <DependentUpon>HangfireModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\DbBackupViewModel.cs" />
@@ -386,16 +428,6 @@
     <Content Include="Content\Vuetify\vuetify.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Models\Database\LocalDbModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LocalDbModel.edmx</DependentUpon>
-      <LastGenOutput>LocalDbModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Database\LocalDbModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LocalDbModel.edmx</DependentUpon>
-      <LastGenOutput>LocalDbModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Models\Database\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -405,6 +437,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HangFireModel\HangfireModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HangfireModel.edmx</DependentUpon>
+      <LastGenOutput>HangfireModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HangFireModel\HangfireModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HangfireModel.edmx</DependentUpon>
+      <LastGenOutput>HangfireModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -438,12 +480,12 @@
     <Content Include="Models\Database\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <EntityDeploy Include="Models\Database\LocalDbModel.edmx">
+    <EntityDeploy Include="Models\HangFireModel\HangfireModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LocalDbModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>HangfireModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Database\LocalDbModel.edmx.diagram">
-      <DependentUpon>LocalDbModel.edmx</DependentUpon>
+    <Content Include="Models\HangFireModel\HangfireModel.edmx.diagram">
+      <DependentUpon>HangfireModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />

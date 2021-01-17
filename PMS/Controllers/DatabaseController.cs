@@ -17,7 +17,6 @@ namespace PMS.Controllers
        [HttpGet]
        public ActionResult Index()
        {
-            photogEntitiesLocal db = new photogEntitiesLocal();
             return View();
        }
     }
