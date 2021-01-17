@@ -2,6 +2,7 @@
 using PMS.Models;
 using PMS.Models.Database;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace PMS.Controllers
@@ -171,6 +172,7 @@ namespace PMS.Controllers
         [StudioPermalinkValidate(RoleID = 1)]
         public ActionResult ChangeStudioUsername(Studio studio)
         {
+            var regexItem = new Regex("^[a-zA-Z0-9]*$");
             ViewBag.IsStudioSetting = "true";
 
             photogEntities db = new photogEntities();
@@ -183,6 +185,11 @@ namespace PMS.Controllers
             if (string.IsNullOrWhiteSpace(username))
             {
                 ModelState.AddModelError("uniquename", "Studio Username cannot be null");                
+            }
+
+            else if (!regexItem.IsMatch(username))
+            {
+                ModelState.AddModelError("uniquename", "Studio Username cannot contain characters and spaces");
             }
 
             else

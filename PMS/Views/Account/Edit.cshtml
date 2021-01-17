@@ -9,8 +9,13 @@
     <div class="row">
         <div class="col-12"><h2>Profile</h2></div>
     </div>
-
-    @if (TempData["SuccessMessage"] != null)
+    @if (TempData["Email"] != null)
+    {
+    <div class="alert alert-info">
+        @TempData["Email"]
+    </div>
+    }
+    else if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success">
             @TempData["SuccessMessage"]
@@ -22,12 +27,7 @@
             @Html.ValidationSummary()
         </div>
     }
-    else if (TempData["Email"] != null)
-    {
-        <div class="alert alert-info">
-            @TempData["Email"]
-        </div>
-    }
+
 
     <div class="card">
         <div class="card-body">

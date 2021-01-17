@@ -89,8 +89,15 @@ namespace PMS.Controllers
                 return new HttpUnauthorizedResult("Expired Link");
             }
 
-            if (string.IsNullOrWhiteSpace(checkItem.emailTemp))
+            if (!string.IsNullOrWhiteSpace(checkItem.emailTemp))
             {
+                var check = db.Users.FirstOrDefault(x => x.email.ToLower() == checkItem.emailTemp.ToLower());
+
+                if (check != null)
+                {
+                    return new HttpUnauthorizedResult("Expired Link");
+                }
+
                 checkItem.email = checkItem.emailTemp;
                 checkItem.emailTemp = null;
             }
@@ -146,7 +153,12 @@ namespace PMS.Controllers
 
                 else if (profile.EditID == 3)
                 {
-                    if (db.Users.FirstOrDefault(x=>x.id != user.id && x.email.ToLower() != profile.Email.ToLower()) != null)
+                    if (user.email.ToLower() == profile.Email.ToLower())
+                    {
+                        ModelState.AddModelError("Email", "Email is same with existing email");
+                    }
+
+                    else if (db.Users.FirstOrDefault(x=>x.id != user.id && x.email.ToLower() == profile.Email.ToLower()) != null)
                     {
                         ModelState.AddModelError("Email", "Email already exists");
                     }
@@ -179,13 +191,13 @@ namespace PMS.Controllers
                     {
                         ModelState.AddModelError("OldPassword", "Invalid old password");
                     }
-                    else if (profile.NewPassword == profile.ConfirmPassword)
+                    else if (profile.NewPassword != profile.ConfirmPassword)
                     {
                         ModelState.AddModelError("NewPassword", "New Password does not match");
                     }
                     if (!ModelState.IsValid)
                     {
-                        profile = new ProfileViewModel { Email = profile.Email, Name = user.name, PhoneNum = user.phonenumber };
+                        profile = new ProfileViewModel { Email = user.email, Name = user.name, PhoneNum = user.phonenumber };
                         return View(profile);
                     }
 

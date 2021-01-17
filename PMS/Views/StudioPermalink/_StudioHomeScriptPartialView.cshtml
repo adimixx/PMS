@@ -1,18 +1,27 @@
 ﻿@model PMS.Models.Database.Studio
-    @{ 
-        var fb = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "facebook")?.address;
-        var twitter = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "twitter")?.address;
-        var insta = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "instagram")?.address;
-        var web = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "web")?.address;
-    }
+@{
+    var fb = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "facebook")?.address;
+    var twitter = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "twitter")?.address;
+    var insta = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "instagram")?.address;
+    var web = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "web")?.address;
+}
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/readmore-js@2.2.1/readmore.min.js"></script>
 
 <script type="text/javascript">
+@if (ViewBag.IsStudioSetting != null)
+{
+    @: const isStudioSetting = true;
+}
+else
+{
+    @: const isStudioSetting = false;
+}
+
     var data = {
         Studio: {
-            Name: `@Model.name`,
+    Name: `@Model.name`,
             ShortDesc: `@Model.shortDesc`,
             City: `@Model.City`,
             State: `@Model.State`,
@@ -22,12 +31,12 @@
             ImgCover: `@Model.ImgCover`,
             ImgLogo: `@Model.ImgLogo`,
             Link: {
-                Facebook: `@fb`,
+        Facebook: `@fb`,
                 Twitter: `@twitter`,
                 Instagram: `@insta`
             }
-        }
-    };
+    }
+};
 
     function resetCity() {
         axios.get(`/api/system/getcity?state=${data.Studio.State}`).then(response => {
@@ -63,6 +72,16 @@
                 else return data.Studio.State;
             }
         },
+        filters: {
+            NullFilter: (value, text) => {
+                if (isStudioSetting) {
+                    if (!value) {
+                        return text;
+                    }
+                }
+                return value;
+            }
+        },
         methods: {
             StateChanged: () => {
                 data.Studio.City = '';
@@ -86,10 +105,10 @@
 
 @if (ViewBag.IsStudioSetting != null)
 {
-    var coverImage = (Model.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/"+Model.id.ToString() : "temp"), Model.ImgCover);
+    var coverImage = (Model.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/" + Model.id.ToString() : "temp"), Model.ImgCover);
     var profileImage = (Model.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/{0}/{1}", ((Model.id != 0) ? "studio-data/" + Model.id.ToString() : "temp"), Model.ImgLogo);
 
-<script type="text/javascript">
+    <script type="text/javascript">
     const inputElement = document.querySelector('input[type="file"]');
 const pond = FilePond.create(inputElement);
 
@@ -107,7 +126,7 @@ FilePond.registerPlugin(
 
 FilePond.setOptions({
 
-    
+
 });
 
     var inputPic = FilePond.create(
@@ -166,7 +185,7 @@ FilePond.setOptions({
         url: "/UploadCoverPic",
         headers: {
           StudioCredential: "@ViewBag.StudioID",
-          }         
+          }
           },
           revert: null,
           load: (source, load, error, progress, abort, headers) => {
@@ -219,6 +238,6 @@ FilePond.setOptions({
             $('form').submit();
         });
     }
-</script>
+    </script>
 
 }

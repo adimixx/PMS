@@ -27,14 +27,14 @@
                 {
                     <input type="file" id="input-studioProfilePic" class="filepond studio-img" name="filepond" />
                     <div id="studio-head" style="margin-top:-40%">
-                        <h2 style=""> {{Studio.Name}} </h2>
+                        <h2 style=""> {{Studio.Name | NullFilter('Your Studio Name')}} </h2>
                         <p class="mb-0">
-                            <span style="position: relative; top: -6px; font-weight: 500;"> {{Studio.ShortDesc}}  </span>
+                            <span style="position: relative; top: -6px; font-weight: 500;"> {{Studio.ShortDesc | NullFilter('Your Studio Description')}}  </span>
                             <br>
-                            <span style="color:#9F9F9F;font-weight:500"><i class="ti-location-pin"></i> {{StudioLocation}} &nbsp;&nbsp;</span>
-                            <a v-bind:href="'https://www.facebook.com/'+Studio.Link.Facebook" class="d-inline-block" target="_blank" v-if="Studio.Link.Facebook != null" style="color:#9F9F9F;font-weight:500"><i class="ti-facebook"></i> {{Studio.Link.Facebook}} &nbsp;&nbsp;</a>
-                            <a v-bind:href="'https://www.instagram.com/'+Studio.Link.Instagram" class="d-inline-block" target="_blank" v-if="Studio.Link.Instagram != null" style="color:#9F9F9F;font-weight:500"><i class="ti-instagram"></i> {{Studio.Link.Instagram}} &nbsp;&nbsp;</a>
-                            <a v-bind:href="'https://www.twitter.com/'+Studio.Link.Twitter" class="d-inline-block" target="_blank" v-if="Studio.Link.Twitter != null" style="color:#9F9F9F;font-weight:500"><i class="ti-twitter-alt"></i> {{Studio.Link.Twitter}} &nbsp;&nbsp;</a>
+                            <span style="color:#9F9F9F;font-weight:500"><i class="ti-location-pin"></i> {{StudioLocation | NullFilter('Your Studio Location')}} &nbsp;&nbsp;</span>
+                            <a v-bind:href="'https://www.facebook.com/'+Studio.Link.Facebook" class="d-inline-block" target="_blank" v-if="Studio.Link.Facebook != null" style="color:#9F9F9F;font-weight:500"><i class="ti-facebook"></i> {{Studio.Link.Facebook }} &nbsp;&nbsp;</a>
+                            <a v-bind:href="'https://www.instagram.com/'+Studio.Link.Instagram" class="d-inline-block" target="_blank" v-if="Studio.Link.Instagram != null" style="color:#9F9F9F;font-weight:500"><i class="ti-instagram"></i> {{Studio.Link.Instagram }} &nbsp;&nbsp;</a>
+                            <a v-bind:href="'https://www.twitter.com/'+Studio.Link.Twitter" class="d-inline-block" target="_blank" v-if="Studio.Link.Twitter != null" style="color:#9F9F9F;font-weight:500"><i class="ti-twitter-alt"></i> {{Studio.Link.Twitter }} &nbsp;&nbsp;</a>
                         </p>
                     </div>
                 }
@@ -64,8 +64,8 @@
         <div class="col-xl-2 col-md-12">
             <div class="row">
                 <div class="col-12">
-                    <span class="mdi mdi-phone"> &nbsp; {{Studio.PhoneNum}} </span> <br>
-                    <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">{{Studio.Email}} </a></span>
+                    <span class="mdi mdi-phone"> &nbsp; {{Studio.PhoneNum | NullFilter('Your Studio Phone Number')}} </span> <br>
+                    <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">{{Studio.Email | NullFilter('YourStudio@Email.com')}} </a></span>
                 </div>
                 <div class="col-12">
                     <a class="chatbtn" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "createchat")"><i class="mdi mdi-chat"></i> Chat</a>
@@ -75,7 +75,7 @@
         <div class="col-xl-10 col-md-12">
             <h3 class="pb-2">Bio</h3>
             <p>
-                {{Studio.Bio}}
+                {{Studio.Bio| NullFilter('Your Studio Biography')}}
             </p>
 
             @if (ViewBag.IsStudioIndex != null)
