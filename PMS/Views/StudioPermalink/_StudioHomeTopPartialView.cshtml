@@ -1,51 +1,67 @@
 ﻿@using PMS.Models
 @model PMS.Models.Database.Studio
 
+
+
 @if (ViewBag.IsStudioSetting == null)
 {
     @:<div class="container">
     }
-<div class="cover-profile">
-    @if (ViewBag.IsStudioSetting != null)
-    {
-        <div id="cover-photo">
-            <input type="file" id="input-studioCoverPic" class="filepond" name="filepond" />
-        </div>
-    }
-    else
-    {
-        var coverImage = (Model.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
-        <img src="@coverImage" id="cover-photo" />
-    }
-    <div id="studio-profile-img">
+<div class="cover-profile row">
+    <div class="col-12">
+
         @if (ViewBag.IsStudioSetting != null)
         {
-            <div style="width: 90%;margin: 10.2px;">
-                <input type="file" id="input-studioProfilePic" class="filepond" name="filepond" />
+            <div id="cover-photo">
+                <input type="file" id="input-studioCoverPic" class="filepond" name="filepond" />
             </div>
         }
         else
         {
-            var profileImage = (Model.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
-
-            <img class="rounded-circle" style="width: 90%;margin: 10.2px;" src="@profileImage">
+            var coverImage = (Model.ImgCover == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/cover-default.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgCover);
+            <img src="@coverImage" id="cover-photo" />
         }
-    </div>
-    <div id="studio-head">
-        <h2 style=""> {{Studio.Name}} </h2>
-        <p class="mb-0">
-            <span style="position: relative; top: -6px; font-weight: 500;"> {{Studio.ShortDesc}}  </span>
-            <br>
-            <span style="color:#9F9F9F;font-weight:500"><i class="ti-location-pin"></i> {{StudioLocation}} &nbsp;&nbsp;</span>
-            <a v-bind:href="'https://www.facebook.com/'+Studio.Link.Facebook" class="d-inline-block" target="_blank" v-if="Studio.Link.Facebook != null" style="color:#9F9F9F;font-weight:500"><i class="ti-facebook"></i> {{Studio.Link.Facebook}} &nbsp;&nbsp;</a>
-            <a v-bind:href="'https://www.instagram.com/'+Studio.Link.Instagram" class="d-inline-block" target="_blank" v-if="Studio.Link.Instagram != null" style="color:#9F9F9F;font-weight:500"><i class="ti-instagram"></i> {{Studio.Link.Instagram}} &nbsp;&nbsp;</a>
-            <a v-bind:href="'https://www.twitter.com/'+Studio.Link.Twitter" class="d-inline-block" target="_blank" v-if="Studio.Link.Twitter != null" style="color:#9F9F9F;font-weight:500"><i class="ti-twitter-alt"></i> {{Studio.Link.Twitter}} &nbsp;&nbsp;</a>
-        </p>
+        <div class="grp-std">
+            <div id="studio-profile-img">
+                @if (ViewBag.IsStudioSetting != null)
+                {
+                    <input type="file" id="input-studioProfilePic" class="filepond studio-img" name="filepond" />
+                    <div id="studio-head" style="margin-top:-40%">
+                        <h2 style=""> {{Studio.Name}} </h2>
+                        <p class="mb-0">
+                            <span style="position: relative; top: -6px; font-weight: 500;"> {{Studio.ShortDesc}}  </span>
+                            <br>
+                            <span style="color:#9F9F9F;font-weight:500"><i class="ti-location-pin"></i> {{StudioLocation}} &nbsp;&nbsp;</span>
+                            <a v-bind:href="'https://www.facebook.com/'+Studio.Link.Facebook" class="d-inline-block" target="_blank" v-if="Studio.Link.Facebook != null" style="color:#9F9F9F;font-weight:500"><i class="ti-facebook"></i> {{Studio.Link.Facebook}} &nbsp;&nbsp;</a>
+                            <a v-bind:href="'https://www.instagram.com/'+Studio.Link.Instagram" class="d-inline-block" target="_blank" v-if="Studio.Link.Instagram != null" style="color:#9F9F9F;font-weight:500"><i class="ti-instagram"></i> {{Studio.Link.Instagram}} &nbsp;&nbsp;</a>
+                            <a v-bind:href="'https://www.twitter.com/'+Studio.Link.Twitter" class="d-inline-block" target="_blank" v-if="Studio.Link.Twitter != null" style="color:#9F9F9F;font-weight:500"><i class="ti-twitter-alt"></i> {{Studio.Link.Twitter}} &nbsp;&nbsp;</a>
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    var profileImage = (Model.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", Model.id, Model.ImgLogo);
+
+                    <img class="rounded-circle studio-img" src="@profileImage">
+                    <div id="studio-head" style="margin-top:-32%">
+                        <h2 style=""> {{Studio.Name}} </h2>
+                        <p class="mb-0">
+                            <span style="position: relative; top: -6px; font-weight: 500;"> {{Studio.ShortDesc}}  </span>
+                            <br>
+                            <span style="color:#9F9F9F;font-weight:500"><i class="ti-location-pin"></i> {{StudioLocation}} &nbsp;&nbsp;</span>
+                            <a v-bind:href="'https://www.facebook.com/'+Studio.Link.Facebook" class="d-inline-block" target="_blank" v-if="Studio.Link.Facebook != null" style="color:#9F9F9F;font-weight:500"><i class="ti-facebook"></i> {{Studio.Link.Facebook}} &nbsp;&nbsp;</a>
+                            <a v-bind:href="'https://www.instagram.com/'+Studio.Link.Instagram" class="d-inline-block" target="_blank" v-if="Studio.Link.Instagram != null" style="color:#9F9F9F;font-weight:500"><i class="ti-instagram"></i> {{Studio.Link.Instagram}} &nbsp;&nbsp;</a>
+                            <a v-bind:href="'https://www.twitter.com/'+Studio.Link.Twitter" class="d-inline-block" target="_blank" v-if="Studio.Link.Twitter != null" style="color:#9F9F9F;font-weight:500"><i class="ti-twitter-alt"></i> {{Studio.Link.Twitter}} &nbsp;&nbsp;</a>
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>
 <div class="body-profile">
     <div class="row">
-        <div class="col-md-2 col-12">
+        <div class="col-xl-2 col-md-12">
             <div class="row">
                 <div class="col-12">
                     <span class="mdi mdi-phone"> &nbsp; {{Studio.PhoneNum}} </span> <br>
@@ -56,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-10 col-12">
+        <div class="col-xl-10 col-md-12">
             <h3 class="pb-2">Bio</h3>
             <p>
                 {{Studio.Bio}}
@@ -66,7 +82,7 @@
             {
                 <h3 class="pb-2">Packages</h3>
                 <div id="brick" class="bricklayer">
-                    @foreach (var item in Model.Packages.ToList().Where(x=>x.status.ToLower() == "enabled").ToList())
+                    @foreach (var item in Model.Packages.ToList().Where(x => x.status.ToLower() == "enabled").ToList())
                     {
                         var image = item.PackageImages.FirstOrDefault();
                         string coverImgPackage;
