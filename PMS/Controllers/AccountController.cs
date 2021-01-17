@@ -25,12 +25,13 @@ namespace PMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (UserAuthentication.SignIn(HttpContext, signIn.Email, signIn.Password, signIn.RememberMe))
+                string error;
+                if (UserAuthentication.SignIn(HttpContext, signIn.Email, signIn.Password, signIn.RememberMe, out error))
                 {
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError("", "Invalid Username / Password");
+                ModelState.AddModelError("", error);
             }
             return View(signIn);
 

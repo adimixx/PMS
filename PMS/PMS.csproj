@@ -488,6 +488,7 @@
     <Content Include="Models\HangFireModel\HangfireModel.edmx.diagram">
       <DependentUpon>HangfireModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\photog123 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -2424,7 +2425,6 @@
     <Content Include="src\libs\gmaps\jsdoc.json" />
     <Content Include="src\libs\gmaps\umd.hbs" />
     <Content Include="src\libs\jquery-steps\build\jquery.steps-1.1.0.zip" />
-    <Content Include="src\libs\jquery-steps\build\jQuery.Steps.1.1.0.nupkg" />
     <Content Include="src\libs\jquery-steps\nuget\jQuery.Steps.nuspec" />
     <Content Include="src\libs\jquery-steps\steps.jquery.json" />
     <Content Include="src\libs\jquery-ui\component.json" />

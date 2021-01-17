@@ -59,12 +59,18 @@ namespace PMS.Models
             return claimsIdentity;
         }
 
-        public static bool SignIn(HttpContextBase context, string email, string password, bool rememberMe)
+        public static bool SignIn(HttpContextBase context, string email, string password, bool rememberMe,out string error)
         {
+            error = null;
             photogEntities db = new photogEntities();
             try
             {
-                var user = db.Users.FirstOrDefault(x => x.email.ToLower() == email && x.password == password);
+                var user = db.Users.FirstOrDefault(x => x.email.ToLower() == email.ToLower() && x.password == password);
+
+                if (user != null && !user.isVerified)
+                {
+                    error = "Account has not been verified. Please check your email for verification";
+                }
 
                 if (user != null)
                 {
@@ -76,9 +82,11 @@ namespace PMS.Models
 
                     return true;
                 }
+                error = "Invalid Username or Password";
             }
             catch
             {
+                error = "Server Error";
             }
             return false;
         }
