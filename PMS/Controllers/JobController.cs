@@ -447,6 +447,7 @@ namespace PMS.Controllers
 
                 if (job.Package.depositprice > 0)
                 {
+                    TempData["error"] = "There is no deposit amount set for this package";
                     return Redirect(Request.UrlReferrer.ToString());
                 }
 
