@@ -11,10 +11,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StudioID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
           <Property Name="Price" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="Unit" Type="nchar" MaxLength="10" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ChatKey">
           <Key>
@@ -35,8 +35,8 @@
           <Property Name="expirydate" Type="datetime" Nullable="false" />
           <Property Name="total" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="totalunpaid" Type="decimal" Precision="6" Scale="2" Nullable="false" />
-          <Property Name="detail" Type="varchar" MaxLength="30" />
-          <Property Name="status" Type="varchar" MaxLength="30" />
+          <Property Name="detail" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -47,7 +47,7 @@
           <Property Name="userid" Type="int" Nullable="false" />
           <Property Name="jobstatusid" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
-          <Property Name="paymentstatus" Type="varchar" MaxLength="20" />
+          <Property Name="paymentstatus" Type="nvarchar" MaxLength="50" />
           <Property Name="PackagePrice" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="TotalPrice" Type="decimal" Precision="6" Scale="2" Nullable="false" />
         </EntityType>
@@ -58,7 +58,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="jobid" Type="int" />
           <Property Name="amount" Type="decimal" Precision="6" Scale="2" Nullable="false" />
-          <Property Name="remarks" Type="varchar" MaxLength="255" />
+          <Property Name="remarks" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="JobDate">
           <Key>
@@ -67,8 +67,8 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="jobid" Type="int" />
           <Property Name="jobdate" Type="datetime" Nullable="false" />
-          <Property Name="location" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="description" Type="varchar" MaxLength="100" />
+          <Property Name="location" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="100" />
           <Property Name="jobstatusid" Type="int" />
         </EntityType>
         <EntityType Name="JobDateUser">
@@ -85,7 +85,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Package">
           <Key>
@@ -93,18 +93,18 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="studioid" Type="int" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="price" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="depositprice" Type="decimal" Precision="6" Scale="2" Nullable="false" />
-          <Property Name="details" Type="varchar" MaxLength="100" />
-          <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="details" Type="nvarchar" MaxLength="100" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="PackageImage">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ImageName" Type="varchar(max)" Nullable="false" />
+          <Property Name="ImageName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="PackageID" Type="int" Nullable="false" />
           <Property Name="IsCoverPhoto" Type="bit" />
         </EntityType>
@@ -113,31 +113,31 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Studio">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="uniquename" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="State" Type="varchar" MaxLength="100" />
-          <Property Name="City" Type="varchar" MaxLength="100" />
-          <Property Name="ImgLogo" Type="varchar(max)" />
-          <Property Name="ImgCover" Type="varchar(max)" />
-          <Property Name="shortDesc" Type="varchar" MaxLength="50" />
-          <Property Name="longDesc" Type="varchar(max)" />
-          <Property Name="phoneNum" Type="varchar" MaxLength="50" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="uniquename" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="State" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="ImgLogo" Type="nvarchar(max)" />
+          <Property Name="ImgCover" Type="nvarchar(max)" />
+          <Property Name="shortDesc" Type="nvarchar" MaxLength="50" />
+          <Property Name="longDesc" Type="nvarchar" MaxLength="500" />
+          <Property Name="phoneNum" Type="nvarchar" MaxLength="12" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="StudioLink">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="address" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="studioid" Type="int" />
         </EntityType>
         <EntityType Name="StudioRole">
@@ -145,14 +145,14 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="SystemRole">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
@@ -163,22 +163,22 @@
           <Property Name="total" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="invoiceid" Type="int" />
           <Property Name="paymentmethodid" Type="int" />
-          <Property Name="reference" Type="varchar" MaxLength="100" />
+          <Property Name="reference" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="32" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
           <Property Name="dateofbirth" Type="datetime" />
-          <Property Name="phonenumber" Type="varchar" MaxLength="12" />
-          <Property Name="imgprofile" Type="varchar" MaxLength="255" />
+          <Property Name="phonenumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="imgprofile" Type="nvarchar" MaxLength="255" />
           <Property Name="isVerified" Type="bit" Nullable="false" />
-          <Property Name="verifiedKey" Type="varchar(max)" />
-          <Property Name="emailTemp" Type="varchar" MaxLength="50" />
+          <Property Name="verifiedKey" Type="nvarchar(max)" />
+          <Property Name="emailTemp" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserStudio">
           <Key>
@@ -462,6 +462,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="bestpackage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="studioid" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="package" Type="nvarchar" MaxLength="50" Nullable="false" />
+                <Property Name="quantity" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <EntityContainer Name="photogModelStoreContainer">
           <EntitySet Name="Charges" EntityType="Self.Charges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatKey" EntityType="Self.ChatKey" Schema="dbo" store:Type="Tables" />
@@ -683,6 +694,9 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
+          <FunctionImport Name="bestpackage" IsComposable="true" ReturnType="Collection(photogModel.bestpackage_Result)">
+            <Parameter Name="studioid" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Charge">
           <Key>
@@ -690,10 +704,10 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StudioID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="Unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK_Charges_Studio" FromRole="Charge" ToRole="Studio" />
         </EntityType>
         <EntityType Name="ChatKey">
@@ -717,8 +731,8 @@
           <Property Name="expirydate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="total" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="totalunpaid" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <Property Name="detail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="detail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Job" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Invoice" ToRole="Job" />
           <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__invoi__160F4887" FromRole="Invoice" ToRole="Transaction" />
         </EntityType>
@@ -731,7 +745,7 @@
           <Property Name="userid" Type="Int32" Nullable="false" />
           <Property Name="jobstatusid" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="paymentstatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="paymentstatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PackagePrice" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <NavigationProperty Name="Invoices" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Job" ToRole="Invoice" />
@@ -748,7 +762,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="jobid" Type="Int32" />
           <Property Name="amount" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Job" Relationship="photogModel.FK__JobCharge__jobid__339FAB6E" FromRole="JobCharge" ToRole="Job" />
         </EntityType>
         <EntityType Name="JobDate">
@@ -758,8 +772,8 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="jobid" Type="Int32" />
           <Property Name="jobdate1" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="location" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="location" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="jobstatusid" Type="Int32" />
           <NavigationProperty Name="Job" Relationship="photogModel.FK__JobDate__jobid__3493CFA7" FromRole="JobDate" ToRole="Job" />
           <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__JobDate__jobstat__10566F31" FromRole="JobDate" ToRole="JobStatu" />
@@ -781,7 +795,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__jobstatusid__2FCF1A8A" FromRole="JobStatu" ToRole="Job" />
           <NavigationProperty Name="JobDates" Relationship="photogModel.FK__JobDate__jobstat__10566F31" FromRole="JobStatu" ToRole="JobDate" />
         </EntityType>
@@ -791,11 +805,11 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="studioid" Type="Int32" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="price" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="depositprice" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <Property Name="details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="details" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__packageid__30C33EC3" FromRole="Package" ToRole="Job" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Package" ToRole="Studio" />
           <NavigationProperty Name="PackageImages" Relationship="photogModel.FK__PackageIm__Packa__14270015" FromRole="Package" ToRole="PackageImage" />
@@ -805,7 +819,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PackageID" Type="Int32" Nullable="false" />
           <Property Name="IsCoverPhoto" Type="Boolean" />
           <NavigationProperty Name="Package" Relationship="photogModel.FK__PackageIm__Packa__14270015" FromRole="PackageImage" ToRole="Package" />
@@ -815,7 +829,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Transactions" Relationship="photogModel.FK__Transacti__payme__17036CC0" FromRole="PaymentMethod" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Studio">
@@ -823,16 +837,16 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="uniquename" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ImgLogo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ImgCover" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="shortDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="longDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="phoneNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uniquename" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ImgLogo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImgCover" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="shortDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="longDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="phoneNum" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Charges" Relationship="photogModel.FK_Charges_Studio" FromRole="Studio" ToRole="Charge" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_Studio" FromRole="Studio" ToRole="ChatKey" />
           <NavigationProperty Name="Packages" Relationship="photogModel.FK__Package__studioi__3864608B" FromRole="Studio" ToRole="Package" />
@@ -844,8 +858,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="address" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="studioid" Type="Int32" />
           <NavigationProperty Name="Studio" Relationship="photogModel.FK__StudioLin__studi__395884C4" FromRole="StudioLink" ToRole="Studio" />
         </EntityType>
@@ -854,7 +868,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__studi__18EBB532" FromRole="StudioRole" ToRole="UserStudio" />
         </EntityType>
         <EntityType Name="SystemRole">
@@ -862,7 +876,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__syste__1AD3FDA4" FromRole="SystemRole" ToRole="UserSystemRole" />
         </EntityType>
         <EntityType Name="Transaction">
@@ -874,7 +888,7 @@
           <Property Name="total" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="invoiceid" Type="Int32" />
           <Property Name="paymentmethodid" Type="Int32" />
-          <Property Name="reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="reference" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Invoice" Relationship="photogModel.FK__Transacti__invoi__160F4887" FromRole="Transaction" ToRole="Invoice" />
           <NavigationProperty Name="PaymentMethod" Relationship="photogModel.FK__Transacti__payme__17036CC0" FromRole="Transaction" ToRole="PaymentMethod" />
         </EntityType>
@@ -883,15 +897,15 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="dateofbirth" Type="DateTime" Precision="3" />
-          <Property Name="phonenumber" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="imgprofile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="imgprofile" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="isVerified" Type="Boolean" Nullable="false" />
-          <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="emailTemp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="emailTemp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_User" FromRole="User" ToRole="ChatKey" />
           <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
           <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
@@ -1185,6 +1199,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="bestpackage_Result">
+          <Property Type="String" Name="package" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="quantity" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1403,6 +1421,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="bestpackage" FunctionName="photogModel.Store.bestpackage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="photogModel.bestpackage_Result">
+                <ScalarProperty Name="package" ColumnName="package" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
