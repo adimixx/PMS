@@ -1,5 +1,4 @@
 ﻿@model PMS.Models.Database.Studio
-
 @{
     var fb = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "facebook")?.address;
     var twitter = Model.StudioLinks.FirstOrDefault(y => y.name.ToLower() == "twitter")?.address;
@@ -19,7 +18,7 @@ else
 {
     @: const isStudioSetting = false;
 }
-    console.log(`@Model`)
+
     var data = {
         Studio: {
     Name: `@Model.name`,

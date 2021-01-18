@@ -46,7 +46,6 @@ namespace PMS.Models
             blobContainer.CreateIfNotExists();
         }
 
-
         //public List<string> UploadMultipleFileAPI(List<HttpPostedFile> ListFileToUpload, string FolderID)
         //{
         //    List<string> AbsoluteUri = new List<string>();

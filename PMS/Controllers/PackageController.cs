@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using PMS.Models;
+﻿using PMS.Models;
 using PMS.Models.Database;
 using System;
 using System.Collections.Generic;
@@ -212,24 +211,18 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpPost]
-        public ActionResult AddCharge(AddChargePresetViewModel charge)
+        public ActionResult AddCharge(Charge charge)
         {
             ViewBag.Title = "Create New Charge Preset";
             ViewBag.SubmitButton = "Create";
+            CheckModel(charge);
             if (!ModelState.IsValid)
             {
                 return View("ChargePresetForm", charge);
             }
 
-            var chargeNow = new Charge();
-
-            chargeNow.StudioID = ViewBag.StudioID;
-            chargeNow.Name = charge.Name;
-            chargeNow.Price = charge.Price;
-            chargeNow.Description = charge.Description;
-            chargeNow.Unit = charge.Unit;
-
-            db.Charges.Add(chargeNow);
+            charge.StudioID = ViewBag.StudioID;
+            db.Charges.Add(charge);
             db.SaveChanges();
             return RedirectToAction("packagehome");
         }
@@ -247,10 +240,11 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpPost]
-        public ActionResult EditCharge(int id, AddChargePresetViewModel charge)
+        public ActionResult EditCharge(int id, Charge charge)
         {
             ViewBag.Title = "Edit Charge Preset";
             ViewBag.SubmitButton = "Save Changes";
+            CheckModel(charge);
             if (!ModelState.IsValid)
             {
                 return View("ChargePresetForm", charge);
