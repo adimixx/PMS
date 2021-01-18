@@ -141,6 +141,7 @@ namespace PMS.Controllers
                 if (job.userid != UserAuthentication.Identity().id)
                     return Redirect("/");
 
+                ViewBag.StudioUrl = job.Package.Studio.uniquename;
                 return View("detail", new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
             }
             catch (Exception e)
@@ -443,6 +444,13 @@ namespace PMS.Controllers
             try
             {
                 var job = db.Jobs.Find(id);
+
+                if (job.Package.depositprice > 0)
+                {
+                    TempData["error"] = "There is no deposit amount set for this package";
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+
                 var invoice = new Invoice
                 {
                     expirydate = DateTime.Now.AddMonths(3),
