@@ -444,6 +444,12 @@ namespace PMS.Controllers
             try
             {
                 var job = db.Jobs.Find(id);
+
+                if (job.Package.depositprice > 0)
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+
                 var invoice = new Invoice
                 {
                     expirydate = DateTime.Now.AddMonths(3),
