@@ -175,7 +175,18 @@ else
     <script type="text/javascript">
     var chatkey ='@Model.ChatKey_Key';
     var myid = '@Model.StudioID';
+        var dsp = " ";
+        var ds = " ";
 
+        function calculatedate(datenow) {
+            var today = new Date();
+            var dateNow = datenow.split("/");
+            var f = new Date(dateNow[2], (dateNow[1] - 1), dateNow[0]);
+            var diff = new Date(today.getTime() - f.getTime());
+
+            console.log("datenow -> " + datenow + " diff => " + diff);
+            return diff.getUTCDate() - 1;
+        }
     function sendMessage() {
         // get message
         var message = document.getElementById("message").value;
@@ -215,6 +226,35 @@ else
                 }
             }
             else {
+
+                if (snapshot.val().date != null) {
+                    var disp = "";
+                    ds = snapshot.val().date;
+                    if (dsp == snapshot.val().date) {
+                        if (dsp != ds) {
+                            if (calculatedate(ds) == 0) {
+                                disp = "Today";
+                            } else if (calculatedate(ds) == 1) {
+                                disp = "Yesterday";
+                            } else {
+                                disp = snapshot.val().date;
+                            }
+                            html += '<div class="separator">' + disp + '</div>';
+                            dsp = snapshot.val().date;
+                        }
+                    } else {
+                        if (calculatedate(ds) == 0) {
+                            disp = "Today";
+                        } else if (calculatedate(ds) == 1) {
+                            disp = "Yesterday";
+                        } else {
+                            disp = snapshot.val().date;
+                        }
+                        html += '<div class="separator">' + disp + '</div>';
+                        dsp = snapshot.val().date;
+                    }
+                }
+
                 if (snapshot.val().id == myid && snapshot.val().sendertype == "studio") {
                     //this is sender chat(align right side of interface)
                     //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
