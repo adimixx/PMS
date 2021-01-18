@@ -28,12 +28,25 @@
      var myName = '@Model.User.name';
         var chatkey ='@Model.ChatKey_Key';
         var myid = '@Model.UserID';
+        var dsp = " ";
+        var ds = " ";
+
+        function calculatedate(datenow) {
+            var today = new Date();
+            var dateNow = datenow.split("/");
+            var f = new Date(dateNow[2], (dateNow[1] - 1), dateNow[0]);
+            var diff = new Date(today.getTime() - f.getTime());
+
+            console.log("datenow -> " + datenow + " diff => " + diff);
+            return diff.getUTCDate() - 1;
+     }
 
     function sendMessage() {
         // get message
         var message = document.getElementById("message").value;
         $("#myform")[0].reset();
-       const t = new Date();
+        const t = new Date();
+        const date = t.getDate() + '/' + parseFloat(t.getMonth() + 1) + '/' + t.getFullYear();
         const hours = ('0' + t.getHours()).slice(-2);
         const minutes = ('0' + t.getMinutes()).slice(-2);
         // save in database //here to track who login
@@ -42,7 +55,8 @@
             "sendertype": "user",
             "message": message,
             "time": hours.toString() + ":" + minutes.toString(),
-            "datatype":"text"
+            "datatype": "text",
+            "date": date
         });
 
         // prevent form from submitting
@@ -65,6 +79,35 @@
                 }
             }
             else {
+
+                if (snapshot.val().date != null) {
+                    var disp = "";
+                    ds = snapshot.val().date;
+                    if (dsp == snapshot.val().date) {
+                        if (dsp != ds) {
+                            if (calculatedate(ds) == 0) {
+                                disp = "Today";
+                            } else if (calculatedate(ds) == 1) {
+                                disp = "Yesterday";
+                            } else {
+                                disp = snapshot.val().date;
+                            }
+                            html += '<div class="separator">' + disp +'</div>';
+                            dsp = snapshot.val().date;
+                        }
+                    } else {
+                        if (calculatedate(ds) == 0) {
+                            disp = "Today";
+                        } else if (calculatedate(ds) == 1) {
+                            disp = "Yesterday";
+                        } else {
+                            disp = snapshot.val().date;
+                        }
+                        html += '<div class="separator">' + disp +'</div>';
+                        dsp = snapshot.val().date;
+                    }
+                }
+
                 if (snapshot.val().id == myid && snapshot.val().sendertype == "user") {
                     //this is sender chat(align right side of interface)
                     //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
@@ -78,6 +121,7 @@
                 }
             }
             document.getElementById("msg").innerHTML += html;
+            document.getElementById('scroll').scrollTop = 9999999;
         });
 
         function encodeImageFIleURL() {
@@ -131,12 +175,24 @@ else
     <script type="text/javascript">
     var chatkey ='@Model.ChatKey_Key';
     var myid = '@Model.StudioID';
+        var dsp = " ";
+        var ds = " ";
 
+        function calculatedate(datenow) {
+            var today = new Date();
+            var dateNow = datenow.split("/");
+            var f = new Date(dateNow[2], (dateNow[1] - 1), dateNow[0]);
+            var diff = new Date(today.getTime() - f.getTime());
+
+            console.log("datenow -> " + datenow + " diff => " + diff);
+            return diff.getUTCDate() - 1;
+        }
     function sendMessage() {
         // get message
         var message = document.getElementById("message").value;
         $("#myform")[0].reset();
-       const t = new Date();
+        const t = new Date();
+        const date = t.getDate() + '/' + parseFloat(t.getMonth() + 1) + '/' + t.getFullYear();
         const hours = ('0' + t.getHours()).slice(-2);
         const minutes = ('0' + t.getMinutes()).slice(-2);
         // save in database //here to track who login
@@ -146,7 +202,8 @@ else
             "message": message,
             "receiver": "test123",
             "time": hours.toString() + ":" + minutes.toString(),
-            "datatype":"text"
+            "datatype":"text",
+            "date": date
         });
         // prevent form from submitting
         return false;
@@ -169,6 +226,35 @@ else
                 }
             }
             else {
+
+                if (snapshot.val().date != null) {
+                    var disp = "";
+                    ds = snapshot.val().date;
+                    if (dsp == snapshot.val().date) {
+                        if (dsp != ds) {
+                            if (calculatedate(ds) == 0) {
+                                disp = "Today";
+                            } else if (calculatedate(ds) == 1) {
+                                disp = "Yesterday";
+                            } else {
+                                disp = snapshot.val().date;
+                            }
+                            html += '<div class="separator">' + disp + '</div>';
+                            dsp = snapshot.val().date;
+                        }
+                    } else {
+                        if (calculatedate(ds) == 0) {
+                            disp = "Today";
+                        } else if (calculatedate(ds) == 1) {
+                            disp = "Yesterday";
+                        } else {
+                            disp = snapshot.val().date;
+                        }
+                        html += '<div class="separator">' + disp + '</div>';
+                        dsp = snapshot.val().date;
+                    }
+                }
+
                 if (snapshot.val().id == myid && snapshot.val().sendertype == "studio") {
                     //this is sender chat(align right side of interface)
                     //html += "<li class='font-size-18' style='margin:10px;text-align:right;list-style-type:none;background-color:lightgreen;' id='message-" + snapshot.key + "'>";
@@ -181,6 +267,7 @@ else
                 }
             }
             document.getElementById("msg").innerHTML += html;
+            document.getElementById('scroll').scrollTop = 9999999;
         });
 
     function encodeImageFIleURL() {

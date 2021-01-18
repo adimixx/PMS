@@ -110,7 +110,7 @@
         </div>
         <div class="col-12">
             <div id="brick" class="bricklayer">
-                @foreach (var item in Model.pkg)
+                @foreach (var item in Model.pkg.Where(x=>x.status != "Disabled"))
                 {
                     if (i < 4)
                     {
@@ -119,7 +119,7 @@
 
                         <div class="card cd card-shad">
                             <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>
-                            <div class="card-body">
+                            <div class="card-body" style="height: 188px;overflow-y:auto">
                                 <h3 class="card-title cdtitle">@item.name</h3>
                                 <article class="card-text" style="max-height: none;">
                                     @item.details

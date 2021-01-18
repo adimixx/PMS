@@ -498,7 +498,7 @@ article {
     position: absolute;
     bottom: -10px;
     right: -13px;
-    z-index: 1001;
+    z-index: 5;
     box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
 }
 
@@ -612,4 +612,47 @@ article {
     .btn-send:hover {
         color: white;
         background-color: #70c1c4;
+    }
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #888888;
+    font-size:12px;
+}
+
+    .separator::before, .separator::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+    .separator::before {
+        margin-right: .25em;
+    }
+
+    .separator::after {
+        margin-left: .25em;
+    }
+
+/* width */
+.card-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.card-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.card-body::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+    /* Handle on hover */
+    .card-body::-webkit-scrollbar-thumb:hover {
+        background: #555;
     }
