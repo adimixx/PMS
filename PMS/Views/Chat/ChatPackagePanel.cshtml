@@ -214,10 +214,12 @@
                 }
             </div>
 
-            <button v-show="jobId != ''" v-on:click="onCancelClick" class="btn btn-danger mr-2 float-right">Cancel</button>
-            <a v-show="jobUrl != ''" v-bind:href="jobUrl" class="btn btn-primary mr-2 float-right">Detail</a>
-            <button v-show="studioUrl != ''" class="btn btn-success mr-2 float-right" data-toggle="modal" data-target="#modalPayment">Pay Now</button>
-
+            @if (ViewBag.StudioRoleID == null)
+            {
+                <button v-show="jobId != ''" v-on:click="onCancelClick" class="btn btn-danger mr-2 float-right">Cancel</button>
+                <a v-show="jobUrl != ''" v-bind:href="jobUrl" class="btn btn-primary mr-2 float-right">Detail</a>
+                <button v-show="studioUrl != ''" class="btn btn-success mr-2 float-right" data-toggle="modal" data-target="#modalPayment">Pay Now</button>
+            }
         </div>
     </div>
 </div>
