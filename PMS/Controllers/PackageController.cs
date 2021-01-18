@@ -28,7 +28,7 @@ namespace PMS.Controllers
             if (!db.UserStudios.ToList().Any(x => x.userid == UserAuthentication.Identity().id && x.studioid == studioid.Value))
                 return RedirectToAction("Error500", "Home", new { errormsg = "You picked the wrong studio Fool!" });
 
-            return View("addnewpackage", new CreatePackageViewModel());
+            return View("editpackage", new CreatePackageViewModel());
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
@@ -45,7 +45,7 @@ namespace PMS.Controllers
                     if (data.price < data.depoprice || data.price <= 0 || data.depoprice < 0)
                     {
                         TempData["error"] = "Invalid price setting";
-                        return View("addnewpackage", data);
+                        return View("editpackage", data);
                     }
 
                     db.Packages.Add(new Package
@@ -67,7 +67,7 @@ namespace PMS.Controllers
                 }
             }
 
-            return View("addnewpackage", data);
+            return View("editpackage", data);
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
