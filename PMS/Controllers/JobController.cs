@@ -478,7 +478,7 @@ namespace PMS.Controllers
             try
             {
                 var job = db.Jobs.Find(id);
-                if (job.Invoices.Any(x => x.detail == "Deposit"))
+                if (job.Invoices.Any(x => x.detail == "Deposit" && x.status == "Paid"))
                 {
                     var invoice = new Invoice
                     {

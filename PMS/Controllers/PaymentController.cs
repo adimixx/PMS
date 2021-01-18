@@ -27,7 +27,7 @@ namespace PMS.Controllers
                 var service = new PaymentIntentService();
                 var options = new PaymentIntentCreateOptions
                 {
-                    Amount = (long)invoice.total * 100,
+                    Amount = (long)(invoice.total * 100),
                     Currency = "myr",
                     PaymentMethodTypes = new List<string>
                 {
@@ -76,6 +76,10 @@ namespace PMS.Controllers
                     invoice.totalunpaid -= decimal.Parse((intent.Amount / 100).ToString(".00"));
                     invoice.status = "Paid";
                     db.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    var job = db.Jobs.Find(invoice.jobid);
+                    job.jobstatusid = 1;
                     db.SaveChanges();
 
                     //Remove Data from Firebase (Quoted Items)

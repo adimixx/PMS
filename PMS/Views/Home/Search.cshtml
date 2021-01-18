@@ -246,7 +246,7 @@
                 }
                 <div id="brick" class="bricklayer">
 
-                    @foreach (var item in Model.pkg)
+                    @foreach (var item in Model.pkg.Where(x => x.status != "Disabled"))
                     {
                         string imgLogo = (item.PackageImages.Count(x => x.PackageID == item.id) == 0 ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-image-package.png"
                                                                          : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault(x => x.PackageID == item.id).ImageName + "");
