@@ -636,3 +636,23 @@ article {
     .separator::after {
         margin-left: .25em;
     }
+
+/* width */
+.card-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.card-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.card-body::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+    /* Handle on hover */
+    .card-body::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
