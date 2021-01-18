@@ -51,7 +51,7 @@ namespace PMS.App_Start
             //{
             //    Authorization = new[] { new HangfireAuthorizeAtrribute() }
             //};
-            //app.UseHangfireDashboard("/Hangfire",option);      
+            //app.UseHangfireDashboard("/Hangfire", option);
             app.UseHangfireDashboard();
 
         }

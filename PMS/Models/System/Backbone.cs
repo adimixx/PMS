@@ -8,11 +8,15 @@ using System.Reflection;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using System.Web.Mvc;
 
 namespace PMS.Models
 {
     public class Backbone
     {
+        public const string ErrorMaxLength = "{0} cannot be longer than {1} Words";
+        public const string ErrorMaxRange = "{0} cannot be higher than {2} Words";
+
         public static string Random(int length)
         {
             Random random = new Random();
@@ -33,6 +37,31 @@ namespace PMS.Models
             }
         }
 
+    }
+
+    //Trim Input
+    public class TrimModelBinder : DefaultModelBinder
+    {
+        protected override void SetProperty(ControllerContext controllerContext,
+          ModelBindingContext bindingContext,
+          System.ComponentModel.PropertyDescriptor propertyDescriptor, object value)
+        {
+            if (propertyDescriptor.PropertyType == typeof(string))
+            {
+                var stringValue = (string)value;
+                if (!string.IsNullOrWhiteSpace(stringValue))
+                {
+                    value = stringValue.Trim();
+                }
+                else
+                {
+                    value = null;
+                }
+            }
+
+            base.SetProperty(controllerContext, bindingContext,
+                                propertyDescriptor, value);
+        }
     }
 
     /// <summary>
@@ -169,26 +198,5 @@ namespace PMS.Models
 
             return ValidationResult.Success;
         }
-    }
-
-    public class AllowCors : ActionFilterAttribute
-    {
-        public string URL { get; set; }
-
-        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
-        {
-            actionExecutedContext.Request.Headers.Add("Access-Control-Allow-Origin", "*");
-            base.OnActionExecuted(actionExecutedContext);
-        }
-
-        //public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
-        //{
-        //    if (actionExecutedContext.Response != null)
-        //        actionExecutedContext.Response.Headers.Add("Access-Control-Allow-Origin", URL);
-
-        //    base.OnActionExecuted(actionExecutedContext);
-        //}
-    }
-
-    
+    }    
 }

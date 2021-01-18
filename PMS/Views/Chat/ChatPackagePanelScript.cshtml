@@ -280,7 +280,11 @@ var packagePanel = new Vue({
       data.cartItems.splice(index, 1);
       updateQuotationData();
     },
-    onConfirmQuote: () => {
+      onConfirmQuote: () => {
+          if (data.venueItems.length <= 0) {
+              alert('Please insert a Venue');
+              return;
+          }
       const axiosPost = {
         url: `/SystemAPI/Package/PostPackageQuote`,
           method: `POST`,

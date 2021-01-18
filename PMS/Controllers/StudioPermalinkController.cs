@@ -53,17 +53,9 @@ namespace PMS.Controllers
             ViewBag.IsStudioSetting = "true";
             ViewBag.Header = "Studio Settings";
 
-            if (string.IsNullOrWhiteSpace(createStudio.name))
+            if (db.Studios.FirstOrDefault(x => x.name.ToLower() == createStudio.name.ToLower() && x.id != createStudio.id) != null)
             {
-                ModelState.AddModelError("name", "Studio Name cannot be null");
-            }
-
-            else
-            {
-                if (db.Studios.FirstOrDefault(x=>x.name.ToLower() == createStudio.name.ToLower() && x.id != createStudio.id) != null)
-                {
-                    ModelState.AddModelError("name", "Studio Name is not available");
-                }
+                ModelState.AddModelError("name", "Studio Name is not available");
             }
 
             if (!string.IsNullOrWhiteSpace(createStudio.phoneNum) && !int.TryParse(createStudio.phoneNum, out int result))
@@ -191,6 +183,11 @@ namespace PMS.Controllers
             else if (!regexItem.IsMatch(username))
             {
                 ModelState.AddModelError("uniquename", "Studio Username cannot contain characters and spaces");
+            }
+
+            else if (username.Length > 20)
+            {
+                ModelState.AddModelError("uniquename", "Studio Username cannot be more than 20 words");
             }
 
             else

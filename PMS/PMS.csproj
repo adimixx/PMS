@@ -284,6 +284,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\AddChargePresetViewModel.cs" />
     <Compile Include="Models\CreatePackageViewModel.cs" />
     <Compile Include="Models\DatabaseOperation.cs" />
     <Compile Include="Models\Database\Charge.cs">

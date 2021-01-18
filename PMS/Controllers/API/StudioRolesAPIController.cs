@@ -91,6 +91,10 @@ namespace PMS.Controllers.API
                         return BadRequest("User email does not exist");
                     }
 
+                    else if(!user.isVerified){
+                        return BadRequest("User is not verified.");
+                    }
+
                     if (role.Operation == 1)
                     {
                         var userStudio = user.UserStudios.FirstOrDefault(x => x.studioid == StudioID);
