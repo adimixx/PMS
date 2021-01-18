@@ -30,7 +30,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <!-- Avatar-->
-                <div class="dropdown d-inline-block" style="right:10px;">
+                <div class="dropdown d-inline-block" style="right:10px;z-index:200">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="nav-item">@User.Identity.Name </span>
