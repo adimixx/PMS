@@ -128,6 +128,27 @@ namespace PMS.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult JobCustomerDetail(int id)
+        {
+            try
+            {
+                var job = db.Jobs.Find(id);
+                var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
+                var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.jobdateid == jobdate.id).ToList() : null;
+                var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
+
+                if (job.userid != UserAuthentication.Identity().id)
+                    return Redirect("/");
+
+                return View("detail", new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
+            }
+        }
+
         [StudioPermalinkValidate]
         [HttpGet]
         public ActionResult Detail(int id)
