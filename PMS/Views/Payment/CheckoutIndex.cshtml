@@ -113,7 +113,6 @@
                                             <td><p class="font-weight-bolder">@item.remarks</p></td>
                                             <td><p class="text-primary">RM @item.amount</p></td>
                                         </tr>
-                                        totalpay += item.amount;
                                         i++;
                                     }
                                     <tr>
@@ -122,12 +121,10 @@
                                         <td><p class="text-primary">RM @Model.total</p></td>
                                     </tr>
 
-                                    @{totalpay += Model.total;}
-
                                     <tr>
                                         <td></td>
                                         <td><p class="font-weight-bolder">Total:</p></td>
-                                        <td><p class="text-primary">RM @totalpay</p></td>
+                                        <td><p class="text-primary">RM @Model.total</p></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -138,7 +135,7 @@
                             <div class="card-header">
                                 <center>
                                     <span style="color: white;letter-spacing:2px;">TOTAL PRICE</span>
-                                    <h2 style="color:white;font-weight:500;">RM @totalpay</h2>
+                                    <h2 style="color:white;font-weight:500;">RM @Model.total</h2>
                                     <span style="color: white;letter-spacing:1px;">@Model.detail</span>
                                 </center>
                             </div>
@@ -152,7 +149,7 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(item => Model.total, "Total Price", htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(item => Model.total, "Amount (Needs To Pay)", htmlAttributes: new { @class = "control-label" })
                                 <span class="form-control">
                                     RM @Model.total
                                 </span>
@@ -183,6 +180,12 @@
     @Scripts.Render("~/bundles/jquerytemplate")
     @Scripts.Render("~/bundles/bootstraptemplate")
     @Scripts.Render("~/bundles/libscript")
+
+    @{
+
+        Uri uri = new Uri(Request.Url.ToString());
+        string link = uri.Scheme + Uri.SchemeDelimiter + uri.Host + ":" + uri.Port;
+    }
 
     <script src="~/src/user/js/app.js"></script>
 
@@ -237,7 +240,7 @@
                     fpx: fpxBank
                 },
                 // Return URL where the customer should be redirected after the authorization
-                return_url: '@string.Format("{0}/{1}", "https://localhost:44341/payment/statusPayment", ViewBag.intent.Id)'
+                return_url: '@string.Format("{0}/{1}", link + "/payment/statusPayment", ViewBag.intent.Id)'
             }).then((result) => {
                 if (result.error) {
                     // Inform the customer that there was an error.
