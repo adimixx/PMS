@@ -110,7 +110,7 @@
         </div>
         <div class="col-12">
             <div id="brick" class="bricklayer">
-                @foreach (var item in Model.pkg)
+                @foreach (var item in Model.pkg.Where(x=>x.status != "Disabled"))
                 {
                     if (i < 4)
                     {
