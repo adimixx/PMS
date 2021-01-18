@@ -2,8 +2,10 @@
 using PMS.Models;
 using PMS.Models.Database;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace PMS.Controllers
@@ -22,7 +24,35 @@ namespace PMS.Controllers
 
             return View(studio);
         }
+        [HttpGet]
+        [StudioPermalinkValidate(RoleID = 1)]
+        public ActionResult viewstat()
+        {
 
+            long studioID = (long)ViewBag.StudioID;
+            return View(studioID);
+        }
+
+        [HttpGet]
+        [StudioPermalinkValidate(RoleID = 1)]
+        public ActionResult seechart()
+        {//array for storing x-value and y-value
+            ArrayList xval = new ArrayList();
+            ArrayList yval = new ArrayList();
+            int studioID = (int)ViewBag.StudioID;
+            
+            //select result set from database
+            var result = db.bestpackage(studioID).ToList();
+            //put result set into two array
+            result.ToList().ForEach(x => xval.Add(x.package));
+            result.ToList().ForEach(x => yval.Add(x.quantity));
+            //setting up the chart
+            new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla).AddTitle("Best selling package for studio til" + DateTime.Now.ToString("yyyy")).AddSeries("Default", chartType: "Column", xValue: xval, yValues: yval).SetYAxis(title: "pick(s)")
+            .SetXAxis(title: "Package").Write("bmp");
+            //this is setting for graph
+
+            return null;
+        }
         [HttpGet]
         [StudioPermalinkValidate(RoleID = 1)]
         public ActionResult Settings()

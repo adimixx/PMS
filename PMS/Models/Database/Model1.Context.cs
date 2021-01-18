@@ -12,6 +12,8 @@ namespace PMS.Models.Database
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class photogEntities : DbContext
     {
@@ -44,5 +46,15 @@ namespace PMS.Models.Database
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserStudio> UserStudios { get; set; }
         public virtual DbSet<UserSystemRole> UserSystemRoles { get; set; }
+    
+        [DbFunction("photogEntities", "bestpackage")]
+        public virtual IQueryable<bestpackage_Result> bestpackage(Nullable<int> studioid)
+        {
+            var studioidParameter = studioid.HasValue ?
+                new ObjectParameter("studioid", studioid) :
+                new ObjectParameter("studioid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<bestpackage_Result>("[photogEntities].[bestpackage](@studioid)", studioidParameter);
+        }
     }
 }
