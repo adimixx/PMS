@@ -141,6 +141,7 @@ namespace PMS.Controllers
                 if (job.userid != UserAuthentication.Identity().id)
                     return Redirect("/");
 
+                ViewBag.StudioUrl = job.Package.Studio.uniquename;
                 return View("detail", new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
             }
             catch (Exception e)
