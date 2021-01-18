@@ -27,7 +27,7 @@ namespace PMS.Controllers
                 var service = new PaymentIntentService();
                 var options = new PaymentIntentCreateOptions
                 {
-                    Amount = (long)invoice.total * 100,
+                    Amount = (long)(invoice.total * 100),
                     Currency = "myr",
                     PaymentMethodTypes = new List<string>
                 {
