@@ -10,6 +10,32 @@
         To view quotation that have been confirmed by the studios.
     </p>
 
+    <div class="navbar navbar-light bg-dark">
+        <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onPendingDeposit()">
+                    To Pay
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onPending()">
+                    Queued
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onOngoing()">
+                    Ongoing Packages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onCompleted()">
+                    Completed
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+
     <div class="card">
         <div class="card-body">
             <table id="jobTable" class="table table-striped table-bordered" style="width:100%">
@@ -31,7 +57,7 @@
 @section Scripts {
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
-       var table =  $("#jobTable").DataTable(
+        var table = $("#jobTable").DataTable(
             {
                 bLengthChange: true,
                 lengthMenu: [[20, 40, -1], [20, 40, "All"]],
@@ -40,7 +66,7 @@
                 bPaginate: true,
                 scrollX: true,
                 ajax: {
-                    url: "/api/system/loadJobCustomer",
+                    url: "/api/system/loadJobCustomer?Status=1",
                     dataSrc: ""
                 },
                 scrollY: 400,
@@ -73,10 +99,25 @@
                     { 'data': 'paymentdetail', "autoWidth": true },
                     { 'data': 'id', 'render': function (data, type, row) { return `<a href="/jobc/JobCustomerDetail/${data}">Details</a>`; } }
                 ]
-           });
+            });
 
         function onPending() {
-            table.ajax.url('/Home');
+            table.ajax.url('/api/system/loadJobCustomer?Status=1');
+            table.ajax.reload();
+        }
+
+        function onOngoing() {
+            table.ajax.url('/api/system/loadJobCustomer?Status=2');
+            table.ajax.reload();
+        }
+
+        function onCompleted() {
+            table.ajax.url('/api/system/loadJobCustomer?Status=3');
+            table.ajax.reload();
+        }
+
+        function onPendingDeposit() {
+            table.ajax.url('/api/system/loadJobCustomer?Status=6');
             table.ajax.reload();
         }
     </script>
