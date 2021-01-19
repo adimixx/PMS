@@ -23,9 +23,16 @@
                 @Html.HiddenFor(x => x.userstudioid, new { @Value = ViewBag.UserStudioID })
                 @Html.HiddenFor(x => x.id, new { @Value = Model.id })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.charge, "Charge", new { htmlAttribute = new { @class = "form-control" } })
+                    @Html.LabelFor(model => model.charge, "Charge (RM)", new { htmlAttribute = new { @class = "form-control" } })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.charge, new { htmlAttributes = new { @class = "form-control", @placeholder = "Charge..." } })
+                        @Html.EditorFor(model => model.charge, new { htmlAttributes = new { @class = "form-control", @placeholder = "Charge...", type = "Number" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.JobDate.jobdate1, "Session Date", new { htmlAttribute = new { @class = "form-control" } })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.jobdateid, (IEnumerable<SelectListItem>)ViewBag.dropdown, new { @class = "form-control" })
                     </div>
                 </div>
 
