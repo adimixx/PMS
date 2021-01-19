@@ -1,4 +1,5 @@
-﻿using PMS.Models.HangFireModel;
+﻿using PMS.Models;
+using PMS.Models.HangFireModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace PMS
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+            ModelBinders.Binders.DefaultBinder = new TrimModelBinder();
         }
     }
 }

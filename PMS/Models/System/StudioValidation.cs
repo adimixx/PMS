@@ -44,7 +44,8 @@ namespace PMS.Models
 
             if (UserStudio != null) filterContext.Controller.ViewBag.StudioRoleID = UserStudio.studioroleid;
             filterContext.Controller.ViewBag.StudioID = checkStudio.id;
-            filterContext.Controller.ViewBag.StudioUrl = checkStudio.uniquename;           
+            filterContext.Controller.ViewBag.StudioUrl = checkStudio.uniquename;
+            filterContext.Controller.ViewBag.StudioName = checkStudio.name;
         }
     }
 }
