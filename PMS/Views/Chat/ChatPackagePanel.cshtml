@@ -2,17 +2,29 @@
     <div class="card-body">
         <div v-show="showSummary">
             <div v-show="!CurrentEnquiries.ShowAddPackage">
-                <h5>Current Enquiries</h5>
-                <p>Click on package to view enquiries</p>
-                <table class="table table-active thead-dark table-striped table-hover">
-                    <thead>
+                <div class="d-flex d-flex-row">
+                    <div class="justify-content-start flex-grow-1">
+                        <h5>Current Enquiries</h5>
+                        <p>Click on package to view enquiries</p>
+                    </div>
+
+                    @if (ViewBag.StudioID != null)
+                    {
+                        <div class="justify-content-end">
+                            <button class="btn btn-primary" v-on:click="CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage">Add New Package</button>
+                        </div>
+                    }
+                </div>
+             
+                <table class="table table-hover thead-dark">
+                    <thead class="table-primary">
                         <tr>
                             <th>No</th>
                             <th>Package Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item , index) in CurrentEnquiries.List" v-on:click="onClickPackageDetails(item.Package.Id)">
+                        <tr v-for="(item , index) in CurrentEnquiries.List" v-on:click="onClickPackageDetails(item.Package.Id)" style="cursor: pointer;">
                             <td>
                                 {{ index + 1 }}
                             </td>
@@ -21,11 +33,7 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
-                @if (ViewBag.StudioID != null)
-                {
-                    <button class="btn btn-primary" v-on:click="CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage">Add New Package</button>
-                }
+                </table>              
             </div>
 
             @if (ViewBag.StudioID != null)
@@ -44,22 +52,36 @@
 
 
         <div v-show="!showSummary">
-            <div class="alert alert-info" v-show="!showAddChargeButton">
-                Booking success. Please make your payment.
-            </div>
-            <div>
-                <a href="#" v-on:click="onBackToList">Back to List</a>
-                <p>Package Enquiry : </p>
-                <h4>{{packageName}}</h4>
-                <p>Price : {{packagePrice | priceFilter}} </p>
-                <p>Status : {{quoteStatus}}</p>
+            @if (ViewBag.StudioID == null)
+            {
+                <div class="alert alert-info" v-show="!showAddChargeButton">
+                    Booking success. Please make your payment.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info" v-show="!showAddChargeButton">
+                    Customer have confirmed Quotation. <b><a v-bind:href="'/@ViewBag.StudioUrl/job/detail/' + jobId">Review Quotation Here</a> </b>
+                </div>
+            }
+            <div class="d-flex flex-row">
+                <div class="justify-content-start flex-grow-1">
+                    <p>Package Enquiry : </p>
+                    <h4>{{packageName}}</h4>
+                    <p>Price : {{packagePrice | priceFilter}} </p>
+                    <p>Status : {{quoteStatus}}</p>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary h-25" v-on:click="onBackToList">Back to List</button>
+                </div>
+                
             </div>
 
             <div class="p-2">
                 <p>Charges : </p>
 
-                <table class="table table-responsive thead-dark table-striped table-hover" id="orderTable">
-                    <thead>
+                <table class="table table-responsive thead-dark table-hover" id="orderTable">
+                    <thead class="table-primary">
                         <tr>
                             <th>No</th>
                             <th>Remarks</th>
@@ -100,8 +122,8 @@
 
                 <p>Venues : </p>
 
-                <table class="table table-active thead-dark table-striped table-hover" id="orderTable">
-                    <thead>
+                <table class="table thead-dark table-hover" id="orderTable">
+                    <thead class="table-primary">
                         <tr>
                             <th>No</th>
                             <th>Venue</th>
@@ -212,21 +234,19 @@
                         </div>
                     </div>
                 }
+                else
+                {
+                    <button v-show="jobId != ''" v-on:click="onCancelClick" class="btn btn-danger mr-2 float-right">Cancel</button>
+                    <a v-show="jobUrl != ''" v-bind:href="jobUrl" class="btn btn-primary mr-2 float-right">Detail</a>
+                    <button v-show="studioUrl != ''" class="btn btn-success mr-2 float-right" data-toggle="modal" data-target="#modalPayment">Pay Now</button>
+                }
             </div>
-
-            @if (ViewBag.StudioRoleID == null)
-            {
-                <button v-show="jobId != ''" v-on:click="onCancelClick" class="btn btn-danger mr-2 float-right">Cancel</button>
-                <a v-show="jobUrl != ''" v-bind:href="jobUrl" class="btn btn-primary mr-2 float-right">Detail</a>
-                <button v-show="studioUrl != ''" class="btn btn-success mr-2 float-right" data-toggle="modal" data-target="#modalPayment">Pay Now</button>
-            }
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="modalPayment" role="dialog">
     <div class="modal-dialog">
-
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Payment</h5>
@@ -240,7 +260,6 @@
                     <option value="1">Deposit</option>
                     <option value="2">Full</option>
                 </select>
-
                 <br />
                 <img src="~/src/img/Stripe_logo.png" class="float-left" height="29" />
                 <button v-on:click="onPayClick" style="background-color: #6772E5;border:1px solid #6772E5;" class="btn btn-success float-right"><i class="mdi mdi-credit-card"></i> Pay</button>

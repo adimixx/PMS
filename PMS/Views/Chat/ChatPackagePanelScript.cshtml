@@ -158,6 +158,7 @@ async function onAddNewPackage(isAdd) {
         id = newPackage.Package.Id;
         loadPackageDetails();
         data.showSummary = false;
+        data.showAddChargeButton = true;
     }
     else {
         data.showSummary = true;
@@ -280,7 +281,11 @@ var packagePanel = new Vue({
       data.cartItems.splice(index, 1);
       updateQuotationData();
     },
-    onConfirmQuote: () => {
+      onConfirmQuote: () => {
+          if (data.venueItems.length <= 0) {
+              alert('Please insert a Venue');
+              return;
+          }
       const axiosPost = {
         url: `/SystemAPI/Package/PostPackageQuote`,
           method: `POST`,

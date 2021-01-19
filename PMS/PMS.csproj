@@ -284,6 +284,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\AddChargePresetViewModel.cs" />
     <Compile Include="Models\CreatePackageViewModel.cs" />
     <Compile Include="Models\DatabaseOperation.cs" />
     <Compile Include="Models\Database\bestpackage_Result.cs">
@@ -2520,8 +2521,6 @@
     <Folder Include="src\libs\morris.js\spec\" />
     <Folder Include="src\libs\pdfmake\src\" />
     <Folder Include="src\libs\raphael\dev\test\" />
-    <Folder Include="Views\Error\" />
-    <Folder Include="Views\PaymentAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

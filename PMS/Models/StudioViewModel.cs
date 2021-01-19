@@ -11,6 +11,24 @@ namespace PMS.Models
 {
     public class CreateStudioViewModel : Studio
     {
+        [MaxLength(50, ErrorMessage = Backbone.ErrorMaxLength)]
+        [Required]
+        public new string name { get; set; }
+
+        [MaxLength(50, ErrorMessage = Backbone.ErrorMaxLength)]
+        public new string shortDesc { get; set; }
+
+        [MaxLength(500, ErrorMessage = Backbone.ErrorMaxLength)]
+        public new string longDesc { get; set; }
+
+        [MaxLength(12, ErrorMessage = Backbone.ErrorMaxLength)]
+        [DataType(DataType.PhoneNumber)]
+        public new string phoneNum { get; set; }
+
+        [MaxLength(50, ErrorMessage = Backbone.ErrorMaxLength)]
+        [DataType(DataType.EmailAddress)]
+        public new string email { get; set; }
+
         public IList<SelectListItem> StateList { get; set; }
 
         public IList<SelectListItem> CityList { get; set; }
@@ -21,10 +39,12 @@ namespace PMS.Models
         [DisplayName("City")]
         public string SelectedCity { get; set; }
 
+        [MaxLength(250, ErrorMessage = Backbone.ErrorMaxLength)]
         public string Facebook { get; set; }
+        [MaxLength(250, ErrorMessage = Backbone.ErrorMaxLength)]
         public string Instagram { get; set; }
+        [MaxLength(250, ErrorMessage = Backbone.ErrorMaxLength)]
         public string Twitter { get; set; }
-        public string Web { get; set; }
 
         public void setCityList(string state)
         {
