@@ -110,7 +110,7 @@
         </div>
         <div class="col-12">
             <div id="brick" class="bricklayer">
-                @foreach (var item in Model.pkg.Where(x=>x.status != "Disabled"))
+                @foreach (var item in Model.pkg.Where(x => x.status != "Disabled"))
                 {
                     if (i < 4)
                     {
@@ -141,6 +141,11 @@
                     i++;
                 }
             </div>
+        </div>
+        <div class="col-12">
+            <!--<button onclick="alert('error','SYSTEM FAILURE','Please contact admin')">Alert ERROR</button>
+            <button onclick="alert('info','SYSTEM FAILURE','Please contact admin')">Alert INFO</button>
+            <button onclick="alert('delete','SYSTEM FAILURE','Please contact admin')">Alert DELETE</button>-->
         </div>
     </div>
 </div>
