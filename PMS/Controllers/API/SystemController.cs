@@ -170,7 +170,7 @@ namespace PMS.Controllers
         public IHttpActionResult loadJobStaff(int id)
         {
             photogEntities db = new photogEntities();
-            var model = db.JobDateUsers.Where(x => x.jobdateid == id).ToList();
+            var model = db.JobDateUsers.Where(x => x.JobDate.jobid == id).ToList();
 
             List<dynamic> data = new List<dynamic>();
             foreach (var item in model)
@@ -180,6 +180,26 @@ namespace PMS.Controllers
                     item.UserStudio.User.name,
                     item.UserStudio.User.email,
                     phone = item.UserStudio.User.phonenumber,
+                    item.id
+                });
+            }
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult loadJobDate(int id)
+        {
+            photogEntities db = new photogEntities();
+            var model = db.JobDates.Where(x => x.jobid == id).ToList();
+
+            List<dynamic> data = new List<dynamic>();
+            foreach (var item in model)
+            {
+                data.Add(new
+                {
+                    pdatetime = item.jobdate1.ToString("dd/MM/yyyy hh:mm tt"),
+                    item.location,
+                    item.description,
                     item.id
                 });
             }

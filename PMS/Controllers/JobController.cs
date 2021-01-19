@@ -134,15 +134,15 @@ namespace PMS.Controllers
             try
             {
                 var job = db.Jobs.Find(id);
-                var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
-                var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.jobdateid == jobdate.id).ToList() : null;
-                var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
+                //var jobdate = job != null ? db.JobDates.Where(x => x.jobid == id).ToList() : null;
+                //var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.JobDate.jobid == job.id).ToList() : null;
+                //var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
 
                 if (job.userid != UserAuthentication.Identity().id)
                     return Redirect("/");
 
                 ViewBag.StudioUrl = job.Package.Studio.uniquename;
-                return View("detail", new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
+                return View("detail", job);
             }
             catch (Exception e)
             {
@@ -157,9 +157,9 @@ namespace PMS.Controllers
             try
             {
                 var job = db.Jobs.Find(id);
-                var jobdate = job != null ? db.JobDates.OrderByDescending(x => x.id).FirstOrDefault(x => x.jobid == id) : null;
-                var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.jobdateid == jobdate.id).ToList() : null;
-                var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
+                //var jobdate = job != null ? db.JobDates.Where(x => x.jobid == id).ToList() : null;
+                //var jobdateuser = jobdate != null ? db.JobDateUsers.Where(x => x.JobDate.jobid == job.id).ToList() : null;
+                //var jobcharge = job != null ? db.JobCharges.FirstOrDefault(x => x.jobid == id) : null;
 
                 if (ViewBag.StudioID != job.Package.studioid)
                     return RedirectToAction("jobhome");
@@ -168,7 +168,7 @@ namespace PMS.Controllers
                 if (!db.Jobs.Any(x => x.userid == identity.id && x.id == id) && ViewBag.StudioRoleID == null)
                     return Redirect("/");
 
-                return View(new Tuple<Job, JobDate, List<JobDateUser>, JobCharge>(job, jobdate, jobdateuser, jobcharge));
+                return View(job);
             }
             catch (Exception e)
             {
@@ -196,25 +196,32 @@ namespace PMS.Controllers
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
+        [HttpGet]
+        public ActionResult ChangeDate(int id)
+        {
+            try
+            {
+                var job = db.JobDates.Find(id);
+                return View(job);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error500", "Home", new { errormsg = e.Message });
+            }
+        }
+
+        [StudioPermalinkValidate(RoleID = 1)]
         [HttpPost]
-        public ActionResult ChangeDate([Bind(Prefix = "Item2")]JobDate job, int jsid, DateTime jobdate, TimeSpan jobtime)
+        public ActionResult ChangeDate(JobDate job, DateTime jobdate, TimeSpan jobtime)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    job.jobstatusid = jsid;
+                    job.jobstatusid = 6;
                     job.jobdate1 = jobdate.Add(jobtime);
-                    if (job.id != 0)
-                    {
-                        db.Entry(job).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        db.JobDates.Add(job);
-                        db.SaveChanges();
-                    }
+                    db.Entry(job).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
 
                     return RedirectToAction("detail/" + job.jobid);
                 }
@@ -229,23 +236,18 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
-        public ActionResult AssignStaff(int id, int jdid)
+        public ActionResult AssignStaff(int id, int jobid)
         {
             try
             {
                 var jdu = new JobDateUser();
-                jdu.jobdateid = jdid;
-                var sid = (int)ViewBag.StudioID;
-                ViewBag.UserStudioID = db.UserStudios.FirstOrDefault(x => x.studioid == sid && x.userid == id).id;
-                ViewBag.JobDateID = jdid;
-                jdu.userstudioid = ViewBag.UserStudioID;
-                jdu.jobdateid = ViewBag.JobDateID;
-                var date = db.JobDates.FirstOrDefault(x => x.id == jdu.jobdateid)?.jobdate1.Date;
-                if (db.JobDateUsers.ToList().Any(x => x.JobDate.jobdate1.Date == date && x.UserStudio.userid == id))
+                int stuid = ViewBag.StudioID;
+                jdu.userstudioid = db.UserStudios.FirstOrDefault(x => x.userid == id && x.studioid == stuid).id;
+                ViewBag.dropdown = db.JobDates.Where(x => x.jobid == jobid).ToList().Select(x => new SelectListItem
                 {
-                    return RedirectToAction("Error500", "Home", new { errormsg = "Staff is busy on that date, Bitchass Nigga!" });
-                }
-
+                    Text = x.jobdate1.ToString("dd/MM/yyyy hh:mm tt"),
+                    Value = x.id.ToString()
+                });
                 return View(jdu);
             }
             catch (Exception e)
@@ -265,7 +267,7 @@ namespace PMS.Controllers
                     var date = db.JobDates.FirstOrDefault(x => x.id == jobDateUser.jobdateid)?.jobdate1.Date;
                     if (db.JobDateUsers.ToList().Any(x => x.JobDate.jobdate1.Date == date && x.userstudioid == jobDateUser.userstudioid))
                     {
-                        return RedirectToAction("Error500", "Home");
+                        return RedirectToAction("Error500", "Home", new { errormsg = "Staff is busy on that date!" });
                     }
 
                     db.JobDateUsers.Add(jobDateUser);
