@@ -106,24 +106,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.Job.JobCharges)
+                                    @if (Model.detail != "Deposit")
                                     {
+                                        foreach (var item in Model.Job.JobCharges)
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td><p class="font-weight-bolder">@item.remarks</p></td>
+                                                <td><p class="text-primary">RM @item.amount</p></td>
+                                            </tr>
+                                            i++;
+                                        }
+
                                         <tr>
                                             <td>@i</td>
-                                            <td><p class="font-weight-bolder">@item.remarks</p></td>
-                                            <td><p class="text-primary">RM @item.amount</p></td>
+                                            <td><p class="font-weight-bolder">@Model.Job.Package.name</p></td>
+                                            <td><p class="text-primary">RM @Model.Job.PackagePrice</p></td>
                                         </tr>
-                                        i++;
                                     }
                                     <tr>
-                                        <td>@i</td>
-                                        <td><p class="font-weight-bolder">@Model.detail</p></td>
-                                        <td><p class="text-primary">RM @Model.total</p></td>
-                                    </tr>
-
-                                    <tr>
                                         <td></td>
-                                        <td><p class="font-weight-bolder">Total:</p></td>
+                                        <td><p class="font-weight-bolder">@Model.detail</p></td>
                                         <td><p class="text-primary">RM @Model.total</p></td>
                                     </tr>
                                 </tbody>
@@ -162,7 +165,7 @@
                             </div>
 
                             <button class="btn btn-block py-2" id="fpx-button" data-secret="@ViewBag.intent.ClientSecret">
-                                PAY RM @totalpay
+                                PAY RM @Model.total
                             </button>
 
 
