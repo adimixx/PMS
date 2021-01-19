@@ -29,6 +29,13 @@
         <div class="d-flex">
             @if (User.Identity.IsAuthenticated)
             {
+            <div class="d-inline-block" style="right:10px;z-index:200">
+                <a href="/jobc/jobcustomer">
+                    <button type="button" class="btn header-item waves-effect">
+                        <i class="mdi mdi-newspaper-variant font-size-17 align-middle mr-1 ic-nav"></i> My Purchases
+                    </button>
+                </a>
+            </div>
                 <!-- Avatar-->
                 <div class="dropdown d-inline-block" style="right:10px;z-index:200">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
@@ -46,10 +53,6 @@
                         </a>
                         <a class="dropdown-item d-block" href="/Chat">
                             <i class="mdi mdi-message-minus font-size-17 align-middle mr-1 ic-nav"></i> Chat
-                        </a>
-                        <a class="dropdown-item d-block" href="/jobc/jobcustomer">
-                            <!--<span class="badge badge-success float-right">11</span>-->
-                            <i class="mdi mdi-newspaper-variant font-size-17 align-middle mr-1 ic-nav"></i> Inquiry
                         </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="/Account/SignOut">
