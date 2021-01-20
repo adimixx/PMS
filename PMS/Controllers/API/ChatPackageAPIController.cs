@@ -53,7 +53,7 @@ namespace PMS.Controllers.API
             photogEntities db = new photogEntities();
             var charge = db.Packages.FirstOrDefault(x => x.id == id);
 
-            return Ok(new Package { id = charge.id, depositprice = charge.depositprice, details = charge.details, name = charge.name, price = charge.price});
+            return Ok(new Package { id = charge.id, depositprice = charge.depositprice, details = charge.details, name = charge.name, price = charge.price, status = charge.status});
         }
 
         [HttpPost]
@@ -81,7 +81,7 @@ namespace PMS.Controllers.API
                 userid = chat.UserID.Value,
                 jobstatusid = db.JobStatus.FirstOrDefault(x => x.name.ToLower() == "pending deposit").id,
                 DateCreated = DateTime.Now,    
-                PackagePrice = Decimal.Parse(deserializedData.Package.Price.ToString()),
+                PackagePrice = Decimal.Parse(deserializedData.Package.Price.ToString()),                
                 TotalPrice = decimal.Parse((deserializedData.Charges.Sum(x=> (x.Quantity * x.PricePerUnit)) + deserializedData.Package.Price).ToString())
             };
 
@@ -114,8 +114,6 @@ namespace PMS.Controllers.API
             await collection.SetAsync(deserializedDataQuoteAll);
             return Ok();
         }
-
-        
     }   
 
     public class PostPackage

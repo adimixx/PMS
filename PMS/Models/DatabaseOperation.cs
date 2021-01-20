@@ -71,7 +71,6 @@ namespace PMS.Models
             var DateEnd = DateTime.Now.ToUniversalTime();
             var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
 
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
             FirestoreDb firestore = FirestoreDb.Create("photogw2");
 
             var collection = firestore.Collection("BackupRestoreRecord").Document(id);
@@ -86,7 +85,6 @@ namespace PMS.Models
 
         public static async Task<Dictionary<string, object>> SetInitDataAsync(string type, string name, string email)
         {
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
             FirestoreDb firestore = FirestoreDb.Create("photogw2");
 
             var collection = firestore.Collection("BackupRestoreRecord").Document();

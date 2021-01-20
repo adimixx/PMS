@@ -91,7 +91,6 @@ namespace PMS.Controllers
                         var userid = userInvoice.User.id;
                         var chatkey = package.Studio.ChatKeys.FirstOrDefault(x => x.UserID == userid).ChatKeyID;
 
-                        System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
                         FirestoreDb firestore = FirestoreDb.Create("photogw2");
 
                         var collection = firestore.Collection("Quotation");
