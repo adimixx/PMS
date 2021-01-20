@@ -67,7 +67,7 @@ namespace PMS.Controllers
             IMapper mapper = config.CreateMapper();
 
             var create = mapper.Map<Studio, CreateStudioViewModel>(studio);
-            ViewBag.IsStudioSetting = "true";
+            ViewBag.IsStudioSetting = "1";
             ViewBag.Header = "Studio Settings";
             return View(create);
         }
@@ -80,7 +80,7 @@ namespace PMS.Controllers
             createStudio.SelectedCity = createStudio.SelectedCity?.Trim();
             createStudio.SelectedState = createStudio.SelectedState?.Trim();
 
-            ViewBag.IsStudioSetting = "true";
+            ViewBag.IsStudioSetting = "1";
             ViewBag.Header = "Studio Settings";
 
             if (db.Studios.FirstOrDefault(x => x.name.ToLower() == createStudio.name.ToLower() && x.id != createStudio.id) != null)
@@ -187,7 +187,7 @@ namespace PMS.Controllers
         {
             long studioID = (long)ViewBag.StudioID;
             var studio = db.Studios.FirstOrDefault(x => x.id == studioID);
-            ViewBag.IsStudioSetting = "true";
+            ViewBag.IsStudioSetting = "2";
             return View(studio);
         }
 
@@ -196,7 +196,7 @@ namespace PMS.Controllers
         public ActionResult ChangeStudioUsername(Studio studio)
         {
             var regexItem = new Regex("^[a-zA-Z0-9]*$");
-            ViewBag.IsStudioSetting = "true";
+            ViewBag.IsStudioSetting = "2";
 
             photogEntities db = new photogEntities();
             var username = studio.uniquename?.Trim();

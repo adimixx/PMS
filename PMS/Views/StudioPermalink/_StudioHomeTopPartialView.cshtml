@@ -10,7 +10,7 @@
 <div class="cover-profile row">
     <div class="col-12">
 
-        @if (ViewBag.IsStudioSetting != null)
+        @if (ViewBag.IsStudioSetting != null && ViewBag.IsStudioSetting == "1")
         {
             <div id="cover-photo">
                 <input type="file" id="input-studioCoverPic" class="filepond" name="filepond" />
@@ -23,7 +23,7 @@
         }
         <div class="grp-std">
             <div id="studio-profile-img">
-                @if (ViewBag.IsStudioSetting != null)
+                @if (ViewBag.IsStudioSetting != null && ViewBag.IsStudioSetting == "1")
                 {
                     <input type="file" id="input-studioProfilePic" class="filepond studio-img" name="filepond" />
                     <div id="studio-head" style="margin-top:-40%">
@@ -68,7 +68,10 @@
                     <span style="line-height:2.5;" class="mdi mdi-email"> &nbsp;<a href="">{{Studio.Email | NullFilter('YourStudio@Email.com')}} </a></span>
                 </div>
                 <div class="col-12">
-                    <a class="chatbtn" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "createchat")"><i class="mdi mdi-chat"></i> Chat</a>
+                    @if (ViewBag.StudioRoleID == null)
+                    {
+                        <a class="chatbtn" href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "createchat")"><i class="mdi mdi-chat"></i> Chat</a>
+                    }
                 </div>
             </div>
         </div>
@@ -106,8 +109,11 @@
                                         <span class="ttl-title" style="color:#85bb65">RM @item.price</span>
                                     </div>
                                 </div>
-                                <button class="btn-msg-package" data-toggle="tooltip" title="Order Now" onclick="location.href = '@string.Format("/{0}/{1}?package={2}", ViewBag.StudioUrl, "createchat",item.id)';"><span class="mdi mdi-message-text"></span></button>
-                            </div>
+                                @if (ViewBag.StudioRoleID == null)
+                                {
+                                    <button class="btn-msg-package" data-toggle="tooltip" title="Order Now" onclick="location.href = '@string.Format("/{0}/{1}?package={2}", ViewBag.StudioUrl, "createchat", item.id)';"><span class="mdi mdi-message-text"></span></button>
+                                }
+                                </div>
                         </div>
                     }
                 </div>
