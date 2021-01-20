@@ -59,7 +59,6 @@ namespace PMS.Controllers.API
         [HttpPost]
         public async System.Threading.Tasks.Task<IHttpActionResult> PostPackageQuote(PostPackage data)
         {
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
             FirestoreDb firestore = FirestoreDb.Create("photogw2");
             var collection = firestore.Collection("Quotation").Document(data.data);
             var snapshot = await collection.GetSnapshotAsync();

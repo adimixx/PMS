@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Google.Cloud.Firestore;
 using PMS.Models;
 using PMS.Models.Database;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -75,7 +78,6 @@ namespace PMS.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-
             var data = db.Packages.Find(id);
 
             if (ViewBag.StudioID != data.studioid)
@@ -94,12 +96,13 @@ namespace PMS.Controllers
                 name = data.name,
                 images = data.PackageImages.ToList()
             };
+
             return View("editpackage", edit);
         }
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpPost]
-        public ActionResult Edit(CreatePackageViewModel data)
+        public async Task<ActionResult> Edit(CreatePackageViewModel data)
         {
             if (ViewBag.StudioID != data.studioid)
                 return RedirectToAction("packagehome");
@@ -126,6 +129,8 @@ namespace PMS.Controllers
                     edit.studioid = data.studioid;
 
                     db.SaveChanges();
+
+                    await UpdateFirebaseOrder(edit);
                     return RedirectToAction("PackageHome");
                 }
                 catch (Exception e)
@@ -153,7 +158,7 @@ namespace PMS.Controllers
 
         [StudioPermalinkValidate(RoleID = 1)]
         [HttpGet]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
@@ -173,6 +178,7 @@ namespace PMS.Controllers
                         package.status = "Enabled";
                     }
                     db.SaveChanges();
+                    await UpdateFirebaseOrder(package);
 
                     return RedirectToAction("packagehome");
                 }
@@ -264,6 +270,41 @@ namespace PMS.Controllers
             db.SaveChanges();
 
             return RedirectToAction("packagehome");
+        }
+
+        [NonAction]
+        private async Task UpdateFirebaseOrder(Package newPackage)
+        {
+            FirestoreDb firestore = FirestoreDb.Create("photogw2");
+
+            var collection = firestore.Collection("Quotation");
+            var snapshot = await collection.GetSnapshotAsync();
+
+            if (snapshot.Count() != 0)
+            {
+                var docs = snapshot.Documents;
+
+                foreach (var item in docs)
+                {
+                    var itemConv = item.ConvertTo<QuotationModel>();
+
+                    for (int j = 0; j < itemConv.Packages.Count; j++)
+                    {
+                        if (itemConv.Packages[j].Package.Id == newPackage.id)
+                        {
+                            itemConv.Packages[j].Package.Name = newPackage.name;
+                            if (itemConv.Packages[j].OrderStatus.ToLower() != "pending deposit")
+                            {
+                                itemConv.Packages[j].Package.Price = (float)newPackage.price;
+                                itemConv.Packages[j].Package.DepositPrice = (float)newPackage.depositprice;
+                                itemConv.Packages[j].Package.Status = newPackage.status;
+                            }
+                        }
+                    }
+
+                    await collection.Document(item.Id).SetAsync(itemConv);
+                }
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using Hangfire;
 using Hangfire.SqlServer;
 using PMS.Models;
 using PMS.Models.HangFireModel;
+using System.IO;
 
 [assembly: OwinStartup(typeof(PMS.App_Start.Startup))]
 
@@ -53,7 +54,7 @@ namespace PMS.App_Start
             //};
             //app.UseHangfireDashboard("/Hangfire", option);
             app.UseHangfireDashboard();
-
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
         }
     }
 }

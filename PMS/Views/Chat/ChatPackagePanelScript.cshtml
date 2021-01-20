@@ -44,6 +44,7 @@ var data = {
     venueItems: [],
     packageName: '',
     packagePrice: 0,
+    packagePriceDeposit: 0,
     quantity: 0,
     chargeName: '',
     chargeNameCustom: '',
@@ -66,6 +67,7 @@ function updateQuotationData() {
 
         data.CurrentPackage.Package.Name = data.packageName;
         data.CurrentPackage.Package.Price = data.packagePrice;
+        data.CurrentPackage.Package.DepositPrice = data.packagePriceDeposit
         data.CurrentPackage.Charges = data.cartItems;
         data.CurrentPackage.Venues = data.venueItems;
         data.CurrentPackage.QuoteStatus = data.quoteStatus;
@@ -81,6 +83,7 @@ function updateQuotationData() {
         });
 
         data.packageName = data.CurrentPackage.Package.Name;
+        data.packagePriceDeposit = data.CurrentPackage.Package.DepositPrice;
         data.packagePrice = data.CurrentPackage.Package.Price;
         if (data.CurrentPackage.Charges) {
             data.cartItems = data.CurrentPackage.Charges;
@@ -205,8 +208,11 @@ var packagePanel = new Vue({
     },
   },
   filters: {
-    priceFilter: (value) => {
-      return `${data.priceUnit}${value.toFixed(2)}`;
+      priceFilter: (value) => {
+          if (value) {
+              return `${data.priceUnit}${value.toFixed(2)}`;
+          }
+          return '';
     },
       dateFilter: (value) => {
           if (isNaN(value.seconds)) {
