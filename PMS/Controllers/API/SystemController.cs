@@ -123,11 +123,11 @@ namespace PMS.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult loadJobCustomer()
+        public IHttpActionResult loadJobCustomer(int Status)
         {
             photogEntities db = new photogEntities();
             var aid = UserAuthentication.Identity().id;
-            var model = db.Jobs.Where(x => x.userid == aid).ToList();
+            var model = db.Jobs.Where(x => x.userid == aid).ToList().Where(x=>x.jobstatusid == Status);
 
             List<dynamic> data = new List<dynamic>();
             foreach (var item in model)
