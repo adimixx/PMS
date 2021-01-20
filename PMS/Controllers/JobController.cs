@@ -431,6 +431,8 @@ namespace PMS.Controllers
                 ViewBag.jobid = id;
                 ViewBag.hasDeposit = db.Invoices.Any(x => x.jobid == id && x.status == "Paid" && x.detail == "Deposit");
                 ViewBag.hasFull = db.Invoices.Any(x => x.jobid == id && x.detail == "Full Payment");
+                var uid = UserAuthentication.Identity().id;
+                ViewBag.isJobClient = db.Jobs.Any(x => x.id == id && x.userid == uid);
                 return View();
             }
             catch (Exception e)
@@ -524,7 +526,7 @@ namespace PMS.Controllers
                     db.Invoices.Add(invoice);
                     db.SaveChanges();
 
-                    if (ViewBag.StudioRoleID != null)
+                    if (ViewBag.StudioRoleID != null && !db.Jobs.Any(x => x.id == id && x.userid == job.userid))
                     {
                         return RedirectToAction("paymentview/" + invoice.jobid);
                     }
@@ -548,7 +550,7 @@ namespace PMS.Controllers
                     db.Invoices.Add(invoice);
                     db.SaveChanges();
 
-                    if (ViewBag.StudioRoleID != null)
+                    if (ViewBag.StudioRoleID != null && !db.Jobs.Any(x => x.id == id && x.userid == job.userid))
                     {
                         return RedirectToAction("paymentview/" + invoice.jobid);
                     }
