@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Payment";
-    if (ViewBag.StudioRoleID != null)
+    if (ViewBag.StudioRoleID != null && !ViewBag.isJobClient)
     {
         Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
     }
@@ -12,7 +12,7 @@
 <div class="container">
     <h2>Payment</h2>
     <p>List of invoice created.</p>
-    @if (ViewBag.StudioRoleID != null && ViewBag.hasDeposit && !ViewBag.hasFull)
+    @if (ViewBag.StudioRoleID != null && ViewBag.hasDeposit && !ViewBag.hasFull && !ViewBag.isJobClient)
     {
         <div style="margin-top:10px">
             <a href="/@ViewBag.StudioUrl/job/createfullinvoice/@ViewBag.jobid">Create Full Payment Invoice</a>
@@ -64,7 +64,7 @@
                         { data: 'totalunpaid', autoWidth: true },
                         { data: 'detail', autoWidth: true },
                         { data: 'status', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return (row.status == "Not Paid") ? `@if (ViewBag.StudioRoleID == null) { <a href="/payment/checkoutindex/${data}">Pay</a> } else { <a href="/@ViewBag.StudioUrl/job/deleteinvoice/${data}">Delete</a> }` : `<a href="/payment/receipt/${data}">View Receipt</a>` }, autoWidth: true }
+                        { data: 'id', render: function (data, type, row) { return (row.status == "Not Paid") ? `@if (ViewBag.StudioRoleID == null || ViewBag.isJobClient) { <a href="/payment/checkoutindex/${data}">Pay</a> } else { <a href="/@ViewBag.StudioUrl/job/deleteinvoice/${data}">Delete</a> }` : `<a href="/payment/receipt/${data}">View Receipt</a>` }, autoWidth: true }
                     ]
                 }
             );
