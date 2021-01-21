@@ -11,9 +11,10 @@ namespace PMS.Models.Database
 {
     using System;
     
-    public partial class bestpackage_Result
+    public partial class beststaff_Result
     {
-        public string package { get; set; }
-        public Nullable<decimal> quantity { get; set; }
+        public string name { get; set; }
+        public int id { get; set; }
+        public Nullable<int> times { get; set; }
     }
 }

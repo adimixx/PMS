@@ -468,7 +468,19 @@
             <CollectionType>
               <RowType>
                 <Property Name="package" Type="nvarchar" MaxLength="50" Nullable="false" />
-                <Property Name="quantity" Type="int" />
+                <Property Name="quantity" Type="decimal" Precision="38" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="beststaff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="studioid" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="name" Type="nvarchar" MaxLength="100" />
+                <Property Name="id" Type="int" Nullable="false" />
+                <Property Name="times" Type="int" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -695,7 +707,10 @@
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
           <FunctionImport Name="bestpackage" IsComposable="true" ReturnType="Collection(photogModel.bestpackage_Result)">
-            <Parameter Name="studioid" Mode="In" Type="Int32" />
+          <Parameter Name="studioid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="beststaff" IsComposable="true" ReturnType="Collection(photogModel.beststaff_Result)">
+          <Parameter Name="studioid" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Charge">
@@ -1201,7 +1216,12 @@
         </Association>
         <ComplexType Name="bestpackage_Result">
           <Property Type="String" Name="package" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="quantity" Nullable="true" />
+          <Property Type="Decimal" Name="quantity" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="beststaff_Result">
+          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="times" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1426,6 +1446,15 @@
               <ComplexTypeMapping TypeName="photogModel.bestpackage_Result">
                 <ScalarProperty Name="package" ColumnName="package" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="beststaff" FunctionName="photogModel.Store.beststaff">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="photogModel.beststaff_Result">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="times" ColumnName="times" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
