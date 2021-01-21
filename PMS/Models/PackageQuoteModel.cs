@@ -74,6 +74,10 @@ namespace PMS.Models
         public string Name { get; set; }
         [FirestoreProperty]
         public float Price { get; set; }
+
+        [FirestoreProperty]
+        public float DepositPrice { get; set; }
+
         [FirestoreProperty]
         public string Status { get; set; }
     }

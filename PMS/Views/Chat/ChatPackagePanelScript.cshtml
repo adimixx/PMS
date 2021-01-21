@@ -44,6 +44,7 @@ var data = {
     venueItems: [],
     packageName: '',
     packagePrice: 0,
+    packagePriceDeposit: 0,
     quantity: 0,
     chargeName: '',
     chargeNameCustom: '',
@@ -57,6 +58,7 @@ var data = {
     jobId: '',
     studioUrl: '',
     option: '1',
+    isDisabledPackage: false
 }
 
 function updateQuotationData() {
@@ -66,6 +68,7 @@ function updateQuotationData() {
 
         data.CurrentPackage.Package.Name = data.packageName;
         data.CurrentPackage.Package.Price = data.packagePrice;
+        data.CurrentPackage.Package.DepositPrice = data.packagePriceDeposit
         data.CurrentPackage.Charges = data.cartItems;
         data.CurrentPackage.Venues = data.venueItems;
         data.CurrentPackage.QuoteStatus = data.quoteStatus;
@@ -76,11 +79,14 @@ function updateQuotationData() {
 }
 
     function loadPackageDetails() {
+        data.isDisabledPackage = false;
+
         data.CurrentPackage = docData.Packages.find((obj) => {
             return obj.Package.Id == id;
         });
 
         data.packageName = data.CurrentPackage.Package.Name;
+        data.packagePriceDeposit = data.CurrentPackage.Package.DepositPrice;
         data.packagePrice = data.CurrentPackage.Package.Price;
         if (data.CurrentPackage.Charges) {
             data.cartItems = data.CurrentPackage.Charges;
@@ -114,6 +120,10 @@ function updateQuotationData() {
         else {
             data.studioUrl = '';
         }
+
+        if (data.CurrentPackage.Package.Status.toLowerCase() == "disabled") {
+            data.isDisabledPackage = true;
+        }
 }
 
 async function onAddNewPackage(isAdd) {
@@ -138,27 +148,32 @@ async function onAddNewPackage(isAdd) {
             CurrentEnquiries.SelectedPackage
         ).then((res) => {
             var responseData = res.data;
-            newPackage = {
-                Package: {
-                    Id: responseData.id,
-                    Name: responseData.name,
-                    Price: responseData.price,
-                    Status: "Active",
-                },
-                OrderStatus: "quote",
-                Charges: [],
-                Venues: [],
-            };
-        });
 
-        docData.Packages.push(newPackage);
+            if (responseData.status == "disabled") {
+                alert("Package is not available. Please select other package");
+            }
+            else {
+                newPackage = {
+                    Package: {
+                        Id: responseData.id,
+                        Name: responseData.name,
+                        Price: responseData.price,
+                        DepositPrice: responseData.depositprice,
+                        Status: "Active",
+                    },
+                    OrderStatus: "quote",
+                    Charges: [],
+                    Venues: [],
+                };
+                docData.Packages.push(newPackage);
+                quotationData.update({ Packages: docData.Packages });
 
-        quotationData.update({ Packages: docData.Packages });
-
-        id = newPackage.Package.Id;
-        loadPackageDetails();
-        data.showSummary = false;
-        data.showAddChargeButton = true;
+                id = newPackage.Package.Id;
+                loadPackageDetails();
+                data.showSummary = false;
+                data.showAddChargeButton = true;
+            }
+        });        
     }
     else {
         data.showSummary = true;
@@ -166,10 +181,12 @@ async function onAddNewPackage(isAdd) {
     CurrentEnquiries.ShowAddPackage = !CurrentEnquiries.ShowAddPackage;
 }
 
-function onClickPackageDetails(id) {
-    this.id = id;
-    loadPackageDetails();
-    data.showSummary = false;
+    function onClickPackageDetails(id) {
+            this.id = id;
+            loadPackageDetails();
+        if (!data.isDisabledPackage) {
+            data.showSummary = false;
+        }
 }
 
 var packagePanel = new Vue({
@@ -205,8 +222,11 @@ var packagePanel = new Vue({
     },
   },
   filters: {
-    priceFilter: (value) => {
-      return `${data.priceUnit}${value.toFixed(2)}`;
+      priceFilter: (value) => {
+          if (value) {
+              return `${data.priceUnit}${value.toFixed(2)}`;
+          }
+          return '';
     },
       dateFilter: (value) => {
           if (isNaN(value.seconds)) {

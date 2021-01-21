@@ -2,6 +2,10 @@
     <div class="card-body">
         <div v-show="showSummary">
             <div v-show="!CurrentEnquiries.ShowAddPackage">
+                <div class="alert alert-danger" v-if="isDisabledPackage">
+                    Package is disabled. Please select other package
+                </div>
+
                 <div class="d-flex d-flex-row">
                     <div class="justify-content-start flex-grow-1">
                         <h5>Current Enquiries</h5>
@@ -24,12 +28,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item , index) in CurrentEnquiries.List" v-on:click="onClickPackageDetails(item.Package.Id)" style="cursor: pointer;">
+                        <tr v-for="(item , index) in CurrentEnquiries.List" v-on:click="onClickPackageDetails(item.Package.Id)" style="cursor: pointer;" >
                             <td>
-                                {{ index + 1 }}
+                                <p v-if="item.Package.Status == 'Disabled'" />
+                                    <del>
+                                        {{ index + 1 }}
+                                    </del>
+                                </p>
+                                <p v-if="item.Package.Status != 'Disabled'" />
+                                    {{ index + 1 }}
+                                </p>
                             </td>
                             <td>
-                                <p class="font-weight-bolder">{{item.Package.Name}}</p>
+                                <p v-if="item.Package.Status == 'Disabled'" class="font-weight-bolder" />
+                                    <del>
+                                        {{item.Package.Name}}
+                                    </del>
+                                </p>
+
+                                <p v-if="item.Package.Status != 'Disabled'" class="font-weight-bolder"  />
+                                      {{item.Package.Name}}
+                                </p>
                             </td>
                         </tr>
                     </tbody>
@@ -69,12 +88,12 @@
                     <p>Package Enquiry : </p>
                     <h4>{{packageName}}</h4>
                     <p>Price : {{packagePrice | priceFilter}} </p>
+                    <p>Minimum Payment (Deposit)  : {{packagePriceDeposit | priceFilter}} </p>
                     <p>Status : {{quoteStatus}}</p>
                 </div>
                 <div class="d-flex justify-content-end">
                     <button class="btn btn-primary h-25" v-on:click="onBackToList">Back to List</button>
                 </div>
-                
             </div>
 
             <div class="p-2">

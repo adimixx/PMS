@@ -24,7 +24,6 @@ namespace PMS.Controllers
             {
                 ChatKey chat = ent.ChatKeys.FirstOrDefault(x => x.ChatKeyID == key);
                 if (chat != null) {
-                    System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
                     FirestoreDb firestore = FirestoreDb.Create("photogw2");
 
                     string docID;
@@ -51,7 +50,7 @@ namespace PMS.Controllers
                     if (ViewBag.StudioID != null)
                     {
                         int studioID = (int)ViewBag.StudioID;
-                        ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID).ToList();
+                        ViewBag.PackageList = ent.Packages.Where(x => x.studioid == studioID && x.status.ToLower() != "disabled").ToList();
                     }                    
                     ViewBag.QuotationID = docID;
                     if (TempData["Package"] != null)

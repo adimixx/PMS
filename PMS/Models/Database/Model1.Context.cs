@@ -56,5 +56,15 @@ namespace PMS.Models.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<bestpackage_Result>("[photogEntities].[bestpackage](@studioid)", studioidParameter);
         }
+    
+        [DbFunction("photogEntities", "beststaff")]
+        public virtual IQueryable<beststaff_Result> beststaff(Nullable<int> studioid)
+        {
+            var studioidParameter = studioid.HasValue ?
+                new ObjectParameter("studioid", studioid) :
+                new ObjectParameter("studioid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<beststaff_Result>("[photogEntities].[beststaff](@studioid)", studioidParameter);
+        }
     }
 }

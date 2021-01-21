@@ -290,6 +290,9 @@
     <Compile Include="Models\Database\bestpackage_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Database\beststaff_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Database\Charge.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -2254,6 +2257,7 @@
     <Content Include="src\libs\x-editable\jqueryui-editable\img\clear.png" />
     <Content Include="src\libs\x-editable\jqueryui-editable\img\loading.gif" />
     <Content Include="src\libs\x-editable\jqueryui-editable\js\jqueryui-editable.min.js" />
+    <Content Include="src\images\nodata.jpg" />
     <Content Include="src\user\css\app-dark.css" />
     <Content Include="src\user\css\app-dark.min.css" />
     <Content Include="src\user\css\app-rtl.css" />
@@ -2291,6 +2295,7 @@
     <Content Include="Views\Job\EditJobStatus.cshtml" />
     <Content Include="Views\Database\Progress.cshtml" />
     <Content Include="Views\Shared\Maintenance.cshtml" />
+    <Content Include="Views\Job\ChangeDate.cshtml" />
     <None Include="Views\Shared\Error500.cshtml" />
     <Content Include="Views\Shared\_LayoutSidebarNavAdmin.cshtml" />
     <Content Include="Views\Payment\CheckoutIndex.cshtml" />

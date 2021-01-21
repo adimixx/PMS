@@ -66,21 +66,21 @@ namespace PMS.Controllers
                         invoiceid = iid,
                         paymentmethodid = 1,
                         reference = id,
-                        total = decimal.Parse((intent.Amount / 100).ToString(".00")),
+                        total = decimal.Parse((Convert.ToDecimal(intent.Amount) / 100).ToString(".00")),
                         transdate = DateTime.Now
                     };
                     db.Transactions.Add(transaction);
                     db.SaveChanges();
 
                     var invoice = db.Invoices.Find(iid);
-                    invoice.totalunpaid -= decimal.Parse((intent.Amount / 100).ToString(".00"));
-                    invoice.status = "Paid";
-                    db.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                    //invoice.totalunpaid -= decimal.Parse((intent.Amount / 100).ToString(".00"));
+                    //invoice.status = "Paid";
+                    //db.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
+                    //db.SaveChanges();
 
-                    var job = db.Jobs.Find(invoice.jobid);
-                    job.jobstatusid = 1;
-                    db.SaveChanges();
+                    //var job = db.Jobs.Find(invoice.jobid);
+                    //job.jobstatusid = 1;
+                    //db.SaveChanges();
 
                     //Remove Data from Firebase (Quoted Items)
                     var userTrans = db.Transactions.Where(x => x.Invoice.jobid == invoice.jobid);
@@ -91,7 +91,6 @@ namespace PMS.Controllers
                         var userid = userInvoice.User.id;
                         var chatkey = package.Studio.ChatKeys.FirstOrDefault(x => x.UserID == userid).ChatKeyID;
 
-                        System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"src/json/photogw2-656bf589cae5.json"));
                         FirestoreDb firestore = FirestoreDb.Create("photogw2");
 
                         var collection = firestore.Collection("Quotation");

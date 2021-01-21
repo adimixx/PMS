@@ -1,13 +1,23 @@
-﻿
+﻿@model PMS.Models.Database.Studio
+@using PMS.Models
 @{
-    ViewBag.Title = "Satistic";
+    ViewBag.Title = "Statistic";
 
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+    PMS.Models.Database.photogEntities db = new PMS.Models.Database.photogEntities();
+    var listtransaction = db.Transactions.Where(x => x.Invoice.Job.Package.studioid == Model.id&& x.Invoice.Job.paymentstatus=="complete").ToList();
 
-
+    decimal totalsales = listtransaction.Sum(x => x.total);
+    int totaljobdone = listtransaction.Count();
 }
 
-    <h2>Satistic</h2>
+<h2>Satistic for @Model.name - @DateTime.Now.ToString("dd/MM/yyyy")</h2>
+
+<h3>Total Sales : @totalsales</h3>
+<h3>Total Job Done:@totaljobdone</h3>
 
 
-<img src=@Url.Action("seechart", "StudioPermalink") />
+<h3>Earning For Each Package</h3>
+<img src=@Url.Action("seechart", "StudioPermalink") onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt=""/>
+
+<img src=@Url.Action("seepiechart", "StudioPermalink") onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="no data found for pie chart "/>
