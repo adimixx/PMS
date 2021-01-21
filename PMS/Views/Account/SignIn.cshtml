@@ -9,13 +9,13 @@
     .btn-sub {
         background-color: #76CED2;
         color: white;
-        transition:all .3s ease-out;
+        transition: all .3s ease-out;
     }
 
-    .btn-sub:hover {
-        background-color: #70c1c4;
-        color: white;
-    }
+        .btn-sub:hover {
+            background-color: #70c1c4;
+            color: white;
+        }
 </style>
 
 <div>
@@ -23,6 +23,12 @@
     {
         <h4 class="font-size-18 mt-5 text-center">Welcome to Photog!</h4>
         <p class="text-muted text-center">Your account has been verified successfully. Please Sign In to continue</p>
+    }
+
+    else if (TempData.ContainsKey("ResetPasswordSuccess"))
+    {
+        <h4 class="font-size-18 mt-5 text-center">Welcome to Photog!</h4>
+        <p class="text-muted text-center">Password has been resetted successfully. Please Sign In to continue</p>
     }
 
     else
@@ -38,34 +44,35 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="text-center mt-4">
-    <hr />
-    @Html.ValidationSummary()
+    <div class="text-center mt-4">
+        <hr />
+        @Html.ValidationSummary()
 
-    <div class="form-group">
-        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Email" } })
-        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Password" } })
-        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        <div class="d-flex d-inline-flex">
-            @Html.EditorFor(model => model.RememberMe, new { htmlAttribute = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Email" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
-        @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label" })
-    </div>
 
-    <input type="submit" value="Sign In" class="btn btn-sub col-12" />
-</div>
+        <div class="form-group">
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Password" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <div class="d-flex d-inline-flex">
+                @Html.EditorFor(model => model.RememberMe, new { htmlAttribute = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label" })
+        </div>
+
+        <input type="submit" value="Sign In" class="btn btn-sub col-12" />
+    </div>
 }
 
-<p class="text-center mt-5 pt-4">Don't have an Account? @Html.ActionLink("Register Here", "Register", "Account",null, new {@class = "font-weight-medium text-primary" })</p>
-
+<p class="text-center mt-5 pt-4">Don't have an Account? @Html.ActionLink("Register Here", "Register", "Account", null, new { @class = "font-weight-medium text-primary" })</p>
+<hr />
+<p class="text-center mt-5 pt-4">@Html.ActionLink("Forgot you password?", "ForgotPassword", "Account", null, new { @class = "font-weight-medium text-danger" })</p>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
