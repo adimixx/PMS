@@ -75,6 +75,7 @@ namespace PMS.Controllers
                 studio.City = createStudio.SelectedCity;
                 studio.longDesc = createStudio.longDesc;
                 studio.uniquename = Backbone.Random(5);
+                
 
                 if (!string.IsNullOrWhiteSpace(createStudio.Facebook))
                 {
