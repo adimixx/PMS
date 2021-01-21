@@ -117,7 +117,7 @@ namespace PMS.Models
         [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static async System.Threading.Tasks.Task RestoreProcessAsync(string id, DateTime DateStart)
         {
-            await DbOperationASync("exec RESTORE_LOCAL", id, DateStart);
+            await DbOperationASync("exec RESTORE_LOCAL @WHERE_TABLES = ''", id, DateStart);
         }
     }
 }
