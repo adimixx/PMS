@@ -51,7 +51,7 @@ namespace PMS.Controllers
             {
                 var db = new photogEntities();
 
-                var veriKey = Backbone.Random(8);
+                var veriKey = (new Backbone()).Random(8);
 
                 User user = new User { email = registerViewModel.Email.Trim().ToLower(), password = registerViewModel.Password, isVerified = false, verifiedKey = veriKey, name = registerViewModel.Email };
                 user.UserSystemRoles.Add(new UserSystemRole { systemroleid = 2 });
@@ -170,7 +170,7 @@ namespace PMS.Controllers
                         return View(profile);
                     }
 
-                    var veriKey = Backbone.Random(8);
+                    var veriKey = (new Backbone()).Random(8);
                     string url = string.Format("https://{0}/Account/Validate?key={1}", Request.Url.Authority, veriKey);
                     string emailContent = String.Format("Click Here to verify your new Email : {0}", url);
 
