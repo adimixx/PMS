@@ -5,7 +5,7 @@
     
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
     PMS.Models.Database.photogEntities db = new PMS.Models.Database.photogEntities();
-    var listtransaction = db.Transactions.Where(x => x.Invoice.Job.Package.studioid == Model.id&& x.Invoice.Job.paymentstatus=="complete").ToList();
+    var listtransaction = db.Transactions.Where(x => x.Invoice.Job.Package.studioid == Model.id).ToList();
 
     decimal totalsales = listtransaction.Sum(x => x.total);
     int totaljobdone = listtransaction.Count();
