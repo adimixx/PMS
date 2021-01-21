@@ -25,6 +25,7 @@ namespace PMS.Controllers
             CreateStudioViewModel model = new CreateStudioViewModel();
             ViewBag.IsStudioSetting = "true";
             ViewBag.Header = "Create New Studio";
+            ViewBag.IsStudioSetting = "1";
 
             return View("~/Views/StudioPermalink/Settings.cshtml", model);
         }
@@ -38,6 +39,7 @@ namespace PMS.Controllers
 
             ViewBag.IsStudioSetting = "true";
             ViewBag.Header = "Create New Studio";
+            ViewBag.IsStudioSetting = "1";
 
             if (string.IsNullOrWhiteSpace(createStudio.name))
             {
