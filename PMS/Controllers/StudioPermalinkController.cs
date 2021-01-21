@@ -53,8 +53,7 @@ namespace PMS.Controllers
                 result.ToList().ForEach(x => yval.Add(x.quantity));
                 new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla).AddTitle("Best selling package for studio til" + DateTime.Now.ToString("yyyy")).AddSeries("Default", chartType: "Column", xValue: xval, yValues: yval).SetYAxis(title: "Money Earn()")
           .SetXAxis(title: "Package").Write("bmp");
-
-            }
+                Z
 
 
 
