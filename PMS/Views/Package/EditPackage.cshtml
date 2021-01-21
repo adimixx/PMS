@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
 }
 
-<h2>Edit Package</h2>
-
 @if (Model.id == 0)
 {
+    <h2>Add New Package</h2>
+    <p></p>
     using (Html.BeginForm("create", "package"))
     {
         @Html.AntiForgeryToken()
@@ -94,6 +94,8 @@
 }
 else
 {
+    <h2>Edit Package</h2>
+    <p></p>
     using (Html.BeginForm("edit", "package"))
     {
         @Html.AntiForgeryToken()
