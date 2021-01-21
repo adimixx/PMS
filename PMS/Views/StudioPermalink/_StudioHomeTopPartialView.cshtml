@@ -10,7 +10,7 @@
 <div class="cover-profile row">
     <div class="col-12">
 
-        @if (ViewBag.IsStudioSetting != null && ViewBag.IsStudioSetting == "1")
+        @if (ViewBag.IsStudioSetting != null || ViewBag.IsStudioSetting == "1")
         {
             <div id="cover-photo">
                 <input type="file" id="input-studioCoverPic" class="filepond" name="filepond" />
@@ -23,7 +23,7 @@
         }
         <div class="grp-std">
             <div id="studio-profile-img">
-                @if (ViewBag.IsStudioSetting != null && ViewBag.IsStudioSetting == "1")
+                @if (ViewBag.IsStudioSetting != null || ViewBag.IsStudioSetting == "1")
                 {
                     <input type="file" id="input-studioProfilePic" class="filepond studio-img" name="filepond" />
                     <div id="studio-head" style="margin-top:-40%">

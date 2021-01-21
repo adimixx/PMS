@@ -16,7 +16,7 @@
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" rel="stylesheet">
-    
+
 </head>
 <body data-topbar="dark" data-layout="horizontal">
     <!-- Begin page -->
@@ -28,7 +28,6 @@
             </div>
         </div>
     </div>
-
 
     @Scripts.Render("~/bundles/jquerytemplate")
     @Scripts.Render("~/bundles/bootstraptemplate")
@@ -47,7 +46,51 @@
     <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
 
     <script src="~/src/admin/js/app.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
     @RenderSection("scripts", required: false)
+
+    <script>
+        function alert(type, title, text) {
+            if (type == "error") {
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    showCloseButton: true,
+                    icon: 'error',
+                    confirmButtonText: 'Yes'
+                })
+
+                return true;
+            } else if (type == "info") {
+                Swal.fire({
+                    title: title,
+                    icon: 'info',
+                    html: text,
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'Yes'
+                })
+
+                return true;
+            } else if (type == "delete") {
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        return true;
+                    }
+                })
+            } else {
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>
