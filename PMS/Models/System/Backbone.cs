@@ -17,7 +17,7 @@ namespace PMS.Models
         public const string ErrorMaxLength = "{0} cannot be longer than {1} Words";
         public const string ErrorMaxRange = "{0} cannot be higher than {2} Words";
 
-        public static string Random(int length)
+        public string Random(int length)
         {
             Random random = new Random();
             string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

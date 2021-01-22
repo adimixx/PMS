@@ -87,14 +87,15 @@ namespace PMS.Models
             try
             {
                 CloudBlockBlob blockBlob;
+                Backbone backbone = new Backbone();
                 if (string.IsNullOrWhiteSpace(FolderID))
                 {
                     // Create a block blob  
-                    blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}{1}", Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
+                    blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}{1}", backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
                 }
                 else
                 {
-                    blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
+                    blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
                 }
 
                 // Set the object's content type  

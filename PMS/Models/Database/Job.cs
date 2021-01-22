@@ -35,10 +35,10 @@ namespace PMS.Models.Database
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual JobStatu JobStatu { get; set; }
         public virtual Package Package { get; set; }
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobCharge> JobCharges { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobDate> JobDates { get; set; }
+        public virtual User User { get; set; }
     }
 }

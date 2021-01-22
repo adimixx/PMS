@@ -224,19 +224,31 @@ FilePond.setOptions({
     async function onSubmit(e){
         e.preventDefault();
 
-        const prom1 = inputPic.processFiles();
-        const prom2 = inputPicCover.processFiles();
+        //const prom1 = inputPic.processFiles();
+        //const prom2 = inputPicCover.processFiles();
 
-        Promise.all([prom1, prom2]).then(response => {
-            if (response[0][0]) {
-                data.Studio.ImgLogo = response[0][0].serverId.replace(/"/g, "");
-            }
+        //Promise.all([prom1, prom2]).then(response => {
+        //    if (response[0][0]) {
+        //        data.Studio.ImgLogo = response[0][0].serverId.replace(/"/g, "");
+        //        console.log(data.Studio.ImgLogo);
+        //    }
 
-            if (response[1][0]) {
-                data.Studio.ImgCover = response[1][0].serverId.replace(/"/g, "");
-            }
+        //    if (response[1][0]) {
+        //        data.Studio.ImgCover = response[1][0].serverId.replace(/"/g, "");
+        //        console.log(data.Studio.ImgCover);
+        //    }
+        //}).finally(() => {
+        //    $('form').submit();
+        //});
+
+        inputPic.processFiles().then(response => {
+            data.Studio.ImgLogo = response[0].serverId.replace(/"/g, "");
         }).finally(() => {
-            $('form').submit();
+            inputPicCover.processFiles().then(response2 => {
+                data.Studio.ImgCover = response2[0].serverId.replace(/"/g, "");
+            }).finally(() => {
+                $('form').submit();
+            });
         });
     }
     </script>
