@@ -20,8 +20,8 @@
                 {
                     @Html.HiddenFor(x => x.jobdateid, new { @Value = ViewBag.JobDateID })
                 }
-                @Html.HiddenFor(x => x.userstudioid, new { @Value = ViewBag.UserStudioID })
                 @Html.HiddenFor(x => x.id, new { @Value = Model.id })
+                @Html.HiddenFor(x=>x.userstudioid)
                 <div class="form-group">
                     @Html.LabelFor(model => model.charge, "Charge (RM)", new { htmlAttribute = new { @class = "form-control" } })
                     <div class="col-md-10">
