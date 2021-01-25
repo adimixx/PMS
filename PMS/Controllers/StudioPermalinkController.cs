@@ -232,11 +232,16 @@ namespace PMS.Controllers
 
             studio = db.Studios.FirstOrDefault(x => x.id == studio.id);
             studio.uniquename = username;
-
+            var notAllowed = new string[] { "api", "database", "chat", "account","studio","payment","package","job","jobc","jobstatus","home","index"};
 
             if (string.IsNullOrWhiteSpace(username))
             {
                 ModelState.AddModelError("uniquename", "Studio Username cannot be null");
+            }
+
+            else if (notAllowed.FirstOrDefault(x=>x.ToLower() == username.ToLower()) != null)
+            {
+                ModelState.AddModelError("uniquename", "Entered username is not allowed");
             }
 
             else if (!regexItem.IsMatch(username))
