@@ -41,6 +41,28 @@
             </table>
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header d-flex">
+            <div class="mr-auto">
+                <h4>Database Blob List</h4>
+            </div>
+            <div class="ml-auto">
+                <p>List of physical database backup stored at Azure Blob Containers</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="backupBlob" class="table table-striped table-bordered" style="width:100%">
+                <thead class="text-center">
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </div>
 
 
@@ -66,7 +88,7 @@
         db.collection(`BackupRestoreRecord`).orderBy("DateStart").limitToLast(10).onSnapshot((doc) => {
             data.allData = doc.docs.map(x => x.data());
             data.allData = data.allData.reverse();
-        });   
+        });
 
         data = {
             allData: []
@@ -90,6 +112,29 @@
                 }
             }
         });
+
+        $("#backupBlob").DataTable(
+            {
+                ajax: {
+                    type: "GET",
+                    url: "/SystemAPI/Database/GetBlobList",
+                    dataSrc: ''
+                },
+                bLengthChange: true,
+                lengthMenu: [[20, 40, -1], [20, 40, "All"]],
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                scrollX: true,
+                scrollY: 400,
+                scrollCollapse: true,
+                processing: true,
+                columns: [
+                    { 'data': 'name', "autoWidth": true },
+                    { 'data': 'name', 'render': function (data, type, row) { return '<a href="Database/RestoreBlob?file=' + data + '">Restore</a>'; } },
+                    { 'data': 'url', 'render': function (data, type, row) { return '<a href="' + data + '">Download</a>'; } }
+                ]
+            });
     </script>
 
 }

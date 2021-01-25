@@ -341,6 +341,21 @@
     <Compile Include="Models\Database\PaymentMethod.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Database\photogBackupScript.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>photogBackupScript.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\photogBackupScript.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>photogBackupScript.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\photogBackupScript.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Database\Studio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -446,6 +461,16 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\Database\photogBackupScript.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
+      <LastGenOutput>photogBackupScript.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Database\photogBackupScript.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
+      <LastGenOutput>photogBackupScript.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\HangFireModel\HangfireModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HangfireModel.edmx</DependentUpon>
@@ -494,6 +519,13 @@
     </EntityDeploy>
     <Content Include="Models\HangFireModel\HangfireModel.edmx.diagram">
       <DependentUpon>HangfireModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Database\photogBackupScript.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>photogBackupScript.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Database\photogBackupScript.edmx.diagram">
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\photog123 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />

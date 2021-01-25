@@ -46,37 +46,21 @@ namespace PMS.Models
             blobContainer.CreateIfNotExists();
         }
 
+        public List<string> GetBlobList()
+        {
+            // useFlatBlobListing is true to ensure loading all files in
+            // virtual blob sub-folders as a plain list
+            var list = blobContainer.ListBlobs(useFlatBlobListing: true);
+            var listOfFileNames = new List<string>();
 
-        //public List<string> UploadMultipleFileAPI(List<HttpPostedFile> ListFileToUpload, string FolderID)
-        //{
-        //    List<string> AbsoluteUri = new List<string>();
-        //    // Check HttpPostedFileBase is null or not  
-        //    if (ListFileToUpload.Count <= 0)
-        //        return null;
-        //    try
-        //    {
-        //        foreach (var FileToUpload in ListFileToUpload)
-        //        {
-        //            CloudBlockBlob blockBlob;
-        //            // Create a block blob  
-        //            blockBlob = blobContainer.GetBlockBlobReference(string.Format("{0}/{1}{2}", FolderID, Backbone.Random(7), Path.GetExtension(FileToUpload.FileName)));
-        //            // Set the object's content type  
-        //            blockBlob.Properties.ContentType = FileToUpload.ContentType;
-        //            var data = FileToUpload.InputStream.Length;
+            foreach (var blob in list)
+            {                
+                var blobFileName = blob.Uri.Segments.Last();
+                listOfFileNames.Add(blobFileName);
+            }
 
-        //            // upload to blob  
-        //            blockBlob.UploadFromStream(FileToUpload.InputStream);
-
-        //            AbsoluteUri.Add(blockBlob.Name);
-        //        }
-
-        //    }
-        //    catch (Exception ExceptionObj)
-        //    {
-        //        throw ExceptionObj;
-        //    }
-        //    return AbsoluteUri;
-        //}
+            return listOfFileNames;
+        }
 
         public string UploadFileAPI(HttpPostedFile FileToUpload, string FolderID)
         {
