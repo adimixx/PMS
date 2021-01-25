@@ -2281,7 +2281,6 @@
     <Content Include="src\user\fonts\typicons.svg" />
     <Content Include="src\img\img1.jpg" />
     <Content Include="src\img\logo.png" />
-    <Content Include="Views\Package\AddNewPackage.cshtml" />
     <Content Include="Views\Package\EditPackage.cshtml" />
     <Content Include="Views\Package\Error.cshtml" />
     <Content Include="Views\Package\PackageDetail.cshtml" />
