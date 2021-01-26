@@ -4,6 +4,8 @@ using PMS.Models.Database;
 using PMS.Models.HangFireModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,8 +17,6 @@ namespace PMS.Models
 {
     public class DatabaseOperation : ActionFilterAttribute
     {
-        static photogEntities db = new photogEntities();
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             try
@@ -63,10 +63,24 @@ namespace PMS.Models
         }
 
         private static async Task DbOperationASync(string proc, string id, DateTime DateStart)
-        {        
-            db.Database.CommandTimeout = 0;
-            db.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
-            await db.Database.ExecuteSqlCommandAsync(proc);
+        {
+            //using (photogEntities db = new photogEntities())
+            //{
+            //    db.Database.CommandTimeout = 0;
+            //    db.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
+            //    await db.Database.ExecuteSqlCommandAsync(proc);
+            //}
+
+            using (SqlConnection conn = new SqlConnection("Data Source=BYTEKINTOSH\\SQLEXPRESS;Initial Catalog=photog;Integrated Security=True;MultipleActiveResultSets=True;"))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(proc, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                await cmd.ExecuteReaderAsync();
+                conn.Close();
+            }               
+
             var DateEnd = DateTime.Now.ToUniversalTime();
             var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
 
@@ -106,16 +120,28 @@ namespace PMS.Models
             };
         }
 
-        [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public static async System.Threading.Tasks.Task RestoreAzureProcessAsync(string id, DateTime DateStart, string url)
         {
-            var dc = new photog_recoveryEntities();
 
-            dc.Database.CommandTimeout = 0;
-            dc.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
-            await dc.Database.ExecuteSqlCommandAsync("exec RESTORE_AZURE_BLOB @url=N'" + url + "'");
+            //using (var dc = new photog_recoveryEntities())
+            //{
+            //    dc.Database.CommandTimeout = 0;
+            //    dc.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
+            //    await dc.Database.ExecuteSqlCommandAsync("exec RESTORE_AZURE_BLOB @url=N'" + url + "'");
+            //}
 
-            var DateEnd = DateTime.Now.ToUniversalTime();
+            using (SqlConnection conn = new SqlConnection("Data Source=BYTEKINTOSH\\SQLEXPRESS;Initial Catalog=photog_recovery;Integrated Security=True;MultipleActiveResultSets=True;"))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("RESTORE_AZURE_BLOB", conn);
+                cmd.Parameters.Add(new SqlParameter("@url", url));
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                await cmd.ExecuteReaderAsync();
+                conn.Close();
+            }             
+                        var DateEnd = DateTime.Now.ToUniversalTime();
             var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
 
             FirestoreDb firestore = FirestoreDb.Create("photogw2");
@@ -131,21 +157,35 @@ namespace PMS.Models
         }
 
 
-        [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public static async System.Threading.Tasks.Task BackupProcessAsync(string id, DateTime DateStart)
         {
-            var dc = new photog_recoveryEntities();
+            //using (var dc = new photog_recoveryEntities())
+            //{
+            //    dc.Database.CommandTimeout = 0;
+            //    dc.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
+            //    await dc.Database.ExecuteSqlCommandAsync("exec BACKUP_AZURE_BLOB");
+            //}
 
-            dc.Database.CommandTimeout = 0;
-            dc.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
-            await dc.Database.ExecuteSqlCommandAsync("exec BACKUP_AZURE_BLOB");
-            await DbOperationASync("exec BACKUP_AZURE", id, DateStart);            
+            using (SqlConnection conn = new SqlConnection("Data Source=BYTEKINTOSH\\SQLEXPRESS;Initial Catalog=photog_recovery;Integrated Security=True;MultipleActiveResultSets=True;"))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("BACKUP_AZURE_BLOB", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                await cmd.ExecuteReaderAsync();
+                conn.Close();
+            }               
+
+            //await DbOperationASync("exec BACKUP_AZURE", id, DateStart);            
+            await DbOperationASync("BACKUP_AZURE", id, DateStart);
         }
 
-        [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public static async System.Threading.Tasks.Task RestoreProcessAsync(string id, DateTime DateStart)
         {
-            await DbOperationASync("exec RESTORE_LOCAL @WHERE_TABLES = ''", id, DateStart);
+            //await DbOperationASync("exec RESTORE_LOCAL", id, DateStart);
+            await DbOperationASync("RESTORE_LOCAL", id, DateStart);
         }
     }
 }

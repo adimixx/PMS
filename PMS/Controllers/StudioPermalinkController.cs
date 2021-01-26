@@ -232,7 +232,7 @@ namespace PMS.Controllers
 
             studio = db.Studios.FirstOrDefault(x => x.id == studio.id);
             studio.uniquename = username;
-            var notAllowed = new string[] { "api", "systemapi", "database", "chat", "account","studio","payment","package","job","jobc","jobstatus","home","index"};
+            var notAllowed = new string[] { "api", "systemapi", "database", "chat", "account","studio","payment","package","job","jobc","jobstatus","home","index","hangfire"};
 
             if (string.IsNullOrWhiteSpace(username))
             {
