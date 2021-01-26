@@ -41,7 +41,7 @@
         <AssociationConnector Association="photogModel.FK__UserStudi__studi__3D2915A8" />
         <AssociationConnector Association="photogModel.FK__UserStudi__studi__18EBB532" />
         <AssociationConnector Association="photogModel.FK__UserSyste__syste__1AD3FDA4" />
-        <EntityTypeShape EntityType="photogModel.User" Width="1.5" PointX="6.5" PointY="4.125" />
+        <EntityTypeShape EntityType="photogModel.User" Width="1.5" PointX="0.75" PointY="7.5" />
         <AssociationConnector Association="photogModel.FK_ChatKey_User" />
         <AssociationConnector Association="photogModel.FK__Job__userid__31B762FC" />
         <AssociationConnector Association="photogModel.FK__UserStudi__useri__3F115E1A" />

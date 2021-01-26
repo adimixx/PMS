@@ -65,7 +65,8 @@ namespace PMS.Models
             photogEntities db = new photogEntities();
             try
             {
-                var user = db.Users.FirstOrDefault(x => x.email.ToLower() == email.ToLower() && x.password == password);
+                var passwordHash = Backbone.ComputeSha256Hash(password).ToLower();
+                var user = db.Users.FirstOrDefault(x => x.email.ToLower() == email.ToLower() && x.password.ToLower() == passwordHash);
 
                 if (user != null && !user.isVerified)
                 {
