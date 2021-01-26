@@ -76,10 +76,10 @@ namespace PMS.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult loadJobAdmin(int id)
+        public IHttpActionResult loadJobAdmin(int id, int Status)
         {
             photogEntities db = new photogEntities();
-            var model = db.Jobs.Where(x => x.Package.studioid == id).ToList();
+            var model = db.Jobs.Where(x => x.Package.studioid == id).ToList().Where(x => x.jobstatusid == Status);
 
             List<dynamic> data = new List<dynamic>();
             foreach (var item in model)

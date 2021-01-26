@@ -4,13 +4,127 @@
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
 }
 
+<div class="container">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
+    <h2><i class="mdi mdi-briefcase-clock"></i> List of Jobs</h2>
+    <p>
+        To manage quotation for the customer, handle payment assigned staff to handle photography session.
+    </p>
 
-<h2><i class="mdi mdi-briefcase-clock"></i> List of Jobs</h2>
-<p>
-    To manage quotation for the customer, handle payment assigned staff to handle photography session.
-</p>
+    <div class="navbar navbar-light bg-dark">
+        <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onPendingDeposit()">
+                    To Pay
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onPending()">
+                    Queued
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onOngoing()">
+                    Ongoing Packages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="onCompleted()">
+                    Completed
+                </a>
+            </li>
+        </ul>
+    </div>
 
-<div class="card">
+
+    <div class="card">
+        <div class="card-body">
+            <table id="jobTable" class="table table-striped table-bordered" style="width:100%">
+                <thead class="text-center">
+                    <tr>
+                        <th>Date Issued</th>
+                        <th>Client's Name</th>
+                        <th>Package Chosen</th>
+                        <th>Status</th>
+                        <th>Payment Status</th>
+                        <th>Payment Detail</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/fc-3.3.2/fh-3.1.7/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+    <script>
+        var table = $("#jobTable").DataTable(
+            {
+                bLengthChange: true,
+                lengthMenu: [[20, 40, -1], [20, 40, "All"]],
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                scrollX: true,
+                ajax: {
+                    url: "/api/system/loadJobAdmin/@ViewBag.StudioID?Status=1",
+                    dataSrc: ""
+                },
+                scrollY: 400,
+                scrollCollapse: true,
+                processing: true,
+                columns: [
+                    { 'data': 'DateCreated', "autoWidth": true },
+                    { 'data': 'client', "autoWidth": true },
+                    { 'data': 'package', "autoWidth": true },
+                    {
+                        'data': 'status', 'render': function (data, type, row) {
+                            if (data == "Pending") {
+                                return `<span style="background-color:orange;padding:5px;border-radius:10px;color:white">${data}</span>`
+                            }
+                            else if (data == "Pending Deposit") {
+                                return `<span style="background-color:red;padding:5px;border-radius:10px;color:white">${data}</span>`
+                            }
+                            else if (data == "Quote") {
+                                return `<span style="background-color:blue;padding:5px;border-radius:10px;color:white">${data}</span>`
+                            }
+                            else if (data == "Completed") {
+                                return `<span style="background-color:green;padding:5px;border-radius:10px;color:white">${data}</span>`
+                            }
+                            else {
+                                return `<span style="background-color:gray;padding:5px;border-radius:10px;color:white">${data}</span>`
+                            }
+                        }, "autoWidth": true
+                    },
+                    { 'data': 'paymentstatus', "autoWidth": true },
+                    { 'data': 'paymentdetail', "autoWidth": true },
+                    { 'data': 'id', 'render': function (data, type, row) { return `<a href="/jobc/JobCustomerDetail/${data}">Details</a>`; } }
+                ]
+            });
+
+        function onPending() {
+            table.ajax.url('/api/system/loadJobAdmin/@ViewBag.StudioID?Status=1');
+            table.ajax.reload();
+        }
+
+        function onOngoing() {
+            table.ajax.url('/api/system/loadJobAdmin/@ViewBag.StudioID?Status=2');
+            table.ajax.reload();
+        }
+
+        function onCompleted() {
+            table.ajax.url('/api/system/loadJobAdmin/@ViewBag.StudioID?Status=3');
+            table.ajax.reload();
+        }
+
+        function onPendingDeposit() {
+            table.ajax.url('/api/system/loadJobAdmin/@ViewBag.StudioID?Status=6');
+            table.ajax.reload();
+        }
+    </script>
+}
+
+@*<div class="card">
     <div class="card-body">
         <table id="jobTable" class="table table-striped table-bordered" style="width:100%">
             <thead class="text-center">
@@ -34,7 +148,7 @@
             $(function () {
             $.ajax({
                 type: "GET",
-                url: "/api/system/loadJobAdmin/@ViewBag.StudioID",
+                url: "/api/system/loadJobAdmin/@ViewBag.StudioID?Status=1",
                 dataType: "json",
                 success: function (response) {
                     $("#jobTable").DataTable(
@@ -155,5 +269,5 @@
         });
         }
     </script>
-}
+}*@
 
