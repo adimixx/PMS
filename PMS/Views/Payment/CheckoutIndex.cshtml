@@ -35,7 +35,7 @@
         #fpx-button {
             position: absolute;
             bottom: 0;
-            left: 2%;
+            left: 2.5%;
             border: 2px solid #21D59E;
             background-color: #21D59E;
             color: white;
@@ -70,8 +70,19 @@
             border-top-right-radius: 6px;
         }
 
+        @@media screen and (max-width: 960px) {
+            #checkoutcard {
+                top: 59%;
+            }
 
+            #payment-form{
+                height: 265px;
+            }
 
+            .contable {
+                height: 185px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -90,7 +101,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 col-12">
-                        <center> 
+                        <center>
                             <h4>
                                 Package : @Model.Job.Package.name
                             </h4>
