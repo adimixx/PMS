@@ -659,10 +659,12 @@ article {
     .card-body::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
 .icon {
     width: 3rem;
     height: 3rem;
 }
+
 .icon-shape {
     display: inline-flex;
     padding: 12px;
@@ -713,24 +715,37 @@ article {
         position: relative;
         -webkit-transition: -webkit-transform 0.35s;
         transition: transform 0.35s;
+        float: left;
     }
 
-    .hovereffect:hover img {
-        -webkit-transform: translate3d(0,0,0);
-        transform: translate3d(0,0,0);
-    }
-
-    .hovereffect h2 {
+    .hovereffect a button {
         text-transform: uppercase;
         color: #fff;
         text-align: center;
         position: relative;
         font-size: 17px;
         padding: 10px;
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(255, 255, 255, 1);
         float: left;
         margin: 0px;
+        border-radius: 5px;
         display: inline-block;
+        text-transform: none;
+    }
+
+        .hovereffect a button.info {
+            color: #5b626b !important;
+        }
+
+    .hovereffect:hover button {
+        color: white !important;
+    }
+
+
+    .hovereffect a button:hover {
+        color: white !important;
+        background-color: #76CED2;
+        border: none;
     }
 
     .hovereffect a.info {
@@ -744,10 +759,6 @@ article {
         background-color: transparent;
     }
 
-        .hovereffect a.info:hover {
-            box-shadow: 0 0 5px #fff;
-        }
-
 
     .hovereffect p.icon-links a {
         float: right;
@@ -760,7 +771,7 @@ article {
         color: #252d31;
     }
 
-    .hovereffect h2,
+    .hovereffect button,
     .hovereffect p.icon-links a {
         -webkit-transition: -webkit-transform 0.35s;
         transition: transform 0.35s;
@@ -779,13 +790,13 @@ article {
 
 
     .hovereffect:hover .overlay,
-    .hovereffect:hover h2,
+    .hovereffect:hover button,
     .hovereffect:hover p.icon-links a {
         -webkit-transform: translate3d(0,0,0);
         transform: translate3d(0,0,0);
     }
 
-    .hovereffect:hover h2 {
+    .hovereffect:hover button {
         -webkit-transition-delay: 0.05s;
         transition-delay: 0.05s;
     }
