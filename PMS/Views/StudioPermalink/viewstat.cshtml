@@ -2,15 +2,165 @@
 @using PMS.Models
 @{
     ViewBag.Title = "Statistics";
-    
+
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
     PMS.Models.Database.photogEntities db = new PMS.Models.Database.photogEntities();
-    var listtransaction = db.Transactions.Where(x => x.Invoice.Job.Package.studioid == Model.id&& x.Invoice.Job.paymentstatus=="complete").ToList();
+    var listtransaction = db.Transactions.Where(x => x.Invoice.Job.Package.studioid == Model.id).ToList();
 
-    decimal totalsales = listtransaction.Sum(x => x.total);
-    int totaljobdone = listtransaction.Count();
+    decimal totalsales = listtransaction.Where(x => x.Invoice.status == "Paid").Sum(x => x.total);
+    int totaljobdone = listtransaction.Where(x => x.Invoice.Job.jobstatusid == 3 && x.Invoice.detail == "Full Payment").Count();
+    int ongoingjobdone = listtransaction.Where(x => x.Invoice.Job.jobstatusid == 2 && x.Invoice.detail == "Full Payment").Count();
+    int pendingjobdone = listtransaction.Where(x => x.Invoice.Job.jobstatusid == 1 && x.Invoice.detail == "Full Payment").Count();
+    var toppackage = listtransaction.Where(x => x.Invoice.Job.jobstatusid != 4).OrderByDescending(x => x.Invoice.Job.packageid).Take(1);
 }
+<div class="container">
+    <h2> <i class="mdi mdi-file-chart-outline"></i> Statistics</h2>
+    <p>Summary of studio <span style="color: #76CED2"> @Model.name</span>.</p>
 
+    <div class="row">
+        <!--<div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Top Packages</h5>
+                        @foreach (var item in toppackage)
+                        {
+                            <span class="h2 font-weight-bold mb-0 elipsis">@item.Invoice.Job.Package.name</span>
+                        }
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                            <i class="mdi mdi-24px mdi-package-up"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-2 mb-0 text-muted text-sm">
+                    <span class="text-nowrap"><i class="mdi mdi-information-outline mr-2"></i> Top packages bought by customers.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Top Customer</h5>
+                        <span class="h2 font-weight-bold mb-0 elipsis"></span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                            <i class="mdi mdi-24px mdi-account-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-2 mb-0 text-muted text-sm">
+                    <span class="text-nowrap"><i class="mdi mdi-information-outline mr-2"></i> Top customer bought from this studio.</span>
+                </p>
+            </div>
+        </div>
+    </div>-->
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total Sales</h5>
+                            <span class="h2 font-weight-bold mb-0 elipsis">RM @totalsales</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                <i class="mdi mdi-24px mdi-cash-usd"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted text-sm">
+                        <span class="text-nowrap"><i class="mdi mdi-information-outline mr-2"></i> Total sales of all packages.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total Pending Job</h5>
+                            <span class="h2 font-weight-bold mb-0 elipsis">@pendingjobdone</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                <i class="mdi mdi-24px mdi-timer-sand"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted text-sm">
+                        <span class="text-nowrap"><i class="mdi mdi-information-outline mr-2"></i> Total job done with the pending status.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total Ongoing Job</h5>
+                            <span class="h2 font-weight-bold mb-0 elipsis">@ongoingjobdone</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                <i class="mdi mdi-24px mdi-clock-outline"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted text-sm">
+                        <span class="text-nowrap"><i class="mdi mdi-information-outline mr-2"></i> Total job done with the ongoing status.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total Complete Job </h5>
+                            <span class="h2 font-weight-bold mb-0 elipsis">@totaljobdone</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                                <i class="mdi mdi-24px mdi-check-bold"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted text-sm">
+                        <span class="text-nowrap"><i class="mdi mdi-information-outline mr-2"></i> Total job done with the complete status.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <h5 class="p-4 text-uppercase text-muted">Best selling packages</h5>
+            <div class="card-body">
+                <img src=@Url.Action("seechart", "StudioPermalink") style="width: 100%;height: auto;" onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="" />
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <h5 class="p-4 text-uppercase text-muted">customer purchases</h5>
+            <div class="card-body">
+                <img src=@Url.Action("seepiechart", "StudioPermalink") style="width: 100%;height: auto;" onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="no data found for pie chart " />
+            </div>
+        </div>
+    </div>
+</div>
+<!--
 <h2>Satistic for @Model.name - @DateTime.Now.ToString("dd/MM/yyyy")</h2>
 
 <h3>Total Sales : @totalsales</h3>
@@ -20,4 +170,4 @@
 <h3>Earning For Each Package</h3>
 <img src=@Url.Action("seechart", "StudioPermalink") onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt=""/>
 
-<img src=@Url.Action("seepiechart", "StudioPermalink") onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="no data found for pie chart "/>
+<img src=@Url.Action("seepiechart", "StudioPermalink") onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="no data found for pie chart "/>-->
