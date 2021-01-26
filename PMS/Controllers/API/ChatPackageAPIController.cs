@@ -108,7 +108,6 @@ namespace PMS.Controllers.API
             deserializedData.JobLink = string.Format("/jobc/JobCustomerDetail/{0}", job.id.ToString());
             deserializedData.JobID = job.id.ToString();
             deserializedData.StudioUrl = chat.Studio.uniquename;
-            deserializedData.HasDeposit = job.Package.depositprice != 0 ? "Yes" : "No";
 
             deserializedDataQuoteAll.Packages[deserializedDataSel.index] = deserializedData;
             
