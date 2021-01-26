@@ -24,7 +24,7 @@ namespace PMS.Controllers
             {
                 if (User.IsInRole("Admin"))
                 {
-                    return View("IndexAdmin", src);
+                    return RedirectToAction("Index", "Database");
                 }
             }
 

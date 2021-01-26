@@ -41,6 +41,7 @@ namespace PMS.Controllers
             ArrayList xval = new ArrayList();
             ArrayList yval = new ArrayList();
             int studioID = (int)ViewBag.StudioID;
+
             //select result set from database
             var result = db.bestpackage(studioID).ToList();
             //put result set into two array
@@ -48,9 +49,10 @@ namespace PMS.Controllers
             {
                 result.ToList().ForEach(x => xval.Add(x.package));
                 result.ToList().ForEach(x => yval.Add(x.quantity));
-                new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla).AddTitle("Best selling package for studio til" + DateTime.Now.ToString("yyyy")).AddSeries("Default", chartType: "Column", xValue: xval, yValues: yval).SetYAxis(title: "Money Earn()")
-          .SetXAxis(title: "Package").Write("bmp");
-                //setting up the chart
+
+                new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla).AddSeries("Default", chartType: "Column", xValue: xval, yValues: yval).SetYAxis(title: "Money Earn(RM)")
+          .SetXAxis(title: "Package").Write();
+
             }
             return null;
         }
@@ -72,12 +74,9 @@ namespace PMS.Controllers
                 }
                 result.ToList().ForEach(x => xval.Add(x.name + "(" + Math.Round((Double)(x.times / pu) * 100, 1) + "%)"));
                 result.ToList().ForEach(x => yval.Add(x.times));
-                var c = new Chart(width: 600, height: 400, theme: ChartTheme.Blue).AddTitle("Top Company In Store").AddSeries("Default", chartType: "Pie", xValue: xval, yValues: yval).SetYAxis(title: "Money Earned(RM)")
-                .SetXAxis(title: "Months of " + DateTime.Now.ToString("yyyy")).Write("bmp");
-
+                var c = new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla).AddSeries("Default", chartType: "Pie", xValue: xval, yValues: yval).SetYAxis(title: "Money Earned(RM)")
+                .SetXAxis(title: "Months of " + DateTime.Now.ToString("yyyy")).Write();
             }
-
-
 
             return null;
         }
@@ -90,7 +89,8 @@ namespace PMS.Controllers
             Studio studio = db.Studios.FirstOrDefault(x => x.id == studioID);
 
             //AutoMapper
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Studio, CreateStudioViewModel>();
             });
             IMapper mapper = config.CreateMapper();
@@ -232,11 +232,15 @@ namespace PMS.Controllers
 
             studio = db.Studios.FirstOrDefault(x => x.id == studio.id);
             studio.uniquename = username;
-
+            var notAllowed = new string[] { "api", "systemapi", "database", "chat", "account","studio","payment","package","job","jobc","jobstatus","home","index"};
 
             if (string.IsNullOrWhiteSpace(username))
             {
                 ModelState.AddModelError("uniquename", "Studio Username cannot be null");
+            }
+            else if (notAllowed.FirstOrDefault(x=>x.ToLower() == username.ToLower()) != null)
+            {
+                ModelState.AddModelError("uniquename", "Entered username is not allowed");
             }
 
             else if (!regexItem.IsMatch(username))

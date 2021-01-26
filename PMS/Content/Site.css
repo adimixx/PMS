@@ -659,3 +659,23 @@ article {
     .card-body::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+.icon {
+    width: 3rem;
+    height: 3rem;
+}
+.icon-shape {
+    display: inline-flex;
+    padding: 12px;
+    text-align: center;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+/* 
+.elipsis {
+    white-space: nowrap;
+    width: 99%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}*/

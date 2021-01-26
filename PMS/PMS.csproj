@@ -341,6 +341,21 @@
     <Compile Include="Models\Database\PaymentMethod.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Database\photogBackupScript.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>photogBackupScript.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\photogBackupScript.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>photogBackupScript.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\photogBackupScript.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Database\Studio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -446,6 +461,16 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\Database\photogBackupScript.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
+      <LastGenOutput>photogBackupScript.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Database\photogBackupScript.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
+      <LastGenOutput>photogBackupScript.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\HangFireModel\HangfireModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HangfireModel.edmx</DependentUpon>
@@ -481,6 +506,13 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\Vuetify\vuetify.js.map" />
     <Content Include="Content\Vuetify\vuetify.css.map" />
+    <EntityDeploy Include="Models\Database\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Database\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <EntityDeploy Include="Models\HangFireModel\HangfireModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HangfireModel.Designer.cs</LastGenOutput>
@@ -488,12 +520,12 @@
     <Content Include="Models\HangFireModel\HangfireModel.edmx.diagram">
       <DependentUpon>HangfireModel.edmx</DependentUpon>
     </Content>
-    <EntityDeploy Include="Models\Database\Model1.edmx">
+    <EntityDeploy Include="Models\Database\photogBackupScript.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>photogBackupScript.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Database\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Content Include="Models\Database\photogBackupScript.edmx.diagram">
+      <DependentUpon>photogBackupScript.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\photog123 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
@@ -2281,7 +2313,6 @@
     <Content Include="src\user\fonts\typicons.svg" />
     <Content Include="src\img\img1.jpg" />
     <Content Include="src\img\logo.png" />
-    <Content Include="Views\Package\AddNewPackage.cshtml" />
     <Content Include="Views\Package\EditPackage.cshtml" />
     <Content Include="Views\Package\Error.cshtml" />
     <Content Include="Views\Package\PackageDetail.cshtml" />
@@ -2377,7 +2408,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\SignIn.cshtml" />
-    <Content Include="Views\Home\IndexAdmin.cshtml" />
     <Content Include="Views\StudioPermalink\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LayoutAccount.cshtml" />

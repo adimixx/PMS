@@ -11,69 +11,68 @@
                     <li class="menu-title">@ViewBag.StudioName</li>
                 }
 
+                <li>
+                    <a href="@string.Format("/{0}", ViewBag.StudioUrl)" class="waves-effect">
+                        <i class="ti-home"></i>
+                        <span>Studio Main Page</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "viewstat")" class=" waves-effect">
+                        <i class="mdi mdi-file-chart-outline"></i>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "package")" class=" waves-effect">
+                        <i class="mdi mdi-image-outline"></i>
+                        <span>Packages</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "job")" class=" waves-effect">
+                        <i class="mdi mdi-briefcase-clock"></i>
+                        <span>Jobs</span>
+                    </a>
+                </li>
+
+                @if (ViewBag.StudioRoleID == 1)
+                {
                     <li>
-                        <a href="@string.Format("/{0}", ViewBag.StudioUrl)" class="waves-effect">
-                            <i class="ti-home"></i>
-                            <span>Studio Main Page</span>
+                        <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "roles")" class=" waves-effect">
+                            <i class="mdi mdi-face-woman"></i>
+                            <span>Studio Roles</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "package")" class=" waves-effect">
-                            <i class="ti-calendar"></i>
-                            <span>Packages</span>
+                        <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "Chat")" class=" waves-effect">
+                            <i class="mdi mdi-chat"></i>
+                            <span>Chats</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "viewstat")" class=" waves-effect">
-                            <i class="mdi mdi-file-chart-outline"></i>
-                            <span>Statistics</span>
+                        <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "Settings")" class=" waves-effect">
+                            <i class="mdi mdi-settings"></i>
+                            <span>Studio Settings</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "job")" class=" waves-effect">
-                            <i class="mdi mdi-briefcase-clock"></i>
-                            <span>Jobs</span>
+                }
+
+
+                @*<li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ti-email"></i>
+                            <span>Email</span>
                         </a>
-                    </li>
-
-                    @if (ViewBag.StudioRoleID == 1)
-                    {
-                        <li>
-                            <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "roles")" class=" waves-effect">
-                                <i class="mdi mdi-face-woman"></i>
-                                <span>Studio Roles</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "Chat")" class=" waves-effect">
-                                <i class="mdi mdi-chat"></i>
-                                <span>Chats</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="@string.Format("/{0}/{1}", ViewBag.StudioUrl, "Settings")" class=" waves-effect">
-                                <i class="mdi mdi-settings"></i>
-                                <span>Studio Settings</span>
-                            </a>
-                        </li>
-                    }
-
-
-                    @*<li>
-                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                    <i class="ti-email"></i>
-                    <span>Email</span>
-                </a>
-                <ul class="sub-menu" aria-expanded="false">
-                    <li><a href="email-inbox.html">Inbox</a></li>
-                    <li><a href="email-read.html">Email Read</a></li>
-                    <li><a href="email-compose.html">Email Compose</a></li>
-                </ul>
-            </li>*@
-                </ul>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="email-inbox.html">Inbox</a></li>
+                            <li><a href="email-read.html">Email Read</a></li>
+                            <li><a href="email-compose.html">Email Compose</a></li>
+                        </ul>
+                    </li>*@
+            </ul>
         </div>
         <!-- Sidebar -->
     </div>

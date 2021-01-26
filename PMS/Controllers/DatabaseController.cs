@@ -36,6 +36,7 @@ namespace PMS.Controllers
             return RedirectToAction("Progress");
         }
 
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async System.Threading.Tasks.Task<ActionResult> Restore()
@@ -50,7 +51,21 @@ namespace PMS.Controllers
             return RedirectToAction("Progress");
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async System.Threading.Tasks.Task<ActionResult> RestoreBlob(string file)
+        {
+            var url = String.Format("https://storagephotog2.blob.core.windows.net/db-backup/{0}", file);
 
+            var user = UserAuthentication.Identity();
+            var obj = await DatabaseOperation.SetInitDataAsync("Restore (Azure Blob)", user.name, user.email);
+
+            var id = (string)obj.FirstOrDefault(x => x.Key == "id").Value;
+            var date = (DateTime)obj.FirstOrDefault(x => x.Key == "date").Value;
+
+            BackgroundJob.Enqueue(() => DatabaseOperation.RestoreAzureProcessAsync(id, date, url));
+            return RedirectToAction("Progress");
+        }
 
         [HttpGet]
         public ActionResult Progress()

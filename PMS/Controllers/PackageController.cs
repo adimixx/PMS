@@ -52,16 +52,23 @@ namespace PMS.Controllers
                         return View("editpackage", data);
                     }
 
-                    db.Packages.Add(new Package
+                    var pack = new Package
                     {
                         depositprice = data.depoprice,
                         details = string.IsNullOrWhiteSpace(data.details) ? null : data.details,
                         name = data.name,
                         price = data.price,
                         studioid = data.studioid,
-                        status = "Enabled",
-                    });
+                        status = "Enabled"
+                    };
 
+                    if (!string.IsNullOrWhiteSpace(data.ImgName))
+                    {
+                        PackageImage package = new PackageImage { ImageName = data.ImgName};
+                        pack.PackageImages.Add(package);
+                    }
+
+                    db.Packages.Add(pack);
                     db.SaveChanges();
                     return RedirectToAction("PackageHome");
                 }
@@ -127,6 +134,35 @@ namespace PMS.Controllers
                     edit.name = data.name;
                     edit.price = data.price;
                     edit.studioid = data.studioid;
+
+                    var img = db.PackageImages.Where(x => x.PackageID == data.id);
+
+                    if (!string.IsNullOrWhiteSpace(data.ImgName))
+                    {
+                        if (img == null || img.FirstOrDefault(x=>x.ImageName.ToLower() == data.ImgName.ToLower()) == null)
+                        {
+                            AzureBlob BlobManagerObj = new AzureBlob(2);
+                            foreach (var item in img)
+                            {
+                                BlobManagerObj.DeleteBlob(data.studioid.ToString(), String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid, item.ImageName));
+                            }
+
+                            db.PackageImages.RemoveRange(img);
+                            PackageImage package = new PackageImage { ImageName = data.ImgName };
+                            edit.PackageImages.Add(package);
+                        }                        
+                    }
+
+                    else
+                    {
+                        AzureBlob BlobManagerObj = new AzureBlob(2);
+                        foreach (var item in img)
+                        {
+                            BlobManagerObj.DeleteBlob(data.studioid.ToString(), String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", item.Package.studioid, item.ImageName));
+                        }
+                        db.PackageImages.RemoveRange(img);
+                    }
+
 
                     db.SaveChanges();
 
@@ -288,7 +324,7 @@ namespace PMS.Controllers
                 {
                     var itemConv = item.ConvertTo<QuotationModel>();
 
-                    for (int j = 0; j < itemConv.Packages.Count; j++)
+                    for (int j = 0; j < itemConv.Packages?.Count; j++)
                     {
                         if (itemConv.Packages[j].Package.Id == newPackage.id)
                         {

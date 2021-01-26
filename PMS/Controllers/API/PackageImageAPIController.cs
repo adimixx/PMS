@@ -48,10 +48,10 @@ namespace PMS.Controllers.API
                 string FileName = BlobManagerObj.UploadFileAPI(file, StudioID.ToString());
                 FileName = FileName.Substring(FileName.IndexOf('/') + 1);
 
-                photogEntities db = new photogEntities();
-                PackageImage package = new PackageImage { ImageName = FileName, PackageID = PackageID };
-                db.PackageImages.Add(package);
-                db.SaveChanges();
+                //photogEntities db = new photogEntities();
+                //PackageImage package = new PackageImage { ImageName = FileName, PackageID = PackageID };
+                //db.PackageImages.Add(package);
+                //db.SaveChanges();
 
                 return Ok(FileName);
             }
@@ -86,23 +86,23 @@ namespace PMS.Controllers.API
         //    return BadRequest();
         //}
 
-        [HttpDelete]
-        public IHttpActionResult Delete(string img)
-        {
-            if (!string.IsNullOrWhiteSpace(img))
-            {
-                AzureBlob BlobManagerObj = new AzureBlob(2);
-                string deletedBlob = BlobManagerObj.DeleteBlob(StudioID.ToString(), img);
+        //[HttpDelete]
+        //public IHttpActionResult Delete(string img)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(img))
+        //    {
+        //        AzureBlob BlobManagerObj = new AzureBlob(2);
+        //        string deletedBlob = BlobManagerObj.DeleteBlob(StudioID.ToString(), img);
 
-                photogEntities db = new photogEntities();
-                var deleted = db.PackageImages.FirstOrDefault(x => x.ImageName == deletedBlob);
-                db.PackageImages.Remove(deleted);
-                db.SaveChanges();
+        //        photogEntities db = new photogEntities();
+        //        var deleted = db.PackageImages.FirstOrDefault(x => x.ImageName == deletedBlob);
+        //        db.PackageImages.Remove(deleted);
+        //        db.SaveChanges();
 
-                return Ok();
-            }
+        //        return Ok();
+        //    }
 
-            return BadRequest();
-        }
+        //    return BadRequest();
+        //}
     }
 }
