@@ -186,7 +186,7 @@
                                                 </tr>
                                             </thead>
                                         </table>
-                                        @if (ViewBag.StudioRoleID == 1)
+                                        @if (ViewBag.StudioRoleID == 1 && Model.JobStatu.name != "Completed")
                                         {
                                             <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
                                         }
@@ -467,7 +467,7 @@
                         { data: 'pdatetime', autoWidth: true },
                         { data: 'location', autoWidth: true },
                         { data: 'description', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null) { <a href="/@ViewBag.StudioUrl/job/changedate/${data}">Update</a> }` }, autoWidth: true }
+                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null && Model.JobStatu.name != "Completed") { <a href="/@ViewBag.StudioUrl/job/changedate/${data}">Update</a> }` }, autoWidth: true }
                     ]
                 }
             );
@@ -492,7 +492,7 @@
                         { data: 'name', autoWidth: true },
                         { data: 'email', autoWidth: true },
                         { data: 'phone', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null) { <a href="/@ViewBag.StudioUrl/job/deletejobstaff/${data}">Delete</a> }` }, autoWidth: true }
+                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null && Model.JobStatu.name != "Completed") { <a href="/@ViewBag.StudioUrl/job/deletejobstaff/${data}">Delete</a> }` }, autoWidth: true }
                     ]
                 }
             );

@@ -57,6 +57,7 @@ var data = {
     jobUrl: '',
     jobId: '',
     studioUrl: '',
+    hasDeposit: '',
     option: '1',
     isDisabledPackage: false
 }
@@ -112,6 +113,13 @@ function updateQuotationData() {
         }
         else {
             data.jobId = '';
+        }
+
+        if (data.CurrentPackage.HasDeposit) {
+            data.hasDeposit = data.CurrentPackage.HasDeposit;
+        }
+        else {
+            data.hasDeposit = '';
         }
 
         if (data.CurrentPackage.StudioUrl) {
