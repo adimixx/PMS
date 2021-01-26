@@ -276,7 +276,7 @@
             <div class="modal-body">
                 <h4 class="mb-3">Choose option to pay the service</h4>
                 <select v-model="option" class="form-control">
-                    <option v-show="hasDeposit == 'Yes'" value="1">Deposit</option>
+                    <option v-show="packagePriceDeposit != 0" value="1">Deposit</option>
                     <option value="2">Full</option>
                 </select>
                 <br />
