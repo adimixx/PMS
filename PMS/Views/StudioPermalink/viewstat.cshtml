@@ -142,23 +142,24 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-12">
-        <div class="card">
-            <h5 class="p-4 text-uppercase text-muted">Best selling packages</h5>
-            <div class="card-body">
-                <img src=@Url.Action("seechart", "StudioPermalink") style="width: 100%;height: auto;" onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="" />
+        <div class="col-xl-6 col-lg-12">
+            <div class="card">
+                <h5 class="p-4 text-uppercase text-muted">Best selling packages</h5>
+                <div class="card-body">
+                    <img src=@Url.Action("seechart", "StudioPermalink") style="width: 100%;height: auto;" onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-12">
+            <div class="card">
+                <h5 class="p-4 text-uppercase text-muted">customer purchases</h5>
+                <div class="card-body">
+                    <img src=@Url.Action("seepiechart", "StudioPermalink") style="width: 100%;height: auto;" onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="no data found for pie chart " />
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-12">
-        <div class="card">
-            <h5 class="p-4 text-uppercase text-muted">customer purchases</h5>
-            <div class="card-body">
-                <img src=@Url.Action("seepiechart", "StudioPermalink") style="width: 100%;height: auto;" onerror="this.onerror=null; this.src='/src/images/nodata.jpg'" alt="no data found for pie chart " />
-            </div>
-        </div>
-    </div>
+ 
 </div>
 <!--
 <h2>Satistic for @Model.name - @DateTime.Now.ToString("dd/MM/yyyy")</h2>
