@@ -101,7 +101,8 @@ namespace PMS.Controllers
                 price = data.price,
                 studioid = data.studioid.Value,
                 name = data.name,
-                images = data.PackageImages.ToList()
+                images = data.PackageImages.ToList(),
+                ImgName = data.PackageImages.FirstOrDefault().ImageName
             };
 
             return View("editpackage", edit);
