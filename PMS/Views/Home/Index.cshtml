@@ -118,7 +118,23 @@
                                                                           : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault(x => x.PackageID == item.id).ImageName + "");
 
                         <div class="card cd card-shad">
-                            <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>
+                            <div class="imgWrap hovereffect">
+                                <img src="@imgLogo" class="myImg card-img-top mx-0 d-block">
+                                <div class="overlay">
+                                    <h2>Effect 10</h2>
+                                    <p class="icon-links">
+                                        <a href="#">
+                                            <span class="fa fa-twitter"></span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="fa fa-facebook"></span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="fa fa-instagram"></span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
                             <div class="card-body" style="height: 188px;overflow-y:auto">
                                 <h3 class="card-title cdtitle">@item.name</h3>
                                 <article class="card-text" style="max-height: none;">
