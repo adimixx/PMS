@@ -127,7 +127,7 @@
                                             @Html.DisplayFor(model => model.User.email)
                                         </dd>
                                     </dl>
-                                    @if (ViewBag.StudioRoleID == 1 && Model.JobStatu.name != "Completed")
+                                    @if (ViewBag.StudioRoleID == 1 && Model.JobStatu.name != "Completed" && Model.jobstatusid != 6)
                                     {
                                         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#statusModal">Update</button>
                                     }
@@ -186,7 +186,7 @@
                                                 </tr>
                                             </thead>
                                         </table>
-                                        @if (ViewBag.StudioRoleID == 1 && Model.JobStatu.name != "Completed")
+                                        @if (ViewBag.StudioRoleID == 1 && Model.JobStatu.name != "Completed" && Model.jobstatusid != 6)
                                         {
                                             <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staffModal">Assign Staff</button>
                                         }
@@ -492,7 +492,7 @@
                         { data: 'name', autoWidth: true },
                         { data: 'email', autoWidth: true },
                         { data: 'phone', autoWidth: true },
-                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null && Model.JobStatu.name != "Completed") { <a href="/@ViewBag.StudioUrl/job/deletejobstaff/${data}">Delete</a> }` }, autoWidth: true }
+                        { data: 'id', render: function (data, type, row) { return `@if (ViewBag.StudioRoleID != null && Model.JobStatu.name != "Completed"  && Model.jobstatusid != 6) { <a href="/@ViewBag.StudioUrl/job/deletejobstaff/${data}">Delete</a> }` }, autoWidth: true }
                     ]
                 }
             );

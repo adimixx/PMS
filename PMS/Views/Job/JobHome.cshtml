@@ -14,22 +14,22 @@
     <div class="navbar navbar-light bg-dark">
         <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-                <a href="#" class="nav-link" onclick="onPendingDeposit()">
+                <a style="color:white" href="#" class="nav-link" onclick="onPendingDeposit()">
                     To Pay
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" onclick="onPending()">
+                <a style="color:white" href="#" class="nav-link" onclick="onPending()">
                     Queued
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" onclick="onOngoing()">
+                <a style="color:white" href="#" class="nav-link" onclick="onOngoing()">
                     Ongoing Packages
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" onclick="onCompleted()">
+                <a style="color:white" href="#" class="nav-link" onclick="onCompleted()">
                     Completed
                 </a>
             </li>
@@ -98,7 +98,7 @@
                     },
                     { 'data': 'paymentstatus', "autoWidth": true },
                     { 'data': 'paymentdetail', "autoWidth": true },
-                    { 'data': 'id', 'render': function (data, type, row) { return `<a href="/jobc/JobCustomerDetail/${data}">Details</a>`; } }
+                    { 'data': 'id', 'render': function (data, type, row) { return '<a href="@Request.Url/detail/' + data + '">Details</a>'; } }
                 ]
             });
 

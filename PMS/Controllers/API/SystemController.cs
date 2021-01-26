@@ -61,7 +61,7 @@ namespace PMS.Controllers
         public IHttpActionResult loadJobStatus()
         {
             photogEntities db = new photogEntities();
-            var model = db.JobStatus.ToList();
+            var model = db.JobStatus.ToList().Where(x => x.id != 6);
 
             List<dynamic> data = new List<dynamic>();
             foreach (var item in model)
@@ -127,7 +127,7 @@ namespace PMS.Controllers
         {
             photogEntities db = new photogEntities();
             var aid = UserAuthentication.Identity().id;
-            var model = db.Jobs.Where(x => x.userid == aid).ToList().Where(x=>x.jobstatusid == Status);
+            var model = db.Jobs.Where(x => x.userid == aid).ToList().Where(x => x.jobstatusid == Status);
 
             List<dynamic> data = new List<dynamic>();
             foreach (var item in model)
