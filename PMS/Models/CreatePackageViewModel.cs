@@ -28,6 +28,8 @@ namespace PMS.Models
         [DisplayName("Package Details")]
         public string details { get; set; }
 
+        public string ImgName { get; set; }
+
         public IEnumerable<SelectListItem> studio { get; set; }
 
         public List<PackageImage> images { get; set; }

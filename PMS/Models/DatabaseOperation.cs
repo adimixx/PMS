@@ -57,8 +57,7 @@ namespace PMS.Models
             catch
             {
 
-            }
-          
+            }         
             
             base.OnActionExecuting(filterContext);
         }
@@ -107,17 +106,46 @@ namespace PMS.Models
             };
         }
 
+        [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        public static async System.Threading.Tasks.Task RestoreAzureProcessAsync(string id, DateTime DateStart, string url)
+        {
+            var dc = new photog_recoveryEntities();
+
+            dc.Database.CommandTimeout = 0;
+            dc.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
+            await dc.Database.ExecuteSqlCommandAsync("exec RESTORE_AZURE_BLOB @url=N'" + url + "'");
+
+            var DateEnd = DateTime.Now.ToUniversalTime();
+            var diff = TimeSpan.FromTicks(DateEnd.Ticks - DateStart.Ticks);
+
+            FirestoreDb firestore = FirestoreDb.Create("photogw2");
+
+            var collection = firestore.Collection("BackupRestoreRecord").Document(id);
+            var snapshot = await collection.GetSnapshotAsync();
+            Dictionary<string, object> data = new Dictionary<string, object>
+            {
+                 {"DateEnd", DateEnd },
+                 {"TimeTaken", diff.TotalSeconds }
+            };
+            await collection.SetAsync(data, SetOptions.MergeAll);
+        }
+
 
         [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static async System.Threading.Tasks.Task BackupProcessAsync(string id, DateTime DateStart)
         {
+            var dc = new photog_recoveryEntities();
+
+            dc.Database.CommandTimeout = 0;
+            dc.Configuration.EnsureTransactionsForFunctionsAndCommands = false;
+            await dc.Database.ExecuteSqlCommandAsync("exec BACKUP_AZURE_BLOB");
             await DbOperationASync("exec BACKUP_AZURE", id, DateStart);            
         }
 
         [AutomaticRetry(Attempts = 3, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static async System.Threading.Tasks.Task RestoreProcessAsync(string id, DateTime DateStart)
         {
-            await DbOperationASync("exec RESTORE_LOCAL", id, DateStart);
+            await DbOperationASync("exec RESTORE_LOCAL @WHERE_TABLES = ''", id, DateStart);
         }
     }
 }

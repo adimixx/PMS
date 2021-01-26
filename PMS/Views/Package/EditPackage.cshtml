@@ -1,188 +1,87 @@
 ﻿@model PMS.Models.CreatePackageViewModel
 
 @{
-    ViewBag.Title = "EditPackage";
     Layout = "~/Views/Shared/_LayoutStudioManage.cshtml";
+
+    if (Model.id == 0)
+    {
+        ViewBag.Title = "Add New Package - " + ViewBag.StudioName;
+    }
+    else
+    {
+        ViewBag.Title = "Edit Package - " + ViewBag.StudioName;
+    }
 }
 
-@if (Model.id == 0)
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
 {
-    <h2>Add New Package</h2>
-    <p></p>
-    using (Html.BeginForm("create", "package"))
-    {
-        @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Package Form</h4>
-                <hr />
-                <div class="row">
-                    <div class="col-sm-12 col-md-8 ">
-
-                        @if (TempData["error"] != null)
-                        {
-                            <div class="alert alert-danger" role="alert">
-                                @TempData["error"]
-                            </div>
-                        }
-
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
-                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
-                            </div>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Package Form</h4>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12 col-md-8">
+                    @if (TempData["error"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @TempData["error"]
                         </div>
+                    }
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", @min = "1", @type = "number" } })
-                                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.depoprice, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.depoprice, new { htmlAttributes = new { @class = "form-control", @min = "1", @type = "number" } })
-                                @Html.ValidationMessageFor(model => model.depoprice, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.name)
+                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                    </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.details, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.details, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
-                                @Html.ValidationMessageFor(model => model.details, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.price)
+                        @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", @min = "1", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                    </div>
 
-                        @*<div class="form-group">
-                                @Html.LabelFor(model => model.studioid, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.studioid, Model.studio, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.studioid, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
-                        @Html.HiddenFor(model => model.studioid, new { @Value = ViewBag.StudioID })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.depoprice)
+                        @Html.EditorFor(model => model.depoprice, new { htmlAttributes = new { @class = "form-control", @min = "1", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.depoprice, "", new { @class = "text-danger" })
+                    </div>
 
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.details)
+                        @Html.EditorFor(model => model.details, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.details, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.HiddenFor(model => model.id)
+                    @Html.HiddenFor(model => model.ImgName)
+                    @Html.HiddenFor(model => model.studioid, new { @Value = ViewBag.StudioID })
+                </div>
+
+                <div class="col-sm-12 col-md-4 text-center">
+                    <label class="font-weight-bold">Package Pictures</label>
+                    <div style=" overflow-y: scroll;">
+                        <div id="ProfilePic-Input" class="w-100 bg-soft-dark" style="height: 200px;">
+                            <input type="file" id="input-profilepic" class="filepond" name="filepond" accept="" multiple />
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4 text-center">
-                        <label class="font-weight-bold">Package Pictures</label>
-                        <div style=" overflow-y: scroll;" class="w-100">
-                            <div id="ProfilePic-Input" class="w-100 bg-soft-dark" style="height: 600px;">
-                                <input type="file" id="input-profilepic" class="filepond" name="filepond" accept="" multiple />
-                            </div>
-                        </div>
+                </div>
 
-                        <div class="form-group m-3">
-                            <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Photos</button>
-                        </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="submit" value="Save Package" class="btn btn-primary" onclick="submitForm(event)" />
                     </div>
                 </div>
             </div>
         </div>
-    }
-}
-else
-{
-    <h2>Edit Package</h2>
-    <p></p>
-    using (Html.BeginForm("edit", "package"))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Package Form</h4>
-                <hr />
-                <div class="row">
-                    <div class="col-sm-12 col-md-8 ">
-
-                        @if (TempData["error"] != null)
-                        {
-                            <div class="alert alert-danger" role="alert">
-                                @TempData["error"]
-                            </div>
-                        }
-
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
-                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", @min = "1", @type = "number" } })
-                                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.depoprice, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.depoprice, new { htmlAttributes = new { @class = "form-control", @min = "1", @type = "number" } })
-                                @Html.ValidationMessageFor(model => model.depoprice, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.details, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.details, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
-                                @Html.ValidationMessageFor(model => model.details, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        @*<div class="form-group">
-                                @Html.LabelFor(model => model.studioid, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.studioid, Model.studio, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.studioid, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
-                        @Html.HiddenFor(model => model.studioid, new { @Value = ViewBag.StudioID })
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-4 text-center">
-                        <label class="font-weight-bold">Package Pictures</label>
-                        <div style=" overflow-y: scroll;" class="w-100">
-                            <div id="ProfilePic-Input" class="w-100 bg-soft-dark" style="height: 600px;">
-                                <input type="file" id="input-profilepic" class="filepond" name="filepond" accept="" multiple />
-                            </div>
-                        </div>
-
-                        <div class="form-group m-3">
-                            <button type="button" class="btn btn-primary" id="uploadPhotoBtn">Save Photos</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "PackageHome")
-</div>
 
 
 @section Scripts{
@@ -223,15 +122,9 @@ else
                 });
             },
             remove: (source, load, error) => {
-                axios.delete('/SystemApI/PackageImage/Delete?img=' + source, {
-                    headers: {
-                        'StudioCredential': @ViewBag.StudioID,
-                        'Package': @Model.id
-                    }
-                }).then(response => {
-                    console.log(source);
-                    load();
-                });
+                $('#ImgName').val('');
+                load();
+
             }
         }
     });
@@ -239,8 +132,8 @@ else
     var inputPic = FilePond.create(
         document.getElementById('input-profilepic'),
         {
-            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span> to Add Photos`,
-            allowMultiple: true,
+            labelIdle: `<span class="filepond--label-action">Browse</span> to Add Photos`,
+            allowMultiple: false,
             imagePreviewHeight: 200,
             acceptedFileTypes: ['image/png', 'image/jpeg'],
             allowFileEncode: true,
@@ -270,12 +163,14 @@ else
             ]
         });
 
-    $('#uploadPhotoBtn').click(() => {
-        inputPic.processFiles().then(() => {
-            location.reload();
-        });
-    });
-
+        function submitForm(e) {
+            e.preventDefault();
+            inputPic.processFiles().then(response => {
+                $('#ImgName').val(response[0].serverId.replace(/"/g, ""));
+            }).finally(() => {
+                $('form').submit();
+            });
+        };
     </script>
 
 }

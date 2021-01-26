@@ -49,13 +49,14 @@ namespace PMS.Controllers
             {
                 result.ToList().ForEach(x => xval.Add(x.package));
                 result.ToList().ForEach(x => yval.Add(x.quantity));
+
                 new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla).AddSeries("Default", chartType: "Column", xValue: xval, yValues: yval).SetYAxis(title: "Money Earn(RM)")
           .SetXAxis(title: "Package").Write();
 
             }
-
             return null;
         }
+
         [HttpGet]
         [StudioPermalinkValidate(RoleID = 1)]
         public ActionResult seepiechart()
@@ -231,11 +232,15 @@ namespace PMS.Controllers
 
             studio = db.Studios.FirstOrDefault(x => x.id == studio.id);
             studio.uniquename = username;
-
+            var notAllowed = new string[] { "api", "systemapi", "database", "chat", "account","studio","payment","package","job","jobc","jobstatus","home","index"};
 
             if (string.IsNullOrWhiteSpace(username))
             {
                 ModelState.AddModelError("uniquename", "Studio Username cannot be null");
+            }
+            else if (notAllowed.FirstOrDefault(x=>x.ToLower() == username.ToLower()) != null)
+            {
+                ModelState.AddModelError("uniquename", "Entered username is not allowed");
             }
 
             else if (!regexItem.IsMatch(username))

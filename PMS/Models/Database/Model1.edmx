@@ -179,6 +179,7 @@
           <Property Name="isVerified" Type="bit" Nullable="false" />
           <Property Name="verifiedKey" Type="nvarchar(max)" />
           <Property Name="emailTemp" Type="nvarchar" MaxLength="50" />
+          <Property Name="isForgotPassword" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserStudio">
           <Key>
@@ -615,7 +616,6 @@
           <EntitySet Name="StudioRoles" EntityType="photogModel.StudioRole" />
           <EntitySet Name="SystemRoles" EntityType="photogModel.SystemRole" />
           <EntitySet Name="Transactions" EntityType="photogModel.Transaction" />
-          <EntitySet Name="Users" EntityType="photogModel.User" />
           <EntitySet Name="UserStudios" EntityType="photogModel.UserStudio" />
           <EntitySet Name="UserSystemRoles" EntityType="photogModel.UserSystemRole" />
           <AssociationSet Name="FK_Charges_Studio" Association="photogModel.FK_Charges_Studio">
@@ -624,10 +624,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_ChatKey_Studio" Association="photogModel.FK_ChatKey_Studio">
             <End Role="Studio" EntitySet="Studios" />
-            <End Role="ChatKey" EntitySet="ChatKeys" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChatKey_User" Association="photogModel.FK_ChatKey_User">
-            <End Role="User" EntitySet="Users" />
             <End Role="ChatKey" EntitySet="ChatKeys" />
           </AssociationSet>
           <AssociationSet Name="FK__Invoice__jobid__2EDAF651" Association="photogModel.FK__Invoice__jobid__2EDAF651">
@@ -644,10 +640,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__Job__packageid__30C33EC3" Association="photogModel.FK__Job__packageid__30C33EC3">
             <End Role="Package" EntitySet="Packages" />
-            <End Role="Job" EntitySet="Jobs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Job__userid__31B762FC" Association="photogModel.FK__Job__userid__31B762FC">
-            <End Role="User" EntitySet="Users" />
             <End Role="Job" EntitySet="Jobs" />
           </AssociationSet>
           <AssociationSet Name="FK__JobCharge__jobid__339FAB6E" Association="photogModel.FK__JobCharge__jobid__339FAB6E">
@@ -698,6 +690,21 @@
             <End Role="SystemRole" EntitySet="SystemRoles" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
+          <FunctionImport Name="bestpackage" IsComposable="true" ReturnType="Collection(photogModel.bestpackage_Result)">
+          <Parameter Name="studioid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="beststaff" IsComposable="true" ReturnType="Collection(photogModel.beststaff_Result)">
+          <Parameter Name="studioid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Users" EntityType="photogModel.User" />
+          <AssociationSet Name="FK_ChatKey_User" Association="photogModel.FK_ChatKey_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ChatKey" EntitySet="ChatKeys" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Job__userid__31B762FC" Association="photogModel.FK__Job__userid__31B762FC">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
           <AssociationSet Name="FK__UserStudi__useri__3F115E1A" Association="photogModel.FK__UserStudi__useri__3F115E1A">
             <End Role="User" EntitySet="Users" />
             <End Role="UserStudio" EntitySet="UserStudios" />
@@ -706,12 +713,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserSystemRole" EntitySet="UserSystemRoles" />
           </AssociationSet>
-          <FunctionImport Name="bestpackage" IsComposable="true" ReturnType="Collection(photogModel.bestpackage_Result)">
-          <Parameter Name="studioid" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="beststaff" IsComposable="true" ReturnType="Collection(photogModel.beststaff_Result)">
-          <Parameter Name="studioid" Mode="In" Type="Int32" />
-          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Charge">
           <Key>
@@ -766,9 +767,9 @@
           <NavigationProperty Name="Invoices" Relationship="photogModel.FK__Invoice__jobid__2EDAF651" FromRole="Job" ToRole="Invoice" />
           <NavigationProperty Name="JobStatu" Relationship="photogModel.FK__Job__jobstatusid__2FCF1A8A" FromRole="Job" ToRole="JobStatu" />
           <NavigationProperty Name="Package" Relationship="photogModel.FK__Job__packageid__30C33EC3" FromRole="Job" ToRole="Package" />
-          <NavigationProperty Name="User" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="Job" ToRole="User" />
           <NavigationProperty Name="JobCharges" Relationship="photogModel.FK__JobCharge__jobid__339FAB6E" FromRole="Job" ToRole="JobCharge" />
           <NavigationProperty Name="JobDates" Relationship="photogModel.FK__JobDate__jobid__3493CFA7" FromRole="Job" ToRole="JobDate" />
+          <NavigationProperty Name="User" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="Job" ToRole="User" />
         </EntityType>
         <EntityType Name="JobCharge">
           <Key>
@@ -907,25 +908,6 @@
           <NavigationProperty Name="Invoice" Relationship="photogModel.FK__Transacti__invoi__160F4887" FromRole="Transaction" ToRole="Invoice" />
           <NavigationProperty Name="PaymentMethod" Relationship="photogModel.FK__Transacti__payme__17036CC0" FromRole="Transaction" ToRole="PaymentMethod" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="dateofbirth" Type="DateTime" Precision="3" />
-          <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="imgprofile" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="isVerified" Type="Boolean" Nullable="false" />
-          <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="emailTemp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_User" FromRole="User" ToRole="ChatKey" />
-          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
-          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
-          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="User" ToRole="UserSystemRole" />
-        </EntityType>
         <EntityType Name="UserStudio">
           <Key>
             <PropertyRef Name="id" />
@@ -974,18 +956,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ChatKey_User">
-          <End Type="photogModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="photogModel.ChatKey" Role="ChatKey" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ChatKey">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Invoice__jobid__2EDAF651">
           <End Type="photogModel.Job" Role="Job" Multiplicity="0..1" />
           <End Type="photogModel.Invoice" Role="Invoice" Multiplicity="*" />
@@ -1031,18 +1001,6 @@
             </Principal>
             <Dependent Role="Job">
               <PropertyRef Name="packageid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Job__userid__31B762FC">
-          <End Type="photogModel.User" Role="User" Multiplicity="1" />
-          <End Type="photogModel.Job" Role="Job" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Job">
-              <PropertyRef Name="userid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1190,6 +1148,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="bestpackage_Result">
+          <Property Type="String" Name="package" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="quantity" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="beststaff_Result">
+          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="times" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="dateofbirth" Type="DateTime" Precision="3" />
+          <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="imgprofile" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isVerified" Type="Boolean" Nullable="false" />
+          <Property Name="verifiedKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="emailTemp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isForgotPassword" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ChatKeys" Relationship="photogModel.FK_ChatKey_User" FromRole="User" ToRole="ChatKey" />
+          <NavigationProperty Name="Jobs" Relationship="photogModel.FK__Job__userid__31B762FC" FromRole="User" ToRole="Job" />
+          <NavigationProperty Name="UserStudios" Relationship="photogModel.FK__UserStudi__useri__3F115E1A" FromRole="User" ToRole="UserStudio" />
+          <NavigationProperty Name="UserSystemRoles" Relationship="photogModel.FK__UserSyste__useri__40F9A68C" FromRole="User" ToRole="UserSystemRole" />
+        </EntityType>
+        <Association Name="FK_ChatKey_User">
+          <End Type="photogModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="photogModel.ChatKey" Role="ChatKey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ChatKey">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Job__userid__31B762FC">
+          <End Type="photogModel.User" Role="User" Multiplicity="1" />
+          <End Type="photogModel.Job" Role="Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__UserStudi__useri__3F115E1A">
           <End Type="photogModel.User" Role="User" Multiplicity="0..1" />
           <End Type="photogModel.UserStudio" Role="UserStudio" Multiplicity="*" />
@@ -1214,15 +1225,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="bestpackage_Result">
-          <Property Type="String" Name="package" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="quantity" Nullable="true" Precision="38" Scale="2" />
-        </ComplexType>
-        <ComplexType Name="beststaff_Result">
-          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="Int32" Name="times" Nullable="true" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1405,22 +1407,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="photogModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="emailTemp" ColumnName="emailTemp" />
-                <ScalarProperty Name="verifiedKey" ColumnName="verifiedKey" />
-                <ScalarProperty Name="isVerified" ColumnName="isVerified" />
-                <ScalarProperty Name="imgprofile" ColumnName="imgprofile" />
-                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
-                <ScalarProperty Name="dateofbirth" ColumnName="dateofbirth" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserStudios">
             <EntityTypeMapping TypeName="photogModel.UserStudio">
               <MappingFragment StoreEntitySet="UserStudio">
@@ -1458,6 +1444,23 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="photogModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="isForgotPassword" ColumnName="isForgotPassword" />
+                <ScalarProperty Name="emailTemp" ColumnName="emailTemp" />
+                <ScalarProperty Name="verifiedKey" ColumnName="verifiedKey" />
+                <ScalarProperty Name="isVerified" ColumnName="isVerified" />
+                <ScalarProperty Name="imgprofile" ColumnName="imgprofile" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="dateofbirth" ColumnName="dateofbirth" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

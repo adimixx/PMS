@@ -68,5 +68,15 @@ namespace PMS.Controllers.API
         {
             return Content(HttpStatusCode.Accepted, "Restore is Started");
         }
+
+        [HttpGet]
+        public IHttpActionResult GetBlobList()
+        {
+            var blob = new AzureBlob(3);
+
+            var reply = blob.GetBlobList().Select(x => new { name = x, url = String.Format("https://storagephotog2.blob.core.windows.net/db-backup/{0}", x) });
+
+            return Ok(reply);
+        }
     }
 }

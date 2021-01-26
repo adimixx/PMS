@@ -526,7 +526,8 @@ namespace PMS.Controllers
                     db.Invoices.Add(invoice);
                     db.SaveChanges();
 
-                    if (ViewBag.StudioRoleID != null && !db.Jobs.Any(x => x.id == id && x.userid == job.userid))
+                    var uid = UserAuthentication.Identity().id;
+                    if (ViewBag.StudioRoleID != null && !db.Jobs.Any(x => x.id == id && x.userid == uid))
                     {
                         return RedirectToAction("paymentview/" + invoice.jobid);
                     }
@@ -550,7 +551,8 @@ namespace PMS.Controllers
                     db.Invoices.Add(invoice);
                     db.SaveChanges();
 
-                    if (ViewBag.StudioRoleID != null && !db.Jobs.Any(x => x.id == id && x.userid == job.userid))
+                    var uid = UserAuthentication.Identity().id;
+                    if (ViewBag.StudioRoleID != null && !db.Jobs.Any(x => x.id == id && x.userid == uid))
                     {
                         return RedirectToAction("paymentview/" + invoice.jobid);
                     }
