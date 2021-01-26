@@ -43,9 +43,9 @@ namespace PMS.Models.Database
         public virtual DbSet<StudioRole> StudioRoles { get; set; }
         public virtual DbSet<SystemRole> SystemRoles { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserStudio> UserStudios { get; set; }
         public virtual DbSet<UserSystemRole> UserSystemRoles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
     
         [DbFunction("photogEntities", "bestpackage")]
         public virtual IQueryable<bestpackage_Result> bestpackage(Nullable<int> studioid)

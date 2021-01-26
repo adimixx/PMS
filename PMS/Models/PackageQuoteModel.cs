@@ -32,6 +32,9 @@ namespace PMS.Models
         public string JobID { get; set; }
 
         [FirestoreProperty]
+        public string HasDeposit { get; set; }
+
+        [FirestoreProperty]
         public string StudioUrl { get; set; }
 
         [FirestoreProperty]
