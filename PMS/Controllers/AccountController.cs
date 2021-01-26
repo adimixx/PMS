@@ -192,7 +192,8 @@ namespace PMS.Controllers
 
                 else
                 {
-                    if (profile.OldPassword != user.password)
+                    var checkold = Backbone.ComputeSha256Hash(profile.OldPassword).ToLower();
+                    if (checkold != user.password.ToLower())
                     {
                         ModelState.AddModelError("OldPassword", "Invalid old password");
                     }
@@ -206,7 +207,8 @@ namespace PMS.Controllers
                         return View(profile);
                     }
 
-                    user.password = profile.NewPassword;
+                    var passwordHash = Backbone.ComputeSha256Hash(profile.NewPassword);
+                    user.password = passwordHash;
                 }
 
                 TempData["SuccessMessage"] = "Changes has been saved successfully";
@@ -289,7 +291,9 @@ namespace PMS.Controllers
 
                     if (users != null)
                     {
-                        users.password = forgot.Password;
+                        var passwordHash = Backbone.ComputeSha256Hash(forgot.Password);
+
+                        users.password = passwordHash;
                         db.SaveChanges();
                         TempData["ResetPasswordSuccess"] = "1";
                         return RedirectToAction("SignIn", "Account");
