@@ -250,9 +250,15 @@
                     {
                         string imgLogo = (item.PackageImages.Count(x => x.PackageID == item.id) == 0 ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-image-package.png"
                                                                          : "https://storagephotog2.blob.core.windows.net/studio-data/" + item.Studio.id + "/" + item.PackageImages.FirstOrDefault(x => x.PackageID == item.id).ImageName + "");
+                        var profileImage = (item.Studio.ImgLogo == null) ? "https://storagephotog2.blob.core.windows.net/studio-data/default/default-profile.jpg" : String.Format("https://storagephotog2.blob.core.windows.net/studio-data/{0}/{1}", item.Studio.id, item.Studio.ImgLogo);
 
                         <div class="card cd card-shad">
-                            <div class="imgWrap"><img src="@imgLogo" class="myImg card-img-top mx-0 d-block"></div>
+                            <div class="imgWrap hovereffect">
+                                <img src="@imgLogo" class="myImg card-img-top mx-0 d-block">
+                                <div class="overlay">
+                                    <a href="../@item.Studio.uniquename"><button class="info"><img class="rounded-circle mr-2" style="width: 24px;height: 24px;" src="@profileImage" /> @item.Studio.name</button></a>
+                                </div>
+                            </div>
                             <div class="card-body" style="height: 188px;overflow-y:auto">
                                 <h3 class="card-title cdtitle">@item.name</h3>
                                 <article class="card-text" style="max-height: none;">
