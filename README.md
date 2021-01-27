@@ -1,9 +1,13 @@
+![Photog Logo](PMS/src/img/logo-pg.png)
+
 # PHOTOG
 Photography Management System, A developing system to fullfil the requirement of BITU3923 WORKSHOP II
 
-## Database Connection
+## Live Website
+Project is available at https://photog123.azurewebsites.net/ (until Somewhere around February 2021)
 
-SQL Script for Database and Table queries are included inside the project file
+## Database Connection
+Database SQL Script and Full Backup are included inside the project file
 
 ## Logged In User Credentials
 Developers can access logged in users information, through custom class that have been made.
@@ -62,16 +66,18 @@ routes.MapRoute(
 ```
 
 ## Front End
-This project has been contains the following Library : 
+This project includes the following Library : 
 
 - Bootstrap v4.5.3
 - JQuery v3.5.1
 - Vue.js 3.0.2
 - FilePond (CDN)
+- DataTable.js (CDN)
+- Axios (CDN)
 
 
 ## Developers
-[Adi Iman](https://github.com/adimixx)
-[Raziq Danish](https://github.com/ahmdraziq)
-[Heng Kai](https://github.com/HengKai5191)
-[Afiq Iskandar]()
+Lead Dev : [Adi Iman](https://github.com/adimixx)  
+UI/UX Design : [Afiq Iskandar](https://github.com/afiq101)
+Back-End Dev : [Raziq Danish](https://github.com/ahmdraziq)
+Developer : [Heng Kai](https://github.com/HengKai5191)

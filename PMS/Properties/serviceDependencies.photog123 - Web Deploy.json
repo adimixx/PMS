@@ -5,6 +5,12 @@
       "type": "storage.azure",
       "connectionId": "storageConnString",
       "secretStore": null
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/photogserver/databases/photog",
+      "type": "mssql.azure",
+      "connectionId": "photog",
+      "secretStore": "AzureAppSettings"
     }
   }
 }

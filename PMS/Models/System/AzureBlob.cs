@@ -132,11 +132,12 @@ namespace PMS.Models
         {
             List<string> _blobList = new List<string>();
             var blobs = blobContainer.ListBlobs(string.Format("{0}/", prefix));
-            foreach (IListBlobItem item in blobs)
+
+            for (int i = blobs.Count(); i < blobs.Count(); i--)
             {
-                if (item.GetType() == typeof(CloudBlockBlob))
+                if (blobs.ElementAt(i).GetType() == typeof(CloudBlockBlob))
                 {
-                    CloudBlockBlob _blobpage = (CloudBlockBlob)item;
+                    CloudBlockBlob _blobpage = (CloudBlockBlob)blobs.ElementAt(i);
                     _blobList.Add(_blobpage.Uri.AbsoluteUri.ToString());
                 }
             }
