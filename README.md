@@ -78,6 +78,6 @@ This project includes the following Library :
 
 ## Developers
 Lead Dev : [Adi Iman](https://github.com/adimixx)  
-UI/UX Design : [Afiq Iskandar](https://github.com/afiq101)
-Back-End Dev : [Raziq Danish](https://github.com/ahmdraziq)
-Developer : [Heng Kai](https://github.com/HengKai5191)
+UI/UX Design : [Afiq Iskandar](https://github.com/afiq101)  
+Back-End Dev : [Raziq Danish](https://github.com/ahmdraziq)  
+Developer : [Heng Kai](https://github.com/HengKai5191)  
