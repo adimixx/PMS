@@ -6,6 +6,9 @@ Photography Management System, A developing system to fullfil the requirement of
 ## Live Website
 Project is available at https://photog123.azurewebsites.net/ (until Somewhere around February 2021)
 
+## Live Demo
+Project Demo is available at [YouTube](https://youtu.be/u-zv3WHD1GM)
+
 ## Database Connection
 Database SQL Script and Full Backup are included inside the project file
 
